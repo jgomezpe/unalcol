@@ -24,7 +24,7 @@ public class HillClimbingTest{
 	
 	public static void test_real(){
 		// Search Space definition
-		System.out.println("This hello");
+		System.out.println("This hello the new change");
 		int DIM = 10;
 		double min = -5.12;
 		double max = 5.12;
