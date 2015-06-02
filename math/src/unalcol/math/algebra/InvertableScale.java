@@ -19,7 +19,7 @@ public abstract class InvertableScale<T> extends Scale<T>{
     public abstract T fastInverse( T x );
     @SuppressWarnings("unchecked")
 	public T inverse( T x ){
-        return fastInverse( (T)Clone.get(x) );
+        return fastInverse( (T)Clone.create(x) );
     }
     public Vector<T> inverse( ArrayCollection<T> a ){
         Vector<T> v = new Vector<T>();

@@ -5,23 +5,10 @@
  */
 package unalcol.search.space;
 
-import unalcol.types.collection.vector.Vector;
-
 /**
  *
  * @author jgomez
  */
-public class Repair<T> {
-    public T apply( Space<T> space, T x ){
-        return x;
-    }
-    
-    public Vector<T> apply( Space<T> space, Vector<T> pop ){
-        Vector<T> v = new Vector<>();
-        for( T x:pop ){
-            v.add(apply(space,x));
-        }
-        return v;
-    }    
-    
+public interface Repair<T> {
+    public T apply( Space<T> space, T x );        
 }

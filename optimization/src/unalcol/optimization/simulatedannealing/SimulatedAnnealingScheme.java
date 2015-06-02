@@ -10,5 +10,5 @@ package unalcol.optimization.simulatedannealing;
  * @author jgomez
  */
 public interface SimulatedAnnealingScheme {
-    public double get( int t );    
+    public double get( double t );    
 }

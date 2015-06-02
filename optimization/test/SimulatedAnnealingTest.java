@@ -1,7 +1,5 @@
-
 import unalcol.optimization.OptimizationFunction;
 import unalcol.optimization.OptimizationGoal;
-import unalcol.optimization.hillclimbing.HillClimbing;
 import unalcol.optimization.real.HyperCube;
 import unalcol.optimization.real.mutation.AdaptMutationIntensity;
 import unalcol.optimization.real.mutation.IntensityMutation;
@@ -9,6 +7,7 @@ import unalcol.optimization.real.mutation.OneFifthRule;
 import unalcol.optimization.real.mutation.PermutationPick;
 import unalcol.optimization.real.mutation.PickComponents;
 import unalcol.optimization.real.testbed.Rastrigin;
+import unalcol.optimization.simulatedannealing.SimulatedAnnealing;
 import unalcol.random.real.DoubleGenerator;
 import unalcol.random.real.SimplestSymmetricPowerLawGenerator;
 import unalcol.search.Goal;
@@ -18,9 +17,7 @@ import unalcol.tracer.ConsoleTracer;
 import unalcol.tracer.Tracer;
 
 
-
-
-public class HillClimbingTest{
+public class SimulatedAnnealingTest {
 	
 	public static void test_real(){
 		// Search Space definition
@@ -41,8 +38,7 @@ public class HillClimbingTest{
     	
         // Search method
         int MAXITERS = 10000;
-        boolean neutral = true; // Accepts movements when having same function value
-        HillClimbing<double[]> search = new HillClimbing<double[]>( variation, neutral, MAXITERS );
+        SimulatedAnnealing<double[]> search = new SimulatedAnnealing<double[]>(variation, MAXITERS);
 
         // Tracking the goal evaluations
         ConsoleTracer tracer = new ConsoleTracer(goal);       
@@ -57,4 +53,5 @@ public class HillClimbingTest{
     public static void main(String[] args){
     	test_real();
     }
+
 }

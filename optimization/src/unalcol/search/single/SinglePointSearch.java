@@ -9,23 +9,19 @@ import unalcol.search.Goal;
 import unalcol.search.Search;
 import unalcol.search.Solution;
 import unalcol.search.space.Space;
-import unalcol.search.space.SpaceSampler;
 
 /**
  *
  * @author Jonatan
  */
-public abstract class SimplePointSearch<T> implements Search<T> {
-    protected SpaceSampler<T> sampler;
+public abstract class SinglePointSearch<T> implements Search<T> {
     
-    public SimplePointSearch( SpaceSampler<T> sampler ){
-        this.sampler = sampler;
-    }
+    public SinglePointSearch(){}
     
     public abstract Solution<T> apply( Solution<T> solution, Space<T> space, Goal<T> goal );
     
     @Override
     public Solution<T> apply(Space<T> space, Goal<T> goal){
-        return apply(new Solution<T>(sampler.apply(space), goal), space, goal);
+        return apply(new Solution<T>(space.get(), goal), space, goal);
     }
 }

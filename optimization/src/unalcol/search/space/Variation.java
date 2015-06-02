@@ -10,7 +10,7 @@ package unalcol.search.space;
  * @author jgomez
  */
 public abstract class Variation<T>{
-    public T apply( Space<T> space, T x ){ return apply(x); }
+    public T apply( Space<T> space, T x ){ return space.repair(apply(x)); }
     public abstract T apply( T x );
-    public abstract void adapt( double productivity );    
+    public void adapt( double productivity ){}    
 }

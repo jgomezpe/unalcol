@@ -8,20 +8,18 @@ package unalcol.search.single;
 import unalcol.search.Solution;
 import unalcol.search.Goal;
 import unalcol.search.space.Space;
-import unalcol.search.space.SpaceSampler;
 import unalcol.search.space.Variation;
 
 /**
  *
  * @author jgomez
  */
-public class VariationReplaceSimplePointSearch<T> extends SimplePointSearch<T> {
+public class VariationReplaceSinglePointSearch<T> extends SinglePointSearch<T> {
     protected Variation<T> variation;
     protected Replacement<T> replace;
     
-    public VariationReplaceSimplePointSearch(  SpaceSampler<T> sampler, Variation<T> variation,
-                          Replacement<T> replace ){
-        super( sampler );
+    public VariationReplaceSinglePointSearch( Variation<T> variation, Replacement<T> replace ){
+        super();
         this.variation = variation;
         this.replace = replace;
     }

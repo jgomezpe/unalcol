@@ -15,11 +15,11 @@ import unalcol.search.space.Space;
  *
  * @author jgomez
  */
-public class IterativeSimplePointSearch<T> implements Search<T> {
+public class IterativeSinglePointSearch<T> implements Search<T> {
     protected Predicate< Solution<T> > terminationCondition;
-    protected SimplePointSearch<T> step;
+    protected SinglePointSearch<T> step;
     
-    public IterativeSimplePointSearch( SimplePointSearch<T> step,
+    public IterativeSinglePointSearch( SinglePointSearch<T> step,
                                        Predicate< Solution<T> > tC ){
         terminationCondition = tC;
         this.step = step;
@@ -38,7 +38,7 @@ public class IterativeSimplePointSearch<T> implements Search<T> {
     public Solution<T> apply( Space<T> space, Goal<T> goal){
         init();
         Solution<T> x = step.apply(space, goal);
-        while( !terminationCondition.evaluate(x) ){
+        while( terminationCondition.evaluate(x) ){
             x = step(x, space, goal);
         }
         return x;

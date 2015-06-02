@@ -33,7 +33,7 @@ public class IntensityMutation extends Mutation{
     
     protected double[] delta(int DIMENSION){
         if( components != null ){
-            if( delta.length == DIMENSION ){
+            if( delta != null && delta.length == DIMENSION ){
                 for( int i=0; i<indices.length; i++){
                     delta[indices[i]]=0.0;
                 }
@@ -45,6 +45,9 @@ public class IntensityMutation extends Mutation{
                    delta[indices[i]] =  sigma*g.generate();
             }
         }else{
+        	if( delta == null ){
+        		delta = new double[DIMENSION];
+        	}
             for( int i=0; i<delta.length; i++){
                    delta[i] =  sigma*g.generate();
             }

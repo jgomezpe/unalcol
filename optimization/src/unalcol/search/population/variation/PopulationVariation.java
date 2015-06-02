@@ -16,15 +16,15 @@ public abstract class PopulationVariation<T> {
   /**
    * Return the genetic operator arity (number of genomes required by the genetic
    * operator for producing new genomes
-   * @return the genetic operator arity
+   * @return the genetic operator arity, <i>0</i> if the arity of the operator depends on the population
    */
-    public abstract int arity();
+    public int arity(){ return 0; };
 
     public abstract Vector<T> apply(Vector<T> pop);
 
     public Vector<T> apply(Space<T> space, Vector<T> pop){
-        return apply(pop);
+        return space.repair(apply(pop));
     }
   
-    public abstract void adapt( double productivity );        
+    public void adapt( double productivity ){};        
 }

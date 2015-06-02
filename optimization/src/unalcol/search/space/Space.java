@@ -5,12 +5,34 @@
  */
 package unalcol.search.space;
 
+import unalcol.types.collection.vector.Vector;
+
 /**
  *
  * @author jgomez
  */
-public class Space<T> {
-    public boolean feasible( T x ){ return true; }
+public abstract class Space<T>{
+    public abstract boolean feasible( T x );
     
-    public double feasibility( T x ){ return 1.0; }
+    public abstract double feasibility( T x );
+    
+    public abstract T repair( T x );
+    
+    public abstract T get();
+    
+    public Vector<T> get( int n ){
+        Vector<T> v = new Vector<T>();
+        for( int i=0; i<n; i++ ){
+            v.add(get());
+        }
+        return v;
+    }
+
+    public Vector<T> repair( Vector<T> pop ){
+        Vector<T> v = new Vector<>();
+        for( T x:pop ){
+            v.add(repair(x));
+        }
+        return v;
+    }        
 }

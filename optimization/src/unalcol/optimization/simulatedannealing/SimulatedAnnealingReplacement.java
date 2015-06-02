@@ -28,7 +28,7 @@ public class SimulatedAnnealingReplacement<T> extends HillClimbingReplacement<T>
     @Override
     public Solution<T> apply( Solution<T> current, Solution<T> next ) {
         Solution<T> x = super.apply(current, next);
-        if( x==next || Math.exp((next.quality()-current.quality())/scheme.get(t++)) < Math.random())
+        if( x==next || Math.exp((next.quality()-current.quality())/scheme.get(t++)) > Math.random())
             return next;
         else
             return current;

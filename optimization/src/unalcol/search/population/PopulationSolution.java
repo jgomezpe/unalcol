@@ -23,7 +23,7 @@ public class PopulationSolution<T> {
 	public double[] quality(){ return quality; }
 
 	public double[] quality( Goal<T> goal ){
-		quality = goal.quality(value);
+		if( goal.nonStationary() ){ quality = goal.quality(value); }
 		return quality; 
 	}
 	

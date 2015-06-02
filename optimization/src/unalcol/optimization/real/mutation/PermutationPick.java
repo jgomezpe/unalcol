@@ -35,7 +35,7 @@ public class PermutationPick implements PickComponents{
             Shuffle<Integer> shuffle = new Shuffle<Integer>();
             shuffle.apply(set);
         }    
-        if( rep == 5 ){            
+        if( rep == 5 || GROUP_COUNT >= set.length){            
             GROUP_SIZE = 1 + rand.generate();
             GROUP_COUNT = 0;
             Shuffle<Integer> shuffle = new Shuffle<Integer>();

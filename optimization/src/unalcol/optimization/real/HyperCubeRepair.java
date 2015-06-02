@@ -12,7 +12,7 @@ import unalcol.search.space.Space;
  *
  * @author jgomez
  */
-public class HyperCubeRepair extends Repair<double[]> {
+public class HyperCubeRepair implements Repair<double[]> {
 
     public double[] apply(HyperCube space, double[] x) {
         x = x.clone();

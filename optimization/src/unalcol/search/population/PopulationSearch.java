@@ -9,7 +9,6 @@ import unalcol.search.Goal;
 import unalcol.search.Search;
 import unalcol.search.Solution;
 import unalcol.search.space.Space;
-import unalcol.search.space.SpaceSampler;
 import unalcol.types.collection.vector.Vector;
 
 /**
@@ -17,11 +16,9 @@ import unalcol.types.collection.vector.Vector;
  * @author Jonatan
  */
 public abstract class PopulationSearch<T> implements Search<T> {
-    protected SpaceSampler<T> sampler;
     protected int n;
     
-    public PopulationSearch( SpaceSampler<T> sampler, int n ){
-        this.sampler = sampler;
+    public PopulationSearch( int n ){
         this.n = n;
     }
     
@@ -37,9 +34,8 @@ public abstract class PopulationSearch<T> implements Search<T> {
     
     @Override
     public Solution<T> apply(Space<T> space, Goal<T> goal) {
-        Vector<T> pop = sampler.apply(space, n);
-        double[] quality = goal.quality(pop);
-        PopulationSolution<T> solution = apply( pop, quality, space, goal );
+    	PopulationSolution<T> solution = new PopulationSolution<T>(space.get(n), goal);
+        solution = apply( solution, space, goal );
         return solution.pick();
     }
 }

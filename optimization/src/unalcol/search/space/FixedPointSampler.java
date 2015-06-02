@@ -9,7 +9,7 @@ package unalcol.search.space;
  *
  * @author Jonatan
  */
-public class FixedPointSampler<T> extends SpaceSampler<T>{
+public class FixedPointSampler<T> implements SpaceSampler<T>{
     protected T x;
     public FixedPointSampler( T x ){
         this.x = x;

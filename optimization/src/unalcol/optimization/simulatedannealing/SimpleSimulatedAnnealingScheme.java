@@ -17,7 +17,7 @@ public class SimpleSimulatedAnnealingScheme implements SimulatedAnnealingScheme{
     }
     
     @Override
-    public double get(int t) {
+    public double get(double t) {
         return t/K;
     }
     

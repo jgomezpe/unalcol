@@ -37,6 +37,6 @@ public class Rastrigin extends OptimizationFunction<double[]> {
     for( int i=0; i<n; i++ ){
       f += apply(x[i]);
     }
-    return -(10.0*n + f);
+    return (10.0*n + f);
   }
 }
