@@ -13,7 +13,7 @@ import unalcol.clone.*;
  * @version 1.0
  */
 
-public class Mutation extends Variation<BitArray> {
+public class BitMutation extends Variation<BitArray> {
   /**
    * Probability of mutating one single bit
    */
@@ -22,13 +22,13 @@ public class Mutation extends Variation<BitArray> {
   /**
    * Constructor: Creates a mutation with a mutation probability depending on the size of the genome
    */
-  public Mutation() {}
+  public BitMutation() {}
 
   /**
    * Constructor: Creates a mutation with the given mutation rate
    * @param bit_mutation_rate Probability of mutating each single bit
    */
-  public Mutation(double bit_mutation_rate) {
+  public BitMutation(double bit_mutation_rate) {
     this.bit_mutation_rate = bit_mutation_rate;
   }
 
@@ -65,7 +65,7 @@ public class Mutation extends Variation<BitArray> {
     BitArray genome = new BitArray(21, true);
     System.out.println(genome.toString());
 
-    Mutation mutation = new Mutation(0.05);
+    BitMutation mutation = new BitMutation(0.05);
 
     System.out.println("*** Applying the mutation ***");
     BitArray mutated = mutation.apply(genome);

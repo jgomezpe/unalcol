@@ -60,7 +60,6 @@ public class Bohachevsky extends OptimizationFunction<double[]> {
         f += evalII( x[i], x[i+1] );
       }
     }
-    // minimization
-    return -f;
+    return f;
   }
 }

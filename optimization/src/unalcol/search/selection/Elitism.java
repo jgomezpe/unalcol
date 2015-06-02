@@ -63,14 +63,14 @@ public class Elitism<T> extends Selection<T>{
    * @return Indices of the selected candidate solutions
    */
   @Override
-  public Vector<Integer> apply( int n, Vector<Double> q ){
+  public Vector<Integer> apply( int n, double[] q ){
       Vector<Integer> sel = new Vector<Integer>();
-      int s = q.size();
+      int s = q.length;
       SortedVector<IndexQ> indexq = new SortedVector<>( new ReversedOrder<>(new IndexQOrder()));
-      for( int i=0; i<q.size(); i++ ){
-          indexq.add(new IndexQ(i,q.get(i)));
+      for( int i=0; i<s; i++ ){
+          indexq.add(new IndexQ(i,q[i]));
       }
-      int m = (int) (q.size() * elite_percentage);
+      int m = (int) (s * elite_percentage);
       for (int i = 0; i < n && i < m; i++) {
           sel.add(indexq.get(i).index);
       }
@@ -97,10 +97,10 @@ public class Elitism<T> extends Selection<T>{
    * @return Index of the selected candidate solution
    */
   @Override
-  public int choose_one( Vector<Double> q ){
+  public int choose_one( double[] q ){
       int k = 0;
-      for( int i=1; i<q.size(); i++ ){
-          if( q.get(k) < q.get(i) ){
+      for( int i=1; i<q.length; i++ ){
+          if( q[k] < q[i] ){
               k = i;
           }
       }

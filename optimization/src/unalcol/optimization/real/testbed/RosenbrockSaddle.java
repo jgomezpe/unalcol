@@ -40,7 +40,6 @@ public class RosenbrockSaddle extends OptimizationFunction<double[]>{
     for( int i=0; i<n; i++ ){
       f += apply( x[i], x[i+1] );
     }
-    // minimization
-    return -f;
+    return f;
   }
 }

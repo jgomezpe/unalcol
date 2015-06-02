@@ -30,6 +30,6 @@ public class Griewangk extends OptimizationFunction<double[]> {
       sum += x[i]*x[i]/4000.0;
       prod *= Math.cos(x[i]/Math.sqrt(i+1.0));
     }
-    return -(1.0 + sum - prod);
+    return (1.0 + sum - prod);
   }
 }

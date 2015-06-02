@@ -37,6 +37,6 @@ public class Schwefel extends OptimizationFunction<double[]> {
     for( int i=0; i<n; i++ ){
       f += apply(x[i]);
     }
-    return -(418.9829101*n + f);
+    return (418.9829101*n + f);
   }
 }

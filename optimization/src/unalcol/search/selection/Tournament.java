@@ -50,12 +50,12 @@ import unalcol.random.integer.IntUniform;
    * @return Index of the selected candidate solution
    */
   @Override
-  protected int choose_one( IntUniform g, Vector<Double> q ){
-    Vector<Double> candidates = new Vector<Double>();
+  protected int choose_one( IntUniform g, double[] q ){
+    double[] candidates = new double[m];
     Vector<Integer> indices = new Vector<Integer>();
     for( int i=0; i<m; i++ ){
         indices.add(g.generate());
-        candidates.add( q.get( indices.get(i) ) );
+        candidates[i] = q[indices.get(i)];
     }
     return indices.get(inner.choose_one(candidates));
   }

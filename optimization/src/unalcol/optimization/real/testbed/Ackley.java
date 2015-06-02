@@ -33,6 +33,6 @@ public class Ackley extends OptimizationFunction<double[]> {
     sum1 /= n;
     sum2 /= n;
 
-    return -(20.0 + Math.exp(1.0) - 20.0*Math.exp(-0.2*Math.sqrt(sum1)) - Math.exp(sum2));
+    return (20.0 + Math.exp(1.0) - 20.0*Math.exp(-0.2*Math.sqrt(sum1)) - Math.exp(sum2));
   }
 }

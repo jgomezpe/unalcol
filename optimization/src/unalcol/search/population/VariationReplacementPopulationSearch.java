@@ -31,7 +31,6 @@ public class VariationReplacementPopulationSearch<T> extends PopulationSearch<T>
 
     @Override
     public void init() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
 }

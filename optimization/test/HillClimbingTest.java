@@ -1,6 +1,9 @@
 
 import unalcol.optimization.OptimizationFunction;
 import unalcol.optimization.OptimizationGoal;
+import unalcol.optimization.binary.BinarySpace;
+import unalcol.optimization.binary.BitMutation;
+import unalcol.optimization.binary.testbed.MaxOnes;
 import unalcol.optimization.hillclimbing.HillClimbing;
 import unalcol.optimization.real.HyperCube;
 import unalcol.optimization.real.mutation.AdaptMutationIntensity;
@@ -16,29 +19,29 @@ import unalcol.search.Solution;
 import unalcol.search.space.Space;
 import unalcol.tracer.ConsoleTracer;
 import unalcol.tracer.Tracer;
+import unalcol.types.collection.bitarray.BitArray;
 
 
 
 
 public class HillClimbingTest{
 	
-	public static void test_real(){
+	public static void real(){
 		// Search Space definition
-		System.out.println("This hello the new change");
 		int DIM = 10;
 		double min = -5.12;
 		double max = 5.12;
     	Space<double[]> space = new HyperCube( DIM, min, max );
     	
     	// Variation definition
-    	DoubleGenerator random = new SimplestSymmetricPowerLawGenerator(); // It can be set to Gaussian or other number generator
-    	PickComponents pick = new PermutationPick(DIM/2); // It can be set to null
-    	AdaptMutationIntensity adapt = new OneFifthRule(100, 0.9); // It can be set to null
+    	DoubleGenerator random = new SimplestSymmetricPowerLawGenerator(); // It can be set to Gaussian or other symmetric number generator (centered in zero)
+    	PickComponents pick = new PermutationPick(DIM/2); // It can be set to null if the mutation operator is applied to every component of the solution array
+    	AdaptMutationIntensity adapt = new OneFifthRule(100, 0.9); // It can be set to null if no mutation adaptation is required
     	IntensityMutation variation = new IntensityMutation( 0.1, random, pick, adapt );
         
     	// Optimization Function
     	OptimizationFunction<double[]> function = new Rastrigin();		
-        Goal<double[]> goal = new OptimizationGoal<double[]>(function);
+        Goal<double[]> goal = new OptimizationGoal<double[]>(function); // minimizing, add the parameter false if maximizing   	
     	
         // Search method
         int MAXITERS = 10000;
@@ -55,7 +58,35 @@ public class HillClimbingTest{
         System.out.println(solution.quality());		
 	}
     
+	public static void binary(){
+		// Search Space definition
+		int DIM = 100;
+    	Space<BitArray> space = new BinarySpace( DIM );
+    	
+    	// Variation definition
+    	BitMutation variation = new BitMutation();
+        
+    	// Optimization Function
+    	OptimizationFunction<BitArray> function = new MaxOnes();		
+        Goal<BitArray> goal = new OptimizationGoal<BitArray>(function, false); // maximizing, remove the parameter false if minimizing   	
+    	
+        // Search method
+        int MAXITERS = 10000;
+        boolean neutral = true; // Accepts movements when having same function value
+        HillClimbing<BitArray> search = new HillClimbing<BitArray>( variation, neutral, MAXITERS );
+
+        // Tracking the goal evaluations
+        ConsoleTracer tracer = new ConsoleTracer(goal);       
+        Tracer.register(goal,tracer);
+        
+        // Apply the search method
+        Solution<BitArray> solution = search.apply(space, goal);
+        
+        System.out.println( solution.quality() + "=" + solution.value());		
+	}
+    
     public static void main(String[] args){
-    	test_real();
+    	// real(); // Uncomment if testing real valued functions
+    	binary(); // Uncomment if testing binary valued functions
     }
 }
