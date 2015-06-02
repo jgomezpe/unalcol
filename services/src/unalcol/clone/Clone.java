@@ -20,6 +20,7 @@ public abstract class Clone<T> extends Service {
     
     protected static boolean defaultLoaded = false;
     public static Clone<?> get(Object obj){
+    	System.out.println("Test 4");
         if( !defaultLoaded ){
             Clone<Object> service = new CloneWrapper();
             register( Object.class, service );
