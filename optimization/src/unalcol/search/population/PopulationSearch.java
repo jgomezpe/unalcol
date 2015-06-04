@@ -22,20 +22,20 @@ public abstract class PopulationSearch<T> implements Search<T> {
         this.n = n;
     }
     
-    public abstract PopulationSolution<T> apply( PopulationSolution<T> pop, Space<T> space, Goal<T> goal );
+    public abstract Vector<Solution<T>> apply( Vector<Solution<T>> pop, Space<T> space, Goal<T> goal );
     
     public PopulationSolution<T> apply( Vector<T> pop, double[] quality, Space<T> space, Goal<T> goal ){
     	return apply( new PopulationSolution<T>(pop, quality), space, goal );
     }
 
-    public PopulationSolution<T> apply( Vector<T> pop, Space<T> space, Goal<T> goal ){
+    public PopulationSolution<T> get( Vector<T> pop, Space<T> space, Goal<T> goal ){
         return apply( pop, goal.quality(pop), space, goal );
     }
     
     @Override
     public Solution<T> apply(Space<T> space, Goal<T> goal) {
     	PopulationSolution<T> solution = new PopulationSolution<T>(space.get(n), goal);
-        solution = apply( solution, space, goal );
+        solution = get( solution, space, goal );
         return solution.pick();
     }
 }
