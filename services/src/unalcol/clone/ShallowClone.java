@@ -14,7 +14,7 @@ public class ShallowClone extends Clone<Object>{
     }
     
     @SuppressWarnings("unchecked")
-	public static Clone<?> register(){
+	public static Clone<Object> register(){
         return (Clone<Object>)register(ShallowClone.class);
     }
     
@@ -24,6 +24,7 @@ public class ShallowClone extends Clone<Object>{
      * @return A Clone (the same object) of the object
      */
     public Object clone(Object obj){
+    	System.out.println("###");
         return obj;
     }
 
