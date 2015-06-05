@@ -34,8 +34,7 @@ public class FileTracer extends Tracer {
      * @param fileName File Name
      * @param addNewline used for determining if a new line symbol is added after tracing an object or not
      */
-    public FileTracer(Object owner, String fileName, boolean addNewline) {
-        super( owner );
+    public FileTracer(String fileName, boolean addNewline) {
         this.fileName = fileName;
         this.addNewLine = addNewline;
         try {

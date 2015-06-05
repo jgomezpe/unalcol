@@ -1,6 +1,6 @@
 package unalcol.clone;
 
-import unalcol.service.*;
+import unalcol.service.ServiceCore;
 
 /**
  * <p>Service for cloning objects</p>
@@ -10,7 +10,7 @@ import unalcol.service.*;
  * @author Jonatan Gomez Perdomo
  * @version 1.0
  */
-public abstract class Clone<T> extends Service {
+public abstract class Clone<T> {
     /**
      * Creates a clone of a given object
      * @param toClone Object to be cloned
@@ -18,19 +18,14 @@ public abstract class Clone<T> extends Service {
      */
     public abstract T clone(T toClone);
     
-    protected static boolean defaultLoaded = false;
-    public static Clone<?> get(Object obj){
-        if( !defaultLoaded ){
-            Clone<Object> service = new CloneWrapper();
-            register( Object.class, service );
-            set(Clone.class, Object.class, service);
-            defaultLoaded = true;
-        }
-        return (Clone<?>)get(Clone.class, obj);
+    public static Clone<?> get(Object owner){
+        if( ServiceCore.get(Object.class, Clone.class) == null )
+            set(Object.class, new CloneWrapper());
+        return (Clone<?>)ServiceCore.get(owner, Clone.class);
     }
     
-    public static Clone<?> set( Object obj, Clone<?> service ){
-        return (Clone<?>)set(Clone.class, obj, service);
+    public static boolean set( Object owner, Clone<?> service ){
+        return ServiceCore.set(owner, Clone.class, service);
     }
     
     /**

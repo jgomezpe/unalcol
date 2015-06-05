@@ -3,7 +3,7 @@ package unalcol.random.raw;
 //
 
 
-// Unified Random generation Pack 1.0 by Jonatan Gómez-Perdomo
+// Unified Random generation Pack 1.0 by Jonatan Gomez-Perdomo
 // http://disi.unal.edu.co/profesores/jgomezpe/unalcol/random/
 //
 /**
@@ -18,7 +18,7 @@ package unalcol.random.raw;
  *
  * <h3>License</h3>
  *
- * Copyright (c) 2014 by Jonatan Gómez-Perdomo. <br>
+ * Copyright (c) 2014 by Jonatan Gomez-Perdomo. <br>
  * All rights reserved. <br>
  *
  * <p>Redistribution and use in source and binary forms, with or without
@@ -69,10 +69,5 @@ public class JavaGenerator extends RawGenerator {
     @Override
     public RawGenerator new_instance(){
         return this;
-    }
-    
-    @Override
-    public Object owner(){
-        return Object.class;
-    }
+    }    
 }

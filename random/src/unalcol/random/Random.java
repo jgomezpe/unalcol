@@ -1,9 +1,9 @@
 package unalcol.random;
 
-import unalcol.service.Service;
+import unalcol.service.ServiceCore;
 
 //
-// Unalcol Random generation Pack 1.0 by Jonatan Gómez-Perdomo
+// Unalcol Random generation Pack 1.0 by Jonatan Gomez-Perdomo
 // http://disi.unal.edu.co/profesores/jgomezpe/unalcol/random/
 //
 /**
@@ -18,7 +18,7 @@ import unalcol.service.Service;
  *
  * <h3>License</h3>
  *
- * Copyright (c) 2014 by Jonatan Gómez-Perdomo. <br>
+ * Copyright (c) 2014 by Jonatan Gomez-Perdomo. <br>
  * All rights reserved. <br>
  *
  * <p>Redistribution and use in source and binary forms, with or without
@@ -51,7 +51,7 @@ import unalcol.service.Service;
  * (E-mail: <A HREF="mailto:jgomezpe@unal.edu.co">jgomezpe@unal.edu.co</A> )
  * @version 1.0
  */
-public abstract class Random<T> extends Service{
+public abstract class Random<T>{
     public abstract T next();
     /**
      * Returns a set of random objects
@@ -80,22 +80,26 @@ public abstract class Random<T> extends Service{
         return v;
     }
     
+    public static Random<?> get( Object owner ){
+    	return (Random<?>)ServiceCore.get(owner, Random.class);
+    }
     
-    public static Object next( Object obj ){
-        Random<?> service = (Random<?>)provider.default_service(Random.class,obj);
+    
+    public static Object next( Object owner ){
+        Random<?> service = get(owner);
         if( service != null )   return service.next();
         return null;
     }
     
-    public static Object[] raw( Object obj, int m ){
-        Random<?> service = (Random<?>)provider.default_service(Random.class,Object.class);
+    public static Object[] raw( Object owner, int m ){
+        Random<?> service = get(owner);
         if( service != null ) return service.raw(m);        
         return null;
     }
 
     @SuppressWarnings("unchecked")
-	public static void raw( Object obj, Object[] v, int offset, int m ){
-        Random<Object> service = (Random<Object>)provider.default_service(Random.class,Object.class);
+	public static void raw( Object owner, Object[] v, int offset, int m ){
+        Random<Object> service = (Random<Object>)get(owner);
         if( service != null ) service.raw(v, offset, m);        
     }    
 }

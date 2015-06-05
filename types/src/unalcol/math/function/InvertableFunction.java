@@ -8,7 +8,7 @@ package unalcol.math.function;
  * @author Jonatan Gomez Perdomo
  * @version 1.0
  */
-public abstract class InvertableFunction<S, T> extends Function<S, T> {
+public interface InvertableFunction<S, T> extends Function<S, T> {
     /**
      * Inverse value
      * @param y computed value (in the range of the function)

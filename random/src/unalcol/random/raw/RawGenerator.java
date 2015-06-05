@@ -1,10 +1,8 @@
 package unalcol.random.raw;
 
-//
+import unalcol.service.ServiceCore;
 
-import unalcol.service.Service;
-
-// Unified Random generation Pack 1.0 by Jonatan Gómez-Perdomo
+// Unified Random generation Pack 1.0 by Jonatan Gomez-Perdomo
 // http://disi.unal.edu.co/profesores/jgomezpe/unalcol/random/
 //
 /**
@@ -19,7 +17,7 @@ import unalcol.service.Service;
  *
  * <h3>License</h3>
  *
- * Copyright (c) 2014 by Jonatan Gómez-Perdomo. <br>
+ * Copyright (c) 2014 by Jonatan Gomez-Perdomo. <br>
  * All rights reserved. <br>
  *
  * <p>Redistribution and use in source and binary forms, with or without
@@ -52,7 +50,7 @@ import unalcol.service.Service;
  * (E-mail: <A HREF="mailto:jgomezpe@unal.edu.co">jgomezpe@unal.edu.co</A> )
  * @version 1.0
  */
-public abstract class RawGenerator extends Service{
+public abstract class RawGenerator{
     /**
      * Generates a random number in the interval [0.0,1.0) following a uniform distribution x~U[0,1)
      * @return a random number in the interval [0.0,1.0) following a uniform distribution x~U[0,1)
@@ -143,14 +141,13 @@ public abstract class RawGenerator extends Service{
         return get(obj).raw(m);        
     }
     
-    protected static boolean defaultLoaded = false;     
-    public static RawGenerator get( Object obj ){
-        if( !defaultLoaded ){
-            RawGenerator service = (RawGenerator)provider.register(JavaGenerator.class);
-            set(RawGenerator.class, Object.class, service);
-            defaultLoaded = true;
-        }
-        return (RawGenerator)get(RawGenerator.class, obj);
+    public static RawGenerator get( Object owner ){
+        if( ServiceCore.get(Object.class, RawGenerator.class) == null )  set(owner, new JavaGenerator());
+        return (RawGenerator)ServiceCore.get(owner, RawGenerator.class);
+    }
+    
+    public static boolean set( Object owner, RawGenerator raw ){
+    	return ServiceCore.set(owner, RawGenerator.class, raw);
     }
     
 }

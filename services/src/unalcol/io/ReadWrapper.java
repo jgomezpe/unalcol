@@ -12,13 +12,6 @@ import java.lang.reflect.*;
  * @version 1.0
  */
 public class ReadWrapper extends Read<Object> {
-    static {
-       register(Object.class, new ReadWrapper());
-    }
-
-    public static ReadWrapper register(){
-        return (ReadWrapper)register(ReadWrapper.class);
-    }
     /**
      * Creates a set of persistence methods for object of the given class
      */

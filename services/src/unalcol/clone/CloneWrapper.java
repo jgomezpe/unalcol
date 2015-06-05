@@ -13,15 +13,6 @@ import java.lang.reflect.Array;
  * @version 1.0
  */
 public class CloneWrapper extends Clone<Object> {
-    static {
-       register(Object.class, new CloneWrapper());
-    }
-    
-    @SuppressWarnings("unchecked")
-	public static Clone<Object> register(){
-        return (Clone<Object>)register(CloneWrapper.class);
-    }
-
     /**
      * Creates a clone wrapped method for objects
      */

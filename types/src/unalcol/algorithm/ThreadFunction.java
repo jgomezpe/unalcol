@@ -10,7 +10,7 @@ import unalcol.tracer.Tracer;
  * @author Jonatan Gomez Perdomo
  * @version 1.0
  */
-public abstract class ThreadFunction<S, T> extends Function<S,T>{
+public abstract class ThreadFunction<S, T> implements Function<S,T>{
 
     /**
      * Flag used for determining if the function was stopped or not

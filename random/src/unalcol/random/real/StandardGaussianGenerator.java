@@ -16,13 +16,6 @@ public class StandardGaussianGenerator extends DoubleGenerator{
     /**
      * Creates a standard Gaussian number generator
      */
-    public StandardGaussianGenerator( RawGenerator g ) {
-        set(RawGenerator.class, this, g);
-    }
-
-    /**
-     * Creates a standard Gaussian number generator
-     */
     public StandardGaussianGenerator(){}
 
     /**
@@ -47,7 +40,9 @@ public class StandardGaussianGenerator extends DoubleGenerator{
     
     @Override
     public DoubleGenerator new_instance(){
-        RawGenerator g = (RawGenerator)get(RawGenerator.class, this);
-        return new StandardGaussianGenerator(g.new_instance());
+        RawGenerator g = RawGenerator.get(this);
+        DoubleGenerator dg = new StandardGaussianGenerator();
+        RawGenerator.set(dg, g.new_instance());
+        return dg;
     }    
 }

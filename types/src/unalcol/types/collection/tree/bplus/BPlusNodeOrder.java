@@ -20,9 +20,4 @@ public class BPlusNodeOrder<T> extends Order<BPlusNode<T>>{
         return inner.compare(a.leftKey(), b.leftKey());
     }
 
-    @Override
-    public Object owner() {
-        return BPlusNode.class;
-    }
-    
 }

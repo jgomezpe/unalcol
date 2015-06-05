@@ -14,18 +14,11 @@ import java.lang.reflect.*;
  * @version 1.0
  */
 public class WriteWrapper extends Write<Object> {
-    static {
-       register(Object.class, new WriteWrapper());
-    }
     /**
      * Creates a set of persistence methods for object of the given class
      */
     protected String method_name = "write";
     
-    public static WriteWrapper register(){
-        return (WriteWrapper)register(WriteWrapper.class);
-    }
-
     /**
      * Writes an object to the given writer (The object should has a write method)
      * @param obj Object to write

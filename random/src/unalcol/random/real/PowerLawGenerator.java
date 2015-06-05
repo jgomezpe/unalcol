@@ -18,11 +18,6 @@ public class PowerLawGenerator extends StandardPowerLawGenerator{
         x_min = _x_min;
     }
     
-    public PowerLawGenerator( double _alpha, double _x_min, RawGenerator g ){
-        super( _alpha, g );
-        x_min = _x_min;
-    }
-    
     @Override
     public double next(double x){
         return x_min*super.next(x);
@@ -31,7 +26,9 @@ public class PowerLawGenerator extends StandardPowerLawGenerator{
     @Override
     public DoubleGenerator new_instance(){
         RawGenerator g = RawGenerator.get(this);
-        return new PowerLawGenerator(1.0-1.0/coarse_alpha, x_min, g.new_instance());
+        DoubleGenerator dg = new PowerLawGenerator(1.0-1.0/coarse_alpha, x_min);
+        RawGenerator.set(dg, g.new_instance());
+        return dg; 
     }        
     
 }

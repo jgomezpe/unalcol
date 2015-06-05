@@ -14,14 +14,6 @@ import unalcol.sort.Order;
 public class SparseElementOrder<T> extends Order<SparseElement<T>> {
 
     /**
-     * Returns the Class that owns the PlugIn
-     * @return Class The PlugIns owner class
-     */
-    static {
-        register(Order.class, new SparseElementOrder<Object>());
-    }
-
-    /**
      * Determines if the object is less than (in some order) the given object
      * @param x Object to Compare
      * @param y Object to Compare

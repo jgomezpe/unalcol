@@ -1,7 +1,5 @@
 package unalcol.math.function;
 
-import unalcol.service.Service;
-
 /**
  * <p>Abstract definition of a function</p>
  *
@@ -12,11 +10,11 @@ import unalcol.service.Service;
  * @param <S> Codomain of the function
  * @param <T> Domain of the function
  */
-public abstract class Function<S, T> extends Service{
+public interface Function<S, T>{
     /**
      * Computes the function
      * @param x Parameter of the function
      * @return Computed value of the function
      */
-    public abstract T apply(S x);
+    public T apply(S x);
 }

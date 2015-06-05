@@ -18,12 +18,6 @@ public class GeneralizedPowerLawGenerator extends StandardGeneralizedPowerLawGen
       this.c = c;
     }
     
-    public GeneralizedPowerLawGenerator( double alpha, double b, double c, RawGenerator g ){
-      super(alpha, g);
-      coarse_b = (alpha-1.0)*b;
-      this.c = c;
-    }
-    
     @Override
     public double next(double x){
         return super.next(x) + c;
@@ -34,7 +28,9 @@ public class GeneralizedPowerLawGenerator extends StandardGeneralizedPowerLawGen
         double alpha = 1.0-1.0/coarse_alpha;
         double b = -coarse_b*coarse_alpha;
         RawGenerator g = RawGenerator.get(this);
-        return new GeneralizedPowerLawGenerator(alpha, b, c, g.new_instance());
+        DoubleGenerator dg = new GeneralizedPowerLawGenerator(alpha, b, c);
+        RawGenerator.set(dg, g.new_instance());
+        return dg; 
     }        
     
 }

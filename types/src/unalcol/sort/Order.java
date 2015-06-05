@@ -1,5 +1,7 @@
 package unalcol.sort;
-import unalcol.service.Service;
+
+import unalcol.service.ServiceCore;
+
 
 /**
  * <p>Abstract class, determines if the object one is less, greater or equal than object two</p>
@@ -9,7 +11,7 @@ import unalcol.service.Service;
  * @version 1.0
  *
  */
-public abstract class Order<T> extends Service{
+public abstract class Order<T>{
     /**
      * Determines if one elements is less, equal or greater than other.
      * A value < 0 indicates that one is less than two, a value = 0 indicates
@@ -22,15 +24,21 @@ public abstract class Order<T> extends Service{
     
     /**
      * Gets the order used by the given object
-     * @param obj Owner of the order to be retrieved
+     * @param owner Owner of the order to be retrieved
      * @return Currently used order method (by the object)
      */
-    public static Order<?> get( Object obj ){
-        try{
-            return ((Order<?>)get(Order.class,obj));
-        }catch( Exception e ){
-        }
-        return null;        
+    public static Order<?> get( Object owner ){
+    	if( ServiceCore.get(Object.class, Order.class) == null ) ServiceCore.set(Object.class, new OrderWrapper());
+        return ((Order<?>)ServiceCore.get(owner, Order.class));
+    }
+    
+    /**
+     * Gets the order used by the given object
+     * @param owner Owner of the order to be retrieved
+     * @return Currently used order method (by the object)
+     */
+    public static boolean set( Object owner, Order<?> order ){
+        return ServiceCore.set(owner, Order.class, order);
     }
     
     /**

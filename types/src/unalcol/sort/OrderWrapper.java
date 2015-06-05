@@ -10,10 +10,6 @@ import java.lang.reflect.Method;
  * @version 1.0
  */
 public class OrderWrapper extends Order<Object>{
-  static{
-      register(Object.class, new OrderWrapper());
-  }  
-    
     /**
      * Creates an order wrapped method for classes with the compareTo method
      */

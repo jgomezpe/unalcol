@@ -6,7 +6,6 @@ package unalcol.types.collection.vector.sparse;
 
 import unalcol.clone.Clone;
 import unalcol.types.collection.vector.SortedVector;
-import unalcol.types.collection.vector.Vector;
 
 /**
  *
@@ -14,7 +13,6 @@ import unalcol.types.collection.vector.Vector;
  */
 public class ImmutableSparseVectorCloneService<T> extends Clone<ImmutableSparseVector<T>>{
     public ImmutableSparseVectorCloneService() {
-        set(Clone.class, Vector.class, this);
     }
 
     /**

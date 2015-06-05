@@ -10,14 +10,10 @@ import unalcol.service.*;
  * @author Jonatan Gomez Perdomo
  * @version 1.0
  */
-public abstract class Tracer  extends Service{
-    public Object owner = null;
-
+public abstract class Tracer{
     protected boolean tracing = true;
 
-    public Tracer( Object owner ){
-        this.owner = owner;
-    }
+    public Tracer(){}
 
     public boolean start(){
         boolean old = tracing;
@@ -53,13 +49,13 @@ public abstract class Tracer  extends Service{
      */
     public abstract void close();
 
-    public Object owner(){
-        return owner;
+    public static boolean addTracer( Object owner, Tracer tracer ){
+    	return ServiceCore.set(owner, tracer);
     }
     
-    public static Tracer[] get( Object obj ){
+    public static Tracer[] get( Object owner ){
         try{
-           Service[] services = provider.owned_services(Tracer.class, obj);
+           Object[] services = ServiceCore.getAll(owner, Tracer.class);
            Tracer[] tracers = new Tracer[services.length];
            for( int i=0; i<services.length; i++ ){
                tracers[i] = (Tracer)services[i];

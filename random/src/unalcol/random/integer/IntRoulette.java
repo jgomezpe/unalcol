@@ -3,7 +3,7 @@ package unalcol.random.integer;
 import unalcol.random.raw.RawGenerator;
 
 //
-// Unalcol Random generation Pack 1.0 by Jonatan Gómez-Perdomo
+// Unalcol Random generation Pack 1.0 by Jonatan Gomez-Perdomo
 // http://disi.unal.edu.co/profesores/jgomezpe/unalcol/random/
 //
 /**
@@ -18,7 +18,7 @@ import unalcol.random.raw.RawGenerator;
  *
  * <h3>License</h3>
  *
- * Copyright (c) 2014 by Jonatan Gómez-Perdomo. <br>
+ * Copyright (c) 2014 by Jonatan Gomez-Perdomo. <br>
  * All rights reserved. <br>
  *
  * <p>Redistribution and use in source and binary forms, with or without
@@ -66,23 +66,13 @@ public class IntRoulette extends RandInt {
     }
 
     /**
-     * Creates an integer number generator with the given probability density
-     * @param density Probability of generating an integer number [0,length(density))
-     * @param g Raw generator to be used by the Integer random generator
-     */
-    public IntRoulette(double[] density, RawGenerator g) {
-        this.density = density;
-        set(RawGenerator.class, this, g);
-    }
-
-    /**
      * Generates an integer number following the associated density function
      * @return An integer number following the associated density function
      */
     @Override
     public int generate() {
         int length = density.length;
-        RawGenerator g = (RawGenerator)get(RawGenerator.class, this);
+        RawGenerator g = RawGenerator.get(this);
 
         double x = g.next();
         int i = 0;

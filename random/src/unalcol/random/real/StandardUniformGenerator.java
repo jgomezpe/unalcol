@@ -26,13 +26,11 @@ public class StandardUniformGenerator extends InverseDoubleGenerator {
         super();
     }
 
-    public StandardUniformGenerator( RawGenerator _g ){    
-        super( _g );
-    }
-    
     @Override
     public DoubleGenerator new_instance(){
         RawGenerator g = RawGenerator.get(this);
-        return new StandardUniformGenerator(g.new_instance());
+        DoubleGenerator dg = new StandardUniformGenerator();
+        RawGenerator.set(dg, g.new_instance());
+        return dg; 
     }
 }

@@ -17,8 +17,7 @@ public class SingleResultTracer extends Tracer {
     /**
      * Creates a new SingleResultTracer
      */
-    public SingleResultTracer(Object owner) {
-        super( owner );
+    public SingleResultTracer() {
     }
 
     /**

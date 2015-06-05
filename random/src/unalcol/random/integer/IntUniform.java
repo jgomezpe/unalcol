@@ -3,7 +3,7 @@ package unalcol.random.integer;
 import unalcol.random.raw.RawGenerator;
 
 //
-// Unalcol Random generation Pack 1.0 by Jonatan Gómez-Perdomo
+// Unalcol Random generation Pack 1.0 by Jonatan Gomez-Perdomo
 // http://disi.unal.edu.co/profesores/jgomezpe/unalcol/random/
 //
 /**
@@ -18,7 +18,7 @@ import unalcol.random.raw.RawGenerator;
  *
  * <h3>License</h3>
  *
- * Copyright (c) 2014 by Jonatan Gómez-Perdomo. <br>
+ * Copyright (c) 2014 by Jonatan Gomez-Perdomo. <br>
  * All rights reserved. <br>
  *
  * <p>Redistribution and use in source and binary forms, with or without
@@ -76,29 +76,6 @@ public class IntUniform extends RandInt {
      * @param max Sup limit
      */
     public IntUniform(int min, int max) {
-        this.min = min;
-        this.length = max - min;
-    }
-
-    /**
-     * Creates a uniform integer number generator in the interval [0,max)
-     * @param max Sup Limit
-     * @param g Raw generator to be used by the Integer random generator
-     */
-    public IntUniform(int max, RawGenerator g) {
-        set(RawGenerator.class, this, g);
-        this.min = 0;
-        this.length = max;
-    }
-
-    /**
-     * Creates a uniform integer number generator in the interval [min,max)
-     * @param min Low limit
-     * @param max Sup limit
-     * @param g Raw generator to be used by the Integer random generator
-     */
-    public IntUniform(int min, int max, RawGenerator g) {
-        set(RawGenerator.class, this, g);
         this.min = min;
         this.length = max - min;
     }

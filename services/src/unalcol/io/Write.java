@@ -7,9 +7,9 @@ import java.io.Writer;
 import unalcol.service.*;
 
 /**
- * <p>Title: Persistentmethod</p>
+ * <p>Title: Write</p>
  *
- * <p>Description: Persistency methods for a given object</p>
+ * <p>Description: Writing methods for a given object</p>
  *
  * <p>Copyright: Copyright (c) 2009</p>
  *
@@ -18,7 +18,7 @@ import unalcol.service.*;
  * @author Jonatan Gomez Perdomo
  * @version 1.0
  */
-public abstract class Write<T> extends Service {
+public abstract class Write<T>{
     /**
      * Writes an object to the given writer
      * @param obj Object to write
@@ -27,22 +27,19 @@ public abstract class Write<T> extends Service {
      */
     public abstract void write(T obj, Writer writer) throws Exception;
     
-    protected static boolean defaultLoaded = false;    
-    public static Write<?> get(Object obj){
-        if( !defaultLoaded ){
-            Write<?> service = new WriteWrapper();
-            register(Object.class, service);
-            set(Write.class, Object.class, service);
-            defaultLoaded = true;
-        }
-        return (Write<?>)get(Write.class, obj);
+    /**
+     * Determines if the default service has been registered in the service infra-structure
+     */
+    public static Write<?> get(Object owner){
+        if( ServiceCore.get(Object.class, Write.class) == null )
+            set(Object.class, new WriteWrapper());
+        return (Write<?>)ServiceCore.get(owner, Write.class);
     }
     
-    public static Write<?> set( Object obj, Write<?> service ){
-        return (Write<?>)set(Write.class, obj, service);
+    public static boolean set( Object owner, Write<?> service ){
+        return ServiceCore.set(owner, Write.class, service);
     }
-    
-    
+        
     /**
      * Writes an object to the given writer (The object should has a write method)
      * @param obj Object to write
@@ -51,7 +48,7 @@ public abstract class Write<T> extends Service {
      */
     @SuppressWarnings("unchecked")
 	public static void apply(Object obj, Writer writer) throws Exception {
-        Write<?> service = (Write<?>)get(Write.class, obj);
+        Write<?> service = (Write<?>)get(obj);
         ((Write<Object>)service).write(obj, writer);
     }
 

@@ -15,7 +15,6 @@ public class SparseRealVectorDemo {
     public static void main( String[] args ){
          // Reflection
         DoubleArrayPlainWrite key = new DoubleArrayPlainWrite(',');
-        Write.register(double[].class, key);
         Write.set(double[].class,key);
        
         SparseRealVector x = new SparseRealVector(100);

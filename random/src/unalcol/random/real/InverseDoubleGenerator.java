@@ -14,10 +14,6 @@ public abstract class InverseDoubleGenerator extends DoubleGenerator {
      
     public InverseDoubleGenerator(){}
     
-    public InverseDoubleGenerator( RawGenerator g ){
-        set(RawGenerator.class, this, g);
-    }
-
     /**
      * Returns a random double number
      * @param x Inverse value (cumulative probability)

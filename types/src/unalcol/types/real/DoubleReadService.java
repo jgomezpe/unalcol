@@ -16,11 +16,6 @@ import java.io.StringReader;
 public class DoubleReadService extends Read<Double>{
 
     @Override
-    public Object owner(){
-        return Double.class;
-    }
-
-    @Override
     public Double read(Double d, ShortTermMemoryReader reader) throws RowColumnReaderException{
         return read(reader);
     }

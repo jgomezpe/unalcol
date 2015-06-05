@@ -12,10 +12,6 @@ import unalcol.instance.Instance;
  */
 public class BitArrayInstance extends Instance<BitArray> {
     
-  static{
-      register(BitArray.class, new BitArrayInstance());
-  }  
-
   /**
    * Creates a BinaryGenotype with the given lenght
    * @param length The lengh of the new bitarray
@@ -27,8 +23,22 @@ public class BitArrayInstance extends Instance<BitArray> {
    * Creates a new genome of the binary genotype
    * @return Object New binary genome
    */
-  @Override
-  public BitArray get( BitArray array ) {
-    return new BitArray(array.dimension(), true);
+  public BitArray get( int n ) {
+    return new BitArray(n, true);
   }
+  
+  /**
+   * Creates a new genome of the binary genotype
+   * @return Object New binary genome
+   */
+  @Override
+  public BitArray get( Object... n ) {
+    return get( (Integer)n[0] );
+  }
+
+  @Override
+  public Class<?> type() {
+	// TODO Auto-generated method stub
+	return BitArray.class;
+  }   
 }

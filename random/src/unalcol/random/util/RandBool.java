@@ -4,7 +4,7 @@ import unalcol.random.Random;
 import unalcol.random.raw.RawGenerator;
 
 //
-// Unalcol Random generation Pack 1.0 by Jonatan Gómez-Perdomo
+// Unalcol Random generation Pack 1.0 by Jonatan Gomez-Perdomo
 // http://disi.unal.edu.co/profesores/jgomezpe/unalcol/random/
 //
 /**
@@ -19,7 +19,7 @@ import unalcol.random.raw.RawGenerator;
  *
  * <h3>License</h3>
  *
- * Copyright (c) 2014 by Jonatan Gómez-Perdomo. <br>
+ * Copyright (c) 2014 by Jonatan Gomez-Perdomo. <br>
  * All rights reserved. <br>
  *
  * <p>Redistribution and use in source and binary forms, with or without
@@ -65,31 +65,11 @@ public class RandBool extends Random<Boolean>{
     }
 
     /**
-     * Creates a boolean generator with the same probability of generating 
-     * a <i>true</i> and <i>false<i> value
-     * @param g Raw generator to be used by the Integer random generator
-     */
-    public RandBool(RawGenerator g){
-        set(RawGenerator.class, this, g);
-    }
-
-    /**
      * Creates a boolean generator with the given probability of generating a <i>false</i> value (1.0-falseProbability) is
      * the probability of generating a <i>true</i> value
      * @param falseProbability Probability of generating a <i>false</i> value
      */
     public RandBool(double falseProbability) {
-        this.falseProbability = falseProbability;
-    }
-
-    /**
-     * Creates a boolean generator with the given probability of generating a <i>false</i> value (1.0-falseProbability) is
-     * the probability of generating a <i>true</i> value
-     * @param falseProbability Probability of generating a <i>false</i> value
-     * @param g Raw generator to be used by the Integer random generator
-     */
-    public RandBool(double falseProbability, RawGenerator g) {
-        set(RawGenerator.class, this, g);
         this.falseProbability = falseProbability;
     }
 
@@ -107,7 +87,7 @@ public class RandBool extends Random<Boolean>{
      * @return A boolean value according to the stored probability distribution
      */
     public boolean generate() {
-        RawGenerator g = (RawGenerator)get(RawGenerator.class, this);
+        RawGenerator g = RawGenerator.get(this);
         return g.bool(falseProbability);
     }
     /**
@@ -116,7 +96,7 @@ public class RandBool extends Random<Boolean>{
      * @param m The total number of random boolean values
      */
     public void generate(boolean[] v, int offset,  int m) {
-      RawGenerator g = (RawGenerator)get(RawGenerator.class, this);
+      RawGenerator g = RawGenerator.get(this);
       for (int i = 0; i < m; i++) {
         v[i+offset] = g.bool(falseProbability);
       }
@@ -138,7 +118,9 @@ public class RandBool extends Random<Boolean>{
     
     public RandBool new_instance(){
         RawGenerator g = RawGenerator.get(this);
-        return new RandBool(g.new_instance());
+        RandBool rb = new RandBool();
+        RawGenerator.set(rb, g.new_instance());
+        return rb;
     }
     
 }

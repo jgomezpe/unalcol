@@ -12,11 +12,6 @@ public class ImmutableVectorCloneService<T> extends Clone<ImmutableVector<T>>{
     public ImmutableVectorCloneService() {
     }
 
-    @Override
-    public Object owner(){
-        return ImmutableVector.class;
-    }
-
     public static Object[] toArray(ImmutableVector<?> obj){
         int size = obj.size();
         Object[] cl = new Object[size];

@@ -20,12 +20,7 @@ public class StandardPowerLawGenerator  extends InverseDoubleGenerator{
     public StandardPowerLawGenerator( double alpha ){
         coarse_alpha = 1.0/(1.0-alpha);
     }
-    
-    public StandardPowerLawGenerator( double alpha, RawGenerator g ){
-        super(g);
-        coarse_alpha = 1.0/(1.0-alpha);
-    }
-    
+        
     @Override
     public double next(double x){
         return Math.pow(1.0-x, coarse_alpha);
@@ -34,6 +29,8 @@ public class StandardPowerLawGenerator  extends InverseDoubleGenerator{
     @Override
     public DoubleGenerator new_instance(){
         RawGenerator g = RawGenerator.get(this);
-        return new StandardPowerLawGenerator(1.0-1.0/coarse_alpha, g.new_instance());
+        DoubleGenerator dg = new StandardPowerLawGenerator(1.0-1.0/coarse_alpha);
+        RawGenerator.set(dg, g.new_instance());
+        return dg;
     }        
 }

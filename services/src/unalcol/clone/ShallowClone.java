@@ -9,22 +9,12 @@ package unalcol.clone;
  * @version 1.0
  */
 public class ShallowClone extends Clone<Object>{
-    static {
-       register(Object.class, new ShallowClone());
-    }
-    
-    @SuppressWarnings("unchecked")
-	public static Clone<Object> register(){
-        return (Clone<Object>)register(ShallowClone.class);
-    }
-    
    /**
      * Returns the same object (shallow copy)
      * @param obj Object from which the CloneService will be retrieved
      * @return A Clone (the same object) of the object
      */
     public Object clone(Object obj){
-    	System.out.println("###");
         return obj;
     }
 

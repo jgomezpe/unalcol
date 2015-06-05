@@ -36,17 +36,6 @@ public class UniformGenerator extends InverseDoubleGenerator {
     }
 
     /**
-     * Constructor: Creates a uniform random number generator that generates numbers in the interval [minVal, maxVal)
-     * @param minVal Inf limit
-     * @param maxVal Sup Limit
-     */
-    public UniformGenerator(double minVal, double maxVal, RawGenerator g ) {
-        super(g);
-        min = minVal;
-        length = maxVal - minVal;
-    }
-
-    /**
      * Returns a random double number
      * @param x Inverse value (cumulative probability)
      * @return A random double number
@@ -59,7 +48,9 @@ public class UniformGenerator extends InverseDoubleGenerator {
   @Override
   public DoubleGenerator new_instance(){
     RawGenerator g = RawGenerator.get(this);
-    return new UniformGenerator(min, length+min, g.new_instance());
+    DoubleGenerator dg = new UniformGenerator(min, length+min);
+    RawGenerator.set(dg, g.new_instance());
+    return dg;  
   }    
     
 }

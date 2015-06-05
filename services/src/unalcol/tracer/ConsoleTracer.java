@@ -19,16 +19,14 @@ public class ConsoleTracer extends Tracer {
     /**
      * Creates a console tracer (writes a data object per line
      */
-    public ConsoleTracer( Object owner ) {
-        super( owner );
+    public ConsoleTracer() {
     }
 
     /**
      * Creates a console tracer
      * @param addNewLine Determines if a new line symbol is added after tracing an object
      */
-    public ConsoleTracer( Object owner, boolean addNewLine ) {
-        super( owner );
+    public ConsoleTracer( boolean addNewLine ) {
         this.addNewLine = addNewLine;
     }
 

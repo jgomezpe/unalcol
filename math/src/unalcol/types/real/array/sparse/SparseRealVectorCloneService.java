@@ -16,10 +16,6 @@ public class SparseRealVectorCloneService
     public SparseRealVectorCloneService() {
     }
 
-    public Object owner(){
-        return SparseRealVector.class;
-    }
-
     /**
      * Clones a Java Vector
      * @param obj The Java Vector to be cloned

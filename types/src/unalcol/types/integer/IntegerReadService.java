@@ -14,11 +14,6 @@ import java.io.*;
  */
 public class IntegerReadService extends Read<Integer>{
 
-    @Override
-    public Object owner(){
-        return Integer.class;
-    }
-
     public static void back( char c, ShortTermMemoryReader reader ){
         if( c != (char)-1 ){
             reader.back();

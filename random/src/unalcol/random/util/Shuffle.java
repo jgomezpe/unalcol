@@ -2,9 +2,10 @@ package unalcol.random.util;
 
 import unalcol.random.integer.*;
 import unalcol.random.raw.RawGenerator;
-import static unalcol.service.Service.set;
+import unalcol.service.ServiceCore;
+
 //
-// Unalcol Random generation Pack 1.0 by Jonatan Gómez-Perdomo
+// Unalcol Random generation Pack 1.0 by Jonatan Gomez-Perdomo
 // http://disi.unal.edu.co/profesores/jgomezpe/unalcol/random/
 //
 /**
@@ -19,7 +20,7 @@ import static unalcol.service.Service.set;
  *
  * <h3>License</h3>
  *
- * Copyright (c) 2014 by Jonatan Gómez-Perdomo. <br>
+ * Copyright (c) 2014 by Jonatan Gomez-Perdomo. <br>
  * All rights reserved. <br>
  *
  * <p>Redistribution and use in source and binary forms, with or without
@@ -60,16 +61,7 @@ public class Shuffle<T> {
      */
     public Shuffle(){
     }
-    
-    /**
-     * Creates a shuffle method using the given raw generator
-     * @param g Raw generator to be used by the Integer random generator
-     */
-    public Shuffle( RawGenerator g ){
-        set(RawGenerator.class, this, g);
-    }
-    
-    
+        
     /**
      * Generates an array with all the integers in the interval [0,n) stored in a random fashion
      * @param n Sup limit (the generated array has <i>n</i> elements (the integer numbers in the interval [0,n))
@@ -94,7 +86,8 @@ public class Shuffle<T> {
         int temp;
         int n = set.length;
         RawGenerator g = RawGenerator.get(this);
-        IntUniform ig = new IntUniform(n, g);
+        IntUniform ig = new IntUniform(n);
+        RawGenerator.set(ig, g);
         int[] indices = ig.generate(2 * n);
         for (int i = 0; i < n; i++) {
             j = indices[m];
@@ -105,6 +98,7 @@ public class Shuffle<T> {
             set[j] = set[k];
             set[k] = temp;
         }
+        ServiceCore.remove(ig);
     }
 
     /**
@@ -117,7 +111,8 @@ public class Shuffle<T> {
         T temp;
         int n = set.length;
         RawGenerator g = RawGenerator.get(this);
-        IntUniform ig = new IntUniform(n, g);
+        IntUniform ig = new IntUniform(n);
+        RawGenerator.set(ig, g);
         int[] indices = ig.generate(2 * n);
         for (int i = 0; i < n; i++) {
             j = indices[m];
@@ -128,5 +123,6 @@ public class Shuffle<T> {
             set[j] = set[k];
             set[k] = temp;
         }
+        ServiceCore.remove(ig);
     }
 }

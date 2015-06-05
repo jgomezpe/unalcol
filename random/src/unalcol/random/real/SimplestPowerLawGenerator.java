@@ -15,11 +15,7 @@ public class SimplestPowerLawGenerator extends StandardPowerLawGenerator{
     public SimplestPowerLawGenerator(){    
         super(2.0);        
     }
-    
-    public SimplestPowerLawGenerator(RawGenerator g){            
-        super(2.0, g);        
-    }
-    
+        
     @Override
     public double next(double x){
         return 1.0/(1.0-x);
@@ -28,6 +24,8 @@ public class SimplestPowerLawGenerator extends StandardPowerLawGenerator{
     @Override
     public DoubleGenerator new_instance(){
         RawGenerator g = RawGenerator.get(this);
-        return new SimplestPowerLawGenerator(g.new_instance());
+        DoubleGenerator dg = new SimplestPowerLawGenerator();
+        RawGenerator.set(dg, g.new_instance());
+        return dg; 
     }            
 }

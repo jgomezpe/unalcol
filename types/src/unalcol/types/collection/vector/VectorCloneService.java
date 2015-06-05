@@ -14,11 +14,6 @@ public class VectorCloneService<T> extends Clone<Vector<T>>{
     public VectorCloneService() {
     }
 
-    @Override
-    public Object owner(){
-        return Vector.class;
-    }
-
     /**
      * Clones a Vector
      * @return The vector's clone

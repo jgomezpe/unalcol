@@ -11,14 +11,7 @@ import unalcol.descriptors.*;
  *
  */
 public class DoubleArrayDescriptors extends Descriptors{
-    /**
-     * Returns the Class that owns the PlugIn
-     * @return Class The PlugIns owner class
-     */
-    static{
-        register(double[].class, new DoubleArrayDescriptors());
-    }
-
+ 
     /**
      * Gets a numeric description of the given object (the object should be of class Solution)
      * @param obj Object to be described using numeric values

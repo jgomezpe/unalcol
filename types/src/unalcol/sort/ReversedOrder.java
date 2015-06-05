@@ -20,7 +20,6 @@ public class ReversedOrder<T> extends Order<T> {
      */
     public ReversedOrder(Order<T> _original_order) {
         original_order = _original_order;
-        set(Order.class, original_order.owner(), this);
     }
 
     /**
@@ -33,7 +32,4 @@ public class ReversedOrder<T> extends Order<T> {
     public int compare(T one, T two) {
         return original_order.compare(two, one);
     }
-
-    @Override
-    public Object owner(){ return original_order.owner(); }
 }

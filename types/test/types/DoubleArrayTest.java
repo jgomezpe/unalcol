@@ -12,7 +12,6 @@ import unalcol.io.ShortTermMemoryReader;
 import unalcol.io.Write;
 import unalcol.random.raw.RawGenerator;
 import unalcol.random.rngpack.RanMT;
-import unalcol.service.Service;
 import unalcol.types.real.array.DoubleArrayPlainRead;
 import unalcol.types.real.array.DoubleArrayPlainWrite;
 import static unalcol.types.real.array.DoubleArraySort.merge;
@@ -41,10 +40,7 @@ public class DoubleArrayTest {
     public static double[] persistency(){
         // Registering the PlainRead service (reading double arrays as plain text,
         // notice that an instance of the Plain read service is provided.
-        @SuppressWarnings("unchecked")
-		Read<double[]> service = (Read<double[]>)Service.register(DoubleArrayPlainRead.class);
-        // We can use the provided service instance as default for reading double arrays 
-        Service.set(Read.class, double[].class, service);
+        Read.set(double[].class, new DoubleArrayPlainRead());
         // The first value is the number of real values, followed by the values
         // to be stored in the double array
         StringReader r = new StringReader("  3  -1234.4555e-123 345.6789 23.456");
@@ -58,10 +54,8 @@ public class DoubleArrayTest {
                System.out.println(x[i]);
            }
            // Using a service for printing the array. Here we register the plain text
-           // writing service for double arrays and use it by default
-           @SuppressWarnings("unchecked")
-		   Write<double[]> wSer = (Write<double[]>)Service.register(DoubleArrayPlainWrite.class);
-           Service.set(Write.class, double[].class, wSer);
+           // writing service for double arrays and use it by default           
+           Write.set(double[].class, new DoubleArrayPlainWrite());
            // Printing to a String
            System.out.println(Write.toString(x));
            return x;

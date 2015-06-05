@@ -11,10 +11,6 @@ import java.lang.reflect.Method;
  * @version 1.0
  */
 public class DescriptorsWrapper extends Descriptors {
-    static {
-       register(Object.class, new DescriptorsWrapper());
-    }
-
     protected String method_name = "descriptors";
     /**
      * Obtains the descriptors of an object

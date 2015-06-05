@@ -1,6 +1,5 @@
 package unalcol.io;
 import java.io.IOException;
-
 import unalcol.service.*;
 
 /**
@@ -12,7 +11,7 @@ import unalcol.service.*;
  * @version 1.0
  * @param <T> Type of objects the service will read
  */
-public abstract class Read<T> extends Service{
+public abstract class Read<T>{
     /**
      * Reads an object from the given reader
      * @param obj Instance of the type of objects the service will read
@@ -26,21 +25,15 @@ public abstract class Read<T> extends Service{
     /**
      * Determines if the default service has been registered in the service infra-structure
      */
-    protected static boolean defaultLoaded = false;    
-    public static Read<?> get(Object obj){
-        if( !defaultLoaded ){
-            Read<?> service = new ReadWrapper();
-            register(Object.class, service);
-            set(Read.class, Object.class, service);
-            defaultLoaded = true;
-        }
-        return (Read<?>)get(Read.class, obj);
+    public static Read<?> get(Object owner){
+        if( ServiceCore.get(Object.class, Read.class) == null )
+            set(Object.class, new ReadWrapper());
+        return (Read<?>)ServiceCore.get(owner, Read.class);
     }
     
-    public static Read<?> set( Object obj, Read<?> service ){
-        return (Read<?>)set(Read.class, obj, service);
-    }
-    
+    public static boolean set( Object owner, Read<?> service ){
+        return ServiceCore.set(owner, Read.class, service);
+    }        
     
     /**
      * Reads an object from the given reader (The object should has a read method)

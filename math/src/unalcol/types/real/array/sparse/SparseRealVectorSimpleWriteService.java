@@ -23,19 +23,19 @@ public class SparseRealVectorSimpleWriteService  extends Write<SparseRealVector>
     protected boolean write_dimension = true;
 
     /**
-     * Creates an integer array persistent method that uses an space for separatng the array values
+     * Creates an integer array persistent method that uses an space for separating the array values
      */
     public SparseRealVectorSimpleWriteService() {}
 
     /**
-     * Creates an integer array persistent method that uses an space for separatng the array values
+     * Creates an integer array persistent method that uses an space for separating the array values
      */
     public SparseRealVectorSimpleWriteService(boolean write_dim ) {
         write_dimension = write_dim;
     }
 
     /**
-     * Creates a double array persistent method that uses the give charater for separating the array values
+     * Creates a double array persistent method that uses the give character for separating the array values
      * @param separator Character used for separating the array values
      */
     public SparseRealVectorSimpleWriteService(char separator) {
@@ -43,21 +43,12 @@ public class SparseRealVectorSimpleWriteService  extends Write<SparseRealVector>
     }
 
     /**
-     * Creates a double array persistent method that uses the give charater for separating the array values
+     * Creates a double array persistent method that uses the give character for separating the array values
      * @param separator Character used for separating the array values
      */
     public SparseRealVectorSimpleWriteService(char separator, boolean write_dim ) {
         this.separator = separator;
         this.write_dimension = write_dim;
-    }
-
-    /**
-     * Returns the Class that owns the PlugIn
-     * @return Class The PlugIns owner class
-     */
-    @Override
-    public Object owner() {
-        return SparseRealVector.class;
     }
     
     /**

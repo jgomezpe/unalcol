@@ -14,13 +14,17 @@ public class DoubleArrayZeroOneInstance extends Instance<double[]> {
     public DoubleArrayZeroOneInstance(){
     }
     
+    public double[] get( int n ) {
+        return DoubleArrayInit.random(n);
+    }
+    
     @Override
-    public double[] get(double[] x) {
-        return DoubleArrayInit.random(x.length);
+    public double[] get( Object... n) {
+        return get((Double)n[0]);
     }
 
-    @Override
-    public Object owner() {
-        return double[].class;
-    }    
+	@Override
+	public Class<?> type() {
+		return double[].class;
+	}   
 }

@@ -48,13 +48,6 @@ public class DoubleArrayPlainRead extends Read<double[]>{
         this.separator = separator;
     }
 
-    /**
-     * Returns the Class that owns the PlugIn
-     * @return Class The PlugIns owner class
-     */
-    static{
-        register(double[].class, new DoubleArrayPlainRead());
-    }
     
     public double[] read( double[] x, ShortTermMemoryReader reader ) throws IOException{
         int d = dim;

@@ -12,14 +12,9 @@ import unalcol.io.Write;
  * @version 1.0
  */
 public class WriteDescriptors extends Write<Object>{
-    static {
-       register(Object.class, new WriteDescriptors());
-    }
-
     @Override
     public void write(Object obj, Writer writer) throws Exception {
         double[] d = Descriptors.obtain(obj);
         Write.apply(d, writer);
     }
-
 }

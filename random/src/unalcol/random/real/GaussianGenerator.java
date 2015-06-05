@@ -32,17 +32,6 @@ public class GaussianGenerator extends StandardGaussianGenerator {
   }
 
   /**
-   * Constructor: Creates a Gaussian Number Generator G~(mu,sigma)
-   * @param miu1 Mean
-   * @param sigma1 standard deviation
-   */
-  public GaussianGenerator( double miu1, double sigma1, RawGenerator g ){
-      super(g);
-      miu = miu1;
-      sigma = sigma1;
-  }
-
-  /**
    * Returns a random double number
    * @return A random double number
    */
@@ -53,7 +42,9 @@ public class GaussianGenerator extends StandardGaussianGenerator {
   @Override
   public DoubleGenerator new_instance(){
       RawGenerator g = RawGenerator.get(this);
-      return new GaussianGenerator(miu, sigma, g.new_instance());
+      DoubleGenerator dg = new GaussianGenerator(miu, sigma);
+      RawGenerator.set(dg, g.new_instance());
+      return dg;
   }    
   
 }

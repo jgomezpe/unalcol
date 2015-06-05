@@ -23,11 +23,6 @@ public abstract class Sort<T> extends Algorithm<T[], T[]>{
      */
     protected boolean overwrite = true;
 
-    @Override
-    public Object owner(){
-        return Object.class;
-    }
-
     /**
      * Default constructor
      */
@@ -75,13 +70,13 @@ public abstract class Sort<T> extends Algorithm<T[], T[]>{
      * Sorts a portion of the array of objects according to the given order (it does not creates a new array)
      * @param a Array of objects to be sorted
      * @param start Initial position in the array to be sorted
-     * @param end Final position in the array to be sorte
+     * @param end Final position in the array to be sorted
      * @return <i>true</i> If the sorting process was done without fails, <i>false</i> otherwise
      */
     public abstract boolean apply(T[] a, int start, int end);
 
     /**
-     * Runs the sorting algorithm on the given array and the stablished order
+     * Runs the sorting algorithm on the given array and the established order
      * @param input Array to be sorted
      * @return Sorted array
      */

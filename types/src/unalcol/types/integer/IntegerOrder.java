@@ -13,13 +13,6 @@ import unalcol.sort.*;
  */
 
 public class IntegerOrder extends Order<Integer> {
-    /**
-     * Returns the Class that owns the PlugIn
-     * @return Class The PlugIns owner class
-     */
-    public Object owner() {
-        return Integer.class;
-    }  
 
     /**
      * Determines if the first Integer is less than (in some order) the second Integer (one<two)

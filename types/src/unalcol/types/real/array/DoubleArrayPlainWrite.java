@@ -51,9 +51,6 @@ public class DoubleArrayPlainWrite extends Write<double[]> {
         this.write_dimension = write_dim;
     }
 
-    static{
-        register(double[].class, new DoubleArrayPlainWrite());
-    }
     
     /**
      * Writes an array to the given writer (writes the size and the values) using the associated separator char

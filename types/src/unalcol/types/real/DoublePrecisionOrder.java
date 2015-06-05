@@ -13,13 +13,6 @@ import unalcol.sort.*;
  */
 
 public class DoublePrecisionOrder extends Order<Double> {
-    /**
-     * Returns the Class that owns the PlugIn
-     * @return Class The PlugIns owner class
-     */
-    static{
-        register(Double.class, new DoublePrecisionOrder());
-    }
 
     /**
      * Determines if the first Double is less than (in some order) the second Double (one<two) considering the precision
