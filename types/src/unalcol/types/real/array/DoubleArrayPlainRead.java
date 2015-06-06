@@ -5,8 +5,9 @@
 
 package unalcol.types.real.array;
 import unalcol.io.*;
-import unalcol.types.integer.*;
-import unalcol.types.real.*;
+import unalcol.types.integer.IntegerPlainRead;
+import unalcol.types.real.DoublePlainRead;
+
 import java.io.*;
 
 /**
@@ -14,59 +15,51 @@ import java.io.*;
  * @author jgomez
  */
 public class DoubleArrayPlainRead extends Read<double[]>{
-    /**
-     * Character used for separating the values in the array
-     */
-    protected char separator = ' ';
-    
-    public static final int READ_DIMENSION = -1;
-    public static final int USE_ARGUMENT_DIMENSION = -2;    
-    protected int dim = READ_DIMENSION;
-
-    protected IntegerReadService integer = new IntegerReadService();
-    protected DoubleReadService real = new DoubleReadService();
-
-    /**
-     * Creates an integer array persistent method that uses an space for separatng the array values
-     */
-    public DoubleArrayPlainRead() {}
-
-    /**
-     * Creates a double array persistent method that uses the give charater for separating the array values
-     * @param separator Character used for separating the array values
-     */
-    public DoubleArrayPlainRead(char separator) {
-        this.separator = separator;
-    }
-    
-    public DoubleArrayPlainRead(int dim){
-        this.dim = dim;
-    }
-
-    public DoubleArrayPlainRead(int dim, char separator){
-        this.dim = dim;
-        this.separator = separator;
-    }
-
-    
-    public double[] read( double[] x, ShortTermMemoryReader reader ) throws IOException{
-        int d = dim;
-        if(d==USE_ARGUMENT_DIMENSION){
-            d = x.length;
+	protected boolean read_dimension = true;
+	protected char separator = ' ';
+	protected int n=-1;
+	
+	public DoubleArrayPlainRead(){}
+	
+	public DoubleArrayPlainRead( char separator ){
+		this.separator = separator;
+	}
+	
+	public DoubleArrayPlainRead( int n ){
+		this.n = n;
+		read_dimension = (n <=0 );
+	}
+	
+	public DoubleArrayPlainRead( int n, char separator ){
+		this.n = n;
+		this.separator = separator;
+		read_dimension = (n <=0 );
+	}
+	
+    @Override
+    public double[] read( ShortTermMemoryReader reader ) throws IOException{
+        @SuppressWarnings("unchecked")
+		Read<Double> rd = (Read<Double>)get(Double.class); 
+        if( rd==null ){
+        	rd = new DoublePlainRead();
+        	set( Double.class, rd);        	
         }
-        return read(reader, d);
-    }
-    
-    public double[] read( ShortTermMemoryReader reader, int n ) throws IOException{
-        if( n==READ_DIMENSION){
-           n = (Integer)integer.read(reader);
-           Read.readSeparator(reader, separator);
+        if( read_dimension ){
+            @SuppressWarnings("unchecked")
+    		Read<Integer> ri = (Read<Integer>)get(Integer.class); 
+            if( ri == null ){
+            	ri = new IntegerPlainRead();
+            	set( Integer.class, ri);
+            }
+        	n = ri.read(reader);
+            Read.readSeparator(reader, separator);        	
         }
-        double[] d = new double[n];
-        for( int i=0; i<n; i++ ){
-            d[i] = (Double)real.read(reader);
-            Read.readSeparator(reader, separator);
+        double[] a = new double[n];
+        for (int i = 0; i < n-1; i++) {
+            a[i] = rd.read(reader);
+            Read.readSeparator(reader, separator);        	
         }
-        return d;
+        if( n-1 >= 0 ) a[n-1] = rd.read(reader);
+        return a;
     }
 }

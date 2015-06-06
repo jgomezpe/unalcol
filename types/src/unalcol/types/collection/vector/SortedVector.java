@@ -1,5 +1,7 @@
 package unalcol.types.collection.vector;
 
+import unalcol.clone.Clone;
+import unalcol.service.ServiceCore;
 import unalcol.sort.*;
 
 /**
@@ -15,6 +17,11 @@ import unalcol.sort.*;
  * @version 1.0
  */
 public class SortedVector<T> extends Vector<T>{
+	
+	static{
+		ServiceCore.set(SortedVector.class, Clone.class, new SortedVectorCloneService<Object>());
+	}
+	
     protected SortedVectorSearch<T> search = new SortedVectorSearch<T>();
     protected Order<T> order;
 

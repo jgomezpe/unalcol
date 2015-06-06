@@ -1,6 +1,9 @@
 package unalcol.types.collection.vector;
 
 import java.util.Iterator;
+
+import unalcol.clone.Clone;
+import unalcol.service.ServiceCore;
 import unalcol.types.collection.array.*;
 import unalcol.types.collection.*;
 
@@ -19,7 +22,12 @@ import java.util.NoSuchElementException;
  * @version 1.0
  */
 public class ImmutableVector<T> implements ArrayCollection<T>, SearchCollection<T> {
-    protected int size;
+	static{
+		ServiceCore.set(ImmutableVector.class, Clone.class, new ImmutableVectorCloneService<Object>());
+	}
+	
+
+	protected int size;
     protected T[] buffer;
     public ImmutableVector( T[] buffer ) {
         this.buffer = buffer;

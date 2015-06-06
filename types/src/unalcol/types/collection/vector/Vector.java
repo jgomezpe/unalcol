@@ -4,7 +4,9 @@
  */
 package unalcol.types.collection.vector;
 
+import unalcol.clone.Clone;
 import unalcol.random.integer.IntUniform;
+import unalcol.service.ServiceCore;
 import unalcol.types.collection.Location;
 import unalcol.types.collection.array.ArrayCollectionLocation;
 import unalcol.types.collection.array.MutableArrayCollection;
@@ -14,7 +16,11 @@ import unalcol.types.collection.array.MutableArrayCollection;
  * @author jgomez
  */
 public class Vector<T> extends ImmutableVector<T> implements MutableArrayCollection<T> {
-    protected int a, b, c;
+	static{
+		ServiceCore.set(Vector.class, Clone.class, new VectorCloneService<Object>());
+	}
+	
+	protected int a, b, c;
 
     protected static final int DEFAULT_C = 144;
     protected static final int DEFAULT_B = 89;

@@ -9,6 +9,7 @@ import unalcol.clone.Clone;
  * @version 1.0
  */
 public class ImmutableVectorCloneService<T> extends Clone<ImmutableVector<T>>{
+	
     public ImmutableVectorCloneService() {
     }
 

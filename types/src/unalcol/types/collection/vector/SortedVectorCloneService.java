@@ -14,10 +14,6 @@ public class SortedVectorCloneService<T> extends Clone<SortedVector<T>>{
     public SortedVectorCloneService() {
     }
 
-    public Object owner(){
-        return SortedVector.class;
-    }
-
     /**
      * Clones a Java Vector
      * @param obj The Java Vector to be cloned

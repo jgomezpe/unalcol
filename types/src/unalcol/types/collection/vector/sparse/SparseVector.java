@@ -4,6 +4,8 @@
  */
 package unalcol.types.collection.vector.sparse;
 
+import unalcol.clone.Clone;
+import unalcol.service.ServiceCore;
 import unalcol.types.collection.vector.SortedVector;
 
 /**
@@ -11,6 +13,9 @@ import unalcol.types.collection.vector.SortedVector;
  * @author jgomez
  */
 public class SparseVector<T> extends ImmutableSparseVector<T>{
+	static{
+		ServiceCore.set(SparseVector.class, Clone.class, new SparseVectorCloneService<Object>());
+	}
     
     public SparseVector(){
         super( new SortedVector<SparseElement<T>>(new SparseElementOrder<T>()) );

@@ -12,7 +12,7 @@ import java.io.*;
  *
  * @author jgomez
  */
-public class IntegerReadService extends Read<Integer>{
+public class IntegerPlainRead extends Read<Integer>{
 
     public static void back( char c, ShortTermMemoryReader reader ){
         if( c != (char)-1 ){
@@ -39,11 +39,6 @@ public class IntegerReadService extends Read<Integer>{
     }
 
     @Override
-    public Integer read(Integer i, ShortTermMemoryReader reader) throws
-            RowColumnReaderException{
-        return read(reader);
-    }
-
     public Integer read(ShortTermMemoryReader reader) throws
             RowColumnReaderException{
         try{
@@ -60,18 +55,5 @@ public class IntegerReadService extends Read<Integer>{
             throw reader.getException("Integer Parser Error "+e.getMessage());
         }
 
-    }
-
-    public static void main(String[] args ){
-        StringReader r = new StringReader("    --1234,");
-        ShortTermMemoryReader reader = new ShortTermMemoryReader(r);
-        IntegerReadService service = new IntegerReadService();
-        try{
-           Integer i = service.read(reader);
-           System.out.println(i);
-        }catch(Exception e ){
-            System.out.println( ((RowColumnReaderException)e).getColumn() );
-            e.printStackTrace();
-        }
     }
 }

@@ -14,7 +14,7 @@ public class BitArrayInstance extends Instance<BitArray> {
     
   /**
    * Creates a BinaryGenotype with the given lenght
-   * @param length The lengh of the new bitarray
+   * @param length The length of the new bitarray
    */
   public BitArrayInstance() {
   }
@@ -38,7 +38,6 @@ public class BitArrayInstance extends Instance<BitArray> {
 
   @Override
   public Class<?> type() {
-	// TODO Auto-generated method stub
 	return BitArray.class;
   }   
 }

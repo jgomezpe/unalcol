@@ -6,6 +6,8 @@
 package types;
 
 import java.util.Iterator;
+
+import unalcol.clone.Clone;
 import unalcol.types.collection.array.ArrayCollectionLocation;
 import unalcol.types.collection.vector.Vector;
 
@@ -42,6 +44,15 @@ public class VectorTest {
           System.out.println( iter.next() );          
       }
       
+      System.out.println(Clone.get(Vector.class).getClass());
+      @SuppressWarnings("unchecked")
+  	  Vector<Integer> clone = (Vector<Integer>)Clone.create(v);
+      if( clone != v ){
+	      System.out.println("Clone");
+	      for( Integer k:v){
+	          System.out.println( k );          
+	      }
+      }
     }  
 
 

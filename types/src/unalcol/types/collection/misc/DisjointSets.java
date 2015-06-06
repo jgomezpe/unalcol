@@ -96,8 +96,8 @@ public class DisjointSets {
   }
 
   /**
-   * Converts the disjoinfind-union structure to a string
-   * return A string with the disjoinfind-union structure
+   * Converts the disjoin find-union structure to a string
+   * return A string with the disjoin find-union structure
    */
   public String toString(){
     StringBuffer sb = new StringBuffer();

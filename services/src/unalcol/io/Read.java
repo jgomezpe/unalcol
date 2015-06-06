@@ -19,15 +19,13 @@ public abstract class Read<T>{
      * @return An object, of the type the read service is attending, that is read from the input stream
      * @throws IOException IOException
      */
-    public abstract T read(T obj, ShortTermMemoryReader reader) throws
+    public abstract T read(ShortTermMemoryReader reader) throws
             IOException;
     
     /**
      * Determines if the default service has been registered in the service infra-structure
      */
     public static Read<?> get(Object owner){
-        if( ServiceCore.get(Object.class, Read.class) == null )
-            set(Object.class, new ReadWrapper());
         return (Read<?>)ServiceCore.get(owner, Read.class);
     }
     
@@ -44,7 +42,7 @@ public abstract class Read<T>{
      */
     @SuppressWarnings("unchecked")
 	public static Object apply(Object obj, ShortTermMemoryReader reader) throws IOException {
-        return ((Read<Object>)get(obj)).read(obj,reader);
+        return ((Read<Object>)get(obj)).read(reader);
     }
 
     public static void readSeparator( ShortTermMemoryReader reader, 

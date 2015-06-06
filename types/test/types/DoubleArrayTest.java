@@ -29,11 +29,9 @@ public class DoubleArrayTest {
     }
     
     public static double[] sort( double[] x ){
-        int N = x.length;
+    	System.out.println("Sorted array...");
         merge(x);
-        for( int i=0; i<N; i++ ){
-            System.out.println( x[i] + "," + (N-i) );
-        }
+        System.out.println(Write.toString(x));
         return x;
     }    
     
@@ -48,7 +46,7 @@ public class DoubleArrayTest {
         double[] x = new double[0];
         try{
            // Reading the array from the provided buffer (reader) 
-           x = (double[])Read.apply(x, reader);
+           x = (double[])Read.apply(double[].class, reader);
            // Printing the array using a regular for loop
            for( int i=0; i<x.length; i++ ){
                System.out.println(x[i]);

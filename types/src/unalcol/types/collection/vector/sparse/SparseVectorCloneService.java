@@ -12,7 +12,7 @@ import unalcol.types.collection.vector.SortedVector;
  * @author jgomez
  */
 public class SparseVectorCloneService<T> extends Clone<SparseVector<T>>{
-    public SparseVectorCloneService() {
+	public SparseVectorCloneService() {
     }
 
     public Object owner(){

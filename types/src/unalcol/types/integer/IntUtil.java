@@ -26,12 +26,12 @@ public class IntUtil {
     public static int MAX_INT;
 
     /**
-     * A integer with the lowest bit set in one and the remainig bits set in zero
+     * A integer with the lowest bit set in one and the remaining bits set in zero
      */
     public static int LOWEST_BIT = 1;
 
     /**
-     * A integer with the highest bit set in one and the remainig bits set in zero
+     * A integer with the highest bit set in one and the remaining bits set in zero
      */
     public static int HIGHEST_BIT = 1 << 31;
 
