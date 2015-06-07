@@ -49,8 +49,8 @@ public class HillClimbingTest{
         HillClimbing<double[]> search = new HillClimbing<double[]>( variation, neutral, MAXITERS );
 
         // Tracking the goal evaluations
-        ConsoleTracer tracer = new ConsoleTracer(goal);       
-        Tracer.register(goal,tracer);
+        ConsoleTracer tracer = new ConsoleTracer();       
+        Tracer.addTracer(goal, tracer);
         
         // Apply the search method
         Solution<double[]> solution = search.apply(space, goal);
@@ -76,8 +76,8 @@ public class HillClimbingTest{
         HillClimbing<BitArray> search = new HillClimbing<BitArray>( variation, neutral, MAXITERS );
 
         // Tracking the goal evaluations
-        ConsoleTracer tracer = new ConsoleTracer(goal);       
-        Tracer.register(goal,tracer);
+        ConsoleTracer tracer = new ConsoleTracer();       
+        Tracer.addTracer(goal,tracer);
         
         // Apply the search method
         Solution<BitArray> solution = search.apply(space, goal);
@@ -86,7 +86,7 @@ public class HillClimbingTest{
 	}
     
     public static void main(String[] args){
-    	// real(); // Uncomment if testing real valued functions
-    	binary(); // Uncomment if testing binary valued functions
+    	real(); // Uncomment if testing real valued functions
+    	//binary(); // Uncomment if testing binary valued functions
     }
 }

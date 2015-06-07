@@ -15,7 +15,7 @@ import unalcol.types.collection.vector.Vector;
 public abstract class PopulationVariation<T> {
   /**
    * Return the genetic operator arity (number of genomes required by the genetic
-   * operator for producing new genomes
+   * operator for producing new genomes)
    * @return the genetic operator arity, <i>0</i> if the arity of the operator depends on the population
    */
     public int arity(){ return 0; };

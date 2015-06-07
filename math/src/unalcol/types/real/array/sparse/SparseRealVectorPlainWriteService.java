@@ -14,7 +14,7 @@ import unalcol.types.collection.vector.sparse.SparseElement;
  *
  * @author jgomez
  */
-public class SparseRealVectorSimpleWriteService  extends Write<SparseRealVector> {
+public class SparseRealVectorPlainWriteService  extends Write<SparseRealVector> {
     /**
      * Character used for separating the values in the array
      */
@@ -25,12 +25,12 @@ public class SparseRealVectorSimpleWriteService  extends Write<SparseRealVector>
     /**
      * Creates an integer array persistent method that uses an space for separating the array values
      */
-    public SparseRealVectorSimpleWriteService() {}
+    public SparseRealVectorPlainWriteService() {}
 
     /**
      * Creates an integer array persistent method that uses an space for separating the array values
      */
-    public SparseRealVectorSimpleWriteService(boolean write_dim ) {
+    public SparseRealVectorPlainWriteService(boolean write_dim ) {
         write_dimension = write_dim;
     }
 
@@ -38,7 +38,7 @@ public class SparseRealVectorSimpleWriteService  extends Write<SparseRealVector>
      * Creates a double array persistent method that uses the give character for separating the array values
      * @param separator Character used for separating the array values
      */
-    public SparseRealVectorSimpleWriteService(char separator) {
+    public SparseRealVectorPlainWriteService(char separator) {
         this.separator = separator;
     }
 
@@ -46,7 +46,7 @@ public class SparseRealVectorSimpleWriteService  extends Write<SparseRealVector>
      * Creates a double array persistent method that uses the give character for separating the array values
      * @param separator Character used for separating the array values
      */
-    public SparseRealVectorSimpleWriteService(char separator, boolean write_dim ) {
+    public SparseRealVectorPlainWriteService(char separator, boolean write_dim ) {
         this.separator = separator;
         this.write_dimension = write_dim;
     }

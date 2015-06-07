@@ -1,6 +1,5 @@
 package unalcol.evolution;
 import unalcol.types.collection.vector.*;
-import unalcol.service.Service;
 
 /**
  * <p>Title: Genotype</p>
@@ -13,7 +12,7 @@ import unalcol.service.Service;
  * @author Jonatan Gomez
  * @version 1.0
  */
-public abstract class Genotype<T> extends Service{
+public abstract class Genotype<T>{
     /**
      * Gets a new genotype
      * @returnNew genotype

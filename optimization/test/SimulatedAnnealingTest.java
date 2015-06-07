@@ -46,8 +46,8 @@ public class SimulatedAnnealingTest {
         SimulatedAnnealing<double[]> search = new SimulatedAnnealing<double[]>(variation, MAXITERS);
 
         // Tracking the goal evaluations
-        ConsoleTracer tracer = new ConsoleTracer(goal);       
-        Tracer.register(goal,tracer);
+        ConsoleTracer tracer = new ConsoleTracer();       
+        Tracer.addTracer(goal,tracer);
         
         // Apply the search method
         Solution<double[]> solution = search.apply(space, goal);
@@ -73,8 +73,8 @@ public class SimulatedAnnealingTest {
         HillClimbing<BitArray> search = new HillClimbing<BitArray>( variation, neutral, MAXITERS );
 
         // Tracking the goal evaluations
-        ConsoleTracer tracer = new ConsoleTracer(goal);       
-        Tracer.register(goal,tracer);
+        ConsoleTracer tracer = new ConsoleTracer();       
+        Tracer.addTracer(goal,tracer);
         
         // Apply the search method
         Solution<BitArray> solution = search.apply(space, goal);

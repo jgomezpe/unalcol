@@ -4,7 +4,7 @@
  */
 package unalcol.types.real;
 
-import unalcol.types.real.array.DoubleArraySort;
+import unalcol.types.real.array.DoubleArray;
 
 /**
  *
@@ -52,7 +52,7 @@ public class StatisticsWithMedian extends Statistics{
     }
     
     private void compute_median( double[] x){
-        DoubleArraySort.merge(x);  
+        DoubleArray.merge(x);  
         int n = x.length;
         median = ((n%2)==0)?(x[n/2]+x[n/2-1])/2.0:x[n/2];
     }

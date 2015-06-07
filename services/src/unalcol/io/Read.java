@@ -23,13 +23,21 @@ public abstract class Read<T>{
             IOException;
     
     /**
-     * Determines if the default service has been registered in the service infra-structure
+     * Determines if the default service has been registered in the service infrastructure
      */
-    public static Read<?> get(Object owner){
-        return (Read<?>)ServiceCore.get(owner, Read.class);
+    public static Read<?> get(Class<?> owner){
+        Read<?> read = (Read<?>)ServiceCore.get(owner, Read.class);
+        if( read == null ){
+        	ReadWrapper rw = new ReadWrapper(owner);
+        	if( rw.available() ){
+        		set(owner, rw);
+        		read = rw;
+        	}
+        }
+        return read;
     }
     
-    public static boolean set( Object owner, Read<?> service ){
+    public static boolean set( Class<?> owner, Read<?> service ){
         return ServiceCore.set(owner, Read.class, service);
     }        
     
@@ -41,7 +49,7 @@ public abstract class Read<T>{
      * @throws IOException IOException
      */
     @SuppressWarnings("unchecked")
-	public static Object apply(Object obj, ShortTermMemoryReader reader) throws IOException {
+	public static Object apply(Class<?> obj, ShortTermMemoryReader reader) throws IOException {
         return ((Read<Object>)get(obj)).read(reader);
     }
 

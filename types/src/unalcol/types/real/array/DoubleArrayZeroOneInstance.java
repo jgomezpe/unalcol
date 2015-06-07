@@ -15,12 +15,12 @@ public class DoubleArrayZeroOneInstance extends Instance<double[]> {
     }
     
     public double[] get( int n ) {
-        return DoubleArrayInit.random(n);
+        return DoubleArray.random(n);
     }
     
     @Override
     public double[] get( Object... n) {
-        return get((Double)n[0]);
+        return get((int)n[0]);
     }
 
 	@Override

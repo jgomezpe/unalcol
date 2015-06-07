@@ -14,7 +14,7 @@ import unalcol.math.algebra.*;
 public class RealVectorSpace implements VectorSpace<double[]> {
     @Override
     public double[] identity( double[] x ){
-        return DoubleArrayInit.create(x.length, 0.0);
+        return DoubleArray.create(x.length, 0.0);
     }
 
     @Override

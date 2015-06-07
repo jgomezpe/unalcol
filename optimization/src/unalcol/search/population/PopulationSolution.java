@@ -6,11 +6,11 @@ import unalcol.search.selection.Elitism;
 import unalcol.search.selection.Selection;
 import unalcol.types.collection.vector.Vector;
 
-public class PopulationSolution<T> {
+public class PopulationSolution<T>{
 	protected Vector<T> value;
 	protected double[] quality;
 	protected Selection<T> selection;
-	
+
 	public PopulationSolution( Vector<T> value, double[] quality, Selection<T> selection ){
 		this.value = value;
 		this.quality = quality;

@@ -12,9 +12,9 @@ import unalcol.io.ShortTermMemoryReader;
 import unalcol.io.Write;
 import unalcol.random.raw.RawGenerator;
 import unalcol.random.rngpack.RanMT;
+import unalcol.types.real.array.DoubleArray;
 import unalcol.types.real.array.DoubleArrayPlainRead;
 import unalcol.types.real.array.DoubleArrayPlainWrite;
-import static unalcol.types.real.array.DoubleArraySort.merge;
 
 /**
  *
@@ -30,7 +30,7 @@ public class DoubleArrayTest {
     
     public static double[] sort( double[] x ){
     	System.out.println("Sorted array...");
-        merge(x);
+        DoubleArray.merge(x);
         System.out.println(Write.toString(x));
         return x;
     }    

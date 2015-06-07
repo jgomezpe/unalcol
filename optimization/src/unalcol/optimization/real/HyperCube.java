@@ -6,7 +6,7 @@
 package unalcol.optimization.real;
 
 import unalcol.search.space.Space;
-import unalcol.types.real.array.DoubleArrayInit;
+import unalcol.types.real.array.DoubleArray;
 import unalcol.types.real.array.DoubleArrayInstance;
 
 /**
@@ -19,11 +19,11 @@ public class HyperCube extends Space<double[]> {
     protected double[] max;
     
     public HyperCube( int n ){
-        this(DoubleArrayInit.create(n, 0.0), DoubleArrayInit.create(n, 1.0));
+        this(DoubleArray.create(n, 0.0), DoubleArray.create(n, 1.0));
     }
 
     public HyperCube( int n, double min, double max ){
-        this(DoubleArrayInit.create(n, min),DoubleArrayInit.create(n, max));
+        this(DoubleArray.create(n, min),DoubleArray.create(n, max));
     }
 
     public HyperCube( double[] min, double[] max ){
@@ -56,7 +56,7 @@ public class HyperCube extends Space<double[]> {
     
     @Override
     public double[] get(){
-    	return instance.get(min);
+    	return instance.get(min.length);
     }
     
     public double[] repair(double[] x) {

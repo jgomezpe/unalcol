@@ -19,7 +19,7 @@ import unalcol.clone.*;
  * @author Jonatan Gomez
  * @version 1.0
  */
-public class ClassicStrategy<G,P> extends OffspringGeneration<G,P>{
+public class ClassicStrategy<G> extends OffspringGeneration<G,P>{
     protected Selection<P> parent_selection;
     protected RefiningOperator operator;
     protected BooleanGenerator generator;

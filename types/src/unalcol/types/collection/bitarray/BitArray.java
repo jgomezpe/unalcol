@@ -499,9 +499,9 @@ public class BitArray implements Cloneable {
 
   /**
    * Compares a BitArray with other Object
-   * @param obj The ther object to be compared with the bitarray
-   * @return true if the object is a bitarray with the same information than the bit array
-   * false in other case
+   * @param obj The bitarray to be compared with this bitarray
+   * @return <i>true</i> if the object is a bitarray with the same information than the bit array
+   * <i>false</i> otherwise
    */
   public boolean equals(Object obj) {
     boolean flag = (obj instanceof BitArray);
@@ -576,6 +576,4 @@ public class BitArray implements Cloneable {
   public int dimension() {
 	  return n;
   }
-
-
 }
