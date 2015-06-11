@@ -19,8 +19,13 @@ public abstract class Selection<T>{
    * @param q Quality associated to each candidate solution
    * @return Indices of the selected candidate solutions
    */
-  public Vector<Integer> apply( int n, Vector<T> x, double[] q ){
-      return apply(n, q);
+  public Vector<T> apply( int n, Vector<T> x, double[] q ){
+      Vector<Integer> index = apply(n, q);
+      Vector<T> v = new Vector<T>();
+      for( Integer i : index ){
+    	  v.add(x.get(i));
+      }
+      return v;
   }
 
   /**
@@ -37,8 +42,8 @@ public abstract class Selection<T>{
    * @param q Quality associated to each candidate solution
    * @return Index of the selected candidate solution
    */
-  public int choose_one( Vector<T> x, double[] q ){
-      return choose_one(q);
+  public T choose_one( Vector<T> x, double[] q ){
+      return x.get(choose_one(q));
   }
 
   /**

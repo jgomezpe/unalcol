@@ -1,12 +1,14 @@
 package unalcol.evolution.ga;
 
-import unalcol.optimization.transformation.Transformation;
-import unalcol.optimization.selection.Selection;
-import unalcol.optimization.replacement.Replacement;
-import unalcol.evolution.*;
-import unalcol.optimization.operators.ArityOne;
-import unalcol.optimization.operators.ArityTwo;
-import unalcol.optimization.operators.RefiningOperator;
+import unalcol.search.Goal;
+import unalcol.search.population.PopulationSearch;
+import unalcol.search.population.PopulationSolution;
+import unalcol.search.population.variation.ArityOne;
+import unalcol.search.population.variation.ArityTwo;
+import unalcol.search.selection.Selection;
+import unalcol.search.space.Space;
+import unalcol.types.collection.vector.Vector;
+
 
 /**
  * <p>Title: GeneticAlgorithm</p>
@@ -18,21 +20,27 @@ import unalcol.optimization.operators.RefiningOperator;
  * @author Jonatan Gomez
  * @version 1.0
  */
-public class GeneticAlgorithm<G,P> extends Transformation<P> {
-    public GeneticAlgorithm( Selection<P> parent_selection,
-                             GrowingFunction<G,P> grow,
-                             ArityOne<G> mutation, ArityTwo<G> xover,
-                             double probability,
-                             Replacement<P> replacement ) {
-        super( new ClassicStrategy( parent_selection, grow, mutation, xover, probability ),
-               replacement );
+public class GeneticAlgorithm<T> extends PopulationSearch<T> {
+	protected Selection<T> selection;
+	protected GAVariation<T> variation;
+	
+    public GeneticAlgorithm( int n, Selection<T> selection,
+                             ArityOne<T> mutation, ArityTwo<T> xover,
+                             double probability ) {
+    	super(n);
+    	this.selection = selection;
+    	variation = new GAVariation<T>(mutation, xover, probability);
     }
 
-    public GeneticAlgorithm( Selection<P> parent_selection,
-                             GrowingFunction<G,P> grow,
-                             RefiningOperator<G> operator, double probability,
-                             Replacement<P> replacement ) {
-        super( new ClassicStrategy(parent_selection, grow, operator, probability ),
-               replacement );
-    }
+	@Override
+	public void init() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public PopulationSolution<T> apply(PopulationSolution<T> pop,
+			Space<T> space, Goal<T> goal) {
+		return new PopulationSolution<T>( variation.apply( space, selection.apply(n, pop.value(), pop.quality()) ), goal);
+	}
 }
