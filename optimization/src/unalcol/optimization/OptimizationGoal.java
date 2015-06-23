@@ -6,6 +6,7 @@
 package unalcol.optimization;
 
 import unalcol.search.Goal;
+import unalcol.search.Solution;
 import unalcol.tracer.Tracer;
 
 /**
@@ -50,7 +51,7 @@ public class OptimizationGoal<T> extends Goal<T> {
     
     public double apply(T x){
         double y = function.apply(x);
-        Tracer.trace(this, y);
+        Tracer.trace(this, new Solution<T>(x,y));
         return y;
     }
 

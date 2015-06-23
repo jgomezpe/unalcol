@@ -119,10 +119,12 @@ public abstract class HaeaOperators<T>{
     
     public void reward( int indIndex ){
         reward(rates.get(indIndex), sel_oper.get(indIndex));
+        get(indIndex, sel_oper.get(indIndex)).adapt(1.0);
     }
 
     public void punish( int indIndex ){
         punish(rates.get(indIndex), sel_oper.get(indIndex));
+        get(indIndex, sel_oper.get(indIndex)).adapt(-1.0);
     }
 
     

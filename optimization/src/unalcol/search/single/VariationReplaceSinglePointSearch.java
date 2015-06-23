@@ -30,7 +30,9 @@ public class VariationReplaceSinglePointSearch<T> extends SinglePointSearch<T> {
     @Override
     public Solution<T> apply(Solution<T> x, Space<T> space, Goal<T> goal){
         // Check if non stationary
-        x.quality(goal);        
-        return replace.apply(x, new Solution<T>(variation.apply(space, x.value()),goal));
+        x.quality(goal);
+        Solution<T> y = new Solution<T>(variation.apply(space, x.value()),goal);
+        variation.adapt(y.quality()-x.quality());
+        return replace.apply(x, y);
     }    
 }

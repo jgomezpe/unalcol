@@ -1,3 +1,4 @@
+import unalcol.io.Write;
 import unalcol.optimization.OptimizationFunction;
 import unalcol.optimization.OptimizationGoal;
 import unalcol.optimization.binary.BinarySpace;
@@ -20,6 +21,7 @@ import unalcol.search.space.Space;
 import unalcol.tracer.ConsoleTracer;
 import unalcol.tracer.Tracer;
 import unalcol.types.collection.bitarray.BitArray;
+import unalcol.types.real.array.DoubleArrayPlainWrite;
 
 
 public class SimulatedAnnealingTest {
@@ -46,6 +48,9 @@ public class SimulatedAnnealingTest {
         SimulatedAnnealing<double[]> search = new SimulatedAnnealing<double[]>(variation, MAXITERS);
 
         // Tracking the goal evaluations
+        DoubleArrayPlainWrite write = new DoubleArrayPlainWrite();
+        Write.set(double[].class, write);
+
         ConsoleTracer tracer = new ConsoleTracer();       
         Tracer.addTracer(goal,tracer);
         

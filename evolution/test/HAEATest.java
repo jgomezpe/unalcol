@@ -3,6 +3,7 @@
 import unalcol.evolution.haea.HAEA;
 import unalcol.evolution.haea.HaeaOperators;
 import unalcol.evolution.haea.SimpleHaeaOperators;
+import unalcol.io.Write;
 import unalcol.optimization.OptimizationFunction;
 import unalcol.optimization.OptimizationGoal;
 import unalcol.optimization.binary.BinarySpace;
@@ -31,6 +32,7 @@ import unalcol.search.space.Space;
 import unalcol.tracer.ConsoleTracer;
 import unalcol.tracer.Tracer;
 import unalcol.types.collection.bitarray.BitArray;
+import unalcol.types.real.array.DoubleArrayPlainWrite;
 
 public class HAEATest {
 	
@@ -49,7 +51,7 @@ public class HAEATest {
     	// Variation definition
     	DoubleGenerator random = new SimplestSymmetricPowerLawGenerator(); // It can be set to Gaussian or other symmetric number generator (centered in zero)
     	PickComponents pick = new PermutationPick(DIM/2); // It can be set to null if the mutation operator is applied to every component of the solution array
-    	AdaptMutationIntensity adapt = new OneFifthRule(100, 0.9); // It can be set to null if no mutation adaptation is required
+    	AdaptMutationIntensity adapt = new OneFifthRule(500, 0.9); // It can be set to null if no mutation adaptation is required
     	IntensityMutation mutation = new IntensityMutation( 0.1, random, pick, adapt );
     	
     	ArityTwo<double[]> xover = new LinearXOver();
@@ -64,6 +66,9 @@ public class HAEATest {
         HAEA<double[]> search = new HAEA<double[]>(POPSIZE, operators, new Tournament<double[]>(4), MAXITERS );
 
         // Tracking the goal evaluations
+        DoubleArrayPlainWrite write = new DoubleArrayPlainWrite();
+        Write.set(double[].class, write);
+
         ConsoleTracer tracer = new ConsoleTracer();       
         Tracer.addTracer(goal, tracer);
         
@@ -109,7 +114,7 @@ public class HAEATest {
 	}
     
     public static void main(String[] args){
-    	real(); // Uncomment if testing real valued functions
-    	//binary(); // Uncomment if testing binary valued functions
+    	//real(); // Uncomment if testing real valued functions
+    	binary(); // Uncomment if testing binary valued functions
     }
 }

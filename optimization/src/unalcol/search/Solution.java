@@ -5,6 +5,8 @@
  */
 package unalcol.search;
 
+import unalcol.io.Write;
+
 /**
  *
  * @author Jonatan
@@ -30,4 +32,9 @@ public class Solution<T> {
     
     public T value(){ return x; }
     public double quality(){ return qx; }
+    
+    public String toString(){
+    	String txt = Write.toString(x);
+    	return txt + "," + quality();
+    }
 }

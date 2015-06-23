@@ -118,7 +118,6 @@ public class HaeaStep<T> extends PopulationSearch<T>{
                 for( int k=0; k<pop.size(); k++ ){
                     parent.add( pop.get(k) );
                 }
-                System.out.println("Arity.."+o.arity());
                 Vector<T> offspring = o.apply(space,parent);
                 operators.setSizeOffspring(i, offspring.size());
                 for( T x : offspring ){                	
