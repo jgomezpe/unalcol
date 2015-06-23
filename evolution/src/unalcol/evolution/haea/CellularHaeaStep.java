@@ -1,8 +1,9 @@
 package unalcol.evolution.haea;
-import unalcol.optimization.solution.Solution;
-import unalcol.optimization.selection.Selection;
-import unalcol.evolution.*;
 import unalcol.ca.*;
+import unalcol.search.Goal;
+import unalcol.search.population.PopulationSolution;
+import unalcol.search.selection.Selection;
+import unalcol.search.space.Space;
 import unalcol.types.collection.vector.*;
 
 /**
@@ -14,7 +15,7 @@ import unalcol.types.collection.vector.*;
  * @version 1.0
  *
  */
-public class CAHaeaStrategy<G, P> extends HaeaStrategy<G, P> {
+public class CellularHaeaStep<T> extends HaeaStep<T> {
     /**
      * CambrianExtiction population resizing mechanism.
      */
@@ -26,23 +27,26 @@ public class CAHaeaStrategy<G, P> extends HaeaStrategy<G, P> {
      * @param grow Growing function
      * @param selection Extra parent selection mechanism
      */
-    public CAHaeaStrategy(HaeaOperators<G> operators, GrowingFunction<G, P> grow,
-            Selection<P> selection) {
-        super( operators, grow, selection );
+    public CellularHaeaStep(int n, HaeaReplacement<T> replacement, Selection<T> selection) {
+        super( n, replacement, selection );
     }
 
+    public CellularHaeaStep(int n, HaeaOperators<T> operators, Selection<T> selection) {
+    	super( n, operators, selection);
+    }
+    
     /**
-     * Gets a subpopulation thta can be used for selecting a second parent
+     * Gets a subpopulation that can be used for selecting a second parent
      * @param id First parent
      * @param population Full Population
-     * @return A subpopulation thta can be used for selecting a second parent
+     * @return A subpopulation that can be used for selecting a second parent
      */
-    public Vector<Solution<P>> select( int id, Vector<Solution<P>> population ){
-        Vector<Solution<P>> pop = new Vector();
+    public Vector<Integer> select( int id, PopulationSolution<T> population ){
+        Vector<Integer> pop = new Vector<Integer>();
         int[][] neighboor = ca.neighborhood(id);
         int i=0;
         while( neighboor[i][0] >= 0 ){
-            pop.add(population.get(ca.id(neighboor[i][0], neighboor[i][1])));
+            pop.add(ca.id(neighboor[i][0], neighboor[i][1])%n);
             i++;
         }
         return pop;
@@ -65,7 +69,7 @@ public class CAHaeaStrategy<G, P> extends HaeaStrategy<G, P> {
      * @param f Function to be optimized
      */
     @Override
-    public Vector<Solution<P>> apply(Vector<Solution<P>> population) {
+	public PopulationSolution<T> apply( PopulationSolution<T> population, Space<T> space, Goal<T> goal ){
         if( ca == null ){
             int rows = (int) Math.sqrt( population.size() );
             int columns = population.size() / rows;
@@ -73,7 +77,7 @@ public class CAHaeaStrategy<G, P> extends HaeaStrategy<G, P> {
             ca = new CambrianExtinctionCA(rows, columns, 0.33);
         }
         ca.simulate();
-        return super.apply(population);
+        return super.apply(population, space, goal);
     }
 
 }

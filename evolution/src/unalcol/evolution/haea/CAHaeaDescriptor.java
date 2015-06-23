@@ -15,7 +15,7 @@ public class CAHaeaDescriptor extends HaeaStrategyDescriptor{
      */
     @Override
     public Object owner() {
-        return CAHaeaStrategy.class;
+        return CellularHaeaStep.class;
     }
 
     /**
@@ -23,8 +23,8 @@ public class CAHaeaDescriptor extends HaeaStrategyDescriptor{
      * and the operators rate information
      * @param tr CAHAEA Strategy object to be described
      */
-    public double[] descriptors(HaeaStrategy tr) {
-        CAHaeaStrategy st = (CAHaeaStrategy)tr;
+    public double[] descriptors(HaeaStep tr) {
+        CellularHaeaStep st = (CellularHaeaStep)tr;
         double[] d = super.descriptors(st);
         int s;
         if( st.ca != null){

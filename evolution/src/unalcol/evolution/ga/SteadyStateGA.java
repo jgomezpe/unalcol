@@ -1,36 +1,24 @@
 package unalcol.evolution.ga;
 
-import unalcol.optimization.selection.Selection;
-import unalcol.optimization.replacement.SteadyState;
-import unalcol.evolution.*;
-import unalcol.optimization.operators.ArityOne;
-import unalcol.optimization.operators.ArityTwo;
-import unalcol.optimization.operators.RefiningOperator;
+import unalcol.algorithm.iterative.ForLoopCondition;
+import unalcol.math.logic.Predicate;
+import unalcol.search.population.IterativePopulationSearch;
+import unalcol.search.population.PopulationSolution;
+import unalcol.search.population.variation.ArityOne;
+import unalcol.search.population.variation.ArityTwo;
+import unalcol.search.selection.Selection;
 
-/**
- * <p>Title: SteadyStateGA</p>
- *
- * <p>Description: Steady State Genetic Algorithm (GA with Steady State replacement strategy </p>
- *
- * <p>Copyright: Copyright (c) 2010</p>
- *
- * @author Jonatan Gomez
- * @version 1.0
- */
-public class SteadyStateGA<G,P> extends GeneticAlgorithm<G,P> {
-    public SteadyStateGA( Selection<P> parent_selection,
-                          GrowingFunction<G,P> grow,
-                          ArityOne<G> mutation, ArityTwo<G> xover,
-                          double probability ) {
-        super( parent_selection, grow, mutation, xover, probability,
-               new SteadyState() );
-    }
+public class SteadyStateGA<T> extends IterativePopulationSearch<T> {
 
-    public SteadyStateGA( Selection<P> parent_selection,
-                          GrowingFunction<G,P> grow,
-                          RefiningOperator<G> operator, double probability ) {
-           super( parent_selection, grow, operator, probability,
-                  new SteadyState() );
-    }
-
+	public SteadyStateGA( int n, Selection<T> parent_selection, 
+			ArityOne<T> mutation, ArityTwo<T> xover, double probability, 
+			Predicate<PopulationSolution<T>> tC ) {
+		super(n, new SteadyStateStep<T>(n, parent_selection, mutation, xover, probability), tC);
+	}
+	
+	public SteadyStateGA( int n, Selection<T> parent_selection, 
+			ArityOne<T> mutation, ArityTwo<T> xover, double probability, 
+			int MAXITERS ) {
+		this(n, parent_selection, mutation, xover, probability, new ForLoopCondition<PopulationSolution<T>>(MAXITERS));
+	}
 }

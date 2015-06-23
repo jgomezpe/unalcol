@@ -61,7 +61,9 @@ public class XOver extends ArityTwo<BitArray> {
     @Override
   public Vector<BitArray> apply( BitArray child1, BitArray child2 ){
     RawGenerator g = RawGenerator.get(this);
-    return apply(child1, child2, g.integer(Math.min(child1.size(), child2.size())));
+    int pos = g.integer(Math.min(child1.size(), child2.size()));
+//    System.out.println("pos-->"+pos);
+    return apply(child1, child2, pos);
   }
 
  /**

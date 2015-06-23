@@ -20,7 +20,7 @@ public abstract class Scale<T> {
     public abstract T fastApply( T x );
     @SuppressWarnings("unchecked")
 	public T apply( T x ){
-        return fastApply((T)Clone.get(x));
+        return fastApply((T)Clone.create(x));
     }
     
     public Vector<T> apply( ArrayCollection<T> a ){

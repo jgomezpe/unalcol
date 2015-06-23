@@ -8,7 +8,7 @@ import unalcol.algorithm.iterative.ForLoopCondition;
 import unalcol.evolution.GrowingFunction;
 import unalcol.evolution.Individual;
 import unalcol.evolution.IndividualInstance;
-import unalcol.evolution.haea.HAEA;
+import unalcol.evolution.haea.HaeaStep;
 import unalcol.evolution.haea.HaeaOperators;
 import unalcol.evolution.haea.SimpleHaeaOperators;
 import unalcol.instance.InstanceProvider;
@@ -99,7 +99,7 @@ public class RealVectorHAEATest {
         Selection selection = new Tournament(4);
 
         // Genetic Algorithm Transformation
-        Transformation transformation = new HAEA(haeaOperators, grow, selection );
+        Transformation transformation = new HaeaStep(haeaOperators, grow, selection );
 
         // Evolution generations
         int MAXITER = 1000;

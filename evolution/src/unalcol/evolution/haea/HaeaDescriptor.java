@@ -16,7 +16,7 @@ public class HaeaDescriptor implements DescriptorsService {
      * @return Class The PlugIns owner class
      */
     public Object owner() {
-        return HAEA.class;
+        return HaeaStep.class;
     }
 
     public static boolean printOperatorStat = true;
@@ -27,7 +27,7 @@ public class HaeaDescriptor implements DescriptorsService {
      * @param obj HAEA object
      */
     public double[] descriptors(Object obj) {
-        return descriptors((HAEA)obj);
+        return descriptors((HaeaStep)obj);
     }
 
     /**
@@ -35,7 +35,7 @@ public class HaeaDescriptor implements DescriptorsService {
      * and the operators rate information
      * @param tr HAEA object
      */
-    public double[] descriptors(HAEA tr) {
+    public double[] descriptors(HaeaStep tr) {
         DescriptorsService d = DescriptorsProvider.get(tr.generation());
         return d.descriptors(tr.generation());
     }

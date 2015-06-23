@@ -1,6 +1,6 @@
 package unalcol.evolution.haea;
-import unalcol.optimization.solution.Solution;
-import unalcol.optimization.replacement.Replacement;
+import unalcol.search.population.PopulationReplacement;
+import unalcol.search.population.PopulationSolution;
 import unalcol.types.collection.vector.*;
 
 /**
@@ -13,18 +13,20 @@ import unalcol.types.collection.vector.*;
  * @author Jonatan Gomez
  * @version 1.0
  */
-public class HaeaReplacement<T> extends Replacement<T>{
+public class HaeaReplacement<T> implements PopulationReplacement<T>{
     /**
      * Set of genetic operators that are used by CEA for evolving the solution chromosomes
      */
-    protected HaeaOperators operators = null;
+    protected HaeaOperators<T> operators = null;
 
     /**
      * Default constructor
      */
-    public HaeaReplacement(HaeaOperators operators){
+    public HaeaReplacement(HaeaOperators<T> operators){
        this.operators = operators;
     }
+    
+    public HaeaOperators<T> operators(){ return operators; }
 
     /**
      * Adds a subpopulation of parents and associated offsprings to the replacement strategy.
@@ -34,34 +36,32 @@ public class HaeaReplacement<T> extends Replacement<T>{
      * @param children
      */
     @Override
-    public Vector<Solution<T>> apply( Vector<Solution<T>> parents, Vector<Solution<T>> offspring ){
+    public PopulationSolution<T> apply( PopulationSolution<T> current, PopulationSolution<T> next ){
         int k=0;
-        Vector<Solution<T>> buffer = new Vector();
-        for( int i=0; i<parents.size(); i++){
-            Solution<T> parent = parents.get(i);
-            Solution<T> child = offspring.get(k);
-            double f = offspring.get(k).value();
+        Vector<T> buffer = new Vector<T>();
+        double[] quality = new double[current.size()];
+        for( int i=0; i<current.size(); i++){
+            int sel = k; 
             k++;
             for(int h=1; h<operators.getSizeOffspring(i); h++){
-                Solution<T> child2 = offspring.get(k);
-                double f2 = child2.value();
-                if( f2 > f ){
-                    child = child2;
-                    f = f2;
+                if( next.quality(k) > next.quality(sel) ){
+                    sel = k;
                 }
                 k++;
             }
-            if(parent.value() < child.value()){
+            if(current.quality(i) < next.quality(sel)){
                 operators.reward(i);
             } else {
                 operators.punish(i);
             }
-            if(parent.value() <= child.value()){
-                buffer.add(child);
+            if( current.quality(i) <= next.quality(sel)){
+                buffer.add( next.value(sel) );
+                quality[i] = next.quality(sel);
             }else{
-                buffer.add(parent);
+                buffer.add( current.value(i) );
+                quality[i] = current.quality(i);
             }
         }
-        return buffer;
+        return new PopulationSolution<T>(buffer, quality);
     }    
 }

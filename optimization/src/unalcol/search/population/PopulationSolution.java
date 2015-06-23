@@ -11,6 +11,19 @@ public class PopulationSolution<T>{
 	protected double[] quality;
 	protected Selection<T> selection;
 
+	public PopulationSolution( Vector<T> value, Vector<Double> quality, Selection<T> selection ){
+		this.value = value;
+		this.quality = new double[quality.size()];
+		for( int i=0; i<quality.size(); i++){
+			this.quality[i] = quality.get(i);
+		}
+		this.selection = selection;
+	}
+	
+	public PopulationSolution( Vector<T> value, Vector<Double> quality ){
+		this( value, quality, new Elitism<T>(1.0, 0.0));
+	}
+	
 	public PopulationSolution( Vector<T> value, double[] quality, Selection<T> selection ){
 		this.value = value;
 		this.quality = quality;
@@ -29,6 +42,12 @@ public class PopulationSolution<T>{
 		this( value, goal.quality(value) );
 	}
 	
+	public T value( int i ){ return value.get(i); }
+	
+	public int size(){ return value.size(); }
+	
+	public double quality( int i ){ return quality[i]; }
+	
 	public Vector<T> value(){ return value; }
 	
 	public double[] quality(){ return quality; }
@@ -40,6 +59,6 @@ public class PopulationSolution<T>{
 	    
     public Solution<T> pick(){
     	int k = selection.choose_one(quality);
-    	return new Solution<T>(value.get(k), quality[k]);
+    	return new Solution<T>(value(k), quality[k]);
     }	
 }

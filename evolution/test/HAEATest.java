@@ -1,10 +1,15 @@
 
+
+import unalcol.evolution.haea.HAEA;
+import unalcol.evolution.haea.HaeaOperators;
+import unalcol.evolution.haea.SimpleHaeaOperators;
 import unalcol.optimization.OptimizationFunction;
 import unalcol.optimization.OptimizationGoal;
 import unalcol.optimization.binary.BinarySpace;
 import unalcol.optimization.binary.BitMutation;
+import unalcol.optimization.binary.Transposition;
+import unalcol.optimization.binary.XOver;
 import unalcol.optimization.binary.testbed.Deceptive;
-//import unalcol.optimization.binary.testbed.MaxOnes;
 import unalcol.optimization.hillclimbing.HillClimbing;
 import unalcol.optimization.real.HyperCube;
 import unalcol.optimization.real.mutation.AdaptMutationIntensity;
@@ -17,15 +22,16 @@ import unalcol.random.real.DoubleGenerator;
 import unalcol.random.real.SimplestSymmetricPowerLawGenerator;
 import unalcol.search.Goal;
 import unalcol.search.Solution;
+import unalcol.search.population.variation.ArityOne;
+import unalcol.search.population.variation.PopulationVariation;
+import unalcol.search.population.variation.VariationToArityOne;
+import unalcol.search.selection.Tournament;
 import unalcol.search.space.Space;
 import unalcol.tracer.ConsoleTracer;
 import unalcol.tracer.Tracer;
 import unalcol.types.collection.bitarray.BitArray;
 
-
-
-
-public class HillClimbingTest{
+public class HAEATest {
 	
 	public static void real(){
 		// Search Space definition
@@ -65,16 +71,24 @@ public class HillClimbingTest{
     	Space<BitArray> space = new BinarySpace( DIM );
     	
     	// Variation definition
-    	BitMutation variation = new BitMutation();
-        
+    	ArityOne<BitArray> mutation = new VariationToArityOne<BitArray>(new BitMutation());
+    	ArityOne<BitArray> transposition = new VariationToArityOne<BitArray>(new Transposition());
+    	XOver xover = new XOver();
+    	@SuppressWarnings("unchecked")
+		PopulationVariation<BitArray>[] opers = (PopulationVariation<BitArray>[])new PopulationVariation[3];
+    	opers[0] = mutation;
+    	opers[1] = xover;
+    	opers[2] = transposition;
+    	HaeaOperators<BitArray> operators = new SimpleHaeaOperators<BitArray>(opers);
     	// Optimization Function
     	OptimizationFunction<BitArray> function = new Deceptive();		
         Goal<BitArray> goal = new OptimizationGoal<BitArray>(function, false); // maximizing, remove the parameter false if minimizing   	
     	
+        
         // Search method
-        int MAXITERS = 10000;
-        boolean neutral = true; // Accepts movements when having same function value
-        HillClimbing<BitArray> search = new HillClimbing<BitArray>( variation, neutral, MAXITERS );
+        int POPSIZE = 100;
+        int MAXITERS = 100;
+        HAEA<BitArray> search = new HAEA<BitArray>(POPSIZE, operators, new Tournament<BitArray>(4), MAXITERS );
 
         // Tracking the goal evaluations
         ConsoleTracer tracer = new ConsoleTracer();       

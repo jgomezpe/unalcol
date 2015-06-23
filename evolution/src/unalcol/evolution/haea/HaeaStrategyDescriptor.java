@@ -18,7 +18,7 @@ public class HaeaStrategyDescriptor  implements DescriptorsService {
      */
     @Override
     public Object owner() {
-        return HaeaStrategy.class;
+        return HaeaStep.class;
     }
 
     public static boolean printOperatorStat = true;
@@ -29,7 +29,7 @@ public class HaeaStrategyDescriptor  implements DescriptorsService {
      * @param obj HAEAStrategy object to be described
      */
     public double[] descriptors(Object obj) {
-        return descriptors((HaeaStrategy)obj);
+        return descriptors((HaeaStep)obj);
     }
 
     /**
@@ -37,7 +37,7 @@ public class HaeaStrategyDescriptor  implements DescriptorsService {
      * and the operators rate information
      * @param tr HAEAStrategy object to be described
      */
-    public double[] descriptors(HaeaStrategy tr) {
+    public double[] descriptors(HaeaStep tr) {
         Vector rates = tr.operators.rates();
         if (rates.size() > 0) {
             int opers_number = ((double[]) rates.get(0)).length;

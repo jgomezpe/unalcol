@@ -1,6 +1,8 @@
 package unalcol.evolution.genotype.binary.varlength;
 import unalcol.evolution.genotype.binary.*;
+import unalcol.optimization.binary.BinarySpace;
 import unalcol.random.integer.*;
+import unalcol.search.space.Space;
 import unalcol.types.collection.bitarray.BitArray;
 
 /**
@@ -10,15 +12,15 @@ import unalcol.types.collection.bitarray.BitArray;
  * @author Jonatan Gomez
  * @version 1.0
  */
-public class VariableLengthBinaryGenotype  extends BinaryGenotype {
+public class VariableLengthBinaryGenotype extends BinarySpace {
   /**
    * Maximum number of genes
    */
-  protected int max_length;
+  protected int max_n;
   /**
-   * Delta lenght
+   * Delta length
    */
-  protected int delta_length;
+  protected int gene_size;
   /**
    * The final limit of the random number generator range
    */
@@ -28,32 +30,51 @@ public class VariableLengthBinaryGenotype  extends BinaryGenotype {
    */
   protected UniformIntegerGenerator extra_genes;
 
-  public VariableLengthBinaryGenotype(int _min, int _max_length, int _delta_length) {
-    super(_min);
-    delta_length = _delta_length;
-    max_delta = (_max_length - length) / delta_length;
+  public VariableLengthBinaryGenotype(int min, int max, int gene_size) {
+    super(min);
+    this.gene_size = gene_size;
+    this.max_n = max;
     extra_genes = new UniformIntegerGenerator(max_delta);
     max_length = length + max_delta * delta_length;
   }
 
+	@Override
+	public boolean feasible(BitArray x) {
+		return n<=x.size() && x.size()<=max_n;
+	}
+
+	@Override
+	public double feasibility(BitArray x) {
+		return feasible(x)?1:0;
+	}
+
+	@Override
+	public BitArray repair(BitArray x) {
+		if( !feasible(x) ){
+			if(x.size()>max_n){
+				x = x.subBitArray(0,max_n);
+			}else{
+				x = new BitArray(n, true);
+				for( int i=0; i<n;i++)
+					x.set(i,x.get(i));
+			}
+		}
+		return x;
+	}
+
+ 
   /**
    * Creates a new genome of the given genotype
    * @return Object The new genome
    */
+	@Override
   public BitArray get() {
     int n = extra_genes.next();
     return new BitArray(length + n * delta_length, true);
   }
 
-  /**
-   * Returns the number of genes in the individual's genome
-   * @return Number of genes in the individual's genome
-   */
-    @Override
-  public int size(BitArray genome) {
-    return((genome.size() - length) / delta_length);
-  }
-  /**
+
+	/**
    * Returns lenght
    * @return The lenght
    */

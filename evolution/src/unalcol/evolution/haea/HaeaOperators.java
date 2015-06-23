@@ -1,11 +1,9 @@
 package unalcol.evolution.haea;
-import unalcol.optimization.operators.Operator;
+import unalcol.search.population.variation.PopulationVariation;
 import unalcol.types.collection.vector.*;
-import unalcol.evolution.*;
-import unalcol.random.Random;
 import unalcol.random.integer.*;
+import unalcol.random.raw.RawGenerator;
 import unalcol.types.real.array.DoubleArray;
-import unalcol.types.real.array.DoubleArrayInit;
 
 /**
  * <p>Title: HaeaOperators</p>
@@ -21,22 +19,22 @@ public abstract class HaeaOperators<T>{
     /**
      * Roulette selection mechanism (for selecting the genetic operator)
      */
-    protected Roulette roulette = new Roulette( new double[]{} );
+    protected IntRoulette roulette = new IntRoulette( new double[]{} );
 
     /**
      * Rates associated to each genetic operator per individual
      */
-    protected Vector<double[]> rates = new Vector();
+    protected Vector<double[]> rates = new Vector<double[]>();
     
     /**
      * Selected operator
      */
-    protected Vector<Integer> sel_oper = new Vector();
+    protected Vector<Integer> sel_oper = new Vector<Integer>();
 
     /**
      * Selected operator
      */
-    protected Vector<Integer> size_offspring_sel_oper = new Vector();
+    protected Vector<Integer> size_offspring_sel_oper = new Vector<Integer>();
 
     /**
      * Number of genetic operators per individual
@@ -89,11 +87,11 @@ public abstract class HaeaOperators<T>{
 
     /**
      * Gets the genetic operator associated to the given index and individual
-     * @param indIndex Indivudal Index
+     * @param indIndex Individual Index
      * @param operIndex Operator index
      * @return Genetic operator associated to the given index and individual
      */
-    public abstract Operator<T> get( int indIndex, int operIndex );
+    public abstract PopulationVariation<T> get( int indIndex, int operIndex );
 
     /**
      * Genetic operator reward mechanism
@@ -102,7 +100,7 @@ public abstract class HaeaOperators<T>{
      */
     public void reward(double[] r, int operIndex) {
         if( operIndex >= 0 ){
-            r[operIndex] += (1.0 - r[operIndex]) * Random.random();
+            r[operIndex] += (1.0 - r[operIndex]) * RawGenerator.next(this);
             DoubleArray.normalize(r);
         }
     }
@@ -114,7 +112,7 @@ public abstract class HaeaOperators<T>{
      */
     public void punish(double[] r, int operIndex) {
         if( operIndex >= 0 ){
-            r[operIndex] -= r[operIndex] * Random.random();
+            r[operIndex] -= r[operIndex] *  RawGenerator.next(this);
             DoubleArray.normalize(r);
         }    
     }
@@ -136,7 +134,7 @@ public abstract class HaeaOperators<T>{
         int m = rates.size();
         if( m < n ){
             for( int i=m; i<n; i++){
-                double[] r = DoubleArrayInit.random( numberOfOperatorsPerIndividual() );
+                double[] r = DoubleArray.random( numberOfOperatorsPerIndividual() );
                 DoubleArray.normalize(r);
                 rates.add(r);            
                 sel_oper.add(-1);

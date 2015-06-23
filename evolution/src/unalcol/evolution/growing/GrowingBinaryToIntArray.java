@@ -1,6 +1,5 @@
-package unalcol.evolution.genotype.binary.util;
-
-import unalcol.evolution.GrowingFunction;
+package unalcol.evolution.growing;
+import unalcol.search.multilevel.CodeDecodeMap;
 import unalcol.types.collection.bitarray.*;
 
 /**
@@ -11,7 +10,7 @@ import unalcol.types.collection.bitarray.*;
  * @version 1.0
  */
 
-public class GrowingBinaryToIntArray extends GrowingFunction<int[],BitArray> {
+public class GrowingBinaryToIntArray extends CodeDecodeMap<BitArray,int[]> {
 	/**
 	 * If grayCode is used
 	 */
@@ -42,7 +41,7 @@ public class GrowingBinaryToIntArray extends GrowingFunction<int[],BitArray> {
    * @param genome Genome of the thing to be expressed
    * @return A thing expressed from the genome
    */
-  public int[] get(BitArray genome) {
+  public int[] decode(BitArray genome) {
     return BitArrayConverter.getIntArray(genome, int_size, grayCode);
   }
 
@@ -51,14 +50,14 @@ public class GrowingBinaryToIntArray extends GrowingFunction<int[],BitArray> {
    * @param thing A thing expressed from the genome
    * @return Genome of the thing
    */
-  public BitArray set(int[] thing) {
+  public BitArray code(int[] thing) {
     BitArray A = new BitArray(int_size*thing.length, false);
     BitArrayConverter.setIntArray(A, thing, int_size, grayCode);
     return A;
   }
   
   public int min(){
-      if( int_size == 32 ){
+      if( int_size == Integer.SIZE ){
           return Integer.MIN_VALUE;
       }else{
           return 0;
@@ -66,7 +65,7 @@ public class GrowingBinaryToIntArray extends GrowingFunction<int[],BitArray> {
   }
   
   public int max(){
-      if( int_size >= 31 ){
+      if( int_size >= Integer.SIZE ){
           return Integer.MAX_VALUE;
       }else{
           return (1 << int_size) - 1;
