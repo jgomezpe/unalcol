@@ -8,17 +8,17 @@ package unalcol.search.single;
 import unalcol.search.Solution;
 import unalcol.search.Goal;
 import unalcol.search.space.Space;
-import unalcol.search.space.Variation;
+import unalcol.search.space.ArityOne;
 
 /**
  *
  * @author jgomez
  */
 public class VariationReplaceSinglePointSearch<T> extends SinglePointSearch<T> {
-    protected Variation<T> variation;
+    protected ArityOne<T> variation;
     protected Replacement<T> replace;
     
-    public VariationReplaceSinglePointSearch( Variation<T> variation, Replacement<T> replace ){
+    public VariationReplaceSinglePointSearch( ArityOne<T> variation, Replacement<T> replace ){
         super();
         this.variation = variation;
         this.replace = replace;

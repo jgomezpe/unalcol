@@ -1,9 +1,9 @@
 package unalcol.evolution.ga;
 
 import unalcol.search.population.Generational;
-import unalcol.search.population.variation.ArityOne;
 import unalcol.search.population.variation.ArityTwo;
 import unalcol.search.selection.Selection;
+import unalcol.search.space.ArityOne;
 
 /**
  * <p>Title: GenerationalGA</p>

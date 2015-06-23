@@ -1,8 +1,8 @@
 package unalcol.evolution.ga;
 import unalcol.random.util.*;
-import unalcol.search.population.variation.ArityOne;
+import unalcol.search.space.ArityOne;
 import unalcol.search.population.variation.ArityTwo;
-import unalcol.search.population.variation.PopulationVariation;
+import unalcol.search.population.variation.Operator;
 import unalcol.types.collection.vector.*;
 import unalcol.clone.*;
 
@@ -16,7 +16,7 @@ import unalcol.clone.*;
  * @author Jonatan Gomez
  * @version 1.0
  */
-public class GAVariation<T> extends PopulationVariation<T>{
+public class GAVariation<T> extends Operator<T>{
     protected ArityOne<T> mutation;
     protected ArityTwo<T> xover;
     protected RandBool generator;
@@ -26,24 +26,26 @@ public class GAVariation<T> extends PopulationVariation<T>{
         generator = new RandBool( 1.0 - probability );
     }
 
-    @SuppressWarnings("unchecked")
+	@SuppressWarnings("unchecked")
 	@Override
-    public Vector<T> apply(Vector<T> population) {
-        population.shuffle();
+	public Vector<T> apply(T... pop) {
+		Shuffle<T> shuffle = new Shuffle<T>();
+		shuffle.apply(pop);
         Vector<T> buffer = new Vector<T>();
         int n = xover.arity();
-        int m = population.size() / n;
+        int m = pop.length / n;
         int k = 0;
         for (int j = 0; j < m; j++) {
-            Vector<T> offspring = new Vector<T>();
+            T[] parents = (T[])new Object[n];
             for( int i=0; i<n; i++ ){
-                offspring.add(population.get(k+i));
+                parents[i] = pop[k+i];
             }
+            Vector<T> offspring = new Vector<T>();
             if (generator.next()) {
-                offspring = mutation.apply( xover.apply( offspring ) );
+                offspring = mutation.apply( xover.apply( parents ) );
             } else {
                for (int i = 0; i < n; i++) {
-                    offspring.set(i, (T)Clone.get(offspring.get(i)));
+                    offspring.set(i, (T)Clone.get(parents[i]));
                }
             }
             for( int i=0; i<offspring.size(); i++){
@@ -52,5 +54,5 @@ public class GAVariation<T> extends PopulationVariation<T>{
             k += n;
         }
         return buffer;
-    }
+	}
 }

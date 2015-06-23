@@ -10,26 +10,26 @@ import unalcol.math.logic.Predicate;
 import unalcol.search.Solution;
 import unalcol.search.single.IterativeSinglePointSearch;
 import unalcol.search.single.VariationReplaceSinglePointSearch;
-import unalcol.search.space.Variation;
+import unalcol.search.space.ArityOne;
 
 /**
  *
  * @author jgomez
  */
 public class SimulatedAnnealing<T> extends IterativeSinglePointSearch<T>{
-    public SimulatedAnnealing( Variation<T> variation, SimulatedAnnealingReplacement<T> replace, Predicate<Solution<T>> tC ){
+    public SimulatedAnnealing( ArityOne<T> variation, SimulatedAnnealingReplacement<T> replace, Predicate<Solution<T>> tC ){
         super(  new VariationReplaceSinglePointSearch<>( variation, replace),  tC );
     }
 
-    public SimulatedAnnealing( Variation<T> variation, SimulatedAnnealingScheme scheme, Predicate<Solution<T>> tC ){
+    public SimulatedAnnealing( ArityOne<T> variation, SimulatedAnnealingScheme scheme, Predicate<Solution<T>> tC ){
         this( variation, new SimulatedAnnealingReplacement<T>(scheme), tC );
     }
     
-    public SimulatedAnnealing( Variation<T> variation, int K, Predicate<Solution<T>> tC ){
+    public SimulatedAnnealing( ArityOne<T> variation, int K, Predicate<Solution<T>> tC ){
         this( variation, new SimulatedAnnealingReplacement<T>(new SimpleSimulatedAnnealingScheme(K)), tC );
     }       
 
-    public SimulatedAnnealing( Variation<T> variation, int MAXITERS ){
+    public SimulatedAnnealing( ArityOne<T> variation, int MAXITERS ){
         this( variation, MAXITERS, new ForLoopCondition<Solution<T>>(MAXITERS) );
     }       
 }

@@ -34,5 +34,13 @@ public abstract class Space<T>{
             v.add(repair(x));
         }
         return v;
-    }        
+    }
+
+    public Vector<T> repair( T[] pop ){
+        Vector<T> v = new Vector<T>();
+        for( T x:pop ){
+            v.add(repair(x));
+        }
+        return v;
+    }           
 }

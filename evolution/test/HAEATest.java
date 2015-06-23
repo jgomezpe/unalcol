@@ -18,14 +18,15 @@ import unalcol.optimization.real.mutation.OneFifthRule;
 import unalcol.optimization.real.mutation.PermutationPick;
 import unalcol.optimization.real.mutation.PickComponents;
 import unalcol.optimization.real.testbed.Rastrigin;
+import unalcol.optimization.real.xover.LinearXOver;
 import unalcol.random.real.DoubleGenerator;
 import unalcol.random.real.SimplestSymmetricPowerLawGenerator;
 import unalcol.search.Goal;
 import unalcol.search.Solution;
-import unalcol.search.population.variation.ArityOne;
-import unalcol.search.population.variation.PopulationVariation;
-import unalcol.search.population.variation.VariationToArityOne;
+import unalcol.search.population.variation.ArityTwo;
+import unalcol.search.population.variation.Operator;
 import unalcol.search.selection.Tournament;
+import unalcol.search.space.ArityOne;
 import unalcol.search.space.Space;
 import unalcol.tracer.ConsoleTracer;
 import unalcol.tracer.Tracer;
@@ -40,20 +41,27 @@ public class HAEATest {
 		double max = 5.12;
     	Space<double[]> space = new HyperCube( DIM, min, max );
     	
-    	// Variation definition
-    	DoubleGenerator random = new SimplestSymmetricPowerLawGenerator(); // It can be set to Gaussian or other symmetric number generator (centered in zero)
-    	PickComponents pick = new PermutationPick(DIM/2); // It can be set to null if the mutation operator is applied to every component of the solution array
-    	AdaptMutationIntensity adapt = new OneFifthRule(100, 0.9); // It can be set to null if no mutation adaptation is required
-    	IntensityMutation variation = new IntensityMutation( 0.1, random, pick, adapt );
-        
+    	
     	// Optimization Function
     	OptimizationFunction<double[]> function = new Rastrigin();		
         Goal<double[]> goal = new OptimizationGoal<double[]>(function); // minimizing, add the parameter false if maximizing   	
     	
+    	// Variation definition
+    	DoubleGenerator random = new SimplestSymmetricPowerLawGenerator(); // It can be set to Gaussian or other symmetric number generator (centered in zero)
+    	PickComponents pick = new PermutationPick(DIM/2); // It can be set to null if the mutation operator is applied to every component of the solution array
+    	AdaptMutationIntensity adapt = new OneFifthRule(100, 0.9); // It can be set to null if no mutation adaptation is required
+    	IntensityMutation mutation = new IntensityMutation( 0.1, random, pick, adapt );
+    	
+    	ArityTwo<double[]> xover = new LinearXOver();
         // Search method
-        int MAXITERS = 10000;
-        boolean neutral = true; // Accepts movements when having same function value
-        HillClimbing<double[]> search = new HillClimbing<double[]>( variation, neutral, MAXITERS );
+        int POPSIZE = 100;
+        int MAXITERS = 100;
+		@SuppressWarnings("unchecked")
+		Operator<double[]>[] opers = (Operator<double[]>[])new Operator[2];
+    	opers[0] = mutation;
+    	opers[1] = xover;
+    	HaeaOperators<double[]> operators = new SimpleHaeaOperators<double[]>(opers);
+        HAEA<double[]> search = new HAEA<double[]>(POPSIZE, operators, new Tournament<double[]>(4), MAXITERS );
 
         // Tracking the goal evaluations
         ConsoleTracer tracer = new ConsoleTracer();       
@@ -70,20 +78,20 @@ public class HAEATest {
 		int DIM = 120;
     	Space<BitArray> space = new BinarySpace( DIM );
     	
-    	// Variation definition
-    	ArityOne<BitArray> mutation = new VariationToArityOne<BitArray>(new BitMutation());
-    	ArityOne<BitArray> transposition = new VariationToArityOne<BitArray>(new Transposition());
-    	XOver xover = new XOver();
-    	@SuppressWarnings("unchecked")
-		PopulationVariation<BitArray>[] opers = (PopulationVariation<BitArray>[])new PopulationVariation[3];
-    	opers[0] = mutation;
-    	opers[1] = xover;
-    	opers[2] = transposition;
-    	HaeaOperators<BitArray> operators = new SimpleHaeaOperators<BitArray>(opers);
     	// Optimization Function
     	OptimizationFunction<BitArray> function = new Deceptive();		
         Goal<BitArray> goal = new OptimizationGoal<BitArray>(function, false); // maximizing, remove the parameter false if minimizing   	
     	
+    	// Variation definition
+    	ArityOne<BitArray> mutation = new BitMutation();
+    	ArityOne<BitArray> transposition = new Transposition();
+    	XOver xover = new XOver();
+    	@SuppressWarnings("unchecked")
+		Operator<BitArray>[] opers = (Operator<BitArray>[])new Operator[3];
+    	opers[0] = mutation;
+    	opers[1] = xover;
+    	opers[2] = transposition;
+    	HaeaOperators<BitArray> operators = new SimpleHaeaOperators<BitArray>(opers);
         
         // Search method
         int POPSIZE = 100;
@@ -101,7 +109,7 @@ public class HAEATest {
 	}
     
     public static void main(String[] args){
-    	//real(); // Uncomment if testing real valued functions
-    	binary(); // Uncomment if testing binary valued functions
+    	real(); // Uncomment if testing real valued functions
+    	//binary(); // Uncomment if testing binary valued functions
     }
 }

@@ -6,13 +6,13 @@
 
 package unalcol.optimization.real.mutation;
 
-import unalcol.search.space.Variation;
+import unalcol.search.space.ArityOne;
 
 /**
  *
  * @author jgomezpe
  */
-public abstract class Mutation extends Variation<double[]>{
+public abstract class Mutation extends ArityOne<double[]>{
     // Mutation definitions
     protected PickComponents components = null;
     protected int[] indices = new int[0];

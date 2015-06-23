@@ -93,4 +93,11 @@ public class ImmutableVector<T> implements ArrayCollection<T>, SearchCollection<
            return false;
        }
     }
+    
+    public T[] toArray(){
+    	@SuppressWarnings("unchecked")
+		T[] x = (T[])new Object[size];
+    	System.arraycopy(buffer, 0, x, 0, x.length);
+    	return x;    			
+    }
 }

@@ -1,6 +1,7 @@
 package unalcol.evolution.haea;
 
-import unalcol.search.population.variation.PopulationVariation;
+import unalcol.search.population.variation.Operator;
+
 
 /**
  * <p>Title: SimpleHaeaOperators</p>
@@ -14,13 +15,13 @@ public class SimpleHaeaOperators<T> extends HaeaOperators<T>{
     /**
      * Genetic operator to be used by each individual
      */
-    protected PopulationVariation<T>[] opers;
+    protected Operator<T>[] opers;
 
     /**
      * Creates a simple hAEA Operators manager
      * @param opers Genetic operator to be used by HAEA
      */
-    public SimpleHaeaOperators( PopulationVariation<T>[] opers ) {
+    public SimpleHaeaOperators( Operator<T>[] opers ) {
         this.opers = opers;
     }
 
@@ -48,7 +49,7 @@ public class SimpleHaeaOperators<T> extends HaeaOperators<T>{
      * @param operIndex Operator index
      * @return Genetic operator associated to the given index
      */
-    public PopulationVariation<T> get( int indIndex, int operIndex ){
+    public Operator<T> get( int indIndex, int operIndex ){
         return opers[operIndex];
     }
 }

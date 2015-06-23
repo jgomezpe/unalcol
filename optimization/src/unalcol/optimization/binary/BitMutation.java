@@ -1,7 +1,7 @@
 package unalcol.optimization.binary;
 
 import unalcol.random.util.*;
-import unalcol.search.space.Variation;
+import unalcol.search.space.ArityOne;
 import unalcol.types.collection.bitarray.BitArray;
 import unalcol.clone.*;
 
@@ -13,7 +13,7 @@ import unalcol.clone.*;
  * @version 1.0
  */
 
-public class BitMutation extends Variation<BitArray> {
+public class BitMutation extends ArityOne<BitArray> {
   /**
    * Probability of mutating one single bit
    */

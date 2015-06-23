@@ -2,7 +2,7 @@ package unalcol.optimization.binary.varlength;
 import unalcol.types.collection.bitarray.BitArray;
 import unalcol.clone.*;
 import unalcol.random.raw.RawGenerator;
-import unalcol.search.space.Variation;
+import unalcol.search.space.ArityOne;
 
 /**
  * <p>Title: AddGen</p>
@@ -12,7 +12,7 @@ import unalcol.search.space.Variation;
  * @version 1.0
  */
 
-public class AddGen extends Variation<BitArray> {
+public class AddGen extends ArityOne<BitArray> {
   /**
    * If the added gene is added to the end of the genome or not (randomly added)
    */

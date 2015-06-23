@@ -1,5 +1,5 @@
 package unalcol.evolution.haea;
-import unalcol.search.population.variation.PopulationVariation;
+import unalcol.search.population.variation.Operator;
 import unalcol.types.collection.vector.*;
 import unalcol.random.integer.*;
 import unalcol.random.raw.RawGenerator;
@@ -91,7 +91,7 @@ public abstract class HaeaOperators<T>{
      * @param operIndex Operator index
      * @return Genetic operator associated to the given index and individual
      */
-    public abstract PopulationVariation<T> get( int indIndex, int operIndex );
+    public abstract Operator<T> get( int indIndex, int operIndex );
 
     /**
      * Genetic operator reward mechanism

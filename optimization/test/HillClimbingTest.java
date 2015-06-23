@@ -87,7 +87,7 @@ public class HillClimbingTest{
 	}
     
     public static void main(String[] args){
-    	//real(); // Uncomment if testing real valued functions
-    	binary(); // Uncomment if testing binary valued functions
+    	real(); // Uncomment if testing real valued functions
+    	//binary(); // Uncomment if testing binary valued functions
     }
 }

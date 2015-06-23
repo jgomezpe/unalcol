@@ -4,9 +4,9 @@ import unalcol.algorithm.iterative.ForLoopCondition;
 import unalcol.math.logic.Predicate;
 import unalcol.search.population.IterativePopulationSearch;
 import unalcol.search.population.PopulationSolution;
-import unalcol.search.population.variation.ArityOne;
 import unalcol.search.population.variation.ArityTwo;
 import unalcol.search.selection.Selection;
+import unalcol.search.space.ArityOne;
 
 public class SteadyStateGA<T> extends IterativePopulationSearch<T> {
 

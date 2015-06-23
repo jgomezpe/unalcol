@@ -2,7 +2,7 @@ package unalcol.evolution.ga;
 
 import unalcol.search.population.PopulationReplacement;
 import unalcol.search.population.SVRPopulationSearch;
-import unalcol.search.population.variation.ArityOne;
+import unalcol.search.space.ArityOne;
 import unalcol.search.population.variation.ArityTwo;
 import unalcol.search.selection.Selection;
 

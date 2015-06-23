@@ -2,7 +2,7 @@ package unalcol.optimization.binary.varlength;
 import unalcol.types.collection.bitarray.BitArray;
 import unalcol.clone.*;
 import unalcol.random.raw.RawGenerator;
-import unalcol.search.space.Variation;
+import unalcol.search.space.ArityOne;
 
 
 /**
@@ -13,7 +13,7 @@ import unalcol.search.space.Variation;
  * @version 1.0
  */
 
-public class DelGen extends Variation<BitArray> {
+public class DelGen extends ArityOne<BitArray> {
   /**
    * If the last gene is going to be deleted or one randomly selected
    */

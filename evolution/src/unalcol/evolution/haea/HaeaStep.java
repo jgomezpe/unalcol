@@ -3,7 +3,7 @@ package unalcol.evolution.haea;
 import unalcol.search.Goal;
 import unalcol.search.population.PopulationSearch;
 import unalcol.search.population.PopulationSolution;
-import unalcol.search.population.variation.PopulationVariation;
+import unalcol.search.population.variation.Operator;
 import unalcol.search.selection.Selection;
 import unalcol.search.space.Space;
 import unalcol.types.collection.vector.*;
@@ -95,7 +95,7 @@ public class HaeaStep<T> extends PopulationSearch<T>{
             // next line added  Feb 25, 2011
             if( available(i) ){
                 int oper = operators.select(i);
-                PopulationVariation<T> o = operators.get(i, oper);
+                Operator<T> o = operators.get(i, oper);
                 Vector<Integer> subset = select(i, population);
                 Vector<T> pop;
                 double[] quality;
