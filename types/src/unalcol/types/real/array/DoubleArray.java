@@ -310,11 +310,11 @@ public class DoubleArray{
     }
 
     /**
-     * Obtains statistical information (in array format) of the given array considering the array values as samples drawn from a population
+     * Obtains statistical information (including median) of the given array considering the array values as samples drawn from a population
      * @param x double[] Samples drawn from a population
-     * @return Statistics information (in array format) of the given data samples
+     * @return Statistics information of the given data samples
      */
-    public static double[] statistics_vector( double[] x ){
-        return statistics(x).get();
+    public static StatisticsWithMedian statistics_with_median( double[] x ){
+    return (new StatisticsWithMedian(x));
     }
 }

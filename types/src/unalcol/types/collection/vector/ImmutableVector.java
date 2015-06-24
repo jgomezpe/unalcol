@@ -1,5 +1,6 @@
 package unalcol.types.collection.vector;
 
+import java.lang.reflect.Array;
 import java.util.Iterator;
 
 import unalcol.clone.Clone;
@@ -94,10 +95,20 @@ public class ImmutableVector<T> implements ArrayCollection<T>, SearchCollection<
        }
     }
     
+	@SuppressWarnings("unchecked")
     public T[] toArray(){
-    	@SuppressWarnings("unchecked")
-		T[] x = (T[])new Object[size];
-    	System.arraycopy(buffer, 0, x, 0, x.length);
+		T[] x = null;
+		if( buffer != null ){
+			int i=0; 
+			while( i<size && buffer[i]==null ){ i++; }
+			if( i<size ){
+				Class<T> base = (Class<T>)buffer[i].getClass();
+				x = (T[])Array.newInstance(base, size);
+			}else{
+				x = (T[]) new Object[size];
+			}
+	    	System.arraycopy(buffer, 0, x, 0, x.length);
+		}
     	return x;    			
     }
 }

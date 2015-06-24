@@ -10,17 +10,8 @@ import unalcol.descriptors.*;
  * @version 1.0
  *
  */
-public class DoubleArrayDescriptors extends Descriptors{
+public class DoubleArrayDescriptors extends Descriptors<double[]>{
  
-    /**
-     * Gets a numeric description of the given object (the object should be of class Solution)
-     * @param obj Object to be described using numeric values
-     * @return Numeric description of the given object (the object should be of class Solution)
-     */
-    public double[] descriptors(Object obj) {
-        return descriptors((double[]) obj);
-    }
-
     /**
      * Gets a numeric description of the given numeric values (this method produces just a clone)
      * @param ind Numeric values to be described using numeric values

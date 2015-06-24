@@ -1,15 +1,8 @@
 package unalcol.tracer;
 
-/**
- * <p>Title: ConsoleTracer</p>
- * <p>Description: A Tracer based on the java console</p>
- * <p>Copyright: Copyright (c) 2009</p>
- * <p>Company: Kunsamu</p>
- * @author Jonatan Gomez Perdomo
- * @version 1.0
- */
+import unalcol.io.Write;
 
-public class ConsoleTracer extends OutputStreamTracer {
+public abstract class OutputStreamTracer extends Tracer {	
     /**
      * Determines if a new line symbol is added after tracing an object
      */
@@ -23,52 +16,55 @@ public class ConsoleTracer extends OutputStreamTracer {
     /**
      * Creates a console tracer (writes a data object per line
      */
-    public ConsoleTracer() {
-    	super();
-    }
+    public OutputStreamTracer(){}
 
     /**
      * Creates a console tracer
      * @param SEPARATOR Symbol used for separating objects
      */
-    public ConsoleTracer( char SEPARATOR ) {
-    	super(SEPARATOR );        
+    public OutputStreamTracer( char SEPARATOR ) {
+    	this.SEPARATOR = SEPARATOR;
     }
 
     /**
      * Creates a console tracer
      * @param addNewLine Determines if a new line symbol is added after tracing an object
      */
-    public ConsoleTracer( boolean addNewLine ) {
-    	super( addNewLine );        
+    public OutputStreamTracer( boolean addNewLine ) {
+    	this.addNewLine = addNewLine;
     }
 
     /**
      * Creates a console tracer
      * @param addNewLine Determines if a new line symbol is added after tracing an object
      */
-    public ConsoleTracer( char SEPARATOR, boolean addNewLine ) {
-    	super( SEPARATOR, addNewLine );        
+    public OutputStreamTracer( char SEPARATOR, boolean addNewLine ) {
+        this.addNewLine = addNewLine;
     }
+    
+    public abstract void write( String str );
+    
     /**
      * Shows the traced information sent by the source into the console
      * @param SEPARATOR Symbol used for separating objects
      * @param obj Traced information to be shown in the console
      */
     @Override
-    public void write(String str) {
-   		System.out.print(str);
+    public void add(Object... obj) {
+        if( tracing && obj.length > 0 ){
+    		write(SEPARATOR+Write.toString(obj[0]));
+        	for( int i=1; i<obj.length; i++ )
+        		write(SEPARATOR+Write.toString(obj[i]));
+        	if( addNewLine ) write("\n");
+        }
     }
 
     /**
-     * Cleans the traced information
+     * Return the traced information
+     * @return null since the console does not store the traced information
      */
     @Override
-    public void clean() {}
-    
-    /**
-     * Closes the console (does nothing)
-     */
-    @Override
-    public void close() {};
+    public Object get() {
+        return null;
+    }
 }

@@ -31,7 +31,7 @@ public abstract class Tracer{
      * Adds an object sent by an object to the tracer
      * @param obj Traced information to be added
      */
-    public abstract void add(Object obj);
+    public abstract void add(Object... obj);
 
     /**
      * Returns the traced object
@@ -72,7 +72,7 @@ public abstract class Tracer{
      * @param obj Object being traced
      * @param data Object to be added to each tracer associated to the object
      */
-    public static void trace(Object obj, Object data) {
+    public static void trace(Object obj, Object... data) {
         Tracer[] services = get(obj);
         for (Tracer service : services) {
             service.add(data);

@@ -10,6 +10,7 @@ import unalcol.math.logic.Predicate;
 import unalcol.search.Goal;
 import unalcol.search.Search;
 import unalcol.search.space.Space;
+import unalcol.tracer.Tracer;
 
 /**
  *
@@ -38,8 +39,12 @@ public class IterativeSinglePointSearch<T> implements Search<T> {
     public Solution<T> apply( Space<T> space, Goal<T> goal){
         init();
         Solution<T> x = step.apply(space, goal);
+        int i=0;
+        Tracer.trace(this, i, x);
         while( terminationCondition.evaluate(x) ){
             x = step(x, space, goal);
+            i++;
+            Tracer.trace(this, i, x);
         }
         return x;
     }        

@@ -24,7 +24,7 @@ public class SingleResultTracer extends Tracer {
      * Replaces the traced information with a new one
      * @param obj Traced information
      */
-    public void add(Object obj) {
+    public void add(Object... obj) {
         object = obj;
     }
 

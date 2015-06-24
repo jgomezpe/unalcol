@@ -1,8 +1,13 @@
 
 
+import unalcol.descriptors.Descriptors;
+import unalcol.descriptors.WriteDescriptors;
 import unalcol.evolution.haea.HAEA;
 import unalcol.evolution.haea.HaeaOperators;
+import unalcol.evolution.haea.HaeaStep;
 import unalcol.evolution.haea.SimpleHaeaOperators;
+import unalcol.evolution.haea.SimpleHaeaOperatorsDescriptor;
+import unalcol.evolution.haea.WriteHaeaStep;
 import unalcol.io.Write;
 import unalcol.optimization.OptimizationFunction;
 import unalcol.optimization.OptimizationGoal;
@@ -11,7 +16,6 @@ import unalcol.optimization.binary.BitMutation;
 import unalcol.optimization.binary.Transposition;
 import unalcol.optimization.binary.XOver;
 import unalcol.optimization.binary.testbed.Deceptive;
-import unalcol.optimization.hillclimbing.HillClimbing;
 import unalcol.optimization.real.HyperCube;
 import unalcol.optimization.real.mutation.AdaptMutationIntensity;
 import unalcol.optimization.real.mutation.IntensityMutation;
@@ -24,6 +28,8 @@ import unalcol.random.real.DoubleGenerator;
 import unalcol.random.real.SimplestSymmetricPowerLawGenerator;
 import unalcol.search.Goal;
 import unalcol.search.Solution;
+import unalcol.search.population.PopulationSolution;
+import unalcol.search.population.PopulationSolutionDescriptors;
 import unalcol.search.population.variation.ArityTwo;
 import unalcol.search.population.variation.Operator;
 import unalcol.search.selection.Tournament;
@@ -66,11 +72,16 @@ public class HAEATest {
         HAEA<double[]> search = new HAEA<double[]>(POPSIZE, operators, new Tournament<double[]>(4), MAXITERS );
 
         // Tracking the goal evaluations
-        DoubleArrayPlainWrite write = new DoubleArrayPlainWrite();
-        Write.set(double[].class, write);
+        WriteDescriptors write_desc = new WriteDescriptors();
+        Write.set(double[].class, new DoubleArrayPlainWrite(false));
+        Write.set(HaeaStep.class, new WriteHaeaStep<double[]>());
+        Descriptors.set(PopulationSolution.class, new PopulationSolutionDescriptors<double[]>());
+        Descriptors.set(HaeaOperators.class, new SimpleHaeaOperatorsDescriptor<double[]>());
+        Write.set(HaeaOperators.class, write_desc);
 
         ConsoleTracer tracer = new ConsoleTracer();       
-        Tracer.addTracer(goal, tracer);
+//      Tracer.addTracer(goal, tracer);  // Uncomment if you want to trace the function evaluations
+      Tracer.addTracer(search, tracer); // Uncomment if you want to trace the hill-climbing algorithm
         
         // Apply the search method
         Solution<double[]> solution = search.apply(space, goal);
@@ -100,12 +111,20 @@ public class HAEATest {
         
         // Search method
         int POPSIZE = 100;
-        int MAXITERS = 100;
+        int MAXITERS = 10;
         HAEA<BitArray> search = new HAEA<BitArray>(POPSIZE, operators, new Tournament<BitArray>(4), MAXITERS );
 
         // Tracking the goal evaluations
+        WriteDescriptors write_desc = new WriteDescriptors();
+        Write.set(double[].class, new DoubleArrayPlainWrite(false));
+        Write.set(HaeaStep.class, new WriteHaeaStep<BitArray>());
+        Descriptors.set(PopulationSolution.class, new PopulationSolutionDescriptors<BitArray>());
+        Descriptors.set(HaeaOperators.class, new SimpleHaeaOperatorsDescriptor<BitArray>());
+        Write.set(HaeaOperators.class, write_desc);
+        
         ConsoleTracer tracer = new ConsoleTracer();       
-        Tracer.addTracer(goal,tracer);
+//      Tracer.addTracer(goal, tracer);  // Uncomment if you want to trace the function evaluations
+      Tracer.addTracer(search, tracer); // Uncomment if you want to trace the hill-climbing algorithm
         
         // Apply the search method
         Solution<BitArray> solution = search.apply(space, goal);
@@ -114,7 +133,7 @@ public class HAEATest {
 	}
     
     public static void main(String[] args){
-    	//real(); // Uncomment if testing real valued functions
-    	binary(); // Uncomment if testing binary valued functions
+    	real(); // Uncomment if testing real valued functions
+    	// binary(); // Uncomment if testing binary valued functions
     }
 }

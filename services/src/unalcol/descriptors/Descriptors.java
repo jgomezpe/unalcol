@@ -10,23 +10,23 @@ import unalcol.service.*;
  * @author Jonatan Gomez Perdomo
  * @version 1.0
  */
-public abstract class Descriptors {
+public abstract class Descriptors<T> {
     /**
      * Obtains the descriptors of an object
      * @param obj Object to be analyzed
      * @return An array of double values used for describing the object
      */
-    public abstract double[] descriptors(Object obj);
+    public abstract double[] descriptors(T obj);
     
     
     protected static boolean defaultLoaded = false;    
-    public static Descriptors get(Object owner){
+    public static Descriptors<?> get(Object owner){
         if( ServiceCore.get(Object.class, Descriptors.class) == null )
             set(Object.class, new DescriptorsWrapper());
-        return (Descriptors)ServiceCore.get(owner, Descriptors.class);
+        return (Descriptors<?>)ServiceCore.get(owner, Descriptors.class);
     }
     
-    public static boolean set( Object owner, Descriptors service ){
+    public static boolean set( Object owner, Descriptors<?> service ){
         return ServiceCore.set(owner, Descriptors.class, service);
     }
     
@@ -35,7 +35,8 @@ public abstract class Descriptors {
      * @param obj Object to be analyzed
      * @return An array of double values used for describing the object
      */
-    public static double[] obtain(Object obj) {
-        return get(obj).descriptors(obj);
+    @SuppressWarnings("unchecked")
+	public static double[] obtain(Object obj) {
+        return ((Descriptors<Object>)get(obj)).descriptors(obj);
     }    
 }

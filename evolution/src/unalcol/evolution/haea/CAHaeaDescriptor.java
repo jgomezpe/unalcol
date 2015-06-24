@@ -8,7 +8,7 @@ package unalcol.evolution.haea;
  * @version 1.0
  *
  */
-public class CAHaeaDescriptor extends HaeaStrategyDescriptor{
+public class CAHaeaDescriptor extends SimpleHaeaOperatorsDescriptor{
     /**
      * Returns the Class that owns the PlugIn
      * @return Class The PlugIns owner class

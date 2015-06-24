@@ -10,7 +10,7 @@ import java.lang.reflect.Method;
  * @author Jonatan Gomez Perdomo
  * @version 1.0
  */
-public class DescriptorsWrapper extends Descriptors {
+public class DescriptorsWrapper extends Descriptors<Object> {
     protected String method_name = "descriptors";
     /**
      * Obtains the descriptors of an object

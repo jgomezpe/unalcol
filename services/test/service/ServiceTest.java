@@ -24,7 +24,7 @@ public class ServiceTest {
         
         ConsoleTracer tracer = new ConsoleTracer();
         Tracer.addTracer(String.class, tracer);
-        Tracer.trace(cs, "Value of cs:"+cs);
+        Tracer.trace(cs, "Value of cs:",cs);
         Tracer.trace(cs, "Is it a Shallow copy?"+(cs==s));        
         Clone.set(String.class, shallow);
         cs = (String)Clone.create(s);

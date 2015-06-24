@@ -2,7 +2,6 @@ package unalcol.tracer;
 
 import java.io.FileWriter;
 import java.io.IOException;
-import unalcol.io.Write;
 
 // import unalcol.Unalcol;
 
@@ -15,7 +14,7 @@ import unalcol.io.Write;
  * @version 1.0
  */
 
-public class FileTracer extends Tracer {
+public class FileTracer extends OutputStreamTracer {
     /**
      * File that is associated to the tracer
      */
@@ -24,19 +23,13 @@ public class FileTracer extends Tracer {
      * File Name
      */
     protected String fileName;
-    /**
-     * Determines if a new line symbol is added after tracing an object
-     */
-    protected boolean addNewLine;
 
     /**
      * Creates a console tracer
      * @param fileName File Name
      * @param addNewline used for determining if a new line symbol is added after tracing an object or not
      */
-    public FileTracer(String fileName, boolean addNewline) {
-        this.fileName = fileName;
-        this.addNewLine = addNewline;
+    public FileTracer(String fileName) {
         try {
             file = new FileWriter(fileName);
         } catch (IOException e) {
@@ -46,26 +39,35 @@ public class FileTracer extends Tracer {
     }
 
     /**
-     * Shows the traced information sent by the source into the console
-     * @param obj Traced information to be sown in the console
+     * Creates a console tracer
+     * @param fileName File Name
+     * @param addNewline used for determining if a new line symbol is added after tracing an object or not
      */
-    public void add(Object obj) {
-        try {
-            file.write(Write.toString(obj));
-            if (addNewLine) {
-                file.write('\n');
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+    public FileTracer(String fileName, char SEPARATOR) {
+    	this( fileName );
+    	this.SEPARATOR = SEPARATOR;
     }
 
     /**
-     * Return the traced information
-     * @return null since the console does not store the traced information
+     * Creates a console tracer
+     * @param fileName File Name
+     * @param addNewline used for determining if a new line symbol is added after tracing an object or not
      */
-    public Object get() {
-        return null;
+    public FileTracer(String fileName, char SEPARATOR, boolean addNewline) {
+    	this( fileName, SEPARATOR );
+    	this.addNewLine = addNewline;
+    }
+
+    /**
+     * Shows the traced information sent by the source into the console
+     * @param obj Traced information to be sown in the console
+     */
+    public void write(String str) {
+        try {
+            file.write(str);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     /**

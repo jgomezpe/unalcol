@@ -1,9 +1,11 @@
 package unalcol.search.population;
 
+import unalcol.descriptors.Descriptors;
 import unalcol.math.logic.Predicate;
 import unalcol.search.Goal;
 import unalcol.search.Solution;
 import unalcol.search.space.Space;
+import unalcol.tracer.Tracer;
 
 public class IterativePopulationSearch<T> extends PopulationSearch<T> {
     protected Predicate< PopulationSolution<T> > terminationCondition;
@@ -24,8 +26,10 @@ public class IterativePopulationSearch<T> extends PopulationSearch<T> {
     public Solution<T> apply( Space<T> space, Goal<T> goal){
         init();
     	PopulationSolution<T> x = new PopulationSolution<T>(space.get(n), goal);
+    	Tracer.trace(this, Descriptors.obtain(x), step);
         while( terminationCondition.evaluate(x) ){
             x = apply(x, space, goal);
+        	Tracer.trace(this, Descriptors.obtain(x), step);
         }
         return x.pick();
     }
