@@ -149,5 +149,8 @@ public class HaeaStep<T> extends PopulationSearch<T>{
         operators.setPopulationSize(population.size());
         return super.descriptors( population );
     }*/
-    
+	
+	public HaeaOperators<T> operators(){
+		return operators;
+	}   
 }
