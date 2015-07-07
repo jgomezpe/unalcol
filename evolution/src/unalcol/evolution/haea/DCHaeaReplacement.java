@@ -1,5 +1,6 @@
 package unalcol.evolution.haea;
-import unalcol.optimization.solution.Solution;
+import unalcol.search.population.PopulationSolution;
+import unalcol.clone.Clone;
 import unalcol.math.metric.*;
 import unalcol.types.collection.vector.Vector;
 
@@ -14,7 +15,7 @@ import unalcol.types.collection.vector.Vector;
 public class DCHaeaReplacement<T> extends HaeaReplacement<T>{
     protected QuasiMetric<T> metric;
 
-    public DCHaeaReplacement( HaeaOperators operators, QuasiMetric<T> metric ){
+    public DCHaeaReplacement( HaeaOperators<T> operators, QuasiMetric<T> metric ){
         super( operators );
         this.metric = metric;
     }
@@ -26,34 +27,37 @@ public class DCHaeaReplacement<T> extends HaeaReplacement<T>{
      * @param parents Parents
      * @param children
      */
-    public Vector<Solution<T>> apply( Vector<Solution<T>> parents, Vector<Solution<T>> offspring ){
+    @SuppressWarnings("unchecked")
+	public PopulationSolution<T> apply( PopulationSolution<T> current, PopulationSolution<T> next ){
+        Vector<T> buffer = new Vector<T>();
+        double[] q = new double[current.size()];
         int k=0;
-        Vector<Solution<T>> buffer = new Vector();
-        for( int i=0; i<parents.size(); i++){
-            Solution<T> parent = parents.get(0);
-            Solution<T> child = offspring.get(k);
-            double d = metric.apply(parent.get(), child.get());
+        for( int i=0; i<current.size(); i++){
+            T parent = current.value(i);
+            int child = k;
+            double d = metric.apply(parent, next.value(child));
             k++;
             for(int h=1; h<operators.getSizeOffspring(i); h++){
-                Solution<T> child2 = offspring.get(k);
-                double d2 = metric.apply(parent.get(), child.get());
-                if( d2 > d ){
-                    child = child2;
+                double d2 = metric.apply(parent, next.value(k));
+                if( d2 < d ){
+                    child = k;
                     d = d2;
                 }
                 k++;
             }
-            if(parent.value() < child.value()){
+            if(current.quality(i) < next.quality(child)){
                 operators.reward(i);
             } else {
                 operators.punish(i);
             }
-            if(parent.value() < child.value()){
-                buffer.add(child);
+            if(current.quality(i) <= next.quality(child)){
+                buffer.add(next.value(child));
+                q[i] = next.quality(child);
             }else{
-                buffer.add(parent);
+                buffer.add((T)Clone.create(parent));
+                q[i] = current.quality(i);
             }
         }
-        return buffer;
+        return new PopulationSolution<T>(buffer, q);
     }    
 }

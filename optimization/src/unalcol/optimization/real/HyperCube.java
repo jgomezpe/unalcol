@@ -73,4 +73,11 @@ public class HyperCube extends Space<double[]> {
         return x;        
     }
     
+    public double[] min(){
+    	return min;
+    }
+
+    public double[] max(){
+    	return max;
+    }    
 }

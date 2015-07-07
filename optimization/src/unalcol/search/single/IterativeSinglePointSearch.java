@@ -8,7 +8,6 @@ package unalcol.search.single;
 import unalcol.search.Solution;
 import unalcol.math.logic.Predicate;
 import unalcol.search.Goal;
-import unalcol.search.Search;
 import unalcol.search.space.Space;
 import unalcol.tracer.Tracer;
 
@@ -16,7 +15,7 @@ import unalcol.tracer.Tracer;
  *
  * @author jgomez
  */
-public class IterativeSinglePointSearch<T> implements Search<T> {
+public class IterativeSinglePointSearch<T> extends SinglePointSearch<T> {
     protected Predicate< Solution<T> > terminationCondition;
     protected SinglePointSearch<T> step;
     
@@ -35,17 +34,16 @@ public class IterativeSinglePointSearch<T> implements Search<T> {
         return step.apply(x, space, goal);
     }    
     
-    @Override
-    public Solution<T> apply( Space<T> space, Goal<T> goal){
+	@Override
+	public Solution<T> apply(Solution<T> solution, Space<T> space, Goal<T> goal) {
         init();
-        Solution<T> x = step.apply(space, goal);
         int i=0;
-        Tracer.trace(this, i, x);
-        while( terminationCondition.evaluate(x) ){
-            x = step(x, space, goal);
+        Tracer.trace(this, i, solution);
+        while( terminationCondition.evaluate(solution) ){
+            solution = step(solution, space, goal);
             i++;
-            Tracer.trace(this, i, x);
+            Tracer.trace(this, i, solution);
         }
-        return x;
-    }        
+        return solution;
+	}        
 }

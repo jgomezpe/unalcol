@@ -59,8 +59,8 @@ public class HAEATest {
     	PickComponents pick = new PermutationPick(DIM/2); // It can be set to null if the mutation operator is applied to every component of the solution array
     	AdaptMutationIntensity adapt = new OneFifthRule(500, 0.9); // It can be set to null if no mutation adaptation is required
     	IntensityMutation mutation = new IntensityMutation( 0.1, random, pick, adapt );
-    	
     	ArityTwo<double[]> xover = new LinearXOver();
+    	
         // Search method
         int POPSIZE = 100;
         int MAXITERS = 100;
@@ -81,7 +81,7 @@ public class HAEATest {
 
         ConsoleTracer tracer = new ConsoleTracer();       
 //      Tracer.addTracer(goal, tracer);  // Uncomment if you want to trace the function evaluations
-      Tracer.addTracer(search, tracer); // Uncomment if you want to trace the hill-climbing algorithm
+        Tracer.addTracer(search, tracer); // Uncomment if you want to trace the hill-climbing algorithm
         
         // Apply the search method
         Solution<double[]> solution = search.apply(space, goal);
