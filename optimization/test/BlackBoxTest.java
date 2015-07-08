@@ -16,6 +16,7 @@ import unalcol.optimization.real.mutation.OneFifthRule;
 import unalcol.optimization.real.mutation.PermutationPick;
 import unalcol.optimization.real.mutation.PickComponents;
 import unalcol.optimization.real.testbed.Rastrigin;
+import unalcol.optimization.real.testbed.Schwefel;
 import unalcol.random.real.DoubleGenerator;
 import unalcol.random.real.SimplestSymmetricPowerLawGenerator;
 import unalcol.search.Goal;
@@ -72,26 +73,26 @@ public class BlackBoxTest {
 	public static void real2(){
 		// Search Space definition
 		int DIM = 10;
-		double min = -5.12;
-		double max = 5.12;
+		double min = -500;
+		double max = 500;
     	Space<double[]> space = new HyperCube( DIM, min, max );
     	
     	// Variation definition
     	DoubleGenerator random = new SimplestSymmetricPowerLawGenerator(); // It can be set to Gaussian or other symmetric number generator (centered in zero)
-    	PickComponents pick = new PermutationPick(DIM/2); // It can be set to null if the mutation operator is applied to every component of the solution array
-    	AdaptMutationIntensity adapt = new OneFifthRule(1000, 0.9); // It can be set to null if no mutation adaptation is required
+    	PickComponents pick = new PermutationPick(6); // It can be set to null if the mutation operator is applied to every component of the solution array
+    	AdaptMutationIntensity adapt = new OneFifthRule(20, 0.9); // It can be set to null if no mutation adaptation is required
     	IntensityMutation mutation = new IntensityMutation( 0.1, random, pick, adapt );
     	MLPBlackBoxFunction bb_function = new MLPBlackBoxFunction(space);
-        BlackBoxArityOne<double[]> variation = new BlackBoxArityOne<double[]>(5, mutation, bb_function);
+        BlackBoxArityOne<double[]> variation = new BlackBoxArityOne<double[]>(3, mutation, bb_function);
         
     	// Optimization Function
-    	OptimizationFunction<double[]> function = new Rastrigin();		
+    	OptimizationFunction<double[]> function = new Schwefel();		
         Goal<double[]> goal = new OptimizationGoal<double[]>(function); // minimizing, add the parameter false if maximizing   	
         BlackBoxTracer<double[]> bb_tracer = new BlackBoxTracer<double[]>(space, goal, bb_function, 1.0, 1000);
         Tracer.addTracer(goal, bb_tracer);
     	
         // Search method
-        int MAXITERS = 500;
+        int MAXITERS = 5000;
         boolean neutral = true; // Accepts movements when having same function value
         HillClimbing<double[]> search = new HillClimbing<double[]>( variation, neutral, MAXITERS );
         // Tracking the goal evaluations

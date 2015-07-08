@@ -16,6 +16,7 @@ import unalcol.optimization.real.mutation.OneFifthRule;
 import unalcol.optimization.real.mutation.PermutationPick;
 import unalcol.optimization.real.mutation.PickComponents;
 import unalcol.optimization.real.testbed.Rastrigin;
+import unalcol.optimization.real.testbed.Schwefel;
 import unalcol.random.real.DoubleGenerator;
 import unalcol.random.real.SimplestSymmetricPowerLawGenerator;
 import unalcol.search.Goal;
@@ -32,22 +33,22 @@ public class HillClimbingTest{
 	public static void real(){
 		// Search Space definition
 		int DIM = 10;
-		double min = -5.12;
-		double max = 5.12;
+		double min = -500;
+		double max = 500;
     	Space<double[]> space = new HyperCube( DIM, min, max );
     	
     	// Variation definition
     	DoubleGenerator random = new SimplestSymmetricPowerLawGenerator(); // It can be set to Gaussian or other symmetric number generator (centered in zero)
-    	PickComponents pick = new PermutationPick(DIM/2); // It can be set to null if the mutation operator is applied to every component of the solution array
-    	AdaptMutationIntensity adapt = new OneFifthRule(1000, 0.9); // It can be set to null if no mutation adaptation is required
+    	PickComponents pick = new PermutationPick(6); // It can be set to null if the mutation operator is applied to every component of the solution array
+    	AdaptMutationIntensity adapt = new OneFifthRule(20, 0.9); // It can be set to null if no mutation adaptation is required
     	IntensityMutation variation = new IntensityMutation( 0.1, random, pick, adapt );
         
     	// Optimization Function
-    	OptimizationFunction<double[]> function = new Rastrigin();		
+    	OptimizationFunction<double[]> function = new Schwefel();		
         Goal<double[]> goal = new OptimizationGoal<double[]>(function); // minimizing, add the parameter false if maximizing   	
     	
         // Search method
-        int MAXITERS = 500;
+        int MAXITERS = 5000;
         boolean neutral = true; // Accepts movements when having same function value
         HillClimbing<double[]> search = new HillClimbing<double[]>( variation, neutral, MAXITERS );
 

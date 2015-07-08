@@ -19,6 +19,11 @@ public class MLPBlackBoxFunction extends BlackBoxFunction<double[]> {
 		int n = spc.max().length;
 		scale = new RealVectorLinealScale(spc.min(), spc.max(), DoubleArray.create(n, 0.1), DoubleArray.create(n, 0.9));
 		mlp = new MultiLayerPerceptron(new int[]{n,20,1});
+		min = new double[n];
+		max = new double[n];
+		length = new double[n];
+		zero = DoubleArray.create(min.length, 0.1);
+		one = DoubleArray.create(max.length, 0.9);
 	}
 	
 	@Override
@@ -32,6 +37,12 @@ public class MLPBlackBoxFunction extends BlackBoxFunction<double[]> {
 		return 0.0;
 	}
 
+	protected double[] min;
+	protected double[] max;
+	protected double[] length;
+	protected double[] zero;
+	protected double[] one;
+	
 	@Override
 	public void train(Vector<Solution<double[]>> solution, Space<double[]> space, Goal<double[]> goal, Object... args) {
 		if( space != spc ){
@@ -39,12 +50,31 @@ public class MLPBlackBoxFunction extends BlackBoxFunction<double[]> {
 			int n = spc.max().length;
 			scale = new RealVectorLinealScale(spc.min(), spc.max(), DoubleArray.create(n, 0.1), DoubleArray.create(n, 0.9));
 			mlp = new MultiLayerPerceptron(new int[]{n,20,1});
+			min = new double[n];
+			max = new double[n];
+			length = new double[n];
+			zero = DoubleArray.create(min.length, 0.1);
+			one = DoubleArray.create(max.length, 0.9);
 		}	
-		Vector<double[]> input = new Vector<double[]>();
 		double MIN = solution.get(0).quality();
 		double MAX = MIN;
-		for( int i=0; i<solution.size(); i++ ){
-			input.add(scale.apply(solution.get(i).value()));
+		double[] x = solution.get(0).value();
+		for( int k=0; k<x.length; k++ ){
+			min[k] = x[k];
+			max[k] = x[k];			
+		}
+		for( int i=1; i<solution.size(); i++ ){
+			x = solution.get(i).value();
+			for( int k=0; k<x.length; k++ ){
+				if( x[k] < min[k] ){
+					min[k] = x[k];
+				}else{
+					if( max[k] < x[k] ){
+						max[k] = x[k];
+					}
+				}
+			}
+			// input.add(scale.apply(solution.get(i).value()));
 			double out = solution.get(i).quality();
 			if( out < MIN ){
 				MIN = out;
@@ -53,6 +83,25 @@ public class MLPBlackBoxFunction extends BlackBoxFunction<double[]> {
 					MAX = out;
 				}
 			}
+		}
+		if( solution.size() > 1 ){
+			for( int k=0; k<length.length; k++){
+				length[k] = (one[k]-zero[k])/(max[k]-min[k]);
+			}
+		}
+		//scale = new RealVectorLinealScale(min, max, zero, one);
+		Vector<double[]> input = new Vector<double[]>();
+		if( solution.size() > 1 ){
+			for( int i=0; i<solution.size(); i++ ){
+				double[] y = solution.get(i).value();
+				double[] v = zero.clone(); // v = scale.apply(y);
+				for( int k=0; k<min.length; k++ ){
+					v[k] += (y[k] - min[k])*length[k];
+				}
+				input.add(v);
+			}
+		}else{
+			input.add(solution.get(0).value());
 		}
 //		System.out.println("["+MIN+","+MAX+"]");
 		LogNormalization ln = new LogNormalization(MIN/1.1);
@@ -68,18 +117,21 @@ public class MLPBlackBoxFunction extends BlackBoxFunction<double[]> {
 			}
 		}
 		double eta = (double)args[0];
-		int ITERS = 10*input.size();
+		int ITERS = Math.min(50*input.size(), 1000);
 		for( int i=1; i<=ITERS; i++ ){
-			double[] error = mlp.back_propagation(eta, 0.10, input, output);
+			//double[] error =
+					mlp.back_propagation(eta, 0.10, input, output);
 			if( i%10==0){
 				
 				if( i%100==0 ){
-					System.out.println(i + " " + error[0] + "#" +error[0]/input.size());
+					//System.out.println(i + " " + error[0] + "#" +error[0]/input.size());
 					eta *= 0.975;
 					//System.out.println( "eta:" + eta );
 				}	
 			}
 		}
+		output.clear();
+		input.clear();
 	}
 
 }

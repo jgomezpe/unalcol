@@ -3,7 +3,7 @@ package unalcol.optimization.real.testbed;
 import unalcol.optimization.*;
 
 /**
- * <p>Title:  Schwefel</p>
+ * <p>Title:  Schwefel [-500,500]^n </p>
  * <p>Description: The Schwefel function</p>
  * <p>Copyright: Copyright (c) 2010</p>
  * <p>Company: Kunsamu</p>
