@@ -28,13 +28,18 @@ public class MLPBlackBoxFunction extends BlackBoxFunction<double[]> {
 	
 	@Override
 	public Double apply(double[] x) {
-		// TODO Auto-generated method stub
+		double[] v = zero.clone(); // v = scale.apply(y);
+		for( int k=0; k<min.length; k++ ){
+			v[k] += (x[k] - min[k])*length[k];
+		}
+		return mlp.propagate(v)[0];
+/*		// TODO Auto-generated method stub
 		if(scale != null){
 			double value = mlp.propagate(scale.apply(x))[0];
 			//System.out.println(value);
 			return value;
 		}
-		return 0.0;
+		return 0.0; */
 	}
 
 	protected double[] min;

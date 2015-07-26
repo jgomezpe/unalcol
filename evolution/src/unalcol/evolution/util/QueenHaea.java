@@ -17,6 +17,8 @@ import unalcol.io.WriteService;
 import unalcol.math.logic.Predicate;
 import unalcol.optimization.OptimizationFunction;
 import unalcol.optimization.PopulationOptimizer;
+import unalcol.optimization.integer.MutationIntArray;
+import unalcol.optimization.integer.XOverIntArray;
 import unalcol.optimization.iterative.IterativePopulationOptimizer;
 import unalcol.optimization.operators.ArityOne;
 import unalcol.optimization.operators.ArityTwo;

@@ -1,10 +1,8 @@
-package unalcol.evolution.util;
+package unalcol.optimization.integer;
 
-import unalcol.optimization.operators.ArityOne;
-import unalcol.optimization.operators.binary.Mutation;
+import unalcol.random.integer.IntUniform;
 import unalcol.random.util.*;
-import unalcol.types.collection.bitarray.BitArray;
-import unalcol.types.collection.vector.*;
+import unalcol.search.space.ArityOne;
 
 /**
  * <p>Title: Mutation</p>
@@ -15,7 +13,8 @@ import unalcol.types.collection.vector.*;
  */
 
 public class MutationIntArray extends ArityOne<int[]> {
-    protected int MAX;
+    
+    protected IntUniform g;
   /**
    * Probability of mutating one single bit
    */
@@ -25,26 +24,16 @@ public class MutationIntArray extends ArityOne<int[]> {
    * Constructor: Creates a mutation with a mutation probability depending on the size of the genome
    */
   public MutationIntArray( int MAX ) {
-      this.MAX = MAX;
+      g = new IntUniform(MAX);
   }
 
-
-   /**
-   * Class of objects the operator is able to process
-   * @return Class of objects the operator is able to process
-   */
-  @Override
-  public Object owner(){
-      return int[].class;
-  }
-  
   /**
    * Constructor: Creates a mutation with the given mutation rate
    * @param bit_mutation_rate Probability of mutating each single bit
    */
   public MutationIntArray(double bit_mutation_rate, int MAX) {
-    this.bit_mutation_rate = bit_mutation_rate;
-    this.MAX = MAX;
+	  this(MAX);
+	  this.bit_mutation_rate = bit_mutation_rate;
   }
 
   /**
@@ -53,25 +42,16 @@ public class MutationIntArray extends ArityOne<int[]> {
    * @return Number of mutated bits
    */
   @Override
-  public Vector<int[]> generates(int[] gen) {
-    try{
+  public int[] apply(int[] gen) {
       int[] genome = gen.clone();
-      int count = 0;
       double rate = 1.0 - ((bit_mutation_rate == 0.0)?1.0/genome.length:bit_mutation_rate);
-      BooleanGenerator g = new BooleanGenerator(rate);
+      RandBool gb = new RandBool(rate);
       for (int i = 0; i < genome.length; i++) {
-        if(g.next()) {
-          genome[i] = (int)Math.random()*MAX;
-          count++;
+        if(gb.next()) {
+          genome[i] = g.next();
         }
       }
-      Vector<int[]> v = new Vector<int[]>();
-      v.add(genome);
-      return v;
-    }catch( Exception e ){ 
-        e.printStackTrace();
-        System.err.println("[Mutation]"+e.getMessage()); }
-    return null;
+      return genome;
   }
 
 
@@ -87,7 +67,7 @@ public class MutationIntArray extends ArityOne<int[]> {
     MutationIntArray mutation = new MutationIntArray(10);
 
     System.out.println("*** Applying the mutation ***");
-    int[] mutated = mutation.generates(genome).get(0);
+    int[] mutated = mutation.apply(genome);
     System.out.println("Mutated array " + XOverIntArray.toStringInt(mutated) );
 
   }

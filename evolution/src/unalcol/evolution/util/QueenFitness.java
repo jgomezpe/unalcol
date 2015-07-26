@@ -5,6 +5,7 @@
 package unalcol.evolution.util;
 
 import unalcol.optimization.OptimizationFunction;
+import unalcol.optimization.integer.XOverIntArray;
 import unalcol.types.collection.bitarray.BitArray;
 import unalcol.types.integer.array.IntArraySimplePersistent;
 

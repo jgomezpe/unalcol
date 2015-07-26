@@ -2,10 +2,10 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package unalcol.evolution.util;
+package unalcol.optimization.integer;
 
-import unalcol.optimization.operators.ArityTwo;
-import unalcol.random.Random;
+import unalcol.random.raw.RawGenerator;
+import unalcol.search.population.variation.ArityTwo;
 import unalcol.types.collection.vector.Vector;
 
 /**
@@ -30,23 +30,20 @@ public class XOverIntArray  extends ArityTwo<int[]> {
    * @return The crossover point
    */
   public Vector<int[]> generates(int[] child1, int[] child2, int xoverPoint) {
-      try{
-          int[] child1_1 = child1.clone();
-          int[] child2_1 = child2.clone();
+      int[] child1_1 = child1.clone();
+      int[] child2_1 = child2.clone();
 
-          cross_over_point = xoverPoint;
+      cross_over_point = xoverPoint;
 
-          for(int i=xoverPoint;i<child1.length; i++){
-              child1_1[i] = child2[i];
-              child2_1[i] = child1[i];              
-          }
-          
-          Vector v = new Vector();
-          v.add(child1_1);
-          v.add(child2_1);
-          return v;
-      }catch( Exception e ){}
-      return null;
+      for(int i=xoverPoint;i<child1.length; i++){
+          child1_1[i] = child2[i];
+          child2_1[i] = child1[i];              
+      }
+      
+      Vector<int[]> v = new Vector<int[]>();
+      v.add(child1_1);
+      v.add(child2_1);
+      return v;
   }
 
   /**
@@ -56,17 +53,8 @@ public class XOverIntArray  extends ArityTwo<int[]> {
    * @return The crossover point
    */
   @Override
-  public Vector<int[]> generates( int[] child1, int[] child2 ){
-    return generates(child1, child2, Random.nextInt(Math.min(child1.length, child2.length)));
-  }
-
-   /**
-   * Class of objects the operator is able to process
-   * @return Class of objects the operator is able to process
-   */
-  @Override
-  public Object owner(){
-      return int[].class;
+  public Vector<int[]> apply( int[] child1, int[] child2 ){
+    return generates(child1, child2, RawGenerator.integer(this, Math.min(child1.length, child2.length)));
   }
 
   public static String toStringInt( int[] a ){
@@ -102,7 +90,7 @@ public class XOverIntArray  extends ArityTwo<int[]> {
     XOverIntArray xover = new XOverIntArray();
 
     System.out.println("*** Applying the croosover ***");
-    Vector<int[]> children = xover.generates(parent1, parent2);
+    Vector<int[]> children = xover.apply(parent1, parent2);
 
     System.out.println("*** Child 1 ***");
     System.out.println(toStringInt(children.get(0)));
