@@ -2,7 +2,6 @@ package unalcol.optimization.blackbox;
 
 import unalcol.optimization.OptimizationGoal;
 import unalcol.search.Goal;
-import unalcol.search.Search;
 import unalcol.search.Solution;
 import unalcol.search.single.SinglePointSearch;
 import unalcol.search.space.Space;

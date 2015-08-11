@@ -3,7 +3,7 @@
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="src" path="test"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.8"/>
-	<classpathentry kind="lib" path="C:/Users/Jonatan/git/unalcol/libs/random.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Jonatan/git/unalcol/libs/services.jar"/>
+	<classpathentry kind="lib" path="/home/jgomez/git/unalcol/libs/random.jar"/>
+	<classpathentry kind="lib" path="/home/jgomez/git/unalcol/libs/services.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

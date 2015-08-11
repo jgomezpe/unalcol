@@ -15,7 +15,7 @@ import unalcol.optimization.real.mutation.IntensityMutation;
 import unalcol.optimization.real.mutation.OneFifthRule;
 import unalcol.optimization.real.mutation.PermutationPick;
 import unalcol.optimization.real.mutation.PickComponents;
-import unalcol.optimization.real.testbed.Rastrigin;
+//import unalcol.optimization.real.testbed.Rastrigin;
 import unalcol.optimization.real.testbed.Schwefel;
 import unalcol.random.real.DoubleGenerator;
 import unalcol.random.real.SimplestSymmetricPowerLawGenerator;
