@@ -46,13 +46,19 @@ public class IntArrayPlainWrite extends Write<int[]>{
      * @throws IOException IOException
      */
     public void write(int[] obj, Writer out) throws Exception {
-        @SuppressWarnings("unchecked")
-		Write<Integer> wi = (Write<Integer>)get(Integer.class); 
+        StringBuilder sb = new StringBuilder();
         int n = obj.length;
-        if( write_dimension ) wi.write(n, out);
-        for (int i = 0; i < n; i++) {
-            out.write(separator);
-            wi.write(obj[i], out);
+        if( write_dimension ){
+            sb.append(n);
         }
+        if( n > 0 ){
+            if( write_dimension ) sb.append(separator);
+            sb.append(obj[0]);
+        }
+        for (int i = 1; i < n; i++) {
+            sb.append(separator);
+            sb.append(obj[i]);
+        }
+        out.write(sb.toString());
     }
 }

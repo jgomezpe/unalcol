@@ -4,9 +4,12 @@
  */
 package unalcol.optimization.integer;
 
+import unalcol.io.Write;
 import unalcol.random.raw.RawGenerator;
 import unalcol.search.population.variation.ArityTwo;
 import unalcol.types.collection.vector.Vector;
+import unalcol.types.integer.array.IntArray;
+import unalcol.types.integer.array.IntArrayPlainWrite;
 
 /**
  *
@@ -57,44 +60,30 @@ public class XOverIntArray  extends ArityTwo<int[]> {
     return generates(child1, child2, RawGenerator.integer(this, Math.min(child1.length, child2.length)));
   }
 
-  public static String toStringInt( int[] a ){
-    StringBuilder sb = new StringBuilder();
-    for( int i=0; i<a.length; i++){
-        sb.append(' ');
-        sb.append(a[i]);
-    }
-    return sb.toString();
-  }
-  
-  public static int[] create( int D, int MAX ){
-      int[] a = new int[D];
-      for( int i=0; i<D; i++){
-          a[i] = (int)(Math.random() * MAX);
-      }
-      return a;
-  }
  /**
   * Testing function
   */
   public static void main(String[] argv){
-    System.out.println("*** Generating a genome of 20 genes randomly ***");
-    int D = 1000;
-    int MAX = 1000;
-    int[] parent1 = create(D,MAX);
-    System.out.println(toStringInt(parent1));
-
-    System.out.println("*** Generating a genome of 10 genes randomly ***");
-    int[] parent2 = create(D,MAX);
-    System.out.println(toStringInt(parent2));
-
-    XOverIntArray xover = new XOverIntArray();
-
-    System.out.println("*** Applying the croosover ***");
-    Vector<int[]> children = xover.apply(parent1, parent2);
-
-    System.out.println("*** Child 1 ***");
-    System.out.println(toStringInt(children.get(0)));
-    System.out.println("*** Child 2 ***");
-    System.out.println(toStringInt(children.get(1)));
+      IntArrayPlainWrite write = new IntArrayPlainWrite(',', false);
+      Write.set(int[].class, write);
+      System.out.println("*** Generating a genome of 20 genes randomly ***");
+      int D = 1000;
+      int MAX = 1000;
+      int[] parent1 = IntArray.random(D,MAX);
+      System.out.println(Write.toString(parent1));
+	
+      System.out.println("*** Generating a genome of 10 genes randomly ***");
+      int[] parent2 = IntArray.random(D,MAX);
+      System.out.println(Write.toString(parent2));
+	
+      XOverIntArray xover = new XOverIntArray();
+	
+      System.out.println("*** Applying the croosover ***");
+      Vector<int[]> children = xover.apply(parent1, parent2);
+	
+      System.out.println("*** Child 1 ***");
+      System.out.println(Write.toString(children.get(0)));
+      System.out.println("*** Child 2 ***");
+      System.out.println(Write.toString(children.get(1)));
   }
 }

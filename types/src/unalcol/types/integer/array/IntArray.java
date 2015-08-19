@@ -1,6 +1,8 @@
 package unalcol.types.integer.array;
 import java.util.*;
 
+import unalcol.random.integer.IntUniform;
+
 /**
  * <p>Set of constants and methods operating on an array of the primitive int data type,
  * for example, for inverting an array of ints</p>
@@ -370,4 +372,14 @@ public class IntArray{
       }else{ return start; }
     }
     
+    public static int[] create( int n, int value ){
+    	int[] x = new int[n];
+    	for( int i=0; i<n; i++ ) x[i] = value;
+    	return x;
+    }
+    
+    public static int[] random( int n, int max ){
+    	IntUniform g = new IntUniform(max);
+    	return g.generate(n);
+    }    
 }

@@ -2,12 +2,12 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package unalcol.evolution.util;
+package unalcol.optimization.integer.testbed;
 
+import unalcol.io.Write;
 import unalcol.optimization.OptimizationFunction;
-import unalcol.optimization.integer.XOverIntArray;
-import unalcol.types.collection.bitarray.BitArray;
-import unalcol.types.integer.array.IntArraySimplePersistent;
+import unalcol.types.integer.array.IntArray;
+import unalcol.types.integer.array.IntArrayPlainWrite;
 
 /**
  *
@@ -30,15 +30,14 @@ public class QueenFitness extends OptimizationFunction<int[]>{
             }
         }
     }
-    return -f;
+    return f;
   }
   
   public static void main( String[] args ){
-      int[] x = new int[8];
-      IntArrayInstance ins = new IntArrayInstance(8);
-      x = ins.get(x);
-      //IntArraySimplePersistent per = new IntArraySimplePersistent(',');
-      System.out.println(XOverIntArray.toStringInt(x));
+      int[] x = IntArray.random(8, 8);
+      IntArrayPlainWrite write = new IntArrayPlainWrite(',', false);
+      Write.set(int[].class, write);
+      System.out.print(Write.toString(x));
       QueenFitness f = new QueenFitness();
       System.out.println(":"+f.apply(x));
   }

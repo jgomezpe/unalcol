@@ -1,8 +1,11 @@
 package unalcol.optimization.integer;
 
+import unalcol.io.Write;
 import unalcol.random.integer.IntUniform;
 import unalcol.random.util.*;
 import unalcol.search.space.ArityOne;
+import unalcol.types.integer.array.IntArray;
+import unalcol.types.integer.array.IntArrayPlainWrite;
 
 /**
  * <p>Title: Mutation</p>
@@ -60,16 +63,17 @@ public class MutationIntArray extends ArityOne<int[]> {
   * Testing function
   */
   public static void main(String[] argv){
-    System.out.println("*** Generating a genome of 21 genes randomly ***");
-    int[] genome = XOverIntArray.create(10, 10);
-    System.out.println(XOverIntArray.toStringInt(genome));
+      IntArrayPlainWrite write = new IntArrayPlainWrite(',', false);
+      Write.set(int[].class, write);
 
-    MutationIntArray mutation = new MutationIntArray(10);
+      System.out.println("*** Generating a genome of 21 genes randomly ***");
+      int[] genome = IntArray.random(10, 10);
+      System.out.println(Write.toString(genome));
 
-    System.out.println("*** Applying the mutation ***");
-    int[] mutated = mutation.apply(genome);
-    System.out.println("Mutated array " + XOverIntArray.toStringInt(mutated) );
+      MutationIntArray mutation = new MutationIntArray(10);
 
+      System.out.println("*** Applying the mutation ***");
+      int[] mutated = mutation.apply(genome);
+      System.out.println("Mutated array " + Write.toString(mutated) );
   }
-
 }
