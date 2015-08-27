@@ -17,7 +17,7 @@ public class ImmutableVectorCloneService<T> extends Clone<ImmutableVector<T>>{
         int size = obj.size();
         Object[] cl = new Object[size];
         for(int i=0; i<size; i++ ){
-            cl[i] = Clone.get(obj.get(i));
+            cl[i] = Clone.create(obj.get(i));
         }
         return cl;
     }

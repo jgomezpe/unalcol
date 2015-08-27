@@ -96,7 +96,6 @@ public class Squares extends Environment{
                 updateViews(EnvironmentView.DONE + ": Blue wins");
             }
         }
-        System.out.println("Mayerly: "+agent.getClass().getCanonicalName());
         String[] code = action.getCode().split(":");
         int i = Integer.parseInt(code[0]);
         int j = Integer.parseInt(code[1]);
