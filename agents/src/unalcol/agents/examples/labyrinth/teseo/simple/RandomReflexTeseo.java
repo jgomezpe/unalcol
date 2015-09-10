@@ -4,6 +4,8 @@
  */
 package unalcol.agents.examples.labyrinth.teseo.simple;
 
+import unalcol.agents.simulate.util.SimpleLanguage;
+
 /**
  *
  * @author Jonatan
@@ -11,8 +13,15 @@ package unalcol.agents.examples.labyrinth.teseo.simple;
 public class RandomReflexTeseo  extends SimpleTeseoAgentProgram {
 
     public RandomReflexTeseo() {}
+    
+    public RandomReflexTeseo(   SimpleLanguage _language  ) {
+  	  super(_language);
+    }
+
+    
     @Override
-    public int accion(boolean PF, boolean PD, boolean PA, boolean PI, boolean MT) {
+    public int accion(boolean PF, boolean PD, boolean PA, boolean PI, boolean MT, boolean FAIL) {
+    	System.out.println( FAIL );
         if (MT) return -1;
         boolean flag = true;
         int k=0;

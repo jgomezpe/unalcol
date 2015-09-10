@@ -24,11 +24,14 @@ public class Labyrinth extends Environment{
   public int[][] structure = null;
   
   public SimpleLanguage language;
+  protected Vector<Agent> failAgents = new Vector<Agent>();
+  
 
   public int getRowsNumber(){  return structure.length; }
   public int getColumnsNumber(){  return structure[0].length; }
 
   public boolean act(Agent agent, Action action){
+	boolean fail = false;
     boolean flag = (action!=null);
     SimulatedAgent a = (SimulatedAgent)agent;
     if( flag ){
@@ -78,6 +81,7 @@ public class Labyrinth extends Environment{
                 msg = SimpleView.ERROR +
                       "[There is a wall/agent in front of mine (" + agent.getProgram().getClass().getSimpleName() +"). Action " + act +
                       " not executed]";
+                fail = true;
             }
             break;
         case 3: // rotate
@@ -91,11 +95,22 @@ public class Labyrinth extends Environment{
         }
         updateViews(msg);
     }
+    if( fail ){
+        int i=0; 
+        while( i<failAgents.size() && failAgents.get(i) != agent ){ i++; }
+        if( i==failAgents.size() ){ failAgents.add(agent); }
+    }else{
+      int i=0; 
+      while( i<failAgents.size() && failAgents.get(i) != agent ){ i++; }
+      if( i<failAgents.size() ){ failAgents.remove(i); }
+    }
     return flag;
   }
 
   protected LabyrinthPercept getPercept( int x, int y ){
-    return new LabyrinthPercept( structure[x][y], language );
+	if( x >= 0 && x<structure.length && y >=0 && y<structure[0].length )
+      return new LabyrinthPercept( structure[x][y], language );
+	return new LabyrinthPercept(0, language);
   }
 
   public Percept sense(Agent agent){
@@ -105,6 +120,9 @@ public class Labyrinth extends Environment{
     int y = ((Integer)anAgent.getAttribute(Y)).intValue();
     LabyrinthPercept p = getPercept( x, y );
     for( int i=0; i<direction; i++ ){ p.rotate(language); }
+    int i=0;
+    while( i<failAgents.size() && failAgents.get(i) != agent ){ i++; }
+    p.setAttribute("fail", i<failAgents.size());
     return p;
   }
 
