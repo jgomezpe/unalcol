@@ -16,7 +16,7 @@ import unalcol.tracer.Tracer;
 * <P> Testing the Unalcol Service Infra-structure 
 *
 * <P>
-* <A HREF="https://github.com/jgomezpe/unalcol/blob/master/services/test/service/ServiceTest.java">
+* <A HREF="https://github.com/jgomezpe/unalcol/blob/master/demo/service/ServiceTest.java">
 * Source code </A> is available.
 * <P>
 *
