@@ -44,6 +44,7 @@ import unalcol.search.selection.Tournament;
 import unalcol.search.space.ArityOne;
 import unalcol.search.space.Space;
 import unalcol.tracer.ConsoleTracer;
+import unalcol.tracer.FileTracer;
 import unalcol.tracer.Tracer;
 import unalcol.types.collection.bitarray.BitArray;
 import unalcol.types.integer.array.IntArray;
@@ -72,8 +73,8 @@ public class HAEATest {
     	ArityTwo<double[]> xover = new LinearXOver();
     	
         // Search method
-        int POPSIZE = 100;
-        int MAXITERS = 100;
+        int POPSIZE = 10;
+        int MAXITERS = 5;
 		@SuppressWarnings("unchecked")
 		Operator<double[]>[] opers = (Operator<double[]>[])new Operator[2];
     	opers[0] = mutation;
@@ -83,6 +84,7 @@ public class HAEATest {
 
         // Tracking the goal evaluations
         WriteDescriptors write_desc = new WriteDescriptors();
+        Write.set(PopulationSolution.class, new RodrigoWritePop());
         Write.set(double[].class, new DoubleArrayPlainWrite(false));
         Write.set(HaeaStep.class, new WriteHaeaStep<double[]>());
         Descriptors.set(PopulationSolution.class, new PopulationSolutionDescriptors<double[]>());
@@ -90,9 +92,10 @@ public class HAEATest {
         Write.set(HaeaOperators.class, write_desc);
 
         ConsoleTracer tracer = new ConsoleTracer();       
-//      Tracer.addTracer(goal, tracer);  // Uncomment if you want to trace the function evaluations
+//        Tracer.addTracer(goal, tracer);  // Uncomment if you want to trace the function evaluations
+//        FileTracer file = new FileTracer("prueba-lab.txt");
         Tracer.addTracer(search, tracer); // Uncomment if you want to trace the hill-climbing algorithm
-        
+//        Tracer.addTracer(search, file);
         // Apply the search method
         Solution<double[]> solution = search.apply(space, goal);
         
@@ -101,11 +104,11 @@ public class HAEATest {
     
 	public static void binary(){
 		// Search Space definition
-		int DIM = 120;
+		int DIM = 24;
     	Space<BitArray> space = new BinarySpace( DIM );
     	
     	// Optimization Function
-    	OptimizationFunction<BitArray> function = new Deceptive();		
+    	OptimizationFunction<BitArray> function = new GlovitoFitness();		
         Goal<BitArray> goal = new OptimizationGoal<BitArray>(function, false); // maximizing, remove the parameter false if minimizing   	
     	
     	// Variation definition
@@ -139,7 +142,10 @@ public class HAEATest {
         // Apply the search method
         Solution<BitArray> solution = search.apply(space, goal);
         
-        System.out.println( solution.quality() + "=" + solution.value());		
+        System.out.println( solution.quality() + "=" + solution.value());
+        // Remove for general use
+        Glovito g = new Glovito( solution.value() );
+        System.out.println(g.toString());
 	}
 	
 	public static void binary2real(){
@@ -241,9 +247,9 @@ public class HAEATest {
 	
     
     public static void main(String[] args){
-    	//real(); // Uncomment if testing real valued functions
+    	real(); // Uncomment if testing real valued functions
     	// binary(); // Uncomment if testing binary valued functions
     	//binary2real(); // Uncomment if you want to try the multi-level search method
-    	queen(); // Uncomment if testing integer (queen) value functions
+    	//queen(); // Uncomment if testing integer (queen) value functions
     }
 }

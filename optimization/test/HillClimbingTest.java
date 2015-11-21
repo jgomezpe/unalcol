@@ -28,6 +28,7 @@ import unalcol.search.Solution;
 import unalcol.search.SolutionDescriptors;
 import unalcol.search.multilevel.CodeDecodeMap;
 import unalcol.search.multilevel.MultiLevelSearch;
+import unalcol.search.population.PopulationSolution;
 import unalcol.search.space.Space;
 import unalcol.tracer.ConsoleTracer;
 import unalcol.tracer.Tracer;
@@ -190,9 +191,9 @@ public class HillClimbingTest{
 	}
     
     public static void main(String[] args){
-    	//real(); // Uncomment if testing real valued functions
+    	real(); // Uncomment if testing real valued functions
     	//binary(); // Uncomment if testing binary valued functions
     	//binary2real(); // Uncomment if you want to try the multi-level search method
-    	queen(); // Uncomment if testing queens (integer) value functions
+    	//queen(); // Uncomment if testing queens (integer) value functions
     }
 }

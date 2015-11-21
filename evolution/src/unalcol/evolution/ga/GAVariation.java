@@ -35,23 +35,27 @@ public class GAVariation<T> extends Operator<T>{
         int n = xover.arity();
         int m = pop.length / n;
         int k = 0;
+        T[] parents = (T[])new Object[n];
         for (int j = 0; j < m; j++) {
-            T[] parents = (T[])new Object[n];
             for( int i=0; i<n; i++ ){
-                parents[i] = pop[k+i];
+                parents[i] = pop[k];
+                k++;
             }
             Vector<T> offspring = new Vector<T>();
             if (generator.next()) {
-                offspring = mutation.apply( xover.apply( parents ) );
+            	offspring = mutation.apply(xover.apply(parents));
+            	//offspring = xover.apply( parents );
+            	//for( int i=0; i<n; i++){
+            	//	offspring.set( i, mutation.apply( offspring.get(i) ) );
+            	//}                
             } else {
                for (int i = 0; i < n; i++) {
-                    offspring.set(i, (T)Clone.get(parents[i]));
+                    offspring.add((T)Clone.create(parents[i]));
                }
             }
             for( int i=0; i<offspring.size(); i++){
                 buffer.add(offspring.get(i));
             }
-            k += n;
         }
         return buffer;
 	}

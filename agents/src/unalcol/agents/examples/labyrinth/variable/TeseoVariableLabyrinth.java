@@ -22,7 +22,8 @@ public class TeseoVariableLabyrinth  extends Labyrinth {
 	  }
 	  
 	  protected static Vector<Agent> add( double p, Vector<Agent> v ){
-		  v.add( new Agent( new WallDaemon(p) ) );
+		  Agent a = new Agent( new WallDaemon(p) );
+		  v.add( a );
 		  return v;
 	  }
 	  
@@ -32,6 +33,8 @@ public class TeseoVariableLabyrinth  extends Labyrinth {
 
 	  public TeseoVariableLabyrinth( Vector<Agent> _agents, int[][] _structure, SimpleLanguage _language, double p ) {
 	    super( add(p, _agents), _structure, _language );
+	    int n = agentsNumber();
+	    setAgentPosition(n-1, -1, -1, 0);
 	  }
 
 	  public TeseoVariableLabyrinth( Agent agent, int[][] _structure, SimpleLanguage _language, double p ){

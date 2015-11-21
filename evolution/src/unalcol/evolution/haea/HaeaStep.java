@@ -71,7 +71,7 @@ public class HaeaStep<T> extends PopulationSearch<T>{
     }
 
     /**
-     * Determines if the individual can be selected as firts parent
+     * Determines if the individual can be selected as first parent
      * @param id Individuals's id
      * @return <i>true</i> if the individual can be selected as first parent, <i>false</i> otherwise
      */

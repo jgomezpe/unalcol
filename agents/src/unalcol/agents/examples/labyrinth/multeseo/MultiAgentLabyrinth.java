@@ -30,7 +30,9 @@ public class MultiAgentLabyrinth extends Labyrinth {
 
   @Override
   protected LabyrinthPercept getPercept( int x, int y ){
-    return new MultiAgentLabyrinthPercept( structure[x][y], language );
+    if( x >= 0 && x<structure.length && y >=0 && y<structure[0].length )
+      return new MultiAgentLabyrinthPercept( structure[x][y], language );
+    return new MultiAgentLabyrinthPercept( 0, language );
   }
 
   public Percept sense(Agent agent){
@@ -68,6 +70,9 @@ public class MultiAgentLabyrinth extends Labyrinth {
         }    
     }
     for( int i=0; i<direction; i++ ){ p.rotate( language ); }
+    int i=0;
+    while( i<failAgents.size() && failAgents.get(i) != agent ){ i++; }
+    p.setAttribute("fail", i<failAgents.size());
     return p;
   }
 

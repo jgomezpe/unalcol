@@ -8,7 +8,7 @@ public class PopulationSolutionDescriptors<T> extends Descriptors<PopulationSolu
 
 	@Override
 	public double[] descriptors(PopulationSolution<T> pop) {
-		StatisticsWithMedian stat = DoubleArray.statistics_with_median(pop.quality());
+		StatisticsWithMedian stat = DoubleArray.statistics_with_median(pop.quality());		
 		return stat.get();
 	}
 

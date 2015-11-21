@@ -31,7 +31,7 @@ public class SquaresPercept extends Percept{
         }
       }else{
         if( code.equals(Squares.WHITE + "_" + Squares.TIME) )  return clock.white_time_string();
-        if( code.equals(Squares.BLACK + "_" + Squares.TIME) )  return clock.white_time_string();
+        if( code.equals(Squares.BLACK + "_" + Squares.TIME) )  return clock.black_time_string();
         if( code.equals(Squares.SIZE ) )  return ""+board.values.length;
         String[] v = code.split(":");
         int i = Integer.parseInt(v[0]);
@@ -49,8 +49,8 @@ public class SquaresPercept extends Percept{
             if((board.values[i][j]&Board.BOTTOM)==Board.BOTTOM) return Squares.TRUE;
             else return(Squares.FALSE); 
         if( board.lines(i,j)==4 ){
-          if((board.values[i][j]&Board.WHITE)==Board.WHITE)  return Squares.BLACK;
-          return Squares.WHITE;
+          if((board.values[i][j]&Board.WHITE)==Board.WHITE)  return Squares.WHITE;
+          return Squares.BLACK;
         }else{  
           return Squares.SPACE;
         }

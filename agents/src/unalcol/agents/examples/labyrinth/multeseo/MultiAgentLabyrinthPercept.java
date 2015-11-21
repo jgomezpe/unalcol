@@ -23,11 +23,11 @@ public class MultiAgentLabyrinthPercept extends LabyrinthPercept{
   @Override
   public void rotate( SimpleLanguage language ){
     super.rotate(language);
-    Object f = getAttribute(language.getPercept(5));
-    for( int i=5; i<8; i++ ){
+    Object f = getAttribute(language.getPercept(6));
+    for( int i=6; i<9; i++ ){
       setAttribute( language.getPercept(i), getAttribute(language.getPercept(i+1)));
     }
-    setAttribute( language.getPercept(8), f );
+    setAttribute( language.getPercept(9), f );
   }
 
   public void draw( Graphics g, int x, int y, int CELL_SIZE, SimpleLanguage language ){
