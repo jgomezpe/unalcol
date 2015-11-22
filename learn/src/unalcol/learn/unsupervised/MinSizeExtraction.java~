@@ -1,0 +1,40 @@
+/*
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
+ */
+
+package jml.clustering;
+import java.util.*;
+
+/**
+ *
+ * @author jgomez
+ */
+public class MinSizeExtraction extends Extraction{
+    protected int alpha;
+    public MinSizeExtraction(){
+        alpha = 0;
+    }
+
+    public MinSizeExtraction( int  alpha ){
+        this.alpha = alpha;
+    }
+
+    public void refine( Vector clusters ){
+        if( alpha > 1 ){
+            int k=0;
+            while( k<clusters.size() ){
+                Cluster c = (Cluster)clusters.get(k);
+                if( c.size() >= alpha ){
+                    k++;
+                }else{
+                    clusters.remove(k);
+                }
+            }
+        }
+    }
+
+    public int getAlpha(){
+        return alpha;
+    }
+}

@@ -4,15 +4,14 @@
  */
 package unalcol.evolution.es;
 
-import unalcol.optimization.selection.Selection;
-import unalcol.optimization.solution.Solution;
+import unalcol.search.selection.Selection;
 import unalcol.types.collection.vector.Vector;
 
 /**
  *
  * @author jgomez
  */
-public class CommaReplacement<T>  extends ESReplacement<T> {
+public class CommaReplacement<T,P>  implements ESReplacement<T,P> {
     public CommaReplacement( int _mu ) {
         super(_mu);
     }
