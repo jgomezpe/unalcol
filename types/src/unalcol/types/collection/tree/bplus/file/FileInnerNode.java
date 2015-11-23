@@ -104,7 +104,6 @@ public class FileInnerNode<T>extends FileNode<T> implements BPlusInnerNode<T>{
     		return new index_file.readLong();
     	}catch(IOException e){}
     	return -1; 
-       return next[i];
     }
     
     public void fix( int pos ){

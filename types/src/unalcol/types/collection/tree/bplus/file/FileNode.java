@@ -10,7 +10,7 @@ public abstract class FileNode<T> implements BPlusNode<T> {
 	protected RandomAccessFile index_file = null;
 	protected RandomAccessFile data_file = null;
     protected long pos = 0;
-    protected int size;
+    protected int size=0;
     
     public FileNode( RandomAccessFile index_file, int size ){
     	this.index_file = index_file;
