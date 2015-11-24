@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package unalcol.types.collection.tree.bplus;
+package unalcol.types.collection.tree.bplus.immutable;
 
 import java.util.Iterator;
 import java.util.NoSuchElementException;
@@ -11,6 +11,9 @@ import unalcol.sort.Order;
 import unalcol.sort.Search;
 import unalcol.types.collection.Location;
 import unalcol.types.collection.SearchCollection;
+import unalcol.types.collection.tree.bplus.BPlusInnerNode;
+import unalcol.types.collection.tree.bplus.BPlusIterator;
+import unalcol.types.collection.tree.bplus.BPlusLocation;
 import unalcol.types.collection.tree.bplus.memory.MemoryLeafNode;
 
 /**
@@ -18,18 +21,22 @@ import unalcol.types.collection.tree.bplus.memory.MemoryLeafNode;
  * @author jgomez
  */
 public class ImmutableBPlus<T> implements SearchCollection<T> {
-    protected BPlusInnerNode<T> root;
+    protected ImmutableInnerNode<T> root;
     protected Order<T> order;
-    protected BPlusNodeOrder<T> node_order;
+    protected ImmutableNodeOrder<T> node_order;
     protected Search<T> search;
-    protected Search<BPlusNode<T>> node_search;
+    protected Search<ImmutableNode<T>> node_search;
 
-    public ImmutableBPlus( Order<T> order, BPlusInnerNode<T> root ){
+    public ImmutableBPlus( Order<T> order ){
+    	this( order, null );
+    }
+    
+    public ImmutableBPlus( Order<T> order, ImmutableInnerNode<T> root ){
         this.root = root;
         this.order = order;
-        this.node_order = new BPlusNodeOrder<>(order);
-        this.search = new Search<>();
-        this.node_search = new Search<>();
+        this.node_order = new ImmutableNodeOrder<>(order);
+        this.search = new Search<T>();
+        this.node_search = new Search<ImmutableNode<T>>();
     }
 
     public int search( T[] keys, T key, int n ){
@@ -37,8 +44,8 @@ public class ImmutableBPlus<T> implements SearchCollection<T> {
     }
 
     @SuppressWarnings("unchecked")
-	protected BPlusLeafNode<T> search_aux = new MemoryLeafNode<>( (T[])new Object[1], 1);
-    public int search( BPlusNode<T>[] keys, T key, int n ){
+	protected MemoryLeafNode<T> search_aux = new MemoryLeafNode<T>( (T[])new Object[1], 1);
+    public int search( ImmutableNode<T>[] keys, T key, int n ){
         search_aux.set(0, key);
         return node_search.findRight(keys, 0, n, search_aux, node_order);
     }
@@ -64,10 +71,10 @@ public class ImmutableBPlus<T> implements SearchCollection<T> {
         }
     }    
     
-    protected Location<T> find( BPlusNode<T> node, T data ){
+    protected Location<T> find( ImmutableNode<T> node, T data ){
         if( node!=null){
             if( node instanceof BPlusInnerNode){
-                BPlusInnerNode<T> inode = (BPlusInnerNode<T>)node;
+                ImmutableInnerNode<T> inode = (ImmutableInnerNode<T>)node;
                 if(inode.n()>1){
                     int k = search(inode.next(), data, node.n())-1;
                     if( k<0 ) return new BPlusLocation<>(-1,null);
@@ -75,7 +82,7 @@ public class ImmutableBPlus<T> implements SearchCollection<T> {
                 }else
                     return find(inode.next(0), data);
             }else{
-                BPlusLeafNode<T> lnode = (BPlusLeafNode<T>)node;
+                ImmutableLeafNode<T> lnode = (ImmutableLeafNode<T>)node;
                 return new BPlusLocation<>(search(lnode.keys(), data, node.n())-1, lnode);
             }
         }    

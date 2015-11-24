@@ -6,6 +6,9 @@
 package unalcol.types.collection.tree.bplus.memory;
 import unalcol.types.collection.array.ArrayUtil;
 import unalcol.types.collection.tree.bplus.*;
+import unalcol.types.collection.tree.bplus.immutable.ImmutableBPlus;
+import unalcol.types.collection.tree.bplus.immutable.ImmutableLeafNode;
+import unalcol.types.collection.tree.bplus.immutable.ImmutableNode;
 
 /**
  *
@@ -21,44 +24,44 @@ public class MemoryInnerNode<T> extends MemoryNode<T> implements BPlusInnerNode<
         n = 0;
     }
 
-    public MemoryInnerNode( BPlusNode<T>[] next, int n ){
-        this.next = next;
+    public MemoryInnerNode( ImmutableNode<T>[] next, int n ){
+        this.next = (BPlusNode<T>[])next;
         this.n = n;
         this.updateLeftKey();
     }
 
     @Override
-    public BPlusNode<T> newInstance(int SIZE){
-        return new MemoryInnerNode<>(SIZE);
+    public ImmutableNode<T> newInstance(int SIZE){
+        return new MemoryInnerNode<T>(SIZE);
     }
     
     @Override
-    public BPlusInnerNode<T> newInstance( BPlusNode<T>[] next, int n ){
-       return new MemoryInnerNode<>(next,n);
+    public BPlusInnerNode<T> newInstance( ImmutableNode<T>[] next, int n ){
+       return new MemoryInnerNode<T>(next,n);
     }
     
     // Balance
     @Override
     public void leftShift(){
-        ((BPlusInnerNode<T>)left).append(next(0));
+        ((BPlusInnerNode<T>)left).add(this.next(0));
         this.remove(0);
     }
     
     @Override
     public void rightShift(){
         BPlusInnerNode<T> iright = ((BPlusInnerNode<T>)right);
-        iright.insert(0,next(n()-1));
+        iright.add(next(n()-1));
         this.remove(n()-1);
     }
     
     @Override
     public void merge(){
         System.arraycopy(((BPlusInnerNode<T>)right).next(), 0, next, n(), right.n());
-        right = right.right();
+        right = (BPlusNode<T>)right.right();
     }
   
     @Override
-    public void split(){
+    public BPlusNode<T> split(){
         System.out.println("Inner Split");
         @SuppressWarnings("unchecked")
 		BPlusNode<T>[] rnext = new BPlusNode[next.length];
@@ -69,9 +72,10 @@ public class MemoryInnerNode<T> extends MemoryNode<T> implements BPlusInnerNode<
         r.setLeft( this );
         if( r.right() != null ){
             r.right().setLeft(r);
-        } */
-        this.setRight(r);
+        } 
+        this.setRight(r); */
         this.setn(n/2);
+        return r;
     }
     
     //Keys
@@ -91,71 +95,15 @@ public class MemoryInnerNode<T> extends MemoryNode<T> implements BPlusInnerNode<
     }
     
     @Override
-    public boolean isFull(){
-        return n==size();
-    }
-    
-    @Override 
-    public int underFillSize(){
-        return size()/3;
-    }
-    
-    @Override
-    public boolean underFill(){
-        return n <= underFillSize();
-    }
-    
-    @Override
-    public BPlusNode<T>[] next(){
+    public ImmutableNode<T>[] next(){
         return next;
     }
 
     @Override
-    public BPlusNode<T> next(int i){
+    public ImmutableNode<T> next(int i){
         return next[i];
     }
     
-    public void fix( int pos ){
-        BPlusNode<T> node = next(pos);
-        node.setParent(this);
-        if(n()==1){
-            if(left()!=null){
-                BPlusInnerNode<T> ileft = (BPlusInnerNode<T>)left();
-                BPlusNode<T> rleft = ileft.next(ileft.n()-1);
-                node.setLeft(rleft);
-                node.setRight(rleft.right());
-            }else{
-                if( right() != null ){
-                    BPlusInnerNode<T> iright = (BPlusInnerNode<T>)right();
-                    BPlusNode<T> rright = iright.next(0);
-                    node.setRight(rright);                    
-                    node.setLeft(rright.left());                    
-                }else{
-                    node.setLeft(null);
-                    node.setRight(null);
-                }
-            }
-            node.updateLeftKey();
-        }else{
-            if( pos<n()-1 ){
-                if( next(pos+1).left() != node )
-                    node.setLeft(next(pos+1).left());
-                node.setRight(next(pos+1));
-            }else{
-                node.setLeft(next(pos-1));
-                if( next(pos-1).right() != node )
-                    node.setRight(next(pos-1).right());
-            }
-        }
-        
-        if( node.right() != null ){
-            node.right().setLeft(node);
-        }
-        if(node.left()!=null){
-            node.left().setRight(node);
-        }
-    }
-
     @Override
     public boolean append(BPlusNode<T> node ){
         next[n] = node;
@@ -196,16 +144,25 @@ public class MemoryInnerNode<T> extends MemoryNode<T> implements BPlusInnerNode<
     }
 
     
-    @Override
-    public BPlusLeafNode<T> mostLeft(){
+	@SuppressWarnings("unchecked")
+	@Override
+	public ImmutableLeafNode<T> mostLeft() {
         if(next[0] instanceof BPlusInnerNode)
             return ((BPlusInnerNode<T>)next[0]).mostLeft();
         else
             return (BPlusLeafNode<T>)next[0];
-    }
+	}
+
+	@Override
+	public boolean add(ImmutableNode<T> key, ImmutableBPlus<T> tree) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean remove(ImmutableNode<T> key, ImmutableBPlus<T> tree) {
+		// TODO Auto-generated method stub
+		return false;
+	}
     
-    @Override
-    public void set(int pos, BPlusNode<T> key ){
-        next[pos] = key;
-    } 
 }

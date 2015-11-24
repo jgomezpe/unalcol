@@ -7,6 +7,7 @@ package types;
 
 import unalcol.random.integer.IntUniform;
 import unalcol.types.collection.tree.bplus.BPlus;
+import unalcol.types.collection.tree.bplus.memory.MemoryBPlus;
 import unalcol.types.integer.IntegerOrder;
 
 /**
@@ -24,7 +25,7 @@ public class BPlusTest {
     public static void main( String[] args ){
         IntUniform g = new IntUniform(100);
         int[] numbers = g.generate(200);
-        BPlus<Integer> tree = new BPlus<>(4, new IntegerOrder());
+        BPlus<Integer> tree = new MemoryBPlus<Integer>(4, new IntegerOrder());
         for( int i=0; i<numbers.length; i++ ){
 //            System.out.println( "root" );
 //            tree.root.print( 0, true );
@@ -44,7 +45,7 @@ public class BPlusTest {
             System.out.println( i + " removing.... " + numbers[i]);
             if( tree.del(numbers[i]) ){
                 System.out.println( "Done " + numbers[i]);
-//                tree.print();
+                paint(tree);
                 System.out.println("***************");
             }else{
                 System.out.println( "Is not there... " + numbers[i]);

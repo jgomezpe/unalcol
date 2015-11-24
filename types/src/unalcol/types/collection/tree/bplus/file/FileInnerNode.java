@@ -67,30 +67,9 @@ public class FileInnerNode<T>extends FileNode<T> implements BPlusInnerNode<T>{
     
     @Override
     public final T updateLeftKey(){
-        leftKey = (n>0 &&next[0]!=null)?next[0].leftKey():null;
+        leftKey = next(0)!=null?next(0).leftKey():null;
         return leftKey;
     }    
-
-    // Size
-    @Override
-    public int size(){
-        return next.length;
-    }
-    
-    @Override
-    public boolean isFull(){
-        return n==size();
-    }
-    
-    @Override 
-    public int underFillSize(){
-        return size()/3;
-    }
-    
-    @Override
-    public boolean underFill(){
-        return n <= underFillSize();
-    }
     
     @Override
     public BPlusNode<T>[] next(){

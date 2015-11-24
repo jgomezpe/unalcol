@@ -5,13 +5,15 @@
 package unalcol.types.collection.tree.bplus.memory;
 
 import unalcol.types.collection.tree.bplus.BPlusNode;
+import unalcol.types.collection.tree.bplus.immutable.ImmutableInnerNode;
+import unalcol.types.collection.tree.bplus.immutable.ImmutableNode;
 import unalcol.types.collection.tree.bplus.BPlusInnerNode;
 
 /**
  *
  * @author jgomez
  */
-public abstract class MemoryNode<T> implements BPlusNode<T> {
+public abstract class MemoryNode<T> extends BPlusNode<T> {
     protected int n;
     protected BPlusNode<T> left = null;
     protected BPlusNode<T> right = null;
@@ -28,33 +30,33 @@ public abstract class MemoryNode<T> implements BPlusNode<T> {
     
     //Siblings
     @Override
-    public BPlusNode<T> left(){
+    public ImmutableNode<T> left(){
         return left;
     }
 
     @Override
-    public void setLeft( BPlusNode<T> node ){
-        left = node;
+    public void setLeft( ImmutableNode<T> node ){
+        left = (BPlusNode<T>)node;
     }
 
     @Override
-    public BPlusNode<T> right(){
+    public ImmutableNode<T> right(){
         return right;
     }
     
     @Override
-    public void setRight( BPlusNode<T> node ){
-        right = node;
+    public void setRight( ImmutableNode<T> node ){
+        right = (BPlusNode<T>)node;
     }
 
     //Parent
     @Override
-    public BPlusInnerNode<T> parent(){
+    public ImmutableInnerNode<T> parent(){
         return parent;
     }
 
     @Override
-    public void setParent( BPlusInnerNode<T> node ){
-        parent = node;
+    public void setParent( ImmutableInnerNode<T> node ){
+        parent = (BPlusInnerNode<T>)node;
     }        
 }

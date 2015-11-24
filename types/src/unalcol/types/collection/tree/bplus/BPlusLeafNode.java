@@ -1,22 +1,9 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package unalcol.types.collection.tree.bplus;
 
-/**
- *
- * @author jgomez
- */
-public interface BPlusLeafNode<T> extends BPlusNode<T>{
-    public BPlusLeafNode<T> newInstance( T[] keys, int n );        
-    
-    //key's methods
-    public T[] keys();    
-    public T key( int index );
-    public boolean insert( int pos, T key );    
-    public boolean remove( int pos );    
-    public boolean append( T key );        
-    public void set( int i, T key );    
+import unalcol.types.collection.tree.bplus.immutable.ImmutableBPlus;
+import unalcol.types.collection.tree.bplus.immutable.ImmutableLeafNode;
+
+public interface BPlusLeafNode<T> extends ImmutableLeafNode<T>, MutableBPlusNode<T> {
+    public boolean add( T key, ImmutableBPlus<T> tree );    
+    public boolean remove( T key, ImmutableBPlus<T> tree );    
 }

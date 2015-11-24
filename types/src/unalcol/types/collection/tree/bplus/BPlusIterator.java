@@ -7,15 +7,17 @@ package unalcol.types.collection.tree.bplus;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
+import unalcol.types.collection.tree.bplus.immutable.ImmutableLeafNode;
+
 /**
  *
  * @author jgomez
  */
 public class BPlusIterator<T> implements Iterator<T>{
     protected int pos = -1;
-    protected BPlusLeafNode<T> node;
+    protected ImmutableLeafNode<T> node;
 
-    public BPlusIterator( BPlusLeafNode<T> node ){
+    public BPlusIterator( ImmutableLeafNode<T> node ){
         this.node = node;
     }
     
@@ -34,7 +36,7 @@ public class BPlusIterator<T> implements Iterator<T>{
         try{
             while(node!=null&&pos+1==node.n()){
                 pos = -1;
-                node = (BPlusLeafNode<T>)node.right();
+                node = (ImmutableLeafNode<T>)node.right();
             }
             if(pos+1<node.n()){
                 pos++;

@@ -1,93 +1,56 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package unalcol.types.collection.tree.bplus;
-import unalcol.types.collection.*;
-import unalcol.sort.*;
-import unalcol.types.collection.tree.bplus.memory.*;
 
-/**
- *
- * @author jgomez
- */
-public class BPlus<T> extends ImmutableBPlus<T> implements MutableCollection<T> {
-    public BPlus( int n, Order<T> order,
-                  BPlusInnerNode<T> root, BPlusLeafNode<T> leaf ){
-        super( order, (BPlusInnerNode<T>)root.newInstance(n+1) );
-        this.root.insert(0, leaf.newInstance(n));
-    }
+import unalcol.sort.Order;
+import unalcol.types.collection.Location;
+import unalcol.types.collection.MutableCollection;
+import unalcol.types.collection.tree.bplus.immutable.ImmutableBPlus;
+import unalcol.types.collection.tree.bplus.immutable.ImmutableNode;
 
+public abstract class BPlus<T> extends ImmutableBPlus<T> implements MutableCollection<T> {
     public BPlus( int n, Order<T> order ){
-        this( n, order, new Search<T>() );
+        super( order );
+        this.root = innerNode(n+1);
+        ((BPlusInnerNode<T>)this.root).add(leafNode(n+1), this);
     }
 
-    public BPlus( int n, Order<T> order, Search<T> search ){
-        this( n, order, 
-              new MemoryInnerNode<T>(n+1), new MemoryLeafNode<T>(n) );
-    }
+    public abstract BPlusInnerNode<T> innerNode( int n );
     
-    public void balance( BPlusInnerNode<T> node, int k ){
-        BPlusNode<T> theNode = node.next(k);
-        if(theNode.underFill()){
-            if( k<node.n()-1 ){
-                if( theNode.n() + node.next(k+1).n() <= 2*theNode.underFillSize() ){
-                    // merge next(k) with next(k+1) and remove node next(k+1)
-                    theNode.merge();
-                    node.remove(k+1);
-                }else{
-                    // move left key of next(k+1) to next(k)
-                    node.next(k+1).leftShift();
-                }
-            }else{
-                if( node.n()>1 ){
-                    if(theNode.n() + node.next(k-1).n() <= 2*theNode.underFillSize() ){
-                        // merge next(k-1) with next(k) and remove node next(k)
-                        node.next(k-1).merge();
-                        node.remove(k);
-                    }else{
-                        // move right key of next(k-1) to next(k)
-                        node.next(k-1).rightShift();
-                    }
-                }
-            }
-        }else{
-            if( theNode.isFull() ){
-                theNode.split();
-                node.insert(k+1, theNode.right());
-            }
-        }
-    }
+    public abstract BPlusLeafNode<T> leafNode( int n );
     
-    public boolean del( BPlusNode<T> node, T data ){
-        if( node==null) return false;
+    public void balance( BPlusNode<T> node ){
+    	node.balance(this);
+    	if( root.parent() != null ){
+    		root = root.parent();
+    	}
+	}	
+
+    @SuppressWarnings("unchecked")
+	public boolean del( ImmutableNode<T> node, T data ){
+    	boolean flag = ( node==null);
+    	if( !flag ) return false;
         if( node instanceof BPlusInnerNode){
             BPlusInnerNode<T> inode = (BPlusInnerNode<T>)node;
-            BPlusNode<T> theNode;
+            ImmutableNode<T> theNode;
             if(inode.n()>1){
                 int k = search(inode.next(), data, node.n())-1;
                 if( k<0 ) return false;
                 theNode = inode.next(k);
-                if( del(theNode, data) ){
-                    balance(inode,k);
-                    return true;
-                }else{ return false; }
-            }else
+            }else{
                 theNode = inode.next(0);
-                if( del(theNode, data) ){
-                    balance(inode,0);
-                    return true;
-                }else{ return false; }
+            }
+            flag = del(theNode, data);            
         }else{
             BPlusLeafNode<T> lnode = (BPlusLeafNode<T>)node;
+            flag = lnode.remove(data, this);
+            if( flag ) balance((BPlusNode<T>)node);
+            /*
             int k = search(lnode.keys(), data, node.n())-1;
             if( k<0 ) return false;
             if( order.compare(data, lnode.key(k)) == 0 ){
-                return lnode.remove(k);
-            }else
-                return false;
+                flag = lnode.remove(data, this);
+            }else{  flag =false;  }*/
         }
+        return flag;
     }
     
     @Override
@@ -95,49 +58,39 @@ public class BPlus<T> extends ImmutableBPlus<T> implements MutableCollection<T> 
         return del(root, key);
     }
 
-    public boolean add( BPlusNode<T> node, T data ){
+    @SuppressWarnings("unchecked")
+	public boolean add( ImmutableNode<T> node, T data ){
+    	boolean flag;
         if( node instanceof BPlusInnerNode){
             BPlusInnerNode<T> inode = (BPlusInnerNode<T>)node;
-            BPlusNode<T> theNode;
+            ImmutableNode<T> theNode;
             if(inode.n()>1){
                 int k = search(inode.next(), data, node.n())-1;
                 if( k<0 ) k=0;
                 theNode = inode.next(k);
-                if( add(theNode, data) ){
-                    balance(inode,k);
-                    return true;
-                }else{ return false; }
-            }else
+            }else{
                 theNode = inode.next(0);
-                if( add(theNode, data) ){
-                    balance(inode,0);
-                    return true;
-                }else{ return false; }
+            }    
+            flag = add(theNode, data);
         }else{
             BPlusLeafNode<T> lnode = (BPlusLeafNode<T>)node;
-            System.out.println(lnode!=null);
+            flag = lnode.add(data, this);
+            balance((BPlusNode<T>)node);
+/*            System.out.println(lnode!=null);
             int k = search(lnode.keys(), data, node.n());
             if( k<0 ) return false;
             if( k>0 && order.compare(data, lnode.key(k-1)) == 0 ){
                 return false;
             }else{
                 return lnode.insert(k, data);
-            }    
+            }*/    
         }
+        return flag;
     }
     
     @Override
     public boolean add( T key ){
-        boolean flag = add(root,key);
-        if(flag && root.isFull()){
-            BPlusInnerNode<T> newRoot = (BPlusInnerNode<T>)root.newInstance(root.size());
-            root.split();            
-            BPlusNode<T> rroot = root.right(); 
-            newRoot.append(root);
-            newRoot.append(rroot);
-            root = newRoot;
-        }
-        return flag;
+        return add(root,key);
     }
 
 

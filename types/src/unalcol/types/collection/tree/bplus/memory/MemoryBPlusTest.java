@@ -4,7 +4,7 @@
  */
 package unalcol.types.collection.tree.bplus.memory;
 
-import unalcol.types.collection.tree.bplus.ImmutableBPlus;
+import unalcol.types.collection.tree.bplus.immutable.ImmutableBPlus;
 import unalcol.types.integer.IntegerOrder;
 
 /**

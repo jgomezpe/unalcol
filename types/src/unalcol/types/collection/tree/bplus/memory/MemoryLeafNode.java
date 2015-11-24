@@ -6,6 +6,9 @@
 package unalcol.types.collection.tree.bplus.memory;
 import unalcol.types.collection.array.ArrayUtil;
 import unalcol.types.collection.tree.bplus.*;
+import unalcol.types.collection.tree.bplus.immutable.ImmutableBPlus;
+import unalcol.types.collection.tree.bplus.immutable.ImmutableLeafNode;
+import unalcol.types.collection.tree.bplus.immutable.ImmutableNode;
 
 /**
  *
@@ -56,20 +59,21 @@ public class MemoryLeafNode<T> extends MemoryNode<T> implements BPlusLeafNode<T>
     }
 
     @Override
-    public void split(){
+    public BPlusNode<T> split(){
         System.out.println("Leaf Split");
         @SuppressWarnings("unchecked")
 		T[] rkeys = (T[])new Object[keys.length];
         System.arraycopy(keys, n/2, rkeys, 0, n-n/2);
         MemoryLeafNode<T> r = new MemoryLeafNode<>(rkeys,n-n/2);
-        r.setRight( right );
+        /*r.setRight( right );
         r.setLeft( this );
         if( r.right() != null ){
             r.right().setLeft(r);
         }
         this.setRight(r);
+        */
         this.setn(n/2);
-        System.out.println( r.size() );
+        return r;
     }
     
     //Keys
@@ -137,4 +141,28 @@ public class MemoryLeafNode<T> extends MemoryNode<T> implements BPlusLeafNode<T>
     public boolean underFill(){
         return n <= underFillSize();
     }
+
+	@Override
+	public ImmutableLeafNode<T> newInstance(T[] keys, int n) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public ImmutableNode<T> newInstance(int SIZE) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public boolean add(T key, ImmutableBPlus<T> tree) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean remove(T key, ImmutableBPlus<T> tree) {
+		// TODO Auto-generated method stub
+		return false;
+	}
 }

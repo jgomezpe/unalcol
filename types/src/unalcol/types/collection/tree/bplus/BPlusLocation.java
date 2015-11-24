@@ -6,6 +6,7 @@ package unalcol.types.collection.tree.bplus;
 
 import java.util.NoSuchElementException;
 import unalcol.types.collection.Location;
+import unalcol.types.collection.tree.bplus.immutable.ImmutableLeafNode;
 
 /**
  *
@@ -13,9 +14,9 @@ import unalcol.types.collection.Location;
  */
 public class BPlusLocation<T> implements Location<T> {
     protected int pos = -1;
-    protected BPlusLeafNode<T> node;
+    protected ImmutableLeafNode<T> node;
     
-    public BPlusLocation(int _pos, BPlusLeafNode<T> _node){
+    public BPlusLocation(int _pos, ImmutableLeafNode<T> _node){
         pos = _pos;
         node = _node;
     }
