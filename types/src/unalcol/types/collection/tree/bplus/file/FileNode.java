@@ -150,11 +150,6 @@ public class FileNode<T> implements BPlusInnerNode<T>, BPlusLeafNode<T> {
         return size()/3;
     }
     
-    @Override
-    public boolean underFill(){
-        return n() <= underFillSize();
-    }
-
 	@Override
 	public BPlusNode<T> newInstance(int SIZE) {
 		return new FileNode<T>(index_file, data_file, size, length);
@@ -185,25 +180,13 @@ public class FileNode<T> implements BPlusInnerNode<T>, BPlusLeafNode<T> {
 	}
 
 	@Override
-	public void leftShift() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void rightShift() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void split() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
 	public BPlusLeafNode<T> newInstance(T[] keys, int n) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public BPlusInnerNode<T> newInstance(BPlusNode<T>[] nodes, int n) {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -216,30 +199,6 @@ public class FileNode<T> implements BPlusInnerNode<T>, BPlusLeafNode<T> {
 
 	@Override
 	public T key(int index) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public boolean insert(int pos, T key) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public boolean append(T key) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public void set(int i, T key) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public BPlusInnerNode<T> newInstance(BPlusNode<T>[] nodes, int n) {
 		// TODO Auto-generated method stub
 		return null;
 	}

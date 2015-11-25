@@ -13,7 +13,7 @@ import unalcol.types.collection.tree.bplus.BPlusInnerNode;
  *
  * @author jgomez
  */
-public abstract class MemoryNode<T> extends BPlusNode<T> {
+public abstract class MemoryNode<T> implements BPlusNode<T> {
     protected int n;
     protected BPlusNode<T> left = null;
     protected BPlusNode<T> right = null;

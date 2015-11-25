@@ -10,11 +10,10 @@ public interface ImmutableNode<T> {
 
     // Size analysis
     public int n();
-    public void setn( int n );            
     public int size();        
-    public int underFillSize();
-    public boolean isFull();
-    public boolean underFill();
+    public default int underFillSize(){ return size()/3; }
+    public default boolean isFull(){ return n()==size(); }
+    public default boolean underFill(){ return n()<underFillSize(); }
 
     // Parent
     public ImmutableInnerNode<T> parent();    

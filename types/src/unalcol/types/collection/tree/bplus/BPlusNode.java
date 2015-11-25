@@ -1,44 +1,34 @@
 package unalcol.types.collection.tree.bplus;
 
 import unalcol.types.collection.tree.bplus.immutable.ImmutableBPlus;
+import unalcol.types.collection.tree.bplus.immutable.ImmutableInnerNode;
+import unalcol.types.collection.tree.bplus.immutable.ImmutableNode;
 
-public abstract class BPlusNode<T> implements MutableBPlusNode<T>{
-    @Override 
-    public int underFillSize(){
-        return size()/3;
-    }
+public interface BPlusNode<T> extends ImmutableNode<T>{    
+	// Size 
+    public abstract void setn( int n );
     
-    @Override
-    public boolean underFill(){
-        return n() < underFillSize();
-    }
+    // Parent
+    public abstract void setParent( ImmutableInnerNode<T> node );
+    
+    // Siblings    
+    public abstract void setLeft( ImmutableNode<T> node );
+    public abstract void setRight( ImmutableNode<T> node );
 
-	@Override
-	public boolean isFull() {
-		return n()==size();
-	}
-
-	@SuppressWarnings("unchecked")
-	public void checkFull(ImmutableBPlus<T> tree){
+	public default void checkFull(ImmutableBPlus<T> tree){
 		if( this.isFull() ){
 	    	BPlusInnerNode<T> parent = (BPlusInnerNode<T>)this.parent();
 			BPlusNode<T> right = this.split();
 			if( parent==null ){
-				System.out.println("Root deal..");
 				parent = (BPlusInnerNode<T>)this.newInstance(this.size());
 				parent.add(this);
 			}
-			System.out.println("Pre-hellooooo");
-			System.out.println(tree);
 			parent.add(right, tree);
-			System.out.println("hellooooo");
-			System.out.println(tree);
 			((BPlusNode<T>)parent).checkFull( tree );
 		}
 	}
 	
-    @SuppressWarnings("unchecked")
-	public void checkEmpty( ImmutableBPlus<T> tree ){
+	public default void checkEmpty( ImmutableBPlus<T> tree ){
     	if( this.underFill() ){
         	BPlusInnerNode<T> parent = (BPlusInnerNode<T>)this.parent();
     		if( parent==null && n()==0){
@@ -78,6 +68,5 @@ public abstract class BPlusNode<T> implements MutableBPlusNode<T>{
     public abstract void leftShift();
     public abstract void rightShift();
     public abstract void merge();
-    public abstract BPlusNode<T> split();    
-    
+    public abstract BPlusNode<T> split();       
 }

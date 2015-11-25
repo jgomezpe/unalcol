@@ -60,7 +60,6 @@ public abstract class BPlus<T> extends ImmutableBPlus<T> implements MutableColle
         }
 	}
 	    
-    @SuppressWarnings("unchecked")
 	@Override
     public boolean add( T key ){
     	if( this.root == null ){
@@ -71,7 +70,6 @@ public abstract class BPlus<T> extends ImmutableBPlus<T> implements MutableColle
     		return true;
     	}
     	BPlusLeafNode<T> leaf = locate(this.root, key);
-    	System.out.print("Located:"+leaf.toString(0));
         if( leaf.add(key, this) ){
         	((BPlusNode<T>)leaf).checkFull(this);
         	if( root.parent() != null ){
@@ -83,9 +81,9 @@ public abstract class BPlus<T> extends ImmutableBPlus<T> implements MutableColle
         //return add(root,key);
     }
 
-
     @Override
     public void clear() {
+    	root = null;
     }
 
     @Override
