@@ -24,15 +24,14 @@ public class BPlusTest {
     
     public static void main( String[] args ){
         IntUniform g = new IntUniform(100);
-        int[] numbers = g.generate(200);
-        BPlus<Integer> tree = new MemoryBPlus<Integer>(4, new IntegerOrder());
+        int[] numbers = g.generate(20);
+        BPlus<Integer> tree = new MemoryBPlus<Integer>(new IntegerOrder());
         for( int i=0; i<numbers.length; i++ ){
-//            System.out.println( "root" );
-//            tree.root.print( 0, true );
             System.out.println( i + " trying .... " + numbers[i]);
             if( tree.add(numbers[i]) ){
                 System.out.println( "Done " + numbers[i]);
-//                tree.print();
+//                System.out.println(tree);
+//                paint(tree);
                 System.out.println("***************");
             }else{
                 System.out.println( "Already there... " + numbers[i]);
@@ -41,19 +40,17 @@ public class BPlusTest {
         }
         
         
-        for( int i=0; i<30; i++ ){
+        for( int i=0; i<10; i++ ){
             System.out.println( i + " removing.... " + numbers[i]);
             if( tree.del(numbers[i]) ){
                 System.out.println( "Done " + numbers[i]);
+//                System.out.println(tree);
                 paint(tree);
                 System.out.println("***************");
             }else{
                 System.out.println( "Is not there... " + numbers[i]);
             }
-        }
-        for(Integer j : tree){
-            System.out.print(j + "#");
-        }
+        }        
         System.out.println();
     }
     

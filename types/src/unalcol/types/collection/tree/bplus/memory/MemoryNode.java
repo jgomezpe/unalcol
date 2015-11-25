@@ -17,7 +17,7 @@ public abstract class MemoryNode<T> extends BPlusNode<T> {
     protected int n;
     protected BPlusNode<T> left = null;
     protected BPlusNode<T> right = null;
-    protected BPlusInnerNode<T> parent = null;    
+    protected BPlusInnerNode<T> parent = null;  
     
     // Size    
     @Override

@@ -7,18 +7,22 @@ import unalcol.types.collection.tree.bplus.BPlusLeafNode;
 
 public class MemoryBPlus<T> extends BPlus<T> {
 
-	public MemoryBPlus(int n, Order<T> order) {
-		super(n, order);
+	public MemoryBPlus(Order<T> order) {
+		super(order);
+	}
+
+	public MemoryBPlus(int BRANCHING, Order<T> order) {
+		super(BRANCHING, order);
 	}
 
 	@Override
-	public BPlusInnerNode<T> innerNode(int n) {
-		return new MemoryInnerNode<T>(n);
+	public BPlusInnerNode<T> innerNode() {
+		return new MemoryInnerNode<T>(BRANCHING);
 	}
 
 	@Override
-	public BPlusLeafNode<T> leafNode(int n) {
-		return new MemoryLeafNode<T>(n);
+	public BPlusLeafNode<T> leafNode() {
+		return new MemoryLeafNode<T>(BRANCHING);
 	}
 
 }

@@ -10,7 +10,7 @@ public abstract class BPlusNode<T> implements MutableBPlusNode<T>{
     
     @Override
     public boolean underFill(){
-        return n() <= underFillSize();
+        return n() < underFillSize();
     }
 
 	@Override
@@ -18,19 +18,40 @@ public abstract class BPlusNode<T> implements MutableBPlusNode<T>{
 		return n()==size();
 	}
 
-    
+	@SuppressWarnings("unchecked")
+	public void checkFull(ImmutableBPlus<T> tree){
+		if( this.isFull() ){
+	    	BPlusInnerNode<T> parent = (BPlusInnerNode<T>)this.parent();
+			BPlusNode<T> right = this.split();
+			if( parent==null ){
+				System.out.println("Root deal..");
+				parent = (BPlusInnerNode<T>)this.newInstance(this.size());
+				parent.add(this);
+			}
+			System.out.println("Pre-hellooooo");
+			System.out.println(tree);
+			parent.add(right, tree);
+			System.out.println("hellooooo");
+			System.out.println(tree);
+			((BPlusNode<T>)parent).checkFull( tree );
+		}
+	}
+	
     @SuppressWarnings("unchecked")
-	public void balance( ImmutableBPlus<T> tree ){
-    	BPlusInnerNode<T> parent = (BPlusInnerNode<T>)this.parent();
+	public void checkEmpty( ImmutableBPlus<T> tree ){
     	if( this.underFill() ){
-    		if( parent==null ) return;
+        	BPlusInnerNode<T> parent = (BPlusInnerNode<T>)this.parent();
+    		if( parent==null && n()==0){
+    			((BPlus<T>)tree).clear();
+    			return;
+    		} 
     		BPlusNode<T> left = (BPlusNode<T>)this.left(); 
     		if(left != null ){
-    			if( left.n()+this.n() <= (this.underFillSize()<<1)){    		
+    			if( left.n() + this.n() <= (this.underFillSize()<<1) ){    		
 	    			((BPlusNode<T>)left).merge();    			
 	    			if( parent != null ){
 	    				parent.remove(this, tree);
-	    				((BPlusNode<T>)parent).balance( tree );
+	    				((BPlusNode<T>)parent).checkEmpty( tree );
 	    			}
     			}else{
     				left.rightShift();
@@ -43,23 +64,12 @@ public abstract class BPlusNode<T> implements MutableBPlusNode<T>{
 		    			parent = (BPlusInnerNode<T>)right.parent();
 		    			if( parent != null){
 		    				parent.remove(right, tree);
-		    				((BPlusNode<T>)parent).balance( tree );
+		    				((BPlusNode<T>)parent).checkEmpty( tree );
 		    			}
 	    			}else{
 	    				right.leftShift();
 	    			}	
 	    		}
-    		}
-    	}else{
-    		if( this.isFull() ){
-    			if( this.parent()==null ){
-    				parent = (BPlusInnerNode<T>)this.newInstance(this.size());
-    				this.setParent(parent);
-    				parent.add(this, tree);
-    			}
-    			BPlusNode<T> right = this.split();
-    			parent.add(right, tree);
-    			((BPlusNode<T>)parent).balance( tree );
     		}
     	}
 	}	

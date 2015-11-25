@@ -29,49 +29,50 @@ public class MemoryLeafNode<T> extends MemoryNode<T> implements BPlusLeafNode<T>
     }
     
     @Override
-    public BPlusNode<T> newInstance(int SIZE){
+    public ImmutableNode<T> newInstance(int SIZE){
         return new MemoryLeafNode<>(SIZE);
     }
     
     @Override
-    public BPlusLeafNode<T> newInstance( T[] keys, int n ){
+    public ImmutableLeafNode<T> newInstance( T[] keys, int n ){
        return new MemoryLeafNode<>(keys, n);
     }
 
     // Balance
     @Override
     public void leftShift(){
-        ((BPlusLeafNode<T>)left).append(key(0));
+        ((MemoryLeafNode<T>)left).add(key(0));
         this.remove(0);
     }
     
-    @Override
+    @SuppressWarnings("unchecked")
+	@Override
     public void rightShift(){
-        BPlusLeafNode<T> lright = ((BPlusLeafNode<T>)right);
-        lright.insert(0,key(n()-1));
-        this.remove(n()-1);
+        ((BPlusLeafNode<T>)right).add(key(n()-1),0);
+        this.remove();
     }
     
-    @Override
+    @SuppressWarnings("unchecked")
+	@Override
     public void merge(){
         System.arraycopy(((BPlusLeafNode<T>)right).keys(), 0, keys, n(), right.n());
-        right = right.right();
+        n += right.n();
+        right = (MemoryNode<T>)right.right();
+        if( right != null ) right.setLeft(this);
     }
 
     @Override
     public BPlusNode<T> split(){
-        System.out.println("Leaf Split");
         @SuppressWarnings("unchecked")
 		T[] rkeys = (T[])new Object[keys.length];
         System.arraycopy(keys, n/2, rkeys, 0, n-n/2);
         MemoryLeafNode<T> r = new MemoryLeafNode<>(rkeys,n-n/2);
-        /*r.setRight( right );
-        r.setLeft( this );
+        r.setLeft(this);
+        r.setRight(this.right());
         if( r.right() != null ){
-            r.right().setLeft(r);
+        	((BPlusNode<T>)r.right()).setLeft(r);
         }
         this.setRight(r);
-        */
         this.setn(n/2);
         return r;
     }
@@ -94,75 +95,74 @@ public class MemoryLeafNode<T> extends MemoryNode<T> implements BPlusLeafNode<T>
     public T key( int index ){
         return keys[index];
     }
-
-    @Override
-    public boolean insert( int pos, T key ){
-        ArrayUtil.insert(n, keys, key, pos);
-        n++;
-        return true;
-    }
-    
-    @Override
-    public boolean remove( int pos ){
-        ArrayUtil.del(n, keys, pos);
-        n--;
-        return true;
-    }
-    
-    @Override
-    public boolean append( T key ){
-        keys[n] = key;
-        n++;
-        return true;
-    }
-    
-    @Override
-    public void set( int i, T key ){
-        keys[i] = key;
-    }
     
     // Size
     @Override
     public int size(){
         return keys.length;
     }
-    
-    @Override
-    public boolean isFull(){
-        return n==size();
-    }
-
-    @Override 
-    public int underFillSize(){
-        return size()/3;
-    }
-    
-    @Override
-    public boolean underFill(){
-        return n <= underFillSize();
-    }
 
 	@Override
-	public ImmutableLeafNode<T> newInstance(T[] keys, int n) {
-		// TODO Auto-generated method stub
-		return null;
+	public boolean add(T key) {
+		if(n<keys.length){
+			keys[n] = key;
+			n++;
+			return true;
+		}
+		return false;
 	}
 
 	@Override
-	public ImmutableNode<T> newInstance(int SIZE) {
-		// TODO Auto-generated method stub
-		return null;
+	public boolean add(T key, int index) {
+		if( n < keys.length ){
+			ArrayUtil.insert(n, keys, key, index);
+			n++;
+			return true;
+		}
+		return false;
 	}
 
 	@Override
 	public boolean add(T key, ImmutableBPlus<T> tree) {
-		// TODO Auto-generated method stub
+		boolean flag = ArrayUtil.addToSortArray(n, keys, key, tree.key_order());
+		if( flag ) n++;
+		return flag;
+	}
+
+	@Override
+	public boolean remove() {
+		if( n>0 ){
+			n--;
+			return true;
+		}
 		return false;
 	}
 
 	@Override
-	public boolean remove(T key, ImmutableBPlus<T> tree) {
-		// TODO Auto-generated method stub
+	public boolean remove(int index) {
+		if( n>0 && index >=0 && index < n){
+	        ArrayUtil.del(n, keys, index);
+			n--;
+			return true;
+		}
 		return false;
 	}
+	
+	@Override
+	public boolean remove(T key, ImmutableBPlus<T> tree) {
+        boolean flag = ArrayUtil.removeFromSortArray(n, keys, key, tree.key_order() );
+        if( flag ) n--;
+        return flag;
+	}
+	
+    public String toString( int level ){
+    	StringBuilder sb = new StringBuilder();
+    	for( int i=0; i<level;i++){ sb.append(' '); }
+    	for( int i=0; i<n; i++ ){
+    		sb.append(' ');
+    		sb.append(keys[i]);
+    	}
+    	sb.append('\n');
+    	return sb.toString();
+    }
 }

@@ -43,10 +43,14 @@ public class ImmutableBPlus<T> implements SearchCollection<T> {
         return search.findRight(keys, 0, n, key, order);
     }
 
+    public Order<T> key_order(){ return order; }
+    public Order<ImmutableNode<T>> node_order(){ return node_order; }
+    
     @SuppressWarnings("unchecked")
 	protected MemoryLeafNode<T> search_aux = new MemoryLeafNode<T>( (T[])new Object[1], 1);
     public int search( ImmutableNode<T>[] keys, T key, int n ){
-        search_aux.set(0, key);
+    	search_aux.remove();
+        search_aux.add(key);
         return node_search.findRight(keys, 0, n, search_aux, node_order);
     }
 
@@ -97,5 +101,12 @@ public class ImmutableBPlus<T> implements SearchCollection<T> {
     @Override
     public Iterator<T> iterator(Location<T> locator) {
         return new BPlusIterator<T>((BPlusLocation<T>)locator);
-    }   
+    } 
+    
+    public String toString(){
+    	StringBuilder sb = new StringBuilder();
+    	if( root != null )
+    		sb.append(root.toString(0));
+    	return sb.toString();
+    }
 }

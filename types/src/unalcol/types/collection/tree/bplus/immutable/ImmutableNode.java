@@ -22,4 +22,6 @@ public interface ImmutableNode<T> {
     // Siblings    
     public ImmutableNode<T> left();
     public ImmutableNode<T> right();
+    
+    public String toString( int level );
 }

@@ -15,7 +15,7 @@ import unalcol.types.collection.tree.bplus.immutable.ImmutableNode;
  * @author jgomez
  */
 public class MemoryInnerNode<T> extends MemoryNode<T> implements BPlusInnerNode<T>{
-    protected BPlusNode<T>[] next;
+    protected ImmutableNode<T>[] next;
     protected T leftKey;
     
     @SuppressWarnings("unchecked")
@@ -25,9 +25,12 @@ public class MemoryInnerNode<T> extends MemoryNode<T> implements BPlusInnerNode<
     }
 
     public MemoryInnerNode( ImmutableNode<T>[] next, int n ){
-        this.next = (BPlusNode<T>[])next;
+        this.next = next;
         this.n = n;
-        this.updateLeftKey();
+        for( int i=0; i<n; i++){
+        	((BPlusNode<T>)next[i]).setParent(this);
+        }
+        //this.updateLeftKey();
     }
 
     @Override
@@ -41,7 +44,8 @@ public class MemoryInnerNode<T> extends MemoryNode<T> implements BPlusInnerNode<
     }
     
     // Balance
-    @Override
+    @SuppressWarnings("unchecked")
+	@Override
     public void leftShift(){
         ((BPlusInnerNode<T>)left).add(this.next(0));
         this.remove(0);
@@ -49,12 +53,14 @@ public class MemoryInnerNode<T> extends MemoryNode<T> implements BPlusInnerNode<
     
     @Override
     public void rightShift(){
-        BPlusInnerNode<T> iright = ((BPlusInnerNode<T>)right);
+        @SuppressWarnings("unchecked")
+		BPlusInnerNode<T> iright = ((BPlusInnerNode<T>)right);
         iright.add(next(n()-1));
-        this.remove(n()-1);
+        this.remove();
     }
     
-    @Override
+    @SuppressWarnings("unchecked")
+	@Override
     public void merge(){
         System.arraycopy(((BPlusInnerNode<T>)right).next(), 0, next, n(), right.n());
         right = (BPlusNode<T>)right.right();
@@ -62,29 +68,28 @@ public class MemoryInnerNode<T> extends MemoryNode<T> implements BPlusInnerNode<
   
     @Override
     public BPlusNode<T> split(){
-        System.out.println("Inner Split");
         @SuppressWarnings("unchecked")
 		BPlusNode<T>[] rnext = new BPlusNode[next.length];
         System.arraycopy(next(), n/2, rnext, 0, n-n/2);
         MemoryInnerNode<T> r = new MemoryInnerNode<>(rnext,n-n/2);
-        r.updateLeftKey();
-/*        r.setRight( right );
-        r.setLeft( this );
+        r.setLeft(this);
+        r.setRight(this.right());
         if( r.right() != null ){
-            r.right().setLeft(r);
-        } 
-        this.setRight(r); */
+        	((BPlusNode<T>)r.right()).setLeft(r);
+        }
+        this.setRight(r);
         this.setn(n/2);
+        //r.updateLeftKey();
         return r;
     }
     
     //Keys
     @Override
-    public T leftKey(){ return leftKey; }
+    public T leftKey(){ return updateLeftKey(); }
     
     @Override
     public final T updateLeftKey(){
-        leftKey = (n>0 &&next[0]!=null)?next[0].leftKey():null;
+        leftKey = (n>0 &&next[0]!=null)?next[0].updateLeftKey():null;
         return leftKey;
     }    
 
@@ -104,47 +109,6 @@ public class MemoryInnerNode<T> extends MemoryNode<T> implements BPlusInnerNode<
         return next[i];
     }
     
-    @Override
-    public boolean append(BPlusNode<T> node ){
-        next[n] = node;
-        n++;
-        fix(n-1);
-        return true;
-    }
-    
-    @Override
-    public boolean insert( int pos, BPlusNode<T> node ){ 
-        if( pos < 0 || pos > n || isFull() ) return false;
-        ArrayUtil.insert(n, next, node, pos);
-        n++;
-        fix(pos);
-        if(pos==0) leftKey = node.leftKey();
-        return true;
-    }
-    
-    
-    @Override
-    public boolean remove( int pos ){
-        if( 0<=pos && pos<n ){
-            BPlusNode<T> node = next[pos];
-            if(node.right()!=null){
-                node.right().setLeft(node.left());
-            }
-            if(node.left()!=null){
-                node.left().setRight(node.right());
-            }
-            ArrayUtil.del(n, next, pos);
-            n--;
-            if(pos==0)
-                updateLeftKey();            
-            return true;
-        }else{
-            return false;
-        }
-    }
-
-    
-	@SuppressWarnings("unchecked")
 	@Override
 	public ImmutableLeafNode<T> mostLeft() {
         if(next[0] instanceof BPlusInnerNode)
@@ -154,15 +118,60 @@ public class MemoryInnerNode<T> extends MemoryNode<T> implements BPlusInnerNode<
 	}
 
 	@Override
+	public boolean add(ImmutableNode<T> key) {
+		return add( key, n );
+	}
+
+	@Override
+	public boolean add(ImmutableNode<T> key, int index) {
+		if( n < next.length ){
+			((BPlusNode<T>)key).setParent(this);
+			ArrayUtil.insert(n, next, key, index);
+			n++;
+			return true;
+		}
+		return false;
+	}
+
+	@Override
 	public boolean add(ImmutableNode<T> key, ImmutableBPlus<T> tree) {
-		// TODO Auto-generated method stub
+		return add( key, ArrayUtil.indexForAddToSortArray(n, next, key, tree.node_order()) );
+	}
+
+	@Override
+	public boolean remove() {
+		return remove(n-1);
+	}
+
+	@Override
+	public boolean remove(int index) {
+		if( 0<=index && index<n ){
+			if(next[index].left()!=null)
+				((BPlusNode<T>)next[index].left()).setRight(next[index].right());
+			
+			if(next[index].right()!=null)
+				((BPlusNode<T>)next[index].right()).setLeft(next[index].left());
+			
+			ArrayUtil.del(n, next, index);
+			n--;
+			return true;
+		}
 		return false;
 	}
 
 	@Override
 	public boolean remove(ImmutableNode<T> key, ImmutableBPlus<T> tree) {
-		// TODO Auto-generated method stub
-		return false;
+		return remove( ArrayUtil.findInSortArray(n, next, key, tree.node_order()) );
 	}
-    
+	
+    public String toString( int level ){
+    	StringBuilder sb = new StringBuilder();
+    	for( int i=0; i<level;i++){ sb.append(' '); }
+    	level++;
+    	for( int i=0; i<n; i++ ){
+    		sb.append('|');
+    		sb.append(next[i].toString(level));
+    	}
+    	return sb.toString();
+    }
 }
