@@ -14,9 +14,8 @@ public class FileNode<T> implements BPlusInnerNode<T>, BPlusLeafNode<T> {
     protected int size=0;
     protected int length;
     
-    public FileNode( RandomAccessFile index_file,
-    		RandomAccessFile data_file,
-    		int size, int length ){
+    public FileNode( RandomAccessFile index_file, RandomAccessFile data_file,
+    				 int size, int length ){
     	this.index_file = index_file;
     	this.data_file = data_file;
     	this.size = size;
