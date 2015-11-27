@@ -1,7 +1,5 @@
 package unalcol.search.population;
 
-import unalcol.descriptors.Descriptors;
-import unalcol.io.Write;
 import unalcol.math.logic.Predicate;
 import unalcol.search.Goal;
 import unalcol.search.Solution;
@@ -25,7 +23,6 @@ public class IterativePopulationSearch<T> extends PopulationSearch<T> {
     
     @Override
     public Solution<T> apply( Space<T> space, Goal<T> goal){
-    	System.out.println("#####");
         init();
     	PopulationSolution<T> x = new PopulationSolution<T>(space.get(n), goal);
     	Tracer.trace(this, x, step);

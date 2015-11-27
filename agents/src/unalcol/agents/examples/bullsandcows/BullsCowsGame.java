@@ -7,7 +7,7 @@ package unalcol.agents.examples.bullsandcows;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import unalcol.random.util.Rand;
+import unalcol.random.Random;
 
 /**
  *
@@ -50,7 +50,7 @@ public class BullsCowsGame {
         SimpleBCPlayer player = new SimpleBCPlayer(ni);
         //UNEquipoPlayer player = new UNEquipoPlayer(ni);
         int s = ni.size();
-        int c_number = Rand.nextInt(s);
+        int c_number = Random.nextInt(s);
         int[] opt = ni.getOption(c_number);
         boolean winner = false;
         boolean error ;

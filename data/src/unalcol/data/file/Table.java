@@ -3,6 +3,7 @@ package unalcol.data.file;
 import java.io.IOException;
 import java.io.RandomAccessFile;
 
+import unalcol.instance.Load;
 import unalcol.types.collection.Location;
 import unalcol.types.collection.array.ArrayCollectionLocation;
 import unalcol.types.collection.array.MutableArrayCollection;
@@ -36,7 +37,24 @@ public class Table<T> extends UmmutableTable<T> implements MutableArrayCollectio
 
 	@Override
 	public boolean del(T obj) {
-		// TODO Auto-generated method stub
+		byte[] b = load.store(obj);
+		byte[] bf = new byte[load.size()]; 
+		long pos = 0;
+		long length;
+		try {
+			length = file.length();
+			boolean flag = false;
+			while( pos < length && !flag ){
+				file.read(bf);
+				int i=0;
+				while( i<bf.length && bf[i]==b[i] ){ i++; }
+				flag = (i==bf.length);
+			}
+			if( flag )
+				return remove( (int)(pos/load.size()) - 1 );
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 		return false;
 	}
 

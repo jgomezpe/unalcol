@@ -2,7 +2,6 @@ package unalcol.agents.examples.labyrinth.variable;
 
 import unalcol.agents.Agent;
 import unalcol.agents.Percept;
-import unalcol.agents.examples.labyrinth.Labyrinth;
 import unalcol.agents.examples.labyrinth.LabyrinthDrawer;
 import unalcol.agents.examples.labyrinth.LabyrinthPercept;
 import unalcol.agents.examples.labyrinth.multeseo.MultiAgentLabyrinthPercept;

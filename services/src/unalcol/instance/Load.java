@@ -1,9 +1,4 @@
-package unalcol.descriptors;
-
-import java.io.IOException;
-import java.io.Writer;
-
-import unalcol.io.Write;
+package unalcol.instance;
 
 //
 //Unalcol Service structure Pack 1.0 by Jonatan Gomez-Perdomo
@@ -11,11 +6,11 @@ import unalcol.io.Write;
 //
 /**
 *
-* WriteDescriptors
-* <p>Writes the descriptors associated to a given object.</p>
+* Load
+* <p>Loads and stores an object in a byte representation.</p>
 *
 * <P>
-* <A HREF="https://github.com/jgomezpe/unalcol/blob/master/src/unalcol/descriptors/WriteDescriptors.java">
+* <A HREF="https://github.com/jgomezpe/unalcol/blob/master/src/unalcol/instance/Load.java">
 * Source code </A> is available.
 * <P>
 *
@@ -53,16 +48,26 @@ import unalcol.io.Write;
 * @author <A HREF="http://disi.unal.edu.co/profesores/jgomezpe"> Jonatan Gomez-Perdomo </A>
 * (E-mail: <A HREF="mailto:jgomezpe@unal.edu.co">jgomezpe@unal.edu.co</A> )
 * @version 1.0
+* @param <T> Type of objects that will be load from/store on a byte representation.
 */
-public class WriteDescriptors extends Write<Object>{
-    @Override
-    /**
-     * Writes an object to the given <i>writer</i>.
-     * @param obj Object to write
-     * @param writer The writer object
-     * @throws IOException IOException
-     */
-   public void write(Object obj, Writer writer) throws Exception {
-        Write.apply(Descriptors.obtain(obj), writer);
-    }
+public abstract class Load<T> {
+	/**
+	 * Loads an object of class <i>T</i> from a byte representation.
+	 * @param buffer Byte from which the object will be loaded. 
+	 * @return An object of class <i>T</i> from a byte representation, if available. <i>null</i> otherwise.
+	 */
+	public abstract T load( byte[] buffer );
+
+	/**
+	 * A byte representation of the given object <i>obj</i> object.
+	 * @param obj Object from which a byte representation will be obtained.
+	 * @return A byte representation of the given object <i>obj</i> object.
+	 */
+	public abstract byte[] store( T obj );
+
+	/**
+	 * Number of bytes required for representing objects of class <i>T</i>.
+	 * @return Number of bytes required for representing objects of class <i>T</i>. <i>-1</i> if variable. 
+	 */
+	public abstract int size();
 }

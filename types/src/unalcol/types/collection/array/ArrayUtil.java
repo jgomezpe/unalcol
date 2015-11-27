@@ -5,10 +5,8 @@
 
 package unalcol.types.collection.array;
 
-import unalcol.random.util.Rand;
 import unalcol.sort.Order;
 import unalcol.sort.Search;
-import unalcol.types.integer.IntegerOrder;
 
 /**
  *
@@ -79,34 +77,5 @@ public class ArrayUtil {
     @SuppressWarnings("unchecked")
 	public static int findInSortArray( int n, Object[] a, Object x,  @SuppressWarnings("rawtypes") Order order ){
     	return search.find(a, 0,  n, x, order);
-    }
-    
-    public static void main(String[] args){
-    	Integer[] array = new Integer[100];
-    	int n = 0;
-    	Order<Integer> order = new IntegerOrder();
-    	for( int i=0; i<100; i++ ){
-    		int x = Rand.nextInt(100);
-    		System.out.print("Adding.."+x + ":");    
-    		boolean added = addToSortArray(n, array, x, order);
-    		System.out.println(added);    
-    		if( added ) n++;
-        	for( int j=0; j<n; j++ ){
-        		System.out.print( " " + array[j]);
-        	}
-        	System.out.println();
-    	}
-    	for( int i=0; i<20; i++ ){
-    		int x = Rand.nextInt(100);
-    		System.out.print("Removing.."+x + ":");    
-    		boolean removed = removeFromSortArray(n, array, x, order);
-    		System.out.println(removed);    
-    		if( removed ) n--;
-        	for( int j=0; j<n; j++ ){
-        		System.out.print( " " + array[j]);
-        	}
-        	System.out.println();
-    	}
-
-    }
+    }    
 }

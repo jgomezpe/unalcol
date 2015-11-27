@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.RandomAccessFile;
 import java.util.Iterator;
 
+import unalcol.instance.Load;
 import unalcol.types.collection.array.ArrayCollection;
 import unalcol.types.collection.array.ArrayCollectionIterator;
 

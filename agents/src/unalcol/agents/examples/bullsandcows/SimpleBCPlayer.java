@@ -4,7 +4,7 @@
  */
 package unalcol.agents.examples.bullsandcows;
 import unalcol.types.collection.vector.Vector;
-import unalcol.random.util.Rand;
+import unalcol.random.Random;
 /**
  *
  * @author Jonatan
@@ -21,7 +21,7 @@ public class SimpleBCPlayer {
     }
     
     public int[] next(){
-        return ni.getOption( options.get(Rand.nextInt(options.size())) );        
+        return ni.getOption( options.get(Random.nextInt(options.size())) );        
     }
     
     public boolean check( int[] option, int[] bc ){

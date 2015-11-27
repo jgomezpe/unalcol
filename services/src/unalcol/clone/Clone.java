@@ -50,6 +50,7 @@ import unalcol.service.ServiceCore;
 * @author <A HREF="http://disi.unal.edu.co/profesores/jgomezpe"> Jonatan Gomez-Perdomo </A>
 * (E-mail: <A HREF="mailto:jgomezpe@unal.edu.co">jgomezpe@unal.edu.co</A> )
 * @version 1.0
+* @param <T> Type of objects to be cloned.
 */
 public abstract class Clone<T> {
     /**
