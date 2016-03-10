@@ -317,4 +317,16 @@ public class DoubleArray{
     public static StatisticsWithMedian statistics_with_median( double[] x ){
     return (new StatisticsWithMedian(x));
     }
+    
+    /**
+     * Casts an array of Doubles to an array of doubles
+     * @param x Array of Doubles
+     * @return Array of doubles
+     */
+    public static double[] cast( Double[] x ){
+    	double[] y = new double[x.length];
+    	for( int i=0; i<y.length; i++ )
+    		y[i] = x[i];
+    	return y;
+    }
 }

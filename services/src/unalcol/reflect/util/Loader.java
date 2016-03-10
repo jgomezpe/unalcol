@@ -1,8 +1,6 @@
-package unalcol.descriptors;
+package unalcol.reflect.util;
 
-import java.io.Writer;
-
-import unalcol.io.Write;
+import java.lang.reflect.Array;
 
 //
 //Unalcol Service structure Pack 1.0 by Jonatan Gomez-Perdomo
@@ -10,11 +8,11 @@ import unalcol.io.Write;
 //
 /**
 *
-* WriteDescriptors
-* <p>Writes the descriptors associated to a given object.</p>
+* Loader
+* <P>Wrap for a ClassLoader.
 *
 * <P>
-* <A HREF="https://github.com/jgomezpe/unalcol/blob/master/src/unalcol/descriptors/WriteDescriptors.java">
+* <A HREF="https://github.com/jgomezpe/unalcol/blob/master/src/unalcol/reflect/util/Loader.java">
 * Source code </A> is available.
 * <P>
 *
@@ -53,15 +51,47 @@ import unalcol.io.Write;
 * (E-mail: <A HREF="mailto:jgomezpe@unal.edu.co">jgomezpe@unal.edu.co</A> )
 * @version 1.0
 */
-public class WriteDescriptors extends Write<Object>{
-    @Override
-    /**
-     * Writes an object to the given <i>writer</i>.
-     * @param obj Object to write
-     * @param writer The writer object
-     * @throws IOException IOException
-     */
-   public void write(Object obj, Writer writer) throws Exception {
-        Write.apply(Descriptors.obtain(obj), writer);
-    }
+public class Loader {
+	/**
+	 * Loads an Array class from an string
+	 * @param className String with an Array class name following the Java convention.
+	 * @return An Array class if <i>className</i> string defines one.
+	 * @throws ClassNotFoundException If the <i>className</i> string does not define an array class.
+	 */
+	protected static Class<?> loadArrayClass( String className ) throws ClassNotFoundException{
+		if( className.charAt(0)=='[' ){
+			Class<?> cl = loadArrayClass(className.substring(1));
+			return Array.newInstance(cl, 0).getClass();
+		}else{
+			if( className.length()==1 ){
+				switch(className.charAt(0)){
+					case 'Z': return Boolean.TYPE;
+					case 'B': return Byte.TYPE;
+					case 'C': return Character.TYPE; 
+					case 'D': return Double.TYPE;
+					case 'F': return Float.TYPE;
+					case 'I': return Integer.TYPE;
+					case 'J': return Long.TYPE;
+					case 'S': return Short.TYPE;
+				}
+			}else{
+				if(className.length()>0 && className.charAt(0)=='L' && className.charAt(className.length()-1)==';')
+					return loadClass( className.substring(1, className.length()-1) );
+			}	
+			throw new ClassNotFoundException(className);
+		}
+	}
+
+	/**
+	 * Loads a Class from an String representing the name of the class.
+	 * @param className An String representing the class name.
+	 * @return The class represented by the string <i>className</i>
+	 * @throws ClassNotFoundException If the string <i>className</i> does not represents a valid class Name or a class.
+	 */
+	public static Class<?> loadClass( String className ) throws ClassNotFoundException{
+		if( className.charAt(0)=='[' ){
+			return loadArrayClass(className);
+		}
+		return ClassLoader.getSystemClassLoader().loadClass(className);
+	}
 }

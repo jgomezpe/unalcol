@@ -28,6 +28,11 @@ public class WriteWrapper extends Write<Object> {
     @Override
     public void write(Object obj, Writer writer) throws IOException {
         try {
+           	if( obj instanceof Double || obj instanceof Long || obj instanceof Integer ||
+            	obj instanceof Character || obj instanceof String ){ 
+           		writer.write(obj.toString());
+           		return;
+           	}
             Method m = obj.getClass().getMethod(method_name, new Class[] {Writer.class});
             m.invoke(obj, new Object[] {writer});
         } catch (Exception e) {
