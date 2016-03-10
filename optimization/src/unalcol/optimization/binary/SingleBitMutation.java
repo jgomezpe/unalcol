@@ -3,7 +3,7 @@ package unalcol.optimization.binary;
 import unalcol.types.collection.bitarray.BitArray;
 import unalcol.clone.*;
 import unalcol.random.raw.RawGenerator;
-import unalcol.search.space.ArityOne;
+import unalcol.search.space.variation.ArityOne;
 
 /**
  * <p>Title: SingleBitMutation</p>
@@ -14,7 +14,7 @@ import unalcol.search.space.ArityOne;
  * @version 1.0
  */
 
-public class SingleBitMutation extends ArityOne<BitArray> {
+public class SingleBitMutation implements ArityOne<BitArray> {
 
   /**
    * Flips a bit in the given genome
@@ -36,21 +36,4 @@ public class SingleBitMutation extends ArityOne<BitArray> {
       } catch (Exception e) {}
       return null;
   }
-
- /**
-  * Testing function
-  */
-  public static void main(String[] argv){
-      System.out.println("*** Generating a genome of 21 genes randomly ***");
-      BitArray genome = new BitArray(21, true);
-      System.out.println(genome.toString());
-
-
-      SingleBitMutation mutation = new SingleBitMutation();
-
-      System.out.println("*** Applying the mutation ***");
-      BitArray mutated = mutation.apply(genome);
-      System.out.println("Mutated array " + mutated );
-   }
-
 }

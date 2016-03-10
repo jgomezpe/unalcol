@@ -1,6 +1,5 @@
 package unalcol.optimization.real.xover;
 
-import unalcol.types.collection.vector.*;
 import unalcol.clone.*;
 
 /**
@@ -25,7 +24,7 @@ public class LinearXOverPerDimension extends LinearXOver{
    * @param c2 Second Individuals genome to be modified by the genetic operator
    * @return extra information of the genetic operator
    */
-  public Vector<double[]> apply(double[] c1, double[] c2) {
+  public double[][] apply(double[] c1, double[] c2) {
       try {
           double[] x = (double[]) Clone.create(c1);
           double[] y = (double[]) Clone.create(c2);
@@ -41,10 +40,7 @@ public class LinearXOverPerDimension extends LinearXOver{
               x[i] = a * tx + a_1 * ty;
               y[i] = a_1 * tx + a * ty;
           }
-          Vector<double[]> v = new Vector<double[]>();
-          v.add(x);
-          v.add(y);
-          return v;
+          return new double[][]{x, y}; 
       } catch (Exception e) {
       }
       return null;

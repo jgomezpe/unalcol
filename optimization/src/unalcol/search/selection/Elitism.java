@@ -1,6 +1,9 @@
 package unalcol.search.selection;
 
 import unalcol.random.integer.IntRoulette;
+import unalcol.search.Goal;
+import unalcol.search.RealQualityGoal;
+import unalcol.search.solution.Solution;
 import unalcol.sort.Order;
 import unalcol.types.collection.vector.*;
 import unalcol.sort.ReversedOrder;
@@ -16,7 +19,7 @@ import unalcol.sort.ReversedOrder;
  * @author Jonatan Gomez
  * @version 1.0
  */
-public class Elitism<T> extends Selection<T>{
+public class Elitism<T> implements Selection<T>{
 
   /**
    * Elite percentage: Percentage of individuals to be included in the selection
@@ -49,11 +52,16 @@ public class Elitism<T> extends Selection<T>{
   }
   
   protected class IndexQOrder extends Order<IndexQ>{
-
-        @Override
-        public int compare(IndexQ one, IndexQ two) {
-            return (int)(one.q-two.q);
-        }
+	  protected Order<Double> order;
+	  
+	  public IndexQOrder( Order<Double> order ){
+		  this.order = order;
+	  }
+	  
+      @Override
+      public int compare(IndexQ one, IndexQ two) {
+    	  return order.compare(one.q,two.q);
+      }
   }
 
   /**
@@ -63,16 +71,20 @@ public class Elitism<T> extends Selection<T>{
    * @return Indices of the selected candidate solutions
    */
   @Override
-  public Vector<Integer> apply( int n, double[] q ){
-      Vector<Integer> sel = new Vector<Integer>();
-      int s = q.length;
-      SortedVector<IndexQ> indexq = new SortedVector<>( new ReversedOrder<>(new IndexQOrder()));
+  public int[] apply( int n, Solution<T>[] x ){
+	  String gName = Goal.class.getName();
+	  @SuppressWarnings("unchecked")
+	  RealQualityGoal<T> goal = (RealQualityGoal<T>)x[0].data(gName);
+      int[] sel = new int[n];
+      int s = x.length;
+      SortedVector<IndexQ> indexq = new SortedVector<>( 
+    		 new ReversedOrder<>( new IndexQOrder(goal.order()) ) );
       for( int i=0; i<s; i++ ){
-          indexq.add(new IndexQ(i,q[i]));
+          indexq.add(new IndexQ(i, (double)x[i].info(gName) ) );
       }
       int m = (int) (s * elite_percentage);
       for (int i = 0; i < n && i < m; i++) {
-          sel.add(indexq.get(i).index);
+          sel[i]=indexq.get(i).index;
       }
       if( m<n ){
           int k = (int) (s * (1.0 - cull_percentage));
@@ -85,7 +97,8 @@ public class Elitism<T> extends Selection<T>{
           n -= m;
           int[] index = generator.generate(n);
           for (int i=0; i<n; i++) {
-              sel.add(indexq.get(index[i]).index);
+              sel[m] = indexq.get(index[i]).index;
+              m++;
           }
       }
       return sel;
@@ -97,11 +110,18 @@ public class Elitism<T> extends Selection<T>{
    * @return Index of the selected candidate solution
    */
   @Override
-  public int choose_one( double[] q ){
+  public int choose_one( Solution<T>[] x ){
+	  String gName = Goal.class.getName();
+	  @SuppressWarnings("unchecked")
+	  RealQualityGoal<T> goal = (RealQualityGoal<T>)x[0].data(gName);
+	  Order<Double> order = goal.order();
       int k = 0;
-      for( int i=1; i<q.length; i++ ){
-          if( q[k] < q[i] ){
+      double q = (Double)x[k].info(gName);
+      for( int i=1; i<x.length; i++ ){
+    	  double q2 = (Double)x[i].info(gName);
+          if( order.compare(q, q2) < 0 ){
               k = i;
+              q = q2;
           }
       }
       return k;

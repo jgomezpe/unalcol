@@ -7,35 +7,23 @@ package unalcol.search.population;
 
 import unalcol.search.Goal;
 import unalcol.search.Search;
-import unalcol.search.Solution;
+import unalcol.search.solution.Solution;
+import unalcol.search.solution.SolutionManager;
 import unalcol.search.space.Space;
-import unalcol.types.collection.vector.Vector;
 
 /**
  *
  * @author Jonatan
  */
-public abstract class PopulationSearch<T> implements Search<T> {
-    protected int n;
-    
-    public PopulationSearch( int n ){
-        this.n = n;
-    }
-    
-    public abstract PopulationSolution<T> apply( PopulationSolution<T> pop, Space<T> space, Goal<T> goal );
-    
-    public PopulationSolution<T> apply( Vector<T> pop, double[] quality, Space<T> space, Goal<T> goal ){
-    	return apply( new PopulationSolution<T>(pop, quality), space, goal );
-    }
+public interface PopulationSearch<T,R> extends SolutionManager<T>, Search<T,R>{
 
-    public PopulationSolution<T> get( Vector<T> pop, Space<T> space, Goal<T> goal ){
-        return apply( pop, goal.quality(pop), space, goal );
-    }
+	public Population<T> init( Space<T> space, Goal<T,R> goal );
+	public Solution<T> pick( Population<T> pop );
+	
+	@Override
+    public default Solution<T> solve( Space<T> space, Goal<T,R> goal ){
+    	return pick(apply(init(space,goal), space));
+    }   
     
-    @Override
-    public Solution<T> apply(Space<T> space, Goal<T> goal) {
-    	PopulationSolution<T> solution = new PopulationSolution<T>(space.get(n), goal);
-        solution = apply( solution, space, goal );
-        return solution.pick();
-    }
+    public Population<T> apply( Population<T> pop, Space<T> space );    
 }

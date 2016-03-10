@@ -1,8 +1,8 @@
 package unalcol.evolution.haea;
-import unalcol.search.population.variation.Operator;
 import unalcol.types.collection.vector.*;
 import unalcol.random.integer.*;
 import unalcol.random.raw.RawGenerator;
+import unalcol.search.variation.SearchOperator;
 import unalcol.types.real.array.DoubleArray;
 
 /**
@@ -91,7 +91,7 @@ public abstract class HaeaOperators<T>{
      * @param operIndex Operator index
      * @return Genetic operator associated to the given index and individual
      */
-    public abstract Operator<T> get( int indIndex, int operIndex );
+    public abstract SearchOperator<T> get( int indIndex, int operIndex );
 
     /**
      * Genetic operator reward mechanism
@@ -119,12 +119,14 @@ public abstract class HaeaOperators<T>{
     
     public void reward( int indIndex ){
         reward(rates.get(indIndex), sel_oper.get(indIndex));
-        get(indIndex, sel_oper.get(indIndex)).adapt(1.0);
+        // @TODO: Adaptation of operators in Haea
+        //get(indIndex, sel_oper.get(indIndex)).adapt(1.0);
     }
 
     public void punish( int indIndex ){
         punish(rates.get(indIndex), sel_oper.get(indIndex));
-        get(indIndex, sel_oper.get(indIndex)).adapt(-1.0);
+        // @TODO: Adaptation of operators in Haea
+        //get(indIndex, sel_oper.get(indIndex)).adapt(-1.0);
     }
 
     

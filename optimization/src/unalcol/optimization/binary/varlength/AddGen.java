@@ -2,7 +2,8 @@ package unalcol.optimization.binary.varlength;
 import unalcol.types.collection.bitarray.BitArray;
 import unalcol.clone.*;
 import unalcol.random.raw.RawGenerator;
-import unalcol.search.space.ArityOne;
+import unalcol.search.space.variation.ArityOne;
+import unalcol.search.variation.ParameterizedObject;
 
 /**
  * <p>Title: AddGen</p>
@@ -12,7 +13,7 @@ import unalcol.search.space.ArityOne;
  * @version 1.0
  */
 
-public class AddGen extends ArityOne<BitArray> {
+public class AddGen implements ArityOne<BitArray>, ParameterizedObject<int[]> {
   /**
    * If the added gene is added to the end of the genome or not (randomly added)
    */
@@ -71,20 +72,18 @@ public class AddGen extends ArityOne<BitArray> {
       return null;
   }
 
- /**
-  * Testing function
-  * */
-  public static void main(String[] argv){
-    System.out.println("*** Generating a genome of 21 genes randomly ***");
-    BitArray genome = new BitArray(21, true);
-    System.out.println(genome.toString());
 
-    System.out.println("*** Generating a Addition Gen operation with gen length of 3 ***");
-    AddGen add = new AddGen(21, 27, 3);
-    System.out.println("*** Applying the addition ***");
-    BitArray gene = add.apply(genome);
+  @Override
+  public void setParameters(int[] parameters) {
+	// TODO Auto-generated method stub
+	gene_size = parameters[0];
+	min_length = parameters[1];
+	max_length = parameters[2];
+  }
 
-    System.out.println("*** Mutated genome ***");
-    System.out.println(gene);
+  @Override
+  public int[] getParameters() {
+	// TODO Auto-generated method stub
+	return new int[]{gene_size, min_length, max_length};
   }
 }

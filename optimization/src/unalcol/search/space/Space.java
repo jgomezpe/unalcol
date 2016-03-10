@@ -5,41 +5,43 @@
  */
 package unalcol.search.space;
 
-import unalcol.types.collection.vector.Vector;
+import unalcol.reflect.tag.TaggedObject;
 
 /**
  *
  * @author jgomez
  */
-public abstract class Space<T>{
+public abstract class Space<T> extends TaggedObject<T>{
+	public static final String FEASIBLE="feasible";
+	public static final String FEASIBILITY="feasibility";
+	
+	public Space(){ super(null); }
+	
     public abstract boolean feasible( T x );
+
     
     public abstract double feasibility( T x );
+
+//    public abstract Neighbourhood<T> neighbourhood( T x );
     
     public abstract T repair( T x );
     
-    public abstract T get();
-    
-    public Vector<T> get( int n ){
-        Vector<T> v = new Vector<T>();
+    public abstract T pick();
+
+    public T[] pick( int n ){
+        @SuppressWarnings("unchecked")
+		T[] v = (T[])new Object[n];
         for( int i=0; i<n; i++ ){
-            v.add(get());
+            v[i] = pick();
         }
         return v;
     }
 
-    public Vector<T> repair( Vector<T> pop ){
-        Vector<T> v = new Vector<>();
-        for( T x:pop ){
-            v.add(repair(x));
-        }
-        return v;
-    }
-
-    public Vector<T> repair( T[] pop ){
-        Vector<T> v = new Vector<T>();
-        for( T x:pop ){
-            v.add(repair(x));
+    public T[] repair( T[] pop ){
+        @SuppressWarnings("unchecked")
+		T[] v = (T[])new Object[pop.length];
+        for( int i=0; i<pop.length; i++ ){
+            v[i] = repair(pop[i]);
         }
         return v;
     }           

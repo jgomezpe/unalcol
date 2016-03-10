@@ -4,24 +4,24 @@
  */
 package unalcol.evolution.es;
 
+import unalcol.search.population.Population;
 import unalcol.search.selection.Selection;
-import unalcol.types.collection.vector.Vector;
 
 /**
  *
  * @author jgomez
  */
-public class CommaReplacement<T,P>  implements ESReplacement<T,P> {
-    public CommaReplacement( int _mu ) {
-        super(_mu);
+public class CommaReplacement<T> extends ESReplacement<T> {
+    public CommaReplacement( int mu ) {
+        super( mu );
     }
     
-    public CommaReplacement( int _mu, Selection<T> sel ) {
-        super(_mu, sel);
+    public CommaReplacement( int mu, Selection<T> sel ) {
+        super(mu, sel);
     }
     
     @Override
-    public Vector<Solution<T>> pool(Vector<Solution<T>> parents, Vector<Solution<T>> offspring){
-        return offspring;
+    public Population<T> pool(Population<T> current, Population<T> next){
+        return next;
     }
 }    

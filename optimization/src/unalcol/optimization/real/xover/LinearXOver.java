@@ -1,6 +1,5 @@
 package unalcol.optimization.real.xover;
 
-import unalcol.types.collection.vector.*;
 import unalcol.clone.*;
 import unalcol.random.raw.JavaGenerator;
 import unalcol.random.raw.RawGenerator;
@@ -29,7 +28,7 @@ public class LinearXOver extends RealArityTwo{
      * @return extra information of the genetic operator
      */
     @Override
-    public Vector<double[]> apply(double[] c1, double[] c2) {
+    public double[][] apply(double[] c1, double[] c2) {
         try {
             double[] x = (double[]) Clone.create(c1);
             double[] y = (double[]) Clone.create(c2);
@@ -46,15 +45,8 @@ public class LinearXOver extends RealArityTwo{
                 x[i] = alpha * tx + neg_alpha * ty;
                 y[i] = alpha_1 * tx + neg_alpha_1 * ty;
             }
-            Vector<double[]> v = new Vector<double[]>();
-            v.add(x);
-            v.add(y);
-            return v; 
+            return new double[][]{x, y}; 
         } catch (Exception e) {}
         return null;
-    }
-
-    @Override
-    public void adapt(double productivity) {
     }
 }

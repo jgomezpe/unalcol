@@ -5,10 +5,12 @@
  */
 package unalcol.search.population;
 
+import unalcol.search.solution.SolutionManager;
+
 /**
  *
  * @author Jonatan
  */
-public interface PopulationReplacement<T> {
-    public PopulationSolution<T> apply( PopulationSolution<T> current, PopulationSolution<T> next );
+public interface PopulationReplacement<T> extends SolutionManager<T> {
+    public Population<T> apply( Population<T> current, Population<T> next );
 }

@@ -3,8 +3,8 @@ package unalcol.search.population;
 public class Generational<T> implements PopulationReplacement<T>{
 
 	@Override
-	public PopulationSolution<T> apply(PopulationSolution<T> current,
-			PopulationSolution<T> next) {
+	public Population<T> apply(Population<T> current,
+			Population<T> next) {
 		return next;
 	}
 

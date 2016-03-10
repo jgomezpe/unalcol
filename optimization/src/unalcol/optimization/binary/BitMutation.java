@@ -1,7 +1,8 @@
 package unalcol.optimization.binary;
 
 import unalcol.random.util.*;
-import unalcol.search.space.ArityOne;
+import unalcol.search.space.variation.ArityOne;
+import unalcol.search.variation.ParameterizedObject;
 import unalcol.types.collection.bitarray.BitArray;
 import unalcol.clone.*;
 
@@ -13,7 +14,7 @@ import unalcol.clone.*;
  * @version 1.0
  */
 
-public class BitMutation extends ArityOne<BitArray> {
+public class BitMutation implements ArityOne<BitArray>, ParameterizedObject<Double> {
   /**
    * Probability of mutating one single bit
    */
@@ -55,22 +56,13 @@ public class BitMutation extends ArityOne<BitArray> {
     return null;
   }
 
-
-
- /**
-  * Testing function
-  */
-  public static void main(String[] argv){
-    System.out.println("*** Generating a genome of 21 genes randomly ***");
-    BitArray genome = new BitArray(21, true);
-    System.out.println(genome.toString());
-
-    BitMutation mutation = new BitMutation(0.05);
-
-    System.out.println("*** Applying the mutation ***");
-    BitArray mutated = mutation.apply(genome);
-    System.out.println("Mutated array " + mutated );
-
+  @Override
+  public void setParameters(Double parameters) {
+	bit_mutation_rate = parameters;
   }
 
+  @Override
+  public Double getParameters() {
+	return bit_mutation_rate;
+  }
 }

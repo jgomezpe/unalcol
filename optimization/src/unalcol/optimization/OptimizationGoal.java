@@ -5,60 +5,39 @@
  */
 package unalcol.optimization;
 
-import unalcol.search.Goal;
-import unalcol.search.Solution;
-import unalcol.tracer.Tracer;
+import unalcol.search.RealQualityGoal;
+import unalcol.sort.ReversedOrder;
+import unalcol.types.real.DoubleOrder;
 
 /**
  *
  * @author jgomez
  */
-public class OptimizationGoal<T> extends Goal<T> {
+public class OptimizationGoal<T> extends RealQualityGoal<T> {
 
-    protected boolean minimize = true;
-    
     protected OptimizationFunction<T> function;
     
-    protected double goal_value = Double.MIN_VALUE;
+    protected double goal_value;
     
     
     public OptimizationGoal(OptimizationFunction<T> function){
-        this.function = function;
+        this( function, true );
     }
     
     public OptimizationGoal( OptimizationFunction<T> function, boolean minimize ){
-        this.function = function;
-        this.minimize = minimize;
-        if( !minimize ) goal_value = Double.MAX_VALUE;
+    	this( function, minimize, minimize?Double.MIN_VALUE:Double.MAX_VALUE );
     }
 
     public OptimizationGoal( OptimizationFunction<T> function, boolean minimize,
                              double goal_value ){
+    	super( goal_value );
         this.function = function;
-        this.minimize = minimize;
-        this.goal_value = goal_value;
+        this.order = minimize? new ReversedOrder<Double>(new DoubleOrder()):new DoubleOrder();
     }
-    
+        
     @Override
-    public boolean test(T x) {
-        return qTest(apply(x));
-    }
-    
-    @Override
-    public boolean qTest(double q) {
-        return (goal_value==q);
-    }
-    
-    public double apply(T x){
-        double y = function.apply(x);
-        Tracer.trace(this, new Solution<T>(x,y));
-        return y;
-    }
-
-    @Override
-    public double quality(T x) {
-        if( minimize ) return -apply(x);
-        else return apply(x);
+    public Double apply(T x) {
+    	return function.apply(x);
     }   
     
     @Override

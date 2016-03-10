@@ -12,8 +12,8 @@ public class MultiLevelSpace<G,P> extends Space<G> {
 	}
 	
 	@Override
-	public G get() {
-		return map.code(space.get());
+	public G pick() {
+		return map.code(space.pick());
 	}
 
 	@Override

@@ -1,10 +1,11 @@
 package unalcol.evolution.ga;
 import unalcol.random.util.*;
-import unalcol.search.space.ArityOne;
-import unalcol.search.population.variation.ArityTwo;
-import unalcol.search.population.variation.Operator;
-import unalcol.types.collection.vector.*;
-import unalcol.clone.*;
+import unalcol.search.selection.Selection;
+import unalcol.search.solution.Solution;
+import unalcol.search.solution.variation.SolutionOperator;
+import unalcol.search.variation.ArityOneSearchOperator;
+import unalcol.search.variation.ArityTwoSearchOperator;
+import unalcol.types.collection.vector.Vector;
 
 /**
  * <p>Title: ClassicStrategy</p>
@@ -16,47 +17,49 @@ import unalcol.clone.*;
  * @author Jonatan Gomez
  * @version 1.0
  */
-public class GAVariation<T> extends Operator<T>{
-    protected ArityOne<T> mutation;
-    protected ArityTwo<T> xover;
+public class GAVariation<T> implements SolutionOperator<T>{
+	protected Selection<T> selection;
+    protected ArityOneSearchOperator<T> mutation;
+    protected ArityTwoSearchOperator<T> xover;
     protected RandBool generator;
-    public GAVariation( ArityOne<T> mutation, ArityTwo<T> xover, double probability) {
+
+    public GAVariation( Selection<T> selection, ArityOneSearchOperator<T> mutation,
+    					ArityTwoSearchOperator<T> xover, double probability) {
+    	this.selection = selection;
         this.xover = xover;
         this.mutation = mutation;
         generator = new RandBool( 1.0 - probability );
     }
 
+    
 	@SuppressWarnings("unchecked")
 	@Override
-	public Vector<T> apply(T... pop) {
-		Shuffle<T> shuffle = new Shuffle<T>();
+	public Solution<T>[] apply(Solution<T>... pop) {
+		Shuffle<Solution<T>> shuffle = new Shuffle<Solution<T>>();
 		shuffle.apply(pop);
-        Vector<T> buffer = new Vector<T>();
+		pop = selection.pick(pop.length, pop);
+        Vector<Solution<T>> buffer = new Vector<Solution<T>>();
         int n = xover.arity();
         int m = pop.length / n;
         int k = 0;
-        T[] parents = (T[])new Object[n];
+        Solution<T>[] parents = (Solution<T>[])new Solution[n];
         for (int j = 0; j < m; j++) {
             for( int i=0; i<n; i++ ){
                 parents[i] = pop[k];
                 k++;
             }
-            Vector<T> offspring = new Vector<T>();
+            Solution<T>[] offspring;
             if (generator.next()) {
             	offspring = mutation.apply(xover.apply(parents));
-            	//offspring = xover.apply( parents );
-            	//for( int i=0; i<n; i++){
-            	//	offspring.set( i, mutation.apply( offspring.get(i) ) );
-            	//}                
             } else {
-               for (int i = 0; i < n; i++) {
-                    offspring.add((T)Clone.create(parents[i]));
-               }
+            	offspring = (Solution<T>[])(new Solution[n]);
+            	for (int i = 0; i < n; i++) 
+                    offspring[i] = (Solution<T>)parents[i].clone(parents[i].object());
             }
-            for( int i=0; i<offspring.size(); i++){
-                buffer.add(offspring.get(i));
+            for( int i=0; i<offspring.length; i++){
+                buffer.add(offspring[i]);
             }
         }
-        return buffer;
+        return buffer.toArray();
 	}
 }

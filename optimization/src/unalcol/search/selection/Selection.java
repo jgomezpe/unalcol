@@ -1,6 +1,7 @@
 package unalcol.search.selection;
 
-import unalcol.types.collection.vector.*;
+import unalcol.search.solution.Solution;
+import unalcol.search.solution.SolutionManager;
 
 /**
  * <p>Title: Selection</p>
@@ -11,73 +12,29 @@ import unalcol.types.collection.vector.*;
  * @param <T> Type of solutions to be selected
  */
 
-public abstract class Selection<T>{
-	  /**
-	   * Selects a subset of candidate solutions from a set of candidates
-	   * @param n Number of candidate solutions to be selected
-	   * @param x Candidate solutions
-	   * @param q Quality associated to each candidate solution
-	   * @return Indices of the selected candidate solutions
-	   */
-	  public Vector<T> apply( int n, Vector<T> x, double[] q ){
-	      Vector<Integer> index = apply(n, q);
-	      Vector<T> v = new Vector<T>();
-	      for( Integer i : index ){
-	    	  v.add(x.get(i));
-	      }
-	      return v;
-	  }
-
-	  /**
-	   * Selects a subset of candidate solutions from a set of candidates
-	   * @param n Number of candidate solutions to be selected
-	   * @param x Candidate solutions
-	   * @param q Quality associated to each candidate solution
-	   * @return Indices of the selected candidate solutions
-	   */
-	  public T[] apply( int n, T[] x, double[] q ){
-	      Vector<Integer> index = apply(n, q);
-	      @SuppressWarnings("unchecked")
-		T[] v = (T[])new Object[n];
-	      for( int i=0; i<index.size(); i++ ){
-	    	  v[i] = x[index.get(i)];
-	      }
-	      return v;
-	  }
+public interface Selection<T> extends SolutionManager<T>{
 
   /**
    * Selects a subset of candidate solutions from a set of candidates
    * @param n Number of candidate solutions to be selected
-   * @param q Quality associated to each candidate solution
+   * @param x Candidate solutions
    * @return Indices of the selected candidate solutions
    */
-  public abstract Vector<Integer> apply( int n, double[] q );
-
-  /**
-   * Selects a candidate solution from a set of candidate solutions
-   * @param x Candidate solutions
-   * @param q Quality associated to each candidate solution
-   * @return Index of the selected candidate solution
-   */
-  public T choose_one( T[] x, double[] q ){
-      return x[choose_one(q)];
-  }
-
-  /**
-   * Selects a candidate solution from a set of candidate solutions
-   * @param x Candidate solutions
-   * @param q Quality associated to each candidate solution
-   * @return Index of the selected candidate solution
-   */
-  public T choose_one( Vector<T> x, double[] q ){
-      return x.get(choose_one(q));
-  }
+	public int[] apply( int n, Solution<T>[] x );
 
   /**
    * Selects a candidate solution from a set of candidate solutions
    * @param q Quality associated to each candidate solution
    * @return Index of the selected candidate solution
    */
-  public abstract int choose_one( double[] q );
-  
+	public int choose_one( Solution<T>[] x );
+	
+	public default Solution<T>[] pick(int n, Solution<T>[] x ){
+		Solution<T>[] obj = (Solution<T>[])tagged_array(n);
+		int[] idx = apply(n,x);
+		for( int i=0; i<n; i++ ){
+			obj[i] = x[idx[i]];
+		}
+		return obj;
+	}
 }

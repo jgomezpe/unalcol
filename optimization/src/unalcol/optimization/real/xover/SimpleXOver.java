@@ -1,7 +1,6 @@
 package unalcol.optimization.real.xover;
 
 import unalcol.optimization.real.xover.RealArityTwo;
-import unalcol.types.collection.vector.*;
 import unalcol.clone.*;
 import unalcol.random.integer.IntUniform;
 
@@ -40,7 +39,7 @@ public class SimpleXOver extends RealArityTwo{
      * @return Extra information of the genetic operator
      */
     @Override
-    public Vector<double[]> apply(double[] c1, double[] c2) {
+    public double[][] apply(double[] c1, double[] c2) {
         try {
           double[] x = (double[]) Clone.create(c1);
           double[] y = (double[]) Clone.create(c2);
@@ -51,15 +50,8 @@ public class SimpleXOver extends RealArityTwo{
               x[i] = y[i];
               y[i] = t;
           }
-          Vector<double[]> v = new Vector<double[]>();
-          v.add(x);
-          v.add(y);
-          return v;
+          return new double[][]{x, y}; 
         } catch (Exception e) {}
         return null;
-    }
-
-    @Override
-    public void adapt(double productivity) {
     }
 }

@@ -20,8 +20,7 @@ public class PowerLawMutation extends IntensityMutation {
       super(sigma, new SimplestSymmetricPowerLawGenerator());
   }
 
-    public PowerLawMutation( double sigma, PickComponents components,
-                             AdaptMutationIntensity adapt){
-        super(sigma, new SimplestSymmetricPowerLawGenerator(), components, adapt);
+    public PowerLawMutation( double sigma, PickComponents components){
+        super(sigma, new SimplestSymmetricPowerLawGenerator(), components);
     }
 }

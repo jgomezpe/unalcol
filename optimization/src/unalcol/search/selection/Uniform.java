@@ -1,7 +1,7 @@
 package unalcol.search.selection;
 
 import unalcol.random.integer.*;
-import unalcol.types.collection.vector.*;
+import unalcol.search.solution.Solution;
 
 /**
  * <p>Title: Uniform</p>
@@ -12,7 +12,7 @@ import unalcol.types.collection.vector.*;
  * @version 1.0
  */
 
-public class Uniform<T> extends Selection<T>{
+public class Uniform<T> implements Selection<T>{
 
   /**
    * Default constructor
@@ -26,7 +26,7 @@ public class Uniform<T> extends Selection<T>{
    * @param q Quality associated to each candidate solution
    * @return Index of the selected candidate solution
    */
-  protected int choose_one( IntUniform g, double[] q ){
+  protected int choose_one( IntUniform g ){
     return g.generate();
   }
 
@@ -36,8 +36,8 @@ public class Uniform<T> extends Selection<T>{
    * @return Index of the selected candidate solution
    */
   @Override
-  public int choose_one( double[] q ){
-    return choose_one(new IntUniform(q.length), q);
+  public int choose_one( Solution<T>[] x ){
+    return choose_one(new IntUniform(x.length));
   }
 
   /**
@@ -47,11 +47,11 @@ public class Uniform<T> extends Selection<T>{
    * @return Indices of the selected candidate solutions
    */
   @Override
-  public Vector<Integer> apply( int n, double[] q){
-    IntUniform g =  new IntUniform(q.length);
-    Vector<Integer> sel = new Vector<Integer>();
+  public int[] apply( int n, Solution<T>[] x){
+    IntUniform g =  new IntUniform(x.length);
+    int[] sel = new int[n];
     for (int i = 0; i<n; i++) {
-        sel.add(g.generate());
+        sel[i] = g.generate();
     }
     return sel;
   }

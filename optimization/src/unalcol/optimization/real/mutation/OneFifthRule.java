@@ -5,11 +5,13 @@
  */
 package unalcol.optimization.real.mutation;
 
+import unalcol.search.local.AdaptSearchOperatorParameters;
+
 /**
  *
  * @author jgomez
  */
-public class OneFifthRule implements AdaptMutationIntensity{
+public class OneFifthRule implements AdaptSearchOperatorParameters<Double>{
     protected int G;
     protected double alpha;
     protected int Gcount = 0;
@@ -21,8 +23,11 @@ public class OneFifthRule implements AdaptMutationIntensity{
     }
     
     
-    @Override
-    public double apply(double sigma, double productivity){
+    
+    
+	@Override
+	public Double apply(Double sigma, double current, double next) {
+		double productivity = next - current;
         if( productivity > 0.0 )  Gstar++;
         Gcount++;
         if(Gcount==G){
@@ -39,5 +44,5 @@ public class OneFifthRule implements AdaptMutationIntensity{
             Gstar = 0;
         }
         return sigma;        
-    }    
+    }
 }

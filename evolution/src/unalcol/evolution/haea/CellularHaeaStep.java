@@ -1,7 +1,7 @@
 package unalcol.evolution.haea;
 import unalcol.ca.*;
 import unalcol.search.Goal;
-import unalcol.search.population.PopulationSolution;
+import unalcol.search.population.Population;
 import unalcol.search.selection.Selection;
 import unalcol.search.space.Space;
 import unalcol.types.collection.vector.*;
@@ -27,12 +27,12 @@ public class CellularHaeaStep<T> extends HaeaStep<T> {
      * @param grow Growing function
      * @param selection Extra parent selection mechanism
      */
-    public CellularHaeaStep(int n, HaeaReplacement<T> replacement, Selection<T> selection) {
-        super( n, replacement, selection );
+    public CellularHaeaStep(int mu,  Selection<T> selection, HaeaReplacement<T> replacement) {
+        super( mu, selection, replacement );
     }
 
-    public CellularHaeaStep(int n, HaeaOperators<T> operators, Selection<T> selection) {
-    	super( n, operators, selection);
+    public CellularHaeaStep(int mu, Selection<T> selection, HaeaOperators<T> operators) {
+    	super( mu, selection, operators);
     }
     
     /**
@@ -41,12 +41,12 @@ public class CellularHaeaStep<T> extends HaeaStep<T> {
      * @param population Full Population
      * @return A subpopulation that can be used for selecting a second parent
      */
-    public Vector<Integer> select( int id, PopulationSolution<T> population ){
+    public Vector<Integer> select( int id, Population<T> population ){
         Vector<Integer> pop = new Vector<Integer>();
         int[][] neighboor = ca.neighborhood(id);
         int i=0;
         while( neighboor[i][0] >= 0 ){
-            pop.add(ca.id(neighboor[i][0], neighboor[i][1])%n);
+            pop.add(ca.id(neighboor[i][0], neighboor[i][1])%mu);
             i++;
         }
         return pop;
@@ -69,15 +69,19 @@ public class CellularHaeaStep<T> extends HaeaStep<T> {
      * @param f Function to be optimized
      */
     @Override
-	public PopulationSolution<T> apply( PopulationSolution<T> population, Space<T> space, Goal<T> goal ){
-        if( ca == null ){
-            int rows = (int) Math.sqrt( population.size() );
-            int columns = population.size() / rows;
-            columns = (rows*columns < population.size())?columns+1:columns;
-            ca = new CambrianExtinctionCA(rows, columns, 0.33);
-        }
+	public Population<T> apply( Population<T> population, Space<T> space ){
         ca.simulate();
-        return super.apply(population, space, goal);
+        return super.apply(population, space);
     }
 
+	@Override
+	public Population<T> init(Space<T> space, Goal<T, Double> goal) {
+		// initializing the cellular automaton
+        int rows = (int) Math.sqrt( mu );
+        int columns = mu / rows;
+        columns = (rows*columns < mu)?columns+1:columns;
+        ca = new CambrianExtinctionCA(rows, columns, 0.33);
+		return super.init(space, goal);
+	}
+    
 }

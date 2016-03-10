@@ -8,14 +8,14 @@ import unalcol.optimization.OptimizationGoal;
 import unalcol.optimization.binary.BinarySpace;
 import unalcol.optimization.binary.BitMutation;
 import unalcol.optimization.binary.testbed.Deceptive;
+import unalcol.optimization.method.AdaptOperatorOptimizationFactory;
 //import unalcol.optimization.binary.testbed.MaxOnes;
-import unalcol.optimization.hillclimbing.HillClimbing;
+import unalcol.optimization.method.OptimizationFactory;
 import unalcol.optimization.integer.IntHyperCube;
 import unalcol.optimization.integer.MutationIntArray;
 import unalcol.optimization.integer.testbed.QueenFitness;
 import unalcol.optimization.real.BinaryToRealVector;
 import unalcol.optimization.real.HyperCube;
-import unalcol.optimization.real.mutation.AdaptMutationIntensity;
 import unalcol.optimization.real.mutation.IntensityMutation;
 import unalcol.optimization.real.mutation.OneFifthRule;
 import unalcol.optimization.real.mutation.PermutationPick;
@@ -24,12 +24,14 @@ import unalcol.optimization.real.mutation.PickComponents;
 import unalcol.optimization.real.testbed.Schwefel;
 import unalcol.random.real.DoubleGenerator;
 import unalcol.random.real.SimplestSymmetricPowerLawGenerator;
+import unalcol.reflect.tag.TaggedObject;
 import unalcol.search.Goal;
-import unalcol.search.Solution;
-import unalcol.search.SolutionDescriptors;
+import unalcol.search.local.LocalSearch;
+import unalcol.search.solution.Solution;
+import unalcol.search.solution.SolutionDescriptors;
+import unalcol.search.solution.SolutionWrite;
 import unalcol.search.multilevel.CodeDecodeMap;
 import unalcol.search.multilevel.MultiLevelSearch;
-import unalcol.search.population.PopulationSolution;
 import unalcol.search.space.Space;
 import unalcol.tracer.ConsoleTracer;
 import unalcol.tracer.Tracer;
@@ -50,35 +52,42 @@ public class HillClimbingTest{
     	
     	// Optimization Function
     	OptimizationFunction<double[]> function = new Schwefel();		
-        Goal<double[]> goal = new OptimizationGoal<double[]>(function); // minimizing, add the parameter false if maximizing   	
+        Goal<double[], Double> goal = new OptimizationGoal<double[]>(function); // minimizing, add the parameter false if maximizing   	
     	
     	// Variation definition
     	DoubleGenerator random = new SimplestSymmetricPowerLawGenerator(); // It can be set to Gaussian or other symmetric number generator (centered in zero)
     	PickComponents pick = new PermutationPick(6); // It can be set to null if the mutation operator is applied to every component of the solution array
-    	AdaptMutationIntensity adapt = new OneFifthRule(20, 0.9); // It can be set to null if no mutation adaptation is required
-    	IntensityMutation variation = new IntensityMutation( 0.1, random, pick, adapt );
+    	IntensityMutation variation = new IntensityMutation( 0.1, random, pick );
         
         // Search method
-        int MAXITERS = 10000;
+        int MAXITERS = 100;
         boolean neutral = true; // Accepts movements when having same function value
-        HillClimbing<double[]> search = new HillClimbing<double[]>( variation, neutral, MAXITERS );
-
+        boolean adapt_operator = true; //
+        LocalSearch<double[],Double> search;
+        if( adapt_operator ){
+        	OneFifthRule adapt = new OneFifthRule(20, 0.9); // One Fifth rule for adapting the mutation parameter
+        	AdaptOperatorOptimizationFactory<double[],Double> factory = new AdaptOperatorOptimizationFactory<double[],Double>();
+        	search = factory.hill_climbing( variation, adapt, neutral, MAXITERS );
+        }else{
+        	OptimizationFactory<double[]> factory = new OptimizationFactory<double[]>();
+        	search = factory.hill_climbing( variation, neutral, MAXITERS );
+        }
         // Tracking the goal evaluations
         SolutionDescriptors<double[]> desc = new SolutionDescriptors<double[]>();
-        Descriptors.set(Solution.class, desc);
+        Descriptors.set(TaggedObject.class, desc);
         DoubleArrayPlainWrite write = new DoubleArrayPlainWrite(false);
         Write.set(double[].class, write);
-        WriteDescriptors w_desc = new WriteDescriptors();
-        Write.set(Solution.class, w_desc);
+        SolutionWrite<double[]> w_desc = new SolutionWrite<double[]>(true);
+        Write.set(TaggedObject.class, w_desc);
         
         ConsoleTracer tracer = new ConsoleTracer();       
 //        Tracer.addTracer(goal, tracer);  // Uncomment if you want to trace the function evaluations
         Tracer.addTracer(search, tracer); // Uncomment if you want to trace the hill-climbing algorithm
         
         // Apply the search method
-        Solution<double[]> solution = search.apply(space, goal);
+        TaggedObject<double[]> solution = search.solve(space, goal);
         
-        System.out.println(solution.quality());		
+        System.out.println(solution.info(Goal.class.getName()));		
 	}
     
 	public static void binary(){
@@ -88,7 +97,7 @@ public class HillClimbingTest{
     	
     	// Optimization Function
     	OptimizationFunction<BitArray> function = new Deceptive();		
-        Goal<BitArray> goal = new OptimizationGoal<BitArray>(function, false); // maximizing, remove the parameter false if minimizing   	
+        Goal<BitArray,Double> goal = new OptimizationGoal<BitArray>(function, false); // maximizing, remove the parameter false if minimizing   	
     	
     	// Variation definition
     	BitMutation variation = new BitMutation();
@@ -96,7 +105,16 @@ public class HillClimbingTest{
         // Search method
         int MAXITERS = 10000;
         boolean neutral = true; // Accepts movements when having same function value
-        HillClimbing<BitArray> search = new HillClimbing<BitArray>( variation, neutral, MAXITERS );
+        boolean adapt_operator = true; //
+        LocalSearch<BitArray,Double> search;
+        if( adapt_operator ){
+        	OneFifthRule adapt = new OneFifthRule(20, 0.9); // One Fifth rule for adapting the mutation parameter
+        	AdaptOperatorOptimizationFactory<BitArray,Double> factory = new AdaptOperatorOptimizationFactory<BitArray,Double>();
+        	search = factory.hill_climbing( variation, adapt, neutral, MAXITERS );
+        }else{
+        	OptimizationFactory<BitArray> factory = new OptimizationFactory<BitArray>();
+        	search = factory.hill_climbing( variation, neutral, MAXITERS );
+        }
 
         // Tracking the goal evaluations
         ConsoleTracer tracer = new ConsoleTracer();       
@@ -104,9 +122,9 @@ public class HillClimbingTest{
         Tracer.addTracer(search, tracer); // Uncomment if you want to trace the hill-climbing algorithm
         
         // Apply the search method
-        Solution<BitArray> solution = search.apply(space, goal);
+        TaggedObject<BitArray> solution = search.solve(space, goal);
         
-        System.out.println( solution.quality() + "=" + solution.value());		
+        System.out.println( solution.info(Goal.class.getName()) + "=" + solution.object());		
 	}
 	
 	public static void binary2real(){
@@ -118,7 +136,7 @@ public class HillClimbingTest{
 
     	// Optimization Function
     	OptimizationFunction<double[]> function = new Schwefel();		
-        Goal<double[]> goal = new OptimizationGoal<double[]>(function); // minimizing, add the parameter false if maximizing   	
+        Goal<double[], Double> goal = new OptimizationGoal<double[]>(function); // minimizing, add the parameter false if maximizing   	
 		
         // CodeDecodeMap
         int BITS_PER_DOUBLE = 16; // Number of bits per integer (i.e. per real)
@@ -130,14 +148,23 @@ public class HillClimbingTest{
         // Search method in the binary space
         int MAXITERS = 10000;
         boolean neutral = true; // Accepts movements when having same function value
-        HillClimbing<BitArray> bin_search = new HillClimbing<BitArray>( variation, neutral, MAXITERS );
+        boolean adapt_operator = true; //
+        LocalSearch<BitArray,Double> bin_search;
+        if( adapt_operator ){
+        	OneFifthRule adapt = new OneFifthRule(20, 0.9); // One Fifth rule for adapting the mutation parameter
+        	AdaptOperatorOptimizationFactory<BitArray,Double> factory = new AdaptOperatorOptimizationFactory<BitArray,Double>();
+        	bin_search = factory.hill_climbing( variation, adapt, neutral, MAXITERS );
+        }else{
+        	OptimizationFactory<BitArray> factory = new OptimizationFactory<BitArray>();
+        	bin_search = factory.hill_climbing( variation, neutral, MAXITERS );
+        }
 
         // The multilevel search method (moves in the binary space, but computes fitness in the real space)
-        MultiLevelSearch<BitArray, double[]> search = new MultiLevelSearch<>(bin_search, map);
+        MultiLevelSearch<BitArray, double[], Double> search = new MultiLevelSearch<>(bin_search, map);
         
         // Tracking the goal evaluations
         SolutionDescriptors<double[]> desc = new SolutionDescriptors<double[]>();
-        Descriptors.set(Solution.class, desc);
+        Descriptors.set(TaggedObject.class, desc);
         DoubleArrayPlainWrite write = new DoubleArrayPlainWrite(false);
         Write.set(double[].class, write);
         //WriteDescriptors w_desc = new WriteDescriptors();
@@ -148,10 +175,9 @@ public class HillClimbingTest{
 //        Tracer.addTracer(search, tracer); // Uncomment if you want to trace the hill-climbing algorithm
         
         // Apply the search method
-        Solution<double[]> solution = search.apply(space, goal);
+        TaggedObject<double[]> solution = search.solve(space, goal);
         
-        System.out.println( solution.quality() + "=" + solution.value());		
-        
+        System.out.println( solution.info(Goal.class.getName()) + "=" + solution.object());		        
 	}
 	
 	public static void queen(){
@@ -164,7 +190,7 @@ public class HillClimbingTest{
     	
     	// Optimization Function
     	OptimizationFunction<int[]> function = new QueenFitness();		
-        Goal<int[]> goal = new OptimizationGoal<int[]>(function); // minimizing   	
+        Goal<int[], Double> goal = new OptimizationGoal<int[]>(function); // minimizing   	
     	
     	// Variation definition
     	MutationIntArray variation = new MutationIntArray(DIM);
@@ -172,11 +198,20 @@ public class HillClimbingTest{
         // Search method
         int MAXITERS = 200;
         boolean neutral = true; // Accepts movements when having same function value
-        HillClimbing<int[]> search = new HillClimbing<int[]>( variation, neutral, MAXITERS );
+        boolean adapt_operator = true; //
+        LocalSearch<int[],Double> search;
+        if( adapt_operator ){
+        	OneFifthRule adapt = new OneFifthRule(20, 0.9); // One Fifth rule for adapting the mutation parameter
+        	AdaptOperatorOptimizationFactory<int[],Double> factory = new AdaptOperatorOptimizationFactory<int[],Double>();
+        	search = factory.hill_climbing( variation, adapt, neutral, MAXITERS );
+        }else{
+        	OptimizationFactory<int[]> factory = new OptimizationFactory<int[]>();
+        	search = factory.hill_climbing( variation, neutral, MAXITERS );
+        }
 
         // Tracking the goal evaluations
         SolutionDescriptors<int[]> desc = new SolutionDescriptors<int[]>();
-        Descriptors.set(Solution.class, desc);
+        Descriptors.set(TaggedObject.class, desc);
         IntArrayPlainWrite write = new IntArrayPlainWrite(',',false);
         Write.set(int[].class, write);
         WriteDescriptors w_desc = new WriteDescriptors();
@@ -186,9 +221,9 @@ public class HillClimbingTest{
         Tracer.addTracer(search, tracer); // Uncomment if you want to trace the hill-climbing algorithm
         
         // Apply the search method
-        Solution<int[]> solution = search.apply(space, goal);
+        TaggedObject<int[]> solution = search.solve(space, goal);
         
-        System.out.println( solution.quality() + "=" + solution.value());		
+        System.out.println( solution.info(Goal.class.getName()) + "=" + solution.object());		
 	}
     
     public static void main(String[] args){

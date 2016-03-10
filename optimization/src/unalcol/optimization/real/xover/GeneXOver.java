@@ -1,6 +1,5 @@
 package unalcol.optimization.real.xover;
 
-import unalcol.types.collection.vector.*;
 import unalcol.clone.*;
 
 /**
@@ -26,7 +25,7 @@ public class GeneXOver extends LinearXOver {
    * @return extra information of the genetic operator
    */
   @Override
-  public Vector<double[]> apply( double[] c1, double[] c2) {
+  public double[][] apply( double[] c1, double[] c2) {
       try{
           double[] x = (double[]) Clone.create(c1);
           double[] y = (double[]) Clone.create(c2);
@@ -38,10 +37,7 @@ public class GeneXOver extends LinearXOver {
                   y[i] = t;
               }
           }
-          Vector<double[]> v = new Vector<double[]>();
-          v.add(x);
-          v.add(y);
-          return v;
+          return new double[][]{x, y}; 
       }catch( Exception e ){
       }
       return null;

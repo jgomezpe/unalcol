@@ -1,8 +1,10 @@
 package unalcol.evolution.haea;
-import unalcol.search.population.PopulationSolution;
-import unalcol.clone.Clone;
+import unalcol.search.Goal;
+import unalcol.search.RealQualityGoal;
+import unalcol.search.population.Population;
+import unalcol.search.solution.Solution;
+import unalcol.sort.Order;
 import unalcol.math.metric.*;
-import unalcol.types.collection.vector.Vector;
 
 /**
  * <p>Title: DCHaeaReplacement</p>
@@ -28,36 +30,38 @@ public class DCHaeaReplacement<T> extends HaeaReplacement<T>{
      * @param children
      */
     @SuppressWarnings("unchecked")
-	public PopulationSolution<T> apply( PopulationSolution<T> current, PopulationSolution<T> next ){
-        Vector<T> buffer = new Vector<T>();
-        double[] q = new double[current.size()];
+	public Population<T> apply( Population<T> current, Population<T> next ){
+		String gName = Goal.class.getName();
+		RealQualityGoal<T> goal = (RealQualityGoal<T>)current.data(gName);
+		Order<Double> order = goal.order();
+        Solution<T>[] buffer = new Solution[current.size()];
         int k=0;
         for( int i=0; i<current.size(); i++){
-            T parent = current.value(i);
+            T parent = current.get(i).object();
             int child = k;
-            double d = metric.apply(parent, next.value(child));
+            double d = metric.apply(parent, next.get(child).object());
             k++;
             for(int h=1; h<operators.getSizeOffspring(i); h++){
-                double d2 = metric.apply(parent, next.value(k));
+                double d2 = metric.apply(parent, next.get(k).object());
                 if( d2 < d ){
                     child = k;
                     d = d2;
                 }
                 k++;
             }
-            if(current.quality(i) < next.quality(child)){
+            double qp = (Double)current.get(i).info(gName);
+            double qc = (Double)next.get(child).info(gName);
+            if(order.compare(qp,qc) < 0 ){
                 operators.reward(i);
             } else {
                 operators.punish(i);
             }
-            if(current.quality(i) <= next.quality(child)){
-                buffer.add(next.value(child));
-                q[i] = next.quality(child);
+            if(order.compare(qp, qc) <= 0){
+                buffer[i] = next.get(child);
             }else{
-                buffer.add((T)Clone.create(parent));
-                q[i] = current.quality(i);
+                buffer[i] = (Solution<T>)current.get(i).clone(parent);
             }
         }
-        return new PopulationSolution<T>(buffer, q);
+        return new Population<T>(buffer);
     }    
 }

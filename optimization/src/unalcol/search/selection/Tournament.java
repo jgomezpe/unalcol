@@ -1,7 +1,7 @@
 package unalcol.search.selection;
 
-import unalcol.types.collection.vector.*;
 import unalcol.random.integer.IntUniform;
+import unalcol.search.solution.Solution;
 
 /**
  * <p>Title: Tournament</p>
@@ -13,7 +13,7 @@ import unalcol.random.integer.IntUniform;
  * @author Jonatan Gomez
  * @version 1.0
  */
- public class Tournament<T> extends Uniform<T>{
+ public class Tournament<T> implements Selection<T>{
   /**
    * The tournament size
    */
@@ -49,14 +49,41 @@ import unalcol.random.integer.IntUniform;
    * @param q Quality associated to each candidate solution
    * @return Index of the selected candidate solution
    */
-  @Override
-  protected int choose_one( IntUniform g, double[] q ){
-    double[] candidates = new double[m];
-    Vector<Integer> indices = new Vector<Integer>();
-    for( int i=0; i<m; i++ ){
-        indices.add(g.generate());
-        candidates[i] = q[indices.get(i)];
-    }
-    return indices.get(inner.choose_one(candidates));
+  protected int choose_one( IntUniform g, Solution<T>[] x ){
+	  Solution<T>[] candidates = (Solution<T>[])tagged_array(m);
+	  int[] indices = new int[m];
+	  for( int i=0; i<m; i++ ){
+		  indices[i] = g.generate();
+		  candidates[i] = x[indices[i]];
+	  }
+	  return indices[inner.choose_one(candidates)];
   }
+  
+  /**
+   * Selects a candidate solution from a set of candidate solutions
+   * @param g Uniform integer number generator used for picking the candidate solution
+   * @param q Quality associated to each candidate solution
+   * @return Index of the selected candidate solution
+   */
+  @Override
+  public int choose_one( Solution<T>[] x ){
+	  return choose_one( new IntUniform(x.length), x );
+  }  
+  
+  /**
+   * Selects a subset of candidate solutions from a set of candidates
+   * @param n Number of candidate solutions to be selected
+   * @param q Quality associated to each candidate solution
+   * @return Indices of the selected candidate solutions
+   */
+  @Override
+  public int[] apply( int n, Solution<T>[] x){
+    IntUniform g =  new IntUniform(x.length);
+    int[] sel = new int[n];
+    for (int i = 0; i<n; i++) {
+        sel[i] = choose_one(g, x);
+    }
+    return sel;
+  }
+  
 }

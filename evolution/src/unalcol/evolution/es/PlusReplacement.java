@@ -4,28 +4,29 @@
  */
 package unalcol.evolution.es;
 
-import unalcol.optimization.selection.Selection;
-import unalcol.optimization.solution.Solution;
-import unalcol.types.collection.vector.Vector;
+import unalcol.search.population.Population;
+import unalcol.search.selection.Selection;
+import unalcol.search.solution.Solution;
 
 /**
  *
  * @author jgomez
  */
 public class PlusReplacement<T> extends ESReplacement<T> {
-    public PlusReplacement( int _mu ) {
-        super(_mu);
+    public PlusReplacement( int mu ) {
+        super(mu);
     }
     
-    public PlusReplacement( int _mu, Selection<T> sel ) {
-        super(_mu, sel);
+    public PlusReplacement( int mu, Selection<T> sel ) {
+        super(mu, sel);
     }
     
     @Override
-    public Vector<Solution<T>> pool(Vector<Solution<T>> parents, Vector<Solution<T>> offspring){
-        for( int i=0; i<parents.size(); i++ ){
-            offspring.add(parents.get(i));
-        }
-        return offspring;
+    public Population<T> pool(Population<T> current, Population<T> next){
+    	@SuppressWarnings("unchecked")
+		Solution<T>[] ns = (Solution<T>[])new Solution[current.size()+next.size()];
+    	System.arraycopy(current.object(), 0, ns, 0, current.size());
+    	System.arraycopy(next.object(), current.size(), ns, current.size(), next.size());
+        return new Population<T>(ns);
     }    
 }

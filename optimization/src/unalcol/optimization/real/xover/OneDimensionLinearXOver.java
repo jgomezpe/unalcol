@@ -1,7 +1,5 @@
 package unalcol.optimization.real.xover;
 
-import unalcol.types.collection.vector.*;
-
 import unalcol.clone.*;
 import unalcol.random.raw.JavaGenerator;
 import unalcol.random.raw.RawGenerator;
@@ -28,7 +26,7 @@ public class OneDimensionLinearXOver extends SimpleXOver {
    * @return extra information of the genetic operator
    */
   @Override
-  public Vector<double[]> apply(double[] c1, double[] c2) {
+  public double[][] apply(double[] c1, double[] c2) {
       try {
           double[] x = (double[]) Clone.create(c1);
           double[] y = (double[]) Clone.create(c2);
@@ -41,10 +39,7 @@ public class OneDimensionLinearXOver extends SimpleXOver {
           ty = y[pos];
           x[pos] = alpha * tx + alpha_1 * ty;
           y[pos] = alpha_1 * tx + alpha * ty;
-          Vector<double[]> v = new Vector<double[]>();
-          v.add(x);
-          v.add(y);
-          return v;
+          return new double[][]{x, y}; 
       } catch (Exception e) {
       }
       return null;

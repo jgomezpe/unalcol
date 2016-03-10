@@ -1,10 +1,12 @@
 package unalcol.evolution.ga;
 
 import unalcol.search.population.PopulationReplacement;
-import unalcol.search.population.PopulationSolution;
+import unalcol.search.solution.Solution;
+import unalcol.sort.Order;
+import unalcol.search.Goal;
+import unalcol.search.RealQualityGoal;
+import unalcol.search.population.Population;
 import unalcol.math.metric.QuasiMetric;
-import unalcol.types.collection.vector.*;
-import unalcol.clone.*;
 
 /**
  * <p>Title: DeterministicCrowding</p>
@@ -34,38 +36,31 @@ public class DeterministicCrowding<T> implements PopulationReplacement<T>{
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public PopulationSolution<T> apply(PopulationSolution<T> current, PopulationSolution<T> next) {
-		int n=2*((current.size()+1)/2); 
-		Vector<T> buffer = new Vector<>();
-		double[] q = new double[n];
+	public Population<T> apply(Population<T> current, Population<T> next){
+		String gName = Goal.class.getName();
+		RealQualityGoal<T> goal = (RealQualityGoal<T>)current.data(gName);
+		Order<Double> order = goal.order();
+		Solution<T>[] buffer = new Solution[current.size()];
 		for( int i=0; i<current.size(); i+=2 ){
-			T P1, P2, C1, C2;
-			int k = i;
-			int j = (i+1)%current.size();
-			P1 = current.value(i);
-			P2 = current.value(j);
-			C1 = next.value(i);
-			C2 = next.value(j);
-			if( metric.apply(P1, C1) + metric.apply(P2, C2) <=	metric.apply(P1, C2) + metric.apply(P2, C1)) {
-		          k = j;
-		          j = i;
+			Solution<T> P1, P2, C1, C2;
+			P1 = current.get(i);
+			P2 = current.get(i+1);
+			C1 = next.get(i);
+			C2 = next.get(i+1);
+			if( metric.apply(P1.object(), C1.object()) + metric.apply(P2.object(), C2.object()) <=	
+				metric.apply(P1.object(), C2.object()) + metric.apply(P2.object(), C1.object())) {
+				Solution<T> t = C1;
+				C1 = C2;
+				C2 = t;
 			}
-			if( next.quality(k) < current.quality(i) ){
-				C1 = (T)Clone.create(P1);
-				q[i] = current.quality(i);
-			}else{
-				q[i] = next.quality(k);
-			}
-			if( next.quality(j) < current.quality((i+1)%current.size()) ){
-				C2 = (T)Clone.create(P2);	
-				q[i] = current.quality((i+1)%current.size());
-			}else{
-				q[i+1] = next.quality(j);
-			}
+			if( order.compare((Double)C1.info(gName), (Double)P1.info(gName)) < 0 )
+				C1 = (Solution<T>)P1.clone(P1.object());
+			if( order.compare((Double)C2.info(gName), (Double)P2.info(gName)) < 0  )
+				C2 = (Solution<T>)P2.clone(P2.object());
 			
-			buffer.add(C1);
-			buffer.add(C2);
+			buffer[i] = C1;
+			buffer[i+1] = C2;
 		}
-		return new PopulationSolution<T>(buffer, q);
+		return new Population<T>(buffer);
 	}
 }

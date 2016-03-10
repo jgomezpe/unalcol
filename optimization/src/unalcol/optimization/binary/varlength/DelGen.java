@@ -2,7 +2,8 @@ package unalcol.optimization.binary.varlength;
 import unalcol.types.collection.bitarray.BitArray;
 import unalcol.clone.*;
 import unalcol.random.raw.RawGenerator;
-import unalcol.search.space.ArityOne;
+import unalcol.search.space.variation.ArityOne;
+import unalcol.search.variation.ParameterizedObject;
 
 
 /**
@@ -13,7 +14,7 @@ import unalcol.search.space.ArityOne;
  * @version 1.0
  */
 
-public class DelGen extends ArityOne<BitArray> {
+public class DelGen implements ArityOne<BitArray>, ParameterizedObject<int[]> {
   /**
    * If the last gene is going to be deleted or one randomly selected
    */
@@ -69,22 +70,17 @@ public class DelGen extends ArityOne<BitArray> {
       return null;
  }
 
- /**
-  * Testing function
-  */
-  public static void main(String[] argv){
-    System.out.println("*** Generating a genome of 27 genes randomly ***");
-    BitArray genome = new BitArray(27, true);
-    System.out.println(genome.toString());
+  @Override
+  public void setParameters(int[] parameters) {
+	// TODO Auto-generated method stub
+	gene_size = parameters[0];
+	min_length = parameters[1];
+	max_length = parameters[2];
+  }
 
-    System.out.println("*** Generating a Deletion Gen operation with gen length of 3 ***");
-    DelGen del = new DelGen(21, 27, 3);
-
-    System.out.println("*** Applying the deletion ***");
-    BitArray gene = del.apply(genome);
-
-    System.out.println("*** Mutated genome ***");
-    System.out.println(gene);
-
+  @Override
+  public int[] getParameters() {
+	// TODO Auto-generated method stub
+	return new int[]{gene_size, min_length, max_length};
   }
 }

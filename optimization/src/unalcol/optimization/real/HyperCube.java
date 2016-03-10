@@ -55,7 +55,7 @@ public class HyperCube extends Space<double[]> {
     }    
     
     @Override
-    public double[] get(){
+    public double[] pick(){
     	return instance.get(min.length);
     }
     

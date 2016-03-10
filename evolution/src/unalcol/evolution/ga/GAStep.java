@@ -1,9 +1,12 @@
 package unalcol.evolution.ga;
 
+import unalcol.search.population.Generational;
 import unalcol.search.population.PopulationReplacement;
-import unalcol.search.population.SVRPopulationSearch;
-import unalcol.search.space.ArityOne;
-import unalcol.search.population.variation.ArityTwo;
+import unalcol.search.population.RealQualifyPopulationSearch;
+import unalcol.search.population.TotalSelectionReplacement;
+import unalcol.search.population.VariationReplacePopulationSearch;
+import unalcol.search.variation.ArityOneSearchOperator;
+import unalcol.search.variation.ArityTwoSearchOperator;
 import unalcol.search.selection.Selection;
 
 /**
@@ -16,19 +19,20 @@ import unalcol.search.selection.Selection;
  * @author Jonatan Gomez
  * @version 1.0
  */
-public class GAStep<T> extends SVRPopulationSearch<T> {
+public class GAStep<T> extends VariationReplacePopulationSearch<T,Double> implements RealQualifyPopulationSearch<T>{
 	protected Selection<T> selection;
 	protected GAVariation<T> variation;
 	
-    public GAStep( int n, Selection<T> selection,
-                             ArityOne<T> mutation, ArityTwo<T> xover,
-                             double probability, PopulationReplacement<T> replace ) {
-    	super(n, selection, new GAVariation<T>(mutation, xover, probability), replace);
-    }
-
-	@Override
-	public void init() {
-		// TODO Auto-generated method stub
-		
-	}
+    public GAStep( int mu, Selection<T> selection,
+            ArityOneSearchOperator<T> mutation, ArityTwoSearchOperator<T> xover,
+            double probability, PopulationReplacement<T> replace ) {
+    	super( mu, new GAVariation<T>(selection, mutation, xover, probability), replace);
+    } 
+    
+    public GAStep( int mu, Selection<T> selection,
+            ArityOneSearchOperator<T> mutation, ArityTwoSearchOperator<T> xover,
+            double probability, boolean generational ) {
+    	super( 	mu, new GAVariation<T>(selection, mutation, xover, probability), 
+    			generational?new Generational<T>():new TotalSelectionReplacement<T>());
+    } 
 }

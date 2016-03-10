@@ -1,11 +1,9 @@
 package unalcol.optimization.integer;
 
-import unalcol.io.Write;
 import unalcol.random.integer.IntUniform;
 import unalcol.random.util.*;
-import unalcol.search.space.ArityOne;
-import unalcol.types.integer.array.IntArray;
-import unalcol.types.integer.array.IntArrayPlainWrite;
+import unalcol.search.space.variation.ArityOne;
+import unalcol.search.variation.ParameterizedObject;
 
 /**
  * <p>Title: Mutation</p>
@@ -15,7 +13,7 @@ import unalcol.types.integer.array.IntArrayPlainWrite;
  * @version 1.0
  */
 
-public class MutationIntArray extends ArityOne<int[]> {
+public class MutationIntArray implements ArityOne<int[]> , ParameterizedObject<Double> {
     
     protected IntUniform g;
   /**
@@ -57,23 +55,14 @@ public class MutationIntArray extends ArityOne<int[]> {
       return genome;
   }
 
+  @Override
+  public void setParameters(Double parameters) {
+	bit_mutation_rate = parameters;
+  }
 
-
- /**
-  * Testing function
-  */
-  public static void main(String[] argv){
-      IntArrayPlainWrite write = new IntArrayPlainWrite(',', false);
-      Write.set(int[].class, write);
-
-      System.out.println("*** Generating a genome of 21 genes randomly ***");
-      int[] genome = IntArray.random(10, 10);
-      System.out.println(Write.toString(genome));
-
-      MutationIntArray mutation = new MutationIntArray(10);
-
-      System.out.println("*** Applying the mutation ***");
-      int[] mutated = mutation.apply(genome);
-      System.out.println("Mutated array " + Write.toString(mutated) );
+  @Override
+  public Double getParameters() {
+	// TODO Auto-generated method stub
+	return bit_mutation_rate;
   }
 }

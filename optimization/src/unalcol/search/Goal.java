@@ -5,25 +5,50 @@
  */
 package unalcol.search;
 
-import unalcol.types.collection.vector.Vector;
+import unalcol.reflect.tag.TaggedMethod;
+import unalcol.reflect.tag.TaggedObject;
+import unalcol.search.population.Population;
+import unalcol.search.solution.Solution;
 
 /**
  *
  * @author jgomez
  */
-public abstract class Goal<T> {
-    public abstract boolean test( T x );
-    public abstract double quality( T x );
-    public abstract boolean nonStationary();
-    public abstract boolean qTest( double q );    
-    
-    public double[] quality( Vector<T> x ){
-        double[] q = new double[x.size()];
-        int k=0;
-        for( T y : x ){
-            q[k] = quality(y);
-            k++;
-        }
-        return q;
+public interface Goal<T, R> extends TaggedMethod<T,R> {
+	public static final String GOAL_TEST = "goal.test";
+
+	@SuppressWarnings("unchecked")
+	public default R[] array( int n ){
+		return (R[])new Object[n];
+	}
+	
+	public R apply( T x );
+
+	public default R[] apply( T[] x ){
+		R[] r = array(x.length);
+		for( int i=0; i<x.length; i++) r[i] = apply(x[i]);
+		return r;
+	}
+	
+    @SuppressWarnings("unchecked")
+	@Override
+    public default R apply( TaggedObject<T> x ){
+    	if( !nonStationary() || x.info(GOAL_TEST)==null ){
+    		x.set(GOAL_TEST, apply(x.object())); 
+    	}
+    	return (R)x.info(GOAL_TEST);
     }
+
+	public default R[] apply( Solution<T>[] x ){
+		System.out.println("Here..in apply goal.");
+		R[] r = array(x.length);
+		for( int i=0; i<x.length; i++) r[i] = apply(x[i]);
+		return r;
+	}
+
+	public default R[] apply( Population<T> x ){
+		return apply( x.object() );
+	}
+
+	public abstract boolean nonStationary();      
 }

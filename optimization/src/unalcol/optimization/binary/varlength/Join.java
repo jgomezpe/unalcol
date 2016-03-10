@@ -1,8 +1,7 @@
 package unalcol.optimization.binary.varlength;
-import unalcol.search.population.variation.ArityTwo;
 import unalcol.types.collection.bitarray.BitArray;
-import unalcol.types.collection.vector.Vector;
 import unalcol.clone.*;
+import unalcol.search.space.variation.ArityTwo;
 
 /**
  * <p>Title: Join</p>
@@ -12,43 +11,22 @@ import unalcol.clone.*;
  * @version 1.0
  */
 
-public class Join extends ArityTwo<BitArray>{
+public class Join implements ArityTwo<BitArray>{
 
   /**
    * Apply the simple point crossover operation over the given genomes
    * @param c1 The first parent
    * @param c2 The second parent
    */
-  public Vector<BitArray> apply(BitArray c1, BitArray c2) {
+  public BitArray[] apply(BitArray c1, BitArray c2) {
       try {
-          BitArray genome = (BitArray) Clone.create(c1);
-          genome.add(c2);
-          Vector<BitArray> v = new Vector<BitArray>();
-          v.add(genome);
-          return v;
+          BitArray genome1 = (BitArray) Clone.create(c1);
+          genome1.add(c2);
+          BitArray genome2 = (BitArray) Clone.create(c2);
+          genome2.add(c1);
+          return new BitArray[]{genome1, genome2};
       } catch (Exception e) {
       }
       return null;
-  }
-
-
- /**
-  * Testing function
-  */
-  public static void main(String[] argv){
-    System.out.println("*** Generating a genome of 20 genes randomly ***");
-    BitArray parent1 = new BitArray(20, true);
-    System.out.println(parent1.toString());
-
-    System.out.println("*** Generating a genome of 10 genes randomly ***");
-    BitArray parent2 = new BitArray(10, true);
-    System.out.println(parent2.toString());
-
-    Join xover = new Join();
-
-    System.out.println("*** Applying the croosover ***");
-    BitArray child = xover.apply(parent1, parent2).get(0);
-    System.out.println("New Individual " + child);
-
   }
 }

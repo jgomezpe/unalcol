@@ -6,29 +6,27 @@
 
 package unalcol.optimization.real.mutation;
 import unalcol.random.real.DoubleGenerator;
+import unalcol.search.variation.ParameterizedObject;
 
 /**
  *
  * @author jgomezpe
  */
-public class IntensityMutation extends Mutation{
+public class IntensityMutation extends Mutation implements ParameterizedObject<Double>{
     // Mutation definitions
     protected double sigma;
     protected DoubleGenerator g;
-    protected AdaptMutationIntensity adapt;
     protected double[] delta;
     
     public IntensityMutation( double sigma, DoubleGenerator g, 
-                              PickComponents components, 
-                              AdaptMutationIntensity adapt){
+                              PickComponents components){
         super(components);
         this.sigma = sigma;
         this.g = g;
-        this.adapt = adapt;
     }
     
     public IntensityMutation(double sigma, DoubleGenerator g ){
-        this( sigma, g, null, null);
+        this( sigma, g, null);
     }
     
     protected double[] delta(int DIMENSION){
@@ -65,12 +63,15 @@ public class IntensityMutation extends Mutation{
         return y;
     }
 
+   /* @TODO: What about productivity 
     @Override
     public void adapt( double productivity ){
         if( adapt != null ){
             sigma = adapt.apply(sigma, productivity);
         }
     }
+  */
+    
     
   /**
    * Class of objects the operator is able to process
@@ -79,5 +80,12 @@ public class IntensityMutation extends Mutation{
   public Object owner(){
       return double[].class;
   }
-    
+
+  @Override
+  public void setParameters(Double parameters) {
+	sigma = parameters;	
+  }    
+  
+  @Override
+  public Double getParameters(){ return sigma; } 
 }

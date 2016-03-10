@@ -7,6 +7,7 @@ import unalcol.types.integer.array.IntArray;
 public class IntHyperCube extends Space<int[]>{
 	protected int[] min;
 	protected int[] max;
+	protected int[] length;
 	
 	public IntHyperCube( int n, int min, int max ) {
 		this(IntArray.create(n ,min), IntArray.create(n,max));
@@ -15,6 +16,10 @@ public class IntHyperCube extends Space<int[]>{
 	public IntHyperCube( int[] min, int[] max ) {
         this.min = min;
         this.max = max;
+        this.length = new int[min.length];
+        for( int i=0; i<length.length; i++ ){
+        	length[i] = max[i] - min[i] + 1;
+        }
 	}
 
 	@Override
@@ -55,11 +60,11 @@ public class IntHyperCube extends Space<int[]>{
 	}
 
 	@Override
-	public int[] get() {
+	public int[] pick() {
 		RawGenerator g = RawGenerator.get(this);
 		int[] x = new int[min.length];
 		for( int i=0; i<x.length; i++){
-			x[i] = min[i] + g.integer(max[i]-min[i]+1);
+			x[i] = min[i] + g.integer(length[i]);
 		}
 		return x;
 	}

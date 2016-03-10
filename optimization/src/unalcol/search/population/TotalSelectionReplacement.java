@@ -2,7 +2,7 @@ package unalcol.search.population;
 
 import unalcol.search.selection.Elitism;
 import unalcol.search.selection.Selection;
-import unalcol.types.collection.vector.Vector;
+import unalcol.search.solution.Solution;
 
 public class TotalSelectionReplacement<T> implements PopulationReplacement<T> {
 	protected Selection<T> selection;
@@ -16,26 +16,13 @@ public class TotalSelectionReplacement<T> implements PopulationReplacement<T> {
 	}
 	
 	@Override
-	public PopulationSolution<T> apply(PopulationSolution<T> current,
-			PopulationSolution<T> next) {
-		int n = current.value().size();
-		double[] quality = new double[n+next.quality().length];
-		System.arraycopy(current.quality(), 0, quality, 0, current.quality().length);
-		System.arraycopy(next.quality(), 0, quality, n, next.quality().length);
-		Vector<Integer> index = selection.apply(n, quality);
-		Vector<T> finalPop = new Vector<T>();
-		double[] finalQ = new double[n];
-		int k=0;
-		for( int i : index ){
-			if( i < n ){
-				finalPop.add(current.value().get(i));
-				finalQ[k] = current.quality[i];
-			}else{
-				finalPop.add(next.value().get(i-n));
-				finalQ[k] = next.quality[i-n];
-			}
-			k++;
-		}
-		return new PopulationSolution<T>(finalPop, finalQ);
+	public Population<T> apply(Population<T> current,
+			Population<T> next) {
+		int n = current.object().length;
+		int m = next.object().length;
+		Solution<T>[] parent = (Solution<T>[])tagged_array(n+m);
+		System.arraycopy(current.object(), 0, parent, 0, n);
+		System.arraycopy(next.object(), 0, parent, n, m);
+		return new Population<T>(selection.pick(n, parent));
 	}	
 }

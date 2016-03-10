@@ -19,8 +19,7 @@ public class GaussianMutation extends IntensityMutation {
       super(sigma, new StandardGaussianGenerator());
   }
 
-    public GaussianMutation(double sigma, PickComponents components,
-                            AdaptMutationIntensity adapt){
-        super(sigma, new StandardGaussianGenerator(), components, adapt);
+    public GaussianMutation(double sigma, PickComponents components){
+        super(sigma, new StandardGaussianGenerator(), components);
     }
 }
