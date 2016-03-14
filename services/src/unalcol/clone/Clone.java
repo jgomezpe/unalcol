@@ -53,23 +53,23 @@ import unalcol.service.ServiceCore;
 * @param <T> Type of objects to be cloned.
 */
 public abstract class Clone<T> {
-    /**
+	/**
      * Creates a clone of a given object
      * @param toClone Object to be cloned
      * @return A clone of the object
      */
-    public abstract T clone(T toClone);
+	public abstract T clone(T toClone);
     
     /**
      * Obtains the Clone service associated to the given object.
      * @param owner Object that owns the clone service.
      * @return A Clone service for the given object (if available), <i>null</i> otherwise.
      */
-    public static Clone<?> get(Object owner){
-        if( ServiceCore.get(Object.class, Clone.class) == null )
-            set(Object.class, new CloneWrapper());
-        return (Clone<?>)ServiceCore.get(owner, Clone.class);
-    }
+	public static Clone<?> get(Object owner){
+		if( ServiceCore.get(Object.class, Clone.class) == null )
+			set(Object.class, new CloneWrapper());
+		return (Clone<?>)ServiceCore.get(owner, Clone.class);
+	}
     
     /**
      * Sets the clone <i>service</i> to the object <i>owner</i>. 
@@ -77,17 +77,17 @@ public abstract class Clone<T> {
      * @param service Instance that will provide the clone service to the object <i>owner</i>.
      * @return If the clone <i>service</i> was associated to the object <i>owner</i>.
      */
-    public static boolean set( Object owner, Clone<?> service ){
-        return ServiceCore.set(owner, Clone.class, service);
-    }
+	public static boolean set( Object owner, Clone<?> service ){
+		return ServiceCore.set(owner, Clone.class, service);
+	}
     
-    /**
+    	/**
      * Creates a clone of a given object
      * @param obj Object to be cloned
      * @return A clone of the object, if a cloning service is available for the given object, <i>null</i> otherwise
      */
-    @SuppressWarnings("unchecked")
+	@SuppressWarnings("unchecked")
 	public static Object create( Object obj ){
-        return ((Clone<Object>)get(obj)).clone(obj);
-    }    
+		return ((Clone<Object>)get(obj)).clone(obj);
+	}  
 }

@@ -1,4 +1,4 @@
-package unalcol.random.rngpack;
+package unalcol.random.raw.rngpack;
 
 import java.util.*;
 
@@ -20,7 +20,7 @@ import unalcol.random.raw.*;
  *
  * <P>
  *
- * <A HREF="http://disi.unal.edu.co/profesores/jgomezpe/source/unalcol/random/raw/Ranecu.java">
+ * <A HREF="https://github.com/jgomezpe/unalcol/blob/master/src/unalcol/random/raw/rngpack.Ranecu.java">
  * Source code </A> is available.<BR> 
  * 
  * This class is a ported version of the Paul Houle's

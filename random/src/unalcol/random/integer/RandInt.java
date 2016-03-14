@@ -5,7 +5,7 @@ import unalcol.random.Random;
 
 //
 // Unalcol Random generation Pack 1.0 by Jonatan Gomez-Perdomo
-// http://disi.unal.edu.co/profesores/jgomezpe/unalcol/random/
+// https://github.com/jgomezpe/unalcol/blob/master/src/unalcol/random
 //
 /**
  * <p>Abstract random generator of integer numbers</p>
@@ -13,7 +13,7 @@ import unalcol.random.Random;
  * <P>
  *
  * <P>
- * <A HREF="http://disi.unal.edu.co/profesores/jgomezpe/source/unalcol/random/integer/RandInt.java">
+ * <A HREF="https://github.com/jgomezpe/unalcol/blob/master/src/unalcol/random/integer/RandInt.java">
  * Source code </A> is available.
  * <P>
  *
@@ -53,42 +53,39 @@ import unalcol.random.Random;
  * @version 1.0
  */
 public abstract class RandInt extends Random<Integer>{
-    
-   /**
-     * Generates an integer number
-     * @return An integer number
-     */
-    public abstract int generate();
-
-    /**
-     * Generates an integer number
-     * @return An integer number
-     */
-    @Override
-    public Integer next(){ return generate(); }
-
-    /**
-     * Returns a set of random integer numbers
-     * @param v Array where integer numbers will be stored
-     * @param m The total number of integer numbers
-     */
-    public void generate(int[] v, int offset, int m) {
-        for (int i = 0; i < m; i++) {
-            v[i+offset] = next();
-        }
-    }
-
-    /**
-     * Returns a set of random integer numbers
-     * @param m The total number of random integer numbers
-     * @return A set of m random integer numbers
-     */
-    public int[] generate(int m) {
-        int[] v = null;
-        if (m > 0) {
-            v = new int[m];
-            generate(v, 0,  m);
-        }
-        return v;
-    }    
+	   /**
+	 * Generates an integer number
+	 * @return An integer number
+	 */
+	public abstract int generate();
+	
+	/**
+	 * Generates an integer number
+	 * @return An integer number
+	 */
+	@Override
+	public Integer next(){ return generate(); }
+	
+	/**
+	 * Returns a set of random integer numbers
+	 * @param v Array where integer numbers will be stored
+	 * @param m The total number of integer numbers
+	 */
+	public void generate(int[] v, int offset, int m) {
+	    for (int i = 0; i < m; i++) v[i+offset] = next();
+	}
+	
+	/**
+	 * Returns a set of random integer numbers
+	 * @param m The total number of random integer numbers
+	 * @return A set of m random integer numbers
+	 */
+	public int[] generate(int m) {
+		int[] v = null;
+		if (m > 0) {
+		    v = new int[m];
+		    generate(v, 0,  m);
+		}
+		return v;
+	}    
 }

@@ -53,58 +53,56 @@ import unalcol.service.ServiceCore;
 * @param <T> Type of objects from which instances will be generated.
 */
 public abstract class Instance<T> {
-    /**
+	/**
      * Creates an instance belonging to the class <i>T</i>.
      * @param args Arguments for creating an instance.
      * @return An instance belonging to the class <i>T</i>.
      */
-    public abstract T get( Object... args);
+	public abstract T get( Object... args);
     
-    /**
+	/**
      * Obtains the class from which instances are created.
      * @return The class from which instances are created.
      */
-    public abstract Class<?> type();
+	public abstract Class<?> type();
     
     
     // Defining as a Service 
     
-    /**
+	/**
      * Obtains the Instances generator (instances belonging to the class <i>type</i>) that is used by <i>owner</i>.
      * @param owner Owner of the Instance generator (instances belonging to the class <i>type</i>)
      * @param type Class of instances that the Instance generator is generating.
      * @return The Instances generator (instances belonging to the class <i>type</i>) that is used by <i>owner</i>.
      */
-    public static Instance<?> get(Object owner, Class<?> type){
-    	Instance<?>[] opt = (Instance<?>[])ServiceCore.getAll(owner, Instance.class);
-    	int i=0;
-    	while( i<opt.length && opt[i].type() != type ){ i++; }
-        return (i<opt.length)? opt[i] : null;
-    }
+	public static Instance<?> get(Object owner, Class<?> type){
+		Instance<?>[] opt = (Instance<?>[])ServiceCore.getAll(owner, Instance.class);
+		int i=0;
+		while( i<opt.length && opt[i].type() != type ) i++; 
+		return (i<opt.length)? opt[i] : null;
+	}
     
-    /**
+	/**
      * 
      * @param owner Owner that will be associated to the Instance generator (instances belonging to the class <i>type</i>)
      * @param service Instances generator (instances belonging to the class <i>type</i>) that will be used by <i>owner</i>.
      * @return if the instance <i>service</i> was associated to the <i>owner</i>.
      */
-    public static boolean set( Object owner, Instance<?> service ){
-        return ServiceCore.set(owner, service.getClass(), service);
-    }
+	public static boolean set( Object owner, Instance<?> service ){
+		return ServiceCore.set(owner, service.getClass(), service);
+	}
     
-    /**
+	/**
      * Generates an instance belonging to the class <i>type</i> using the Instance generator that is used by <i>owner</i>.
      * @param owner Owner of the Instance generator (instances belonging to the class <i>type</i>)
      * @param type Class of instances that will be generated.
      * @param args Arguments for creating an instance.
      * @return An instance belonging to the class <i>type</i> using the Instance generator that is used by <i>owner</i>.
      */
-    @SuppressWarnings("unchecked")
+	@SuppressWarnings("unchecked")
 	public static Object create( Object owner, Class<?> type, Object... args ){
-        Instance<?> service = get(owner, type);
-        if( service != null ){
-            return ((Instance<Object>)service).get(args);
-        }
-        return null;
-    }    
+		Instance<?> service = get(owner, type);
+		if( service != null ) return ((Instance<Object>)service).get(args);
+		return null;
+	}    
 }

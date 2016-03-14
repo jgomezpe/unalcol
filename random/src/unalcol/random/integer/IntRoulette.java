@@ -4,7 +4,7 @@ import unalcol.random.raw.RawGenerator;
 
 //
 // Unalcol Random generation Pack 1.0 by Jonatan Gomez-Perdomo
-// http://disi.unal.edu.co/profesores/jgomezpe/unalcol/random/
+// https://github.com/jgomezpe/unalcol/blob/master/src/unalcol/random/
 //
 /**
  * <p>Generates integer numbers following a Weighted probability density (Roulette)</p>
@@ -12,7 +12,7 @@ import unalcol.random.raw.RawGenerator;
  * <P>
  *
  * <P>
- * <A HREF="http://disi.unal.edu.co/profesores/jgomezpe/source/unalcol/random/integer/IntRoulette.java">
+ * <A HREF="https://github.com/jgomezpe/unalcol/blob/master/src/unalcol/random/integer/IntRoulette.java">
  * Source code </A> is available.
  * <P>
  *
@@ -52,42 +52,41 @@ import unalcol.random.raw.RawGenerator;
  * @version 1.0
  */
 public class IntRoulette extends RandInt {
-    /**
-     * Probability of generating an integer number [0,length(density))
-     */
-    protected double[] density;
+	/**
+	 * Probability of generating an integer number [0,length(density))
+	 */
+	protected double[] density;
+	
+	/**
+	 * Creates an integer number generator with the given probability density
+	 * @param density Probability of generating an integer number [0,length(density))
+	 */
+	public IntRoulette(double[] density) {
+		this.density = density;
+	}
+	
+	/**
+	 * Generates an integer number following the associated density function
+	 * @return An integer number following the associated density function
+	 */
+	@Override
+	public int generate() {
+		int length = density.length;
+		RawGenerator g = RawGenerator.get(this);		
+		double x = g.next();
+		int i = 0;
+		while (i < length && x >= density[i]) {
+			x -= density[i];
+			i++;
+		}
+		return i;
+	}
 
-    /**
-     * Creates an integer number generator with the given probability density
-     * @param density Probability of generating an integer number [0,length(density))
-     */
-    public IntRoulette(double[] density) {
-        this.density = density;
-    }
-
-    /**
-     * Generates an integer number following the associated density function
-     * @return An integer number following the associated density function
-     */
-    @Override
-    public int generate() {
-        int length = density.length;
-        RawGenerator g = RawGenerator.get(this);
-
-        double x = g.next();
-        int i = 0;
-        while (i < length && x >= density[i]) {
-            x -= density[i];
-            i++;
-        }
-        return i;
-    }
-
-    /**
-     * Defines the density function of the generated integers
-     * @param density Probability of generating an integer number [0,length(density))
-     */
-    public void setDensity(double[] density) {
-        this.density = density;
-    }
+	/**
+	 * Defines the density function of the generated integers
+	 * @param density Probability of generating an integer number [0,length(density))
+	 */
+	public void setDensity(double[] density) {
+		this.density = density;
+	}
 }

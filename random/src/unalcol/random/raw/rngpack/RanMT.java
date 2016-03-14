@@ -1,4 +1,4 @@
-package unalcol.random.rngpack;
+package unalcol.random.raw.rngpack;
 import java.util.*;
 
 import unalcol.random.raw.*;
@@ -10,7 +10,7 @@ import unalcol.random.raw.*;
  * <P>
  *
  * <P>
- * <A HREF="http://disi.unal.edu.co/profesores/jgomezpe/source/unalcol/random/raw/RanMT.java">
+ * <A HREF="https://github.com/jgomezpe/unalcol/blob/master/src/unalcol/random/raw/rngpack/RanMT.java">
  * Source code </A> is available.
  * <P>
  * This class is a ported version of the Paul Houle's

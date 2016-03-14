@@ -4,7 +4,7 @@ package unalcol.random.raw;
 
 
 // Unified Random generation Pack 1.0 by Jonatan Gomez-Perdomo
-// http://disi.unal.edu.co/profesores/jgomezpe/unalcol/random/
+// https://github.com/jgomezpe/unalcol/blob/master/src/unalcol/random/
 //
 /**
  *
@@ -12,7 +12,7 @@ package unalcol.random.raw;
  * <P>
  *
  * <P>
- * <A HREF="http://disi.unal.edu.co/profesores/jgomezpe/source/unalcol/random/raw/JavaGenerator.java">
+ * <A HREF="https://github.com/jgomezpe/unalcol/blob/master/src/unalcol/random/raw/JavaGenerator.java">
  * Source code </A> is available.
  * <P>
  *

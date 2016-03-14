@@ -3,7 +3,7 @@ package unalcol.random.raw;
 import unalcol.service.ServiceCore;
 
 // Unified Random generation Pack 1.0 by Jonatan Gomez-Perdomo
-// http://disi.unal.edu.co/profesores/jgomezpe/unalcol/random/
+// https://github.com/jgomezpe/unalcol/blob/master/src/unalcol/random/
 //
 /**
  *
@@ -11,7 +11,7 @@ import unalcol.service.ServiceCore;
  * <P>
  *
  * <P>
- * <A HREF="http://disi.unal.edu.co/profesores/jgomezpe/source/unalcol/random/raw/RawGenerator.java">
+ * <A HREF="https://github.com/jgomezpe/unalcol/blob/master/src/unalcol/random/raw/RawGenerator.java">
  * Source code </A> is available.
  * <P>
  *

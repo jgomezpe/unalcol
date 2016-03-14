@@ -54,14 +54,14 @@ import unalcol.io.Write;
 * @version 1.0
 */
 public class WriteDescriptors extends Write<Object>{
-    @Override
-    /**
+	/**
      * Writes an object to the given <i>writer</i>.
      * @param obj Object to write
      * @param writer The writer object
      * @throws IOException IOException
      */
-   public void write(Object obj, Writer writer) throws Exception {
-        Write.apply(Descriptors.obtain(obj), writer);
-    }
+	@Override
+	public void write(Object obj, Writer writer) throws Exception {
+		Write.apply(Descriptors.obtain(obj), writer);
+	}
 }

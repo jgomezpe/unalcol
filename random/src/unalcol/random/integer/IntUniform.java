@@ -4,7 +4,7 @@ import unalcol.random.raw.RawGenerator;
 
 //
 // Unalcol Random generation Pack 1.0 by Jonatan Gomez-Perdomo
-// http://disi.unal.edu.co/profesores/jgomezpe/unalcol/random/
+// https://github.com/jgomezpe/unalcol/blob/master/src/unalcol/random/
 //
 /**
  * <p>Generates integer numbers following an uniform probability distribution</p>
@@ -12,7 +12,7 @@ import unalcol.random.raw.RawGenerator;
  * <P>
  *
  * <P>
- * <A HREF="http://disi.unal.edu.co/profesores/jgomezpe/source/unalcol/random/integer/IntUniform.java">
+ * <A HREF="https://github.com/jgomezpe/unalcol/blob/master/src/unalcol/random/integer/IntUniform.java">
  * Source code </A> is available.
  * <P>
  *
@@ -52,41 +52,42 @@ import unalcol.random.raw.RawGenerator;
  * @version 1.0
  */
 public class IntUniform extends RandInt {
-    /**
-     * Low Limit
-     */
-    protected int min;
-    /**
-     * Interval Length
-     */
-    protected int length;
+	/**
+	 * Low Limit
+	 */
+	protected int min;
 
-    /**
-     * Creates a uniform integer number generator in the interval [0,max)
-     * @param max Sup Limit
-     */
-    public IntUniform(int max) {
-        this.min = 0;
-        this.length = max;
-    }
-
-    /**
-     * Creates a uniform integer number generator in the interval [min,max)
-     * @param min Low limit
-     * @param max Sup limit
-     */
-    public IntUniform(int min, int max) {
-        this.min = min;
-        this.length = max - min;
-    }
-
-    /**
-     * Generates a uniform integer number in the interval [min,max)
-     * @return A uniform integer number in the interval [min,max)
-     */
-    @Override
-    public int generate() {
-        RawGenerator g = RawGenerator.get(this);
-        return (min + g.integer(length));
-    }
+	/**
+	 * Interval Length
+	 */
+	protected int length;
+	
+	/**
+	 * Creates a uniform integer number generator in the interval [0,max)
+	 * @param max Sup Limit
+	 */
+	public IntUniform(int max) {
+		this.min = 0;
+		this.length = max;
+	}
+	
+	/**
+	 * Creates a uniform integer number generator in the interval [min,max)
+	 * @param min Low limit
+	 * @param max Sup limit
+	 */
+	public IntUniform(int min, int max) {
+		this.min = min;
+		this.length = max - min;
+	}
+	
+	/**
+	 * Generates a uniform integer number in the interval [min,max)
+	 * @return A uniform integer number in the interval [min,max)
+	 */
+	@Override
+	public int generate() {
+		RawGenerator g = RawGenerator.get(this);
+		return (min + g.integer(length));
+	}
 }

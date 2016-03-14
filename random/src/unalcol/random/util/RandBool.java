@@ -53,74 +53,70 @@ import unalcol.random.raw.RawGenerator;
  * @version 1.0
  */
 public class RandBool extends Random<Boolean>{
-    /**
-     * Probability of generating a <i>false</i> value
-     */
-    protected double falseProbability = 0.5;
+	/**
+	 * Probability of generating a <i>false</i> value
+	 */
+	protected double falseProbability = 0.5;
+	
+	/**
+	 * Creates a boolean generator with the same probability of generating a <i>true</i> and <i>false<i> value
+	 */
+	public RandBool(){}
+	
+	/**
+	 * Creates a boolean generator with the given probability of generating a <i>false</i> value (1.0-falseProbability) is
+	 * the probability of generating a <i>true</i> value
+	 * @param falseProbability Probability of generating a <i>false</i> value
+	 */
+	public RandBool(double falseProbability) {
+		this.falseProbability = falseProbability;
+	}
+	
+	/**
+	 * Produces a boolean value according to the stored probability distribution
+	 * @return A boolean value according to the stored probability distribution
+	 */
+	@Override
+	public Boolean next() {
+		return generate();
+	}
 
-    /**
-     * Creates a boolean generator with the same probability of generating a <i>true</i> and <i>false<i> value
-     */
-    public RandBool(){
-    }
+	/**
+	 * Produces a boolean value according to the stored probability distribution
+	 * @return A boolean value according to the stored probability distribution
+	 */
+	public boolean generate() {
+		RawGenerator g = RawGenerator.get(this);
+		return g.bool(falseProbability);
+	}
+	/**
+	 * Returns a set of random boolean values
+	 * @param v Array where boolean values will be stored
+	 * @param m The total number of random boolean values
+	 */
+	public void generate(boolean[] v, int offset,  int m) {
+		RawGenerator g = RawGenerator.get(this);
+		for (int i = 0; i < m; i++) v[i+offset] = g.bool(falseProbability);
+	}
 
-    /**
-     * Creates a boolean generator with the given probability of generating a <i>false</i> value (1.0-falseProbability) is
-     * the probability of generating a <i>true</i> value
-     * @param falseProbability Probability of generating a <i>false</i> value
-     */
-    public RandBool(double falseProbability) {
-        this.falseProbability = falseProbability;
-    }
-
-    /**
-     * Produces a boolean value according to the stored probability distribution
-     * @return A boolean value according to the stored probability distribution
-     */
-    @Override
-    public Boolean next() {
-        return generate();
-    }
-
-    /**
-     * Produces a boolean value according to the stored probability distribution
-     * @return A boolean value according to the stored probability distribution
-     */
-    public boolean generate() {
-        RawGenerator g = RawGenerator.get(this);
-        return g.bool(falseProbability);
-    }
-    /**
-     * Returns a set of random boolean values
-     * @param v Array where boolean values will be stored
-     * @param m The total number of random boolean values
-     */
-    public void generate(boolean[] v, int offset,  int m) {
-      RawGenerator g = RawGenerator.get(this);
-      for (int i = 0; i < m; i++) {
-        v[i+offset] = g.bool(falseProbability);
-      }
-    }
-
-    /**
-     * Returns a set of random boolean values
-     * @param m The total number of random boolean values
-     * @return A set of m random boolean values
-     */
-    public boolean[] generate(int m) {
-      boolean[] v = null;
-      if (m > 0) {
-        v = new boolean[m];
-        generate( v, 0, m );
-      }
-      return v;
-    }    
-    
-    public RandBool new_instance(){
-        RawGenerator g = RawGenerator.get(this);
-        RandBool rb = new RandBool();
-        RawGenerator.set(rb, g.new_instance());
-        return rb;
-    }
-    
+	/**
+	 * Returns a set of random boolean values
+	 * @param m The total number of random boolean values
+	 * @return A set of m random boolean values
+	 */
+	public boolean[] generate(int m) {
+		boolean[] v = null;
+		if (m > 0) {
+			v = new boolean[m];
+			generate( v, 0, m );
+		}
+		return v;
+	}    
+	
+	public RandBool new_instance(){
+		RawGenerator g = RawGenerator.get(this);
+		RandBool rb = new RandBool();
+		RawGenerator.set(rb, g.new_instance());
+		return rb;
+	}    
 }

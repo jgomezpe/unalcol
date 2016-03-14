@@ -34,13 +34,15 @@ public class Partition {
     
     public static int[] create(int n, int m, boolean shuffling){
         int[] index = new int[n];
-        for (int i = 0; i < n; i++) {
+        for (int i = 0; i < n; i++) 
             index[i] = i;
-        }        
+        
         if (shuffling) {
-            Shuffle<Integer> shuffle = new Shuffle<Integer>();
+            @SuppressWarnings("rawtypes")
+			Shuffle shuffle = new Shuffle();
             shuffle.apply(index);
         }
+        
         if( n<m ){
             int[] index2 = new int[m];
             for( int i=0; i<m; i++ ){
@@ -102,9 +104,9 @@ public class Partition {
     }
 
     /**
-     * Returns the elements in the set that does not belongs to the given group
+     * Returns the elements in the set that does not belongs to the <i>k-th</i> group
      * @param k The group to be skipped
-     * @return The set without the elements in the pos group (Enumeration)
+     * @return The set without the elements in the <i>k-th</i> group
      */
     public int[] skipGroup(int k) {
         int length = n - groupSize(k);
@@ -115,9 +117,9 @@ public class Partition {
     }
 
     /**
-     * Returns the elements in the set that belongs to the pos group according to the random partition
+     * Returns the elements in the set that belongs to the <i>k-th</i> group according to the random partition
      * @param k the group to be returned
-     * @return The elements in the pos group (Enumeration)
+     * @return The elements in the <i>k-th</i> group
      */
     public int[] getGroup(int k) {
         int length = groupSize(k);
@@ -127,9 +129,9 @@ public class Partition {
     }
 
     /**
-     * Calculates the size of a group in the partion
-     * @param k The group
-     * @return Size of the group in the partition
+     * Calculates the size of a group in the partition
+     * @param k The group to be analyzed
+     * @return Size of the <i>k-th</i> group in the partition
      */
     public int groupSize(int k) {
         return start[k + 1] - start[k];
