@@ -147,6 +147,11 @@ public abstract class Random<T>{
 		return (Random<?>)ServiceCore.get(owner, Random.class);
 	}
         
+	/**
+	 * 
+	 * @param owner
+	 * @return
+	 */
 	public static Object next( Object owner ){
 	    Random<?> service = get(owner);
 	    if( service != null )   return service.next();
