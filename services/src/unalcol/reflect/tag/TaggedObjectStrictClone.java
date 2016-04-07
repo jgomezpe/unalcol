@@ -1,10 +1,6 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
+package unalcol.reflect.tag;
 
-package unalcol.io;
-import java.io.IOException;
+import unalcol.clone.Clone;
 
 //
 //Unalcol Service structure Pack 1.0 by Jonatan Gomez-Perdomo
@@ -12,11 +8,10 @@ import java.io.IOException;
 //
 /**
 *
-* RowColumnReaderException 
-* <p>An exception for readers that use two dimensions (row, columns) cursor location information.</p>
-*
+* TaggedObjectStrictClone
+* <p>Copies a TaggedObject (object and every tag).</p>
 * <P>
-* <A HREF="https://github.com/jgomezpe/unalcol/blob/master/src/unalcol/io/RowColumnReaderException.java">
+* <A HREF="https://github.com/jgomezpe/unalcol/blob/master/src/unalcol/clone/TaggedObjectStrictClone.java">
 * Source code </A> is available.
 * <P>
 *
@@ -55,42 +50,17 @@ import java.io.IOException;
 * (E-mail: <A HREF="mailto:jgomezpe@unal.edu.co">jgomezpe@unal.edu.co</A> )
 * @version 1.0
 */
-public class RowColumnReaderException extends IOException{
+public class TaggedObjectStrictClone<T> extends Clone<TaggedObject<T>> {
     /**
-     * Serial information
+     * Creates a clone of the TaggedObject (including every tag).
+     * @param toClone TaggedObject to be  strictly copied. 
+     * @return A strict copy of the TaggedObject (including every tag).
      */
-    private static final long serialVersionUID = -4896269613684585270L;
-    
-    /**
-     * Row information of the cursor when the exception was thrown.
-     */
-    protected int row = 0;
-    /**
-     * Column information of the cursor when the exception was thrown.
-     */
-    protected int column = 0;
-    
-    /**
-     * Creates an Exception with the associated message for the row and column cursor position
-     * @param row Row information of the cursor when the exception was thrown.
-     * @param column Column information of the cursor when the exception was thrown.
-     * @param message Message associated to the exception.
-     */
-    public RowColumnReaderException( int row, int column, String message ){
-	super(message);
-	this.row = row;
-	this.column = column;
+    @Override
+    public TaggedObject<T> clone(TaggedObject<T> toClone) {
+	@SuppressWarnings("unchecked")
+	TaggedObject<T> cl = new TaggedObject<T>( (T)Clone.create(toClone.object) );
+	cl.cloneTags(toClone);
+	return cl;
     }
-
-    /**
-     * Returns the row information of the cursor when the exception was thrown.
-     * @return the row information of the cursor when the exception was thrown.
-     */
-    public int getRow(){ return row; }
-
-    /**
-     * Returns the column information of the cursor when the exception was thrown.
-     * @return the column information of the cursor when the exception was thrown.
-     */    
-    public int getColumn(){ return column; }
 }

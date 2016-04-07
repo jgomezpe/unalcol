@@ -49,7 +49,7 @@ package unalcol.clone;
 * @version 1.0
 */
 public class ShallowClone extends Clone<Object>{
-	/**
+    /**
      * Returns the same object (shallow copy)
      * @param obj Object to be cloned (shallow)
      * @return A Clone (the same object) of the object

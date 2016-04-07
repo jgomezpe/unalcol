@@ -8,7 +8,7 @@ import java.io.*;
 //
 /**
 *
-* ShortTermMemoryReader 
+* ShortTermMemoryReader  
 * <p>A Reader that is able to maintain the latest read characters (according to its memory size).</p>
 *
 * <P>
@@ -68,6 +68,9 @@ public class ShortTermMemoryReader extends Reader {
 
     protected int start = 0;
     protected int end = 0;
+    /**
+     * Current cursor position
+     */
     protected int pos = 0;
 
     /**
