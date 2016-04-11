@@ -9,18 +9,12 @@ public class SimpleLanguage implements Language{
     actions = _actions;
   }
 
-  protected int getIndex( String[] codes_array, String code ){
-    int i=0;
-    while( i<codes_array.length && !codes_array[i].equals(code) ){ i++; }
-    return i;
-  }
-
   public int getActionIndex( String action ){
-    return getIndex(actions, action);
+    return Language.getIndex(actions, action);
   }
 
   public int getPerceptIndex( String percept ){
-    return getIndex(percepts, percept);
+    return Language.getIndex(percepts, percept);
   }
 
   public String getAction( int index ){ return actions[index]; }

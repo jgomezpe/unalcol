@@ -55,7 +55,7 @@ protected SimpleLanguage language = null;
   protected JMenuItem jMenuLoadAgentProgram = new JMenuItem();
 
   protected GridLayout gridLayout2 = new GridLayout();
-  protected WorkingPanel drawArea = new WorkingPanel( new LabyrinthDrawer( ) );
+  protected WorkingPanel drawArea = new WorkingPanel( new LabyrinthDrawer( new LabyrinthPerceptDrawer() ) );
   protected BorderLayout borderLayout2 = new BorderLayout();
   protected JPanel jPanel1 = new JPanel();
   protected JLabel jLabel1 = new JLabel();

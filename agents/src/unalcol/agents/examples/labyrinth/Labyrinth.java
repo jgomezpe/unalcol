@@ -11,7 +11,7 @@ import java.io.FileWriter;
 import unalcol.agents.simulate.gui.*;
 
 public class Labyrinth extends Environment{
-  public static int DEFAULT_SIZE = 20;
+    public static int DEFAULT_SIZE = 20;
   protected static final int F = 1<<0;
   protected static final int R = 1<<1;
   protected static final int B = 1<<2;
@@ -23,13 +23,14 @@ public class Labyrinth extends Environment{
   public static String msg = null;
   public int[][] structure = null;
   
-  public SimpleLanguage language;
   protected Vector<Agent> failAgents = new Vector<Agent>();
+  protected String[] available_actions = {LabyrinthUtil.NOP, LabyrinthUtil.DIE, LabyrinthUtil.ADVANCE, LabyrinthUtil.ROTATE};
   
 
   public int getRowsNumber(){  return structure.length; }
   public int getColumnsNumber(){  return structure[0].length; }
 
+  
   public boolean act(Agent agent, Action action){
 	boolean fail = false;
     boolean flag = (action!=null);
@@ -47,7 +48,7 @@ public class Labyrinth extends Environment{
         Percept p = sense(a);
 //        System.out.println(p);
         String msg = null;
-        switch (language.getActionIndex(act)) {
+        switch (Language.getIndex(available_actions,act)) {
         case 0: // no_op
             break;
         case 1: // die
@@ -108,9 +109,8 @@ public class Labyrinth extends Environment{
   }
 
   protected LabyrinthPercept getPercept( int x, int y ){
-	if( x >= 0 && x<structure.length && y >=0 && y<structure[0].length )
-      return new LabyrinthPercept( structure[x][y], language );
-	return new LabyrinthPercept(0, language);
+      if( x >= 0 && x<structure.length && y >=0 && y<structure[0].length ) return new LabyrinthPercept( structure[x][y] );
+      return new LabyrinthPercept(0);
   }
 
   public Percept sense(Agent agent){
@@ -119,14 +119,14 @@ public class Labyrinth extends Environment{
     int x = ((Integer)anAgent.getAttribute(X)).intValue();
     int y = ((Integer)anAgent.getAttribute(Y)).intValue();
     LabyrinthPercept p = getPercept( x, y );
-    for( int i=0; i<direction; i++ ){ p.rotate(language); }
+    for( int i=0; i<direction; i++ ){ p.rotate(); }
     int i=0;
     while( i<failAgents.size() && failAgents.get(i) != agent ){ i++; }
     p.setAttribute("fail", i<failAgents.size());
     return p;
   }
 
-  public Labyrinth( Vector<Agent> _agents, int[][] _structure, SimpleLanguage _language ) {
+  public Labyrinth( Vector<Agent> _agents, int[][] _structure ) {
     super( _agents );
     for( int i=0; i<agents.size(); i++ ){
        ((SimulatedAgent)agents.get(i)).setAttribute(D, 0);
@@ -134,24 +134,22 @@ public class Labyrinth extends Environment{
        ((SimulatedAgent)agents.get(i)).setAttribute(Y,0);
     }  
     structure = _structure;
-    language = _language;
   }
 
-  public Labyrinth( Agent agent, int[][] _structure, SimpleLanguage _language ) {
+  public Labyrinth( Agent agent, int[][] _structure ) {
     super( agent );
     structure = _structure;
-    language = _language;
   }
 
   public Labyrinth copy(){
-    return new Labyrinth( agents, structure.clone(), language );
+    return new Labyrinth( agents, structure.clone() );
   }
 
   public Vector<Action> actions(){
     Vector<Action> acts = new Vector<Action>();
-    int n = language.getActionsNumber();
+    int n = available_actions.length;
     for( int i=0; i<n; i++ ){
-      acts.add( new Action( language.getAction(i) ) );
+      acts.add( new Action( available_actions[i] ) );
     }
     return acts;
   }

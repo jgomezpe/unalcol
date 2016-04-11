@@ -19,13 +19,14 @@ public class TeseoEaterLabyrinthDrawer extends LabyrinthDrawer{
    * Default constructor
    */
   public TeseoEaterLabyrinthDrawer( Environment _environment ) {
-      super( _environment );
+      super( _environment, new  );
   }
 
   /**
    * Default constructor
    */
-  public TeseoEaterLabyrinthDrawer() {
+  public TeseoEaterLabyrinthDrawer(LabyrinthPerceptDrawer pDrawer) {
+      super()
   }
 
   protected int getCanvasValue( int val ){

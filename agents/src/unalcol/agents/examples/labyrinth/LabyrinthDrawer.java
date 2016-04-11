@@ -15,6 +15,8 @@ public class LabyrinthDrawer extends Drawer{
   public static int CELL_SIZE = 20;
   public static int MARGIN = 10;
   public static int SHAPE_SIZE = 1;
+  
+  protected LabyrinthPerceptDrawer pDrawer;
 
 
   public Color[] colors = new Color[]{
@@ -27,15 +29,17 @@ public class LabyrinthDrawer extends Drawer{
   /**
    * Default constructor
    */
-  public LabyrinthDrawer( Environment _environment ) {
+  public LabyrinthDrawer( Environment _environment, LabyrinthPerceptDrawer pDrawer) {
       super( _environment );
+      this.pDrawer = pDrawer;
   }
 
   /**
    * Default constructor
    */
-  public LabyrinthDrawer() {
-  }
+  public LabyrinthDrawer(LabyrinthPerceptDrawer pDrawer) {
+      this.pDrawer = pDrawer;
+ }
 
   protected int getCanvasValue( int val ){
     return val*CELL_SIZE+MARGIN;
@@ -70,7 +74,7 @@ public class LabyrinthDrawer extends Drawer{
           LabyrinthPercept p = env.getPercept(i,j);
           int x = getCanvasValue(i);
           int y = getCanvasValue(j);
-          p.draw( g, x, y, CELL_SIZE, env.language );
+          pDrawer.draw( g, x, y, CELL_SIZE, p );
         }
       }
 
@@ -95,5 +99,4 @@ public class LabyrinthDrawer extends Drawer{
     }
 
   }
-
 }
