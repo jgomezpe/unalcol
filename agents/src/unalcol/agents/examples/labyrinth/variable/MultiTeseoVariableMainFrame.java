@@ -82,15 +82,16 @@ public class MultiTeseoVariableMainFrame extends JFrame {
 	  public MultiTeseoVariableLabyrinth newLabyrinthInstance(){
    	    Vector<Agent> v = new Vector<Agent>();
    	    for( Agent a: agent ){ v.add(a); }
-	    labyrinth = new MultiTeseoVariableLabyrinth( v, new int[Labyrinth.DEFAULT_SIZE][Labyrinth.DEFAULT_SIZE], language, probability );
+	    labyrinth = new MultiTeseoVariableLabyrinth( v, new int[Labyrinth.DEFAULT_SIZE][Labyrinth.DEFAULT_SIZE], probability );
 	    return labyrinth;
 	  }
 
 	  public void initLabyrinth(){
+	      if( drawArea.getDrawer()==null ) drawArea.setDrawer(new LabyrinthDrawer());
 	    labyrinth = this.newLabyrinthInstance();
 	    for( int k=0; k<agent.size()-1; k++ )
 	        labyrinth.setAgentPosition( k, 0, 0, 0);
-        labyrinth.setAgentPosition( agent.size()-1, -1, -1, 0);
+	    labyrinth.setAgentPosition( agent.size()-1, -1, -1, 0);
 	    labyrinth.setDelay(100);
 	    drawArea.getDrawer().setEnvironment( labyrinth );
 	    labyrinth.registerView(view);

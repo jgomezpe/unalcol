@@ -7,7 +7,9 @@ import javax.swing.JMenuItem;
 
 import unalcol.agents.Agent;
 import unalcol.agents.examples.labyrinth.Labyrinth;
+import unalcol.agents.examples.labyrinth.LabyrinthDrawer;
 import unalcol.agents.examples.labyrinth.LabyrinthMainFrame;
+import unalcol.agents.examples.labyrinth.teseo.TeseoPerceptDrawer;
 import unalcol.agents.examples.labyrinth.teseo.simple.SimpleTeseoJavaProgrammingFrame;
 import unalcol.agents.simulate.util.SimpleLanguage;
 import unalcol.gui.log.LogOutputStream;
@@ -40,10 +42,15 @@ public class TeseoVariableMainFrame extends LabyrinthMainFrame {
     }
     
   public Labyrinth newLabyrinthInstance(){
-    labyrinth = new TeseoVariableLabyrinth( agent, new int[Labyrinth.DEFAULT_SIZE][Labyrinth.DEFAULT_SIZE], language, probability );
+    labyrinth = new TeseoVariableLabyrinth( agent, new int[Labyrinth.DEFAULT_SIZE][Labyrinth.DEFAULT_SIZE], probability );
     return labyrinth;
   }
 
+  public void initLabyrinth(){
+      if( drawArea.getDrawer()==null ) drawArea.setDrawer(new LabyrinthDrawer(new TeseoPerceptDrawer()));
+      super.initLabyrinth();
+  }
+  
   protected void jMenuLoadAgentProgram_actionPerformed(ActionEvent e) {
 	  /**
       Loader ccl = new Loader();

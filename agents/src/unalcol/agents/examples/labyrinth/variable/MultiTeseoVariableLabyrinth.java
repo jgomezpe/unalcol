@@ -6,7 +6,6 @@ import unalcol.agents.examples.labyrinth.LabyrinthDrawer;
 import unalcol.agents.examples.labyrinth.LabyrinthPercept;
 import unalcol.agents.examples.labyrinth.multeseo.MultiAgentLabyrinthPercept;
 import unalcol.agents.simulate.SimulatedAgent;
-import unalcol.agents.simulate.util.SimpleLanguage;
 import unalcol.types.collection.vector.Vector;
 
 public class MultiTeseoVariableLabyrinth  extends TeseoVariableLabyrinth {
@@ -24,8 +23,8 @@ public class MultiTeseoVariableLabyrinth  extends TeseoVariableLabyrinth {
 	  @Override
 	  protected LabyrinthPercept getPercept( int x, int y ){
         if( x >= 0 && x<structure.length && y >=0 && y<structure[0].length )
-	      return new MultiAgentLabyrinthPercept( structure[x][y], language );
-        return new MultiAgentLabyrinthPercept( 0, language );     
+	      return new MultiAgentLabyrinthPercept( structure[x][y] );
+        return new MultiAgentLabyrinthPercept( 0 );     
 	  }
 
 	  public Percept sense(Agent agent){
@@ -62,15 +61,15 @@ public class MultiTeseoVariableLabyrinth  extends TeseoVariableLabyrinth {
 	            }
 	        }    
 	    }
-	    for( int i=0; i<direction; i++ ){ p.rotate( language ); }
+	    for( int i=0; i<direction; i++ ){ p.rotate(); }
 	    int i=0;
 	    while( i<failAgents.size() && failAgents.get(i) != agent ){ i++; }
 	    p.setAttribute("fail", i<failAgents.size());
 	    return p;
 	  }
 
-	  public MultiTeseoVariableLabyrinth( Vector<Agent> _agents, int[][] _structure, SimpleLanguage _language, double p ) {
-	    super( _agents, _structure, _language, p );
+	  public MultiTeseoVariableLabyrinth( Vector<Agent> _agents, int[][] _structure, double p ) {
+	    super( _agents, _structure, p );
 	  }
 
 

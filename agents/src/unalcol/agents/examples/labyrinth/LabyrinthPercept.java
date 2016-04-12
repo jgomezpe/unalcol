@@ -1,14 +1,13 @@
 package unalcol.agents.examples.labyrinth;
 import unalcol.agents.Percept;
 
-public class LabyrinthPercept extends Percept{
-  
+public class LabyrinthPercept extends Percept{  
   public LabyrinthPercept( int value ) {
-    int n = 4;
-    for( int i=0; i<n; i++ ){
-      int flag = (1<<i);
-      setAttribute( LabyrinthUtil.WALL[i], (value & flag)==flag );
-    }
+      int n = 4;
+      for( int i=0; i<n; i++ ){
+	  int flag = (1<<i);
+	  setAttribute( LabyrinthUtil.WALL[i], (value & flag)==flag );
+      }
   }
     
   public void rotate(){

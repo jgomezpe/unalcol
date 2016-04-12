@@ -3,7 +3,6 @@ import unalcol.agents.examples.labyrinth.*;
 
 import unalcol.agents.*;
 import unalcol.agents.simulate.*;
-import unalcol.agents.simulate.util.*;
 
 import unalcol.types.collection.vector.*;
 
@@ -31,8 +30,8 @@ public class MultiAgentLabyrinth extends Labyrinth {
   @Override
   protected LabyrinthPercept getPercept( int x, int y ){
     if( x >= 0 && x<structure.length && y >=0 && y<structure[0].length )
-      return new MultiAgentLabyrinthPercept( structure[x][y], language );
-    return new MultiAgentLabyrinthPercept( 0, language );
+      return new MultiAgentLabyrinthPercept( structure[x][y] );
+    return new MultiAgentLabyrinthPercept( 0 );
   }
 
   public Percept sense(Agent agent){
@@ -41,43 +40,31 @@ public class MultiAgentLabyrinth extends Labyrinth {
     int x = ((Integer)anAgent.getAttribute(X)).intValue();
     int y = ((Integer)anAgent.getAttribute(Y)).intValue();
     LabyrinthPercept p = getPercept( x, y );
-    p.setAttribute("afront", false);
-    p.setAttribute("aleft", false);
-    p.setAttribute("aright", false);
-    p.setAttribute("aback", false);
+    for( int i=0; i<LabyrinthUtil.AGENT.length; i++){
+	p.setAttribute(LabyrinthUtil.AGENT[i], false);
+    }
+    int[][] pos = new int[][]{{x,x+1,x,x-1},{y-1,y,y+1,y}};
     for( int i=0; i<agents.size(); i++ ){
         if( agents.get(i) != agent ){
             SimulatedAgent a = (SimulatedAgent)agents.get(i);               
             int ax = ((Integer) a.getAttribute(X)).intValue();
             int ay = ((Integer) a.getAttribute(Y)).intValue();
-            //System.out.println("("+x+","+y+") : ("+ax+","+ay+")");
-            if( !((Boolean)p.getAttribute("front")).booleanValue() && 
-                 y-1 == ay && x==ax  ){
-                p.setAttribute("afront", true);
-            }
-            if( !((Boolean)p.getAttribute("right")).booleanValue() && 
-                 x+1 == ax && y==ay ){
-                p.setAttribute("aright", true);
-            }
-            if( !((Boolean)p.getAttribute("back")).booleanValue() && 
-                 y+1 == ay && x==ax ){
-                p.setAttribute("aback", true);
-            }
-            if( !((Boolean)p.getAttribute("left")).booleanValue() && 
-                 x-1 == ax && y==ay ){
-                p.setAttribute("aleft", true);
+            for( int k=0; k<LabyrinthUtil.AGENT.length; k++ ){
+        		if( !((Boolean)p.getAttribute(LabyrinthUtil.WALL[k])).booleanValue() && 
+                      pos[1][k] == ay && pos[0][k]==ax  )
+        		    p.setAttribute(LabyrinthUtil.AGENT[k], true);
             }
         }    
     }
-    for( int i=0; i<direction; i++ ){ p.rotate( language ); }
+    for( int i=0; i<direction; i++ ){ p.rotate(); }
     int i=0;
     while( i<failAgents.size() && failAgents.get(i) != agent ){ i++; }
-    p.setAttribute("fail", i<failAgents.size());
+    p.setAttribute(LabyrinthUtil.FAIL, i<failAgents.size());
     return p;
   }
 
-  public MultiAgentLabyrinth( Vector<Agent> _agents, int[][] _structure, SimpleLanguage _language ) {
-    super( _agents, _structure, _language );
+  public MultiAgentLabyrinth( Vector<Agent> _agents, int[][] _structure ) {
+    super( _agents, _structure );
   }
 
 

@@ -85,17 +85,18 @@ protected SimpleLanguage language = null;
 //  MultiChart multiChart1 = new MultiChart();
 
   public MultiAgentLabyrinth newLabyrinthInstance(){
-    labyrinth = new MultiAgentLabyrinth( agent, new int[Labyrinth.DEFAULT_SIZE][Labyrinth.DEFAULT_SIZE], language );
+    labyrinth = new MultiAgentLabyrinth( agent, new int[Labyrinth.DEFAULT_SIZE][Labyrinth.DEFAULT_SIZE] );
     return labyrinth;
   }
 
   public void initLabyrinth(){
-    labyrinth = this.newLabyrinthInstance();
-    for( int k=0; k<agent.size(); k++ )
-        labyrinth.setAgentPosition( k, 0, 0, 0);
-    labyrinth.setDelay(100);
-    drawArea.getDrawer().setEnvironment( labyrinth );
-    labyrinth.registerView(view);
+      if( drawArea.getDrawer()==null ) drawArea.setDrawer(new LabyrinthDrawer());
+      labyrinth = this.newLabyrinthInstance();
+      for( int k=0; k<agent.size(); k++ )
+	  labyrinth.setAgentPosition( k, 0, 0, 0);
+      labyrinth.setDelay(100);
+      drawArea.getDrawer().setEnvironment( labyrinth );
+      labyrinth.registerView(view);
   }
 
   public MultiAgentLabyrinthMainFrame( Vector<Agent> _agent, SimpleLanguage _language ) {

@@ -6,7 +6,6 @@ import unalcol.agents.examples.labyrinth.Labyrinth;
 import unalcol.agents.examples.labyrinth.LabyrinthDrawer;
 import unalcol.agents.examples.labyrinth.LabyrinthPercept;
 import unalcol.agents.examples.labyrinth.teseo.TeseoPercept;
-import unalcol.agents.simulate.util.SimpleLanguage;
 import unalcol.random.raw.RawGenerator;
 import unalcol.types.collection.vector.Vector;
 
@@ -28,17 +27,17 @@ public class TeseoVariableLabyrinth  extends Labyrinth {
 	  }
 	  
 	  protected LabyrinthPercept getPercept( int x, int y ){
-	    return new TeseoPercept( structure[x][y], language );
+	    return new TeseoPercept( structure[x][y] );
 	  }
 
-	  public TeseoVariableLabyrinth( Vector<Agent> _agents, int[][] _structure, SimpleLanguage _language, double p ) {
-	    super( add(p, _agents), _structure, _language );
+	  public TeseoVariableLabyrinth( Vector<Agent> _agents, int[][] _structure, double p ) {
+	    super( add(p, _agents), _structure );
 	    int n = agentsNumber();
 	    setAgentPosition(n-1, -1, -1, 0);
 	  }
 
-	  public TeseoVariableLabyrinth( Agent agent, int[][] _structure, SimpleLanguage _language, double p ){
-	    this( add(agent), _structure, _language, p );
+	  public TeseoVariableLabyrinth( Agent agent, int[][] _structure,  double p ){
+	    this( add(agent), _structure, p );
 	  }
 
 	  public Labyrinth copy(){
@@ -51,7 +50,7 @@ public class TeseoVariableLabyrinth  extends Labyrinth {
 			  WallDaemon daemon = (WallDaemon)agents.get(i).getProgram();
 			  p = daemon.probability;
 		  }
-	    return new TeseoVariableLabyrinth( agents, structure.clone(), language, p );
+	    return new TeseoVariableLabyrinth( agents, structure.clone(), p );
 	  }
 
 	  public boolean edit( int X, int Y ){

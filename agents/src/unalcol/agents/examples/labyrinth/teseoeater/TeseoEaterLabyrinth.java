@@ -37,16 +37,20 @@ public class TeseoEaterLabyrinth extends Labyrinth {
   protected int energy_level = INITIAL_ENERGY;
 
   protected LabyrinthPercept getPercept( int x, int y ){
-    LabyrinthPercept perc = new TeseoEaterPercept( structure[x][y], energy_level, language );
+    LabyrinthPercept perc = new TeseoEaterPercept( structure[x][y] );
+    perc.setAttribute(LabyrinthUtil.ENERGY, energy_level);
     return perc;
   }
 
-  public TeseoEaterLabyrinth( Agent agent, int[][] _structure, SimpleLanguage _language ) {
-    super( agent, _structure, _language );
+  public TeseoEaterLabyrinth( Agent agent, int[][] _structure ) {
+    super( agent, _structure );
   }
 
-  public TeseoEaterLabyrinth( Vector<Agent> _agents, int[][] _structure, SimpleLanguage _language ) {
-    super( _agents, _structure, _language );
+  public TeseoEaterLabyrinth( Vector<Agent> _agents, int[][] _structure ) {
+    super( _agents, _structure );
+    available_actions = new String[]{LabyrinthUtil.NOP, LabyrinthUtil.DIE, LabyrinthUtil.ADVANCE, LabyrinthUtil.ROTATE, 
+	    LabyrinthUtil.EAT};
+    
   }
 
   public void init( Agent agent ){
@@ -54,24 +58,6 @@ public class TeseoEaterLabyrinth extends Labyrinth {
     //SimulatedAgent sim_agent = (SimulatedAgent)agent;
     energy_level = INITIAL_ENERGY;
   }
-
-/*
-  public TeseoEaterLabyrinth( String fileName, SimpleLanguage _language ){
-    super( fileName, _language );
-    boolean flag = false;
-    tx = SIZE-1;
-    while( !flag && tx >= 0 ){
-      ty = SIZE-1;
-      while( ty >= 0 && (structure[tx][ty] & (1<<4)) != (1<<4) ){
-        ty--;
-      }
-      flag = (ty >= 0);
-      if( !flag ){ tx--; }
-    }
-    if( !flag ){ tx = 0; ty = 0; }
-  }
-*/
-
 
   public boolean act( Agent agent, Action action ){
     if( energy_level <= 0 ){
@@ -87,12 +73,12 @@ public class TeseoEaterLabyrinth extends Labyrinth {
       Percept p = sense(a);
       String msg = null;
       String act = action.getCode();
-      int actionID = language.getActionIndex(act);
+      int actionID = Language.getIndex(available_actions,act);
       switch (actionID) {
         case 4: // eat
-          if ( ( (Boolean) p.getAttribute(language.getPercept(5))).booleanValue()) {
+          if ( ( (Boolean) p.getAttribute(LabyrinthUtil.RESOURCE[0])).booleanValue()) {
             // @TODO: Update the perception goodness
-            structure[x][y] |= (1<<15);
+            //structure[x][y] |= (1<<15);
             int bit_flag = (1<<10);
             if( (structure[x][y] & bit_flag) == bit_flag ){
               System.out.println("Eating good food...");

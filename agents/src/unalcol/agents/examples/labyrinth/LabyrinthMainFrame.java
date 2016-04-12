@@ -55,7 +55,7 @@ protected SimpleLanguage language = null;
   protected JMenuItem jMenuLoadAgentProgram = new JMenuItem();
 
   protected GridLayout gridLayout2 = new GridLayout();
-  protected WorkingPanel drawArea = new WorkingPanel( new LabyrinthDrawer( new LabyrinthPerceptDrawer() ) );
+  protected WorkingPanel drawArea = new WorkingPanel();
   protected BorderLayout borderLayout2 = new BorderLayout();
   protected JPanel jPanel1 = new JPanel();
   protected JLabel jLabel1 = new JLabel();
@@ -67,17 +67,17 @@ protected SimpleLanguage language = null;
 //  MultiChart multiChart1 = new MultiChart();
 
   public Labyrinth newLabyrinthInstance(){
-    labyrinth = new Labyrinth( agent, new int[Labyrinth.DEFAULT_SIZE][Labyrinth.DEFAULT_SIZE], language );
+    labyrinth = new Labyrinth( agent, new int[Labyrinth.DEFAULT_SIZE][Labyrinth.DEFAULT_SIZE] );
     return labyrinth;
   }
 
   public void initLabyrinth(){
-    labyrinth = this.newLabyrinthInstance();
-//    for( int i=0; i<)
-    labyrinth.setAgentPosition( 0, 0, 0, 0);
-    labyrinth.setDelay(100);
-    drawArea.getDrawer().setEnvironment( labyrinth );
-    labyrinth.registerView(view);
+      if( drawArea.getDrawer()==null ) drawArea.setDrawer(new LabyrinthDrawer());
+      labyrinth = this.newLabyrinthInstance();
+      labyrinth.setAgentPosition( 0, 0, 0, 0);
+      labyrinth.setDelay(100);
+      drawArea.getDrawer().setEnvironment( labyrinth );
+      labyrinth.registerView(view);
   }
 
   public LabyrinthMainFrame( Agent _agent, SimpleLanguage _language ) {

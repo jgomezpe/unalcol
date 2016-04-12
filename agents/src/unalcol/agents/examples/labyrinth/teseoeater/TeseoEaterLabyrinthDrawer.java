@@ -18,17 +18,32 @@ public class TeseoEaterLabyrinthDrawer extends LabyrinthDrawer{
   /**
    * Default constructor
    */
+  public TeseoEaterLabyrinthDrawer( Environment _environment, LabyrinthPerceptDrawer pDrawer ) {
+      super( _environment , pDrawer );
+  }
+
+  /**
+   * Default constructor
+   */
   public TeseoEaterLabyrinthDrawer( Environment _environment ) {
-      super( _environment, new  );
+      super( _environment , new TeseoEaterPerceptDrawer() );
   }
 
   /**
    * Default constructor
    */
   public TeseoEaterLabyrinthDrawer(LabyrinthPerceptDrawer pDrawer) {
-      super()
+      super( pDrawer);
   }
 
+  /**
+   * Default constructor
+   */
+  public TeseoEaterLabyrinthDrawer() {
+      super( new TeseoEaterPerceptDrawer() );
+  }
+
+  
   protected int getCanvasValue( int val ){
     return val*CELL_SIZE+MARGIN;
   }

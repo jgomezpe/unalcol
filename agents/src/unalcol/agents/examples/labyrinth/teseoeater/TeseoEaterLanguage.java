@@ -24,19 +24,19 @@ public class TeseoEaterLanguage extends SimpleLanguage {
   }
 
   public int getColorIndex( String color ){
-    return getIndex(colors, color);
+    return Language.getIndex(colors, color);
   }
 
   public int getShapeIndex( String shape ){
-    return getIndex(shapes, shape);
+    return Language.getIndex(shapes, shape);
   }
 
   public int getSizeIndex( String size ){
-    return getIndex(sizes, size);
+    return Language.getIndex(sizes, size);
   }
 
   public int getWeightIndex( String weight ){
-    return getIndex(weights, weight);
+    return Language.getIndex(weights, weight);
   }
 
 

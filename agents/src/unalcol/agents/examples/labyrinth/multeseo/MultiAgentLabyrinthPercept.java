@@ -4,38 +4,27 @@
  */
 package unalcol.agents.examples.labyrinth.multeseo;
 
-import java.awt.Graphics;
 import unalcol.agents.examples.labyrinth.LabyrinthPercept;
-import unalcol.agents.simulate.util.SimpleLanguage;
+import unalcol.agents.examples.labyrinth.LabyrinthUtil;
 
 /**
  *
  * @author Jonatan
  */
 public class MultiAgentLabyrinthPercept extends LabyrinthPercept{
-  public MultiAgentLabyrinthPercept( int value, SimpleLanguage language ) {
-    super( value, language);
+  public MultiAgentLabyrinthPercept( int value ) {
+    super( value );
     int flag = (1<<4);
-    setAttribute( language.getPercept(4), (value & flag)==flag );
-      
+    setAttribute( LabyrinthUtil.TREASURE, (value & flag)==flag );     
   }    
  
   @Override
-  public void rotate( SimpleLanguage language ){
-    super.rotate(language);
-    Object f = getAttribute(language.getPercept(6));
-    for( int i=6; i<9; i++ ){
-      setAttribute( language.getPercept(i), getAttribute(language.getPercept(i+1)));
+  public void rotate( ){
+    super.rotate();
+    Object f = getAttribute(LabyrinthUtil.AGENT[0]);
+    for( int i=1; i<3; i++ ){
+      setAttribute( LabyrinthUtil.AGENT[i], LabyrinthUtil.AGENT[i+1] );
     }
-    setAttribute( language.getPercept(9), f );
+    setAttribute( LabyrinthUtil.AGENT[3], f );
   }
-
-  public void draw( Graphics g, int x, int y, int CELL_SIZE, SimpleLanguage language ){
-    super.draw(g,x,y,CELL_SIZE,language);
-    if( ((Boolean)getAttribute(language.getPercept(4))).booleanValue() ){
-      g.drawLine(x,y,x+CELL_SIZE,y+CELL_SIZE);
-      g.drawLine(x,y+CELL_SIZE,x+CELL_SIZE,y);
-    }
-  }
-  
 }

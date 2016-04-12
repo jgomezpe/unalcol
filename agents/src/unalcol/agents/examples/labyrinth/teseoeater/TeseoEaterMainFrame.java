@@ -43,10 +43,14 @@ public class TeseoEaterMainFrame extends LabyrinthMainFrame {
   }
 
   public Labyrinth newLabyrinthInstance(){
-    labyrinth = new TeseoEaterLabyrinth( agent, new int[Labyrinth.DEFAULT_SIZE][Labyrinth.DEFAULT_SIZE], language );
+    labyrinth = new TeseoEaterLabyrinth( agent, new int[Labyrinth.DEFAULT_SIZE][Labyrinth.DEFAULT_SIZE] );
     return labyrinth;
   }
-
+  public void initLabyrinth(){
+      if( drawArea.getDrawer()==null ) drawArea.setDrawer(new TeseoEaterLabyrinthDrawer());
+      super.initLabyrinth();
+  }
+ 
   protected void initMenu(){
     super.initMenu();
     jMenu2 = new JMenu();

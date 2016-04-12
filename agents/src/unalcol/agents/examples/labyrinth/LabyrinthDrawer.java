@@ -20,7 +20,7 @@ public class LabyrinthDrawer extends Drawer{
 
 
   public Color[] colors = new Color[]{
-      Color.black, Color.blue, Color.red, Color.yellow,
+      Color.red, Color.blue, Color.red, Color.yellow,
       Color.cyan, Color.green,
       Color.pink,  Color.orange, Color.magenta,
       Color.gray, Color.darkGray, Color.lightGray
@@ -41,6 +41,13 @@ public class LabyrinthDrawer extends Drawer{
       this.pDrawer = pDrawer;
  }
 
+  /**
+   * Default constructor
+   */
+  public LabyrinthDrawer() {
+      this( new LabyrinthPerceptDrawer() );
+ }
+  
   protected int getCanvasValue( int val ){
     return val*CELL_SIZE+MARGIN;
   }
