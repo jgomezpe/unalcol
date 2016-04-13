@@ -9,7 +9,6 @@ package unalcol.reflect.tag;
 * <P>
 * <A HREF="https://github.com/jgomezpe/unalcol/blob/master/src/unalcol/reflect/tag/TaggedMethod.java">
 * Source code </A> is available.
-* <P>
 *
 * <h3>License</h3>
 *

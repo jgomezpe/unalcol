@@ -7,12 +7,11 @@ import java.io.*;
 /**
 *
 * ProcessInputStream  
-* <p>A Class for A Class for processing input streams used by an External Process (command)..</p>
+* <p>A Class for processing input streams used by an External Process (command)..</p>
 *
 * <P>
 * <A HREF="https://github.com/jgomezpe/unalcol/blob/master/src/unalcol/reflect/process/ProcessInputStream.java">
 * Source code </A> is available.
-* <P>
 *
 * <h3>License</h3>
 *

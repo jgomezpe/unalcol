@@ -11,7 +11,6 @@ import java.util.Set;
 * <P>
 * <A HREF="https://github.com/jgomezpe/unalcol/blob/master/src/unalcol/reflect/tag/TaggedObject.java">
 * Source code </A> is available.
-* <P>
 *
 * <h3>License</h3>
 *

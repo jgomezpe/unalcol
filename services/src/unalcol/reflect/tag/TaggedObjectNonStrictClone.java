@@ -14,7 +14,6 @@ import unalcol.clone.Clone;
 * <P>
 * <A HREF="https://github.com/jgomezpe/unalcol/blob/master/src/unalcol/clone/TaggedObjectNonStrictClone.java">
 * Source code </A> is available.
-* <P>
 *
 * <h3>License</h3>
 *

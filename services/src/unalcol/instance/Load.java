@@ -12,7 +12,6 @@ package unalcol.instance;
 * <P>
 * <A HREF="https://github.com/jgomezpe/unalcol/blob/master/src/unalcol/instance/Load.java">
 * Source code </A> is available.
-* <P>
 *
 * <h3>License</h3>
 *

@@ -45,15 +45,16 @@ public class ConsoleTracer extends OutputStreamTracer {
 
     /**
      * Creates a console tracer
+     * @param SEPARATOR Character used for separating traced values.
      * @param addNewLine Determines if a new line symbol is added after tracing an object
      */
     public ConsoleTracer( char SEPARATOR, boolean addNewLine ) {
     	super( SEPARATOR, addNewLine );        
     }
+
     /**
      * Shows the traced information sent by the source into the console
-     * @param SEPARATOR Symbol used for separating objects
-     * @param obj Traced information to be shown in the console
+    * @param str Traced information to be shown in the console
      */
     @Override
     public void write(String str) {

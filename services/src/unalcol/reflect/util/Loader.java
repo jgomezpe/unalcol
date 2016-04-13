@@ -14,7 +14,6 @@ import java.lang.reflect.Array;
 * <P>
 * <A HREF="https://github.com/jgomezpe/unalcol/blob/master/src/unalcol/reflect/util/Loader.java">
 * Source code </A> is available.
-* <P>
 *
 * <h3>License</h3>
 *

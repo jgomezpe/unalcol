@@ -16,7 +16,6 @@ import unalcol.io.Write;
 * <P>
 * <A HREF="https://github.com/jgomezpe/unalcol/blob/master/src/unalcol/descriptors/WriteDescriptors.java">
 * Source code </A> is available.
-* <P>
 *
 * <h3>License</h3>
 *
@@ -54,11 +53,11 @@ import unalcol.io.Write;
 * @version 1.0
 */
 public class WriteDescriptors extends Write<Object>{
-	/**
+   /**
      * Writes an object to the given <i>writer</i>.
      * @param obj Object to write
      * @param writer The writer object
-     * @throws IOException IOException
+     * @throws Exception An IOException
      */
 	@Override
 	public void write(Object obj, Writer writer) throws Exception {

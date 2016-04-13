@@ -25,9 +25,8 @@ public class FileTracer extends OutputStreamTracer {
     protected String fileName;
 
     /**
-     * Creates a console tracer
+     * Creates a file tracer
      * @param fileName File Name
-     * @param addNewline used for determining if a new line symbol is added after tracing an object or not
      */
     public FileTracer(String fileName) {
         try {
@@ -39,9 +38,9 @@ public class FileTracer extends OutputStreamTracer {
     }
 
     /**
-     * Creates a console tracer
+     * Creates a file tracer
      * @param fileName File Name
-     * @param addNewline used for determining if a new line symbol is added after tracing an object or not
+     * @param SEPARATOR Character used for separating traced values.
      */
     public FileTracer(String fileName, char SEPARATOR) {
     	this( fileName );
@@ -49,8 +48,9 @@ public class FileTracer extends OutputStreamTracer {
     }
 
     /**
-     * Creates a console tracer
+     * Creates a file tracer
      * @param fileName File Name
+     * @param SEPARATOR Character used for separating traced values.
      * @param addNewline used for determining if a new line symbol is added after tracing an object or not
      */
     public FileTracer(String fileName, char SEPARATOR, boolean addNewline) {
@@ -59,8 +59,8 @@ public class FileTracer extends OutputStreamTracer {
     }
 
     /**
-     * Shows the traced information sent by the source into the console
-     * @param obj Traced information to be sown in the console
+     * Shows the traced information sent by the source into the file
+     * @param str Traced information to be shown in the file
      */
     public void write(String str) {
         try {

@@ -35,18 +35,22 @@ public abstract class OutputStreamTracer extends Tracer {
     }
 
     /**
-     * Creates a console tracer
+     * Creates an OutputStream tracer
+     * @param SEPARATOR Character used for separating traced values.
      * @param addNewLine Determines if a new line symbol is added after tracing an object
      */
     public OutputStreamTracer( char SEPARATOR, boolean addNewLine ) {
         this.addNewLine = addNewLine;
     }
     
+    /**
+     * Writes an object (String) to the Tracer.
+     * @param str Object to be traced.
+     */
     public abstract void write( String str );
     
     /**
      * Shows the traced information sent by the source into the console
-     * @param SEPARATOR Symbol used for separating objects
      * @param obj Traced information to be shown in the console
      */
     @Override

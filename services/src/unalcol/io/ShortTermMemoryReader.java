@@ -14,7 +14,6 @@ import java.io.*;
 * <P>
 * <A HREF="https://github.com/jgomezpe/unalcol/blob/master/src/unalcol/io/ShortTermMemoryReader.java">
 * Source code </A> is available.
-* <P>
 *
 * <h3>License</h3>
 *
@@ -116,8 +115,8 @@ public class ShortTermMemoryReader extends Reader {
     }
 
     /**
-     * Creates a short term memory reader that maintains at most the last <i>MEMORY_SIZE</> read symbols
-     * @param MEMORY_SIZE Memory size (maintains at most the last <i>MEMORY_SIZE</> read symbols)
+     * Creates a short term memory reader that maintains at most the last <i>MEMORY_SIZE</i> read symbols
+     * @param MEMORY_SIZE Memory size (maintains at most the last <i>MEMORY_SIZE</i> read symbols)
      * @param reader The underline reader
      */
     public ShortTermMemoryReader(int MEMORY_SIZE, Reader reader) {
@@ -126,8 +125,8 @@ public class ShortTermMemoryReader extends Reader {
     }
 
     /**
-     * Creates a short term memory reader that maintains at most the last <i>MEMORY_SIZE</> read symbols
-     * @param MEMORY_SIZE Memory size (maintains at most the last <i>MEMORY_SIZE</> read symbols)
+     * Creates a short term memory reader that maintains at most the last <i>MEMORY_SIZE</i> read symbols
+     * @param MEMORY_SIZE Memory size (maintains at most the last <i>MEMORY_SIZE</i> read symbols)
      * @param reader The underline InputStream
      */
     public ShortTermMemoryReader(int MEMORY_SIZE, InputStream reader) {
@@ -136,7 +135,7 @@ public class ShortTermMemoryReader extends Reader {
     }
 
     /**
-     * Creates a short term memory reader that maintains at most the last <i>MEMORY_SIZE</> (default) read symbols
+     * Creates a short term memory reader that maintains at most the last <i>MEMORY_SIZE</i> (default) read symbols
      * @param reader The underline Reader
      */
     public ShortTermMemoryReader(Reader reader) {
@@ -144,8 +143,8 @@ public class ShortTermMemoryReader extends Reader {
     }
 
     /**
-     * Creates a short term memory reader that maintains at most the last <i>MEMORY_SIZE</> (default) read symbols
-     * @param reader The underline InputStream
+     * Creates a short term memory reader that maintains at most the last <i>MEMORY_SIZE</i> (default) read symbols
+     * @param reader The underline InputStream.
      */
     public ShortTermMemoryReader(InputStream reader) {
         this(MEMORY_SIZE, reader);
@@ -160,9 +159,9 @@ public class ShortTermMemoryReader extends Reader {
     }
 
     /**
-     * Obtains a new symbol from the underline reader
-     * @return symbol
-     * @throws IOException
+     * Obtains a new symbol from the underline reader.
+     * @return The next available symbol
+     * @throws IOException If there was an exception reading a symbol
      */
     protected int get() throws IOException {
         return reader.read();
@@ -181,7 +180,6 @@ public class ShortTermMemoryReader extends Reader {
      * Returns the last k read character to the stream, if possible
      * @param k Number of characters to be returned to the stream
      * @return true if it was possible to return the last k read character, false otherwise
-     * @throws IOException
      */
     public boolean back(int k) {
         boolean flag = (k <= maxBack());
@@ -197,7 +195,6 @@ public class ShortTermMemoryReader extends Reader {
     /**
      * Returns the last read character to the stream, if possible
      * @return true if it was possible to return the last read character, false otherwise
-     * @throws IOException
      */
     public boolean back() {
         boolean flag = (pos != start);
@@ -211,7 +208,7 @@ public class ShortTermMemoryReader extends Reader {
     /**
      * Reads a character
      * @return The character that has been read
-     * @throws IOException
+     * @throws IOException An exception if it was not possible to read a character.
      */
     @Override
     public int read() throws IOException {
@@ -277,7 +274,7 @@ public class ShortTermMemoryReader extends Reader {
 
     /**
      * Closes the underline reader
-     * @throws IOException
+     * @throws IOException An exception if it was not possible to close the reader.
      */
     @Override
     public void close() throws IOException {
@@ -294,7 +291,7 @@ public class ShortTermMemoryReader extends Reader {
      * after calling the mark method, is greater than the size of the buffer
      * then the mark is moved to such maximum number of characters. In this way at least the last n characters
      * are always maintained by the reader.
-
+     * @param readAheadLimit Non used.
      */
     @Override
     public void mark(int readAheadLimit) {
@@ -332,7 +329,7 @@ public class ShortTermMemoryReader extends Reader {
      * Skips n characters
      * @param n Characters to be skipped
      * @return Number of characters actually skipped
-     * @throws IOException
+     * @throws IOException An exception if it was not possible to skip <i>n</i> characters.
      */
     @Override
     public long skip(long n) throws IOException {

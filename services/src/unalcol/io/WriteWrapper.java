@@ -12,7 +12,6 @@ import java.lang.reflect.*;
 * <P>
 * <A HREF="https://github.com/jgomezpe/unalcol/blob/master/src/unalcol/io/WriteWrapper.java">
 * Source code </A> is available.
-* <P>
 *
 * <h3>License</h3>
 *

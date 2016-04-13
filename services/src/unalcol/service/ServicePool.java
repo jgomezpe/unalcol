@@ -14,7 +14,6 @@ import java.util.Hashtable;
 * <P>
 * <A HREF="https://github.com/jgomezpe/unalcol/blob/master/services/src/unalcol/service/ServicePool.java">
 * Source code </A> is available.
-* <P>
 *
 * <h3>License</h3>
 *

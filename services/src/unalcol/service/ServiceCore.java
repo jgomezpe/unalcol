@@ -13,7 +13,6 @@ package unalcol.service;
 * <P>
 * <A HREF="https://github.com/jgomezpe/unalcol/blob/master/services/src/unalcol/service/ServiceCore.java">
 * Source code </A> is available.
-* <P>
 *
 * <h3>License</h3>
 *

@@ -1,5 +1,7 @@
 package unalcol.reflect.tag;
 
+import java.util.Hashtable;
+
 /**
 *
 * TaggedObjectManager 
@@ -8,7 +10,6 @@ package unalcol.reflect.tag;
 * <P>
 * <A HREF="https://github.com/jgomezpe/unalcol/blob/master/src/unalcol/reflect/tag/TaggedObjectManager.java">
 * Source code </A> is available.
-* <P>
 *
 * <h3>License</h3>
 *
@@ -86,14 +87,14 @@ public interface TaggedObjectManager<T> {
     }
 
     /**
-     * 
-     * @param obj 
-     * @param tag_obj
-     * @return
+     * Creates a Tagged version of <i>obj</i> using the TagMethods stored by <i>tags</i>. 
+     * @param obj Object to be Tagged.
+     * @param tags Tags to be used by the tagged object
+     * @return A Tagged version of <i>obj</i> using the TagMethods stored by <i>tags</i>.
      */
-    public default TaggedObject<T> wrap( T obj, TaggedObject<T> tag_obj ){
+    public default TaggedObject<T> wrap( T obj, Hashtable<String, Object> tags ){
 	TaggedObject<T> tobj = new TaggedObject<T>(obj);
-	tobj.cloneTaggedMethods(tag_obj);
+	tobj.cloneTaggedMethods(tags);
 	return tobj;
     }
 
@@ -119,16 +120,16 @@ public interface TaggedObjectManager<T> {
     }
 	
     /**
-     * 
-     * @param tag_obj
-     * @param obj
-     * @return
+     * Creates an array of Tagged version of each object in <i>obj</i> using the TagMethods stored by <i>tags</i>. 
+     * @param tags Tags to be used by the tagged object.
+     * @param obj Objects to be Tagged.
+     * @return A Tagged version of each object in <i>obj</i> using the TagMethods stored by <i>tags</i>.
      */
-    public default TaggedObject<T>[] wrap( TaggedObject<T> tag_obj, @SuppressWarnings("unchecked") T... obj ){
+    public default TaggedObject<T>[] wrap( Hashtable<String, Object> tags, @SuppressWarnings("unchecked") T... obj ){
 	TaggedObject<T>[] n_pop = tagged_array(obj.length);
     	int i=0;
     	for( T x:obj ){
-    	    n_pop[i] = wrap( x, tag_obj);
+    	    n_pop[i] = wrap( x, tags);
     	    i++;
     	}
     	return n_pop;

@@ -11,7 +11,6 @@ package unalcol.clone;
 * <P>
 * <A HREF="https://github.com/jgomezpe/unalcol/blob/master/src/unalcol/clone/ShallowClone.java">
 * Source code </A> is available.
-* <P>
 *
 * <h3>License</h3>
 *

@@ -9,13 +9,12 @@ import java.io.Writer;
 
 /**
 *
-* Writeable
+* Writable
 * <p>Writes objects to a {@link java.io.Writer} implementing the write method.</p>
 *
 * <P>
-* <A HREF="https://github.com/jgomezpe/unalcol/blob/master/src/unalcol/io/Writeable.java">
+* <A HREF="https://github.com/jgomezpe/unalcol/blob/master/src/unalcol/io/Writable.java">
 * Source code </A> is available.
-* <P>
 *
 * <h3>License</h3>
 *
@@ -52,7 +51,7 @@ import java.io.Writer;
 * (E-mail: <A HREF="mailto:jgomezpe@unal.edu.co">jgomezpe@unal.edu.co</A> )
 * @version 1.0
 */
-public interface Writeable {
+public interface Writable {
     /**
      * Writes the object to a writer (The object should has a write method)
      * @param writer The writer object

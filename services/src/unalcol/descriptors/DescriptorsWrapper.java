@@ -15,7 +15,6 @@ import java.lang.reflect.Method;
 * <P>
 * <A HREF="https://github.com/jgomezpe/unalcol/blob/master/src/unalcol/descriptors/DescriptorsWrapper.java">
 * Source code </A> is available.
-* <P>
 *
 * <h3>License</h3>
 *

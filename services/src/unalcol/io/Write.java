@@ -18,7 +18,6 @@ import unalcol.service.*;
 * <P>
 * <A HREF="https://github.com/jgomezpe/unalcol/blob/master/src/unalcol/io/Write.java">
 * Source code </A> is available.
-* <P>
 *
 * <h3>License</h3>
 *

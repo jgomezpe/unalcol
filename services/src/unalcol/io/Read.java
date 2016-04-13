@@ -14,7 +14,6 @@ import unalcol.service.*;
 * <P>
 * <A HREF="https://github.com/jgomezpe/unalcol/blob/master/src/unalcol/io/Read.java">
 * Source code </A> is available.
-* <P>
 *
 * <h3>License</h3>
 *
@@ -55,7 +54,6 @@ import unalcol.service.*;
 public abstract class Read<T>{
 	/**
 	 * Reads an object from the given reader
-	 * @param obj Instance of the type of objects the service will read
 	 * @param reader The input stream from which the object will be read
 	 * @return An object, of the type the read service is attending, that is read from the input stream
 	 * @throws IOException IOException
@@ -63,7 +61,9 @@ public abstract class Read<T>{
 	public abstract T read(ShortTermMemoryReader reader) throws IOException;
     
 	/**
-	 * Determines if the default service has been registered in the service infrastructure
+	 * Determines if the default service has been registered in the service infrastructure.
+	 * @param owner The owner of the service.
+	 * @return The read method owned by <i>owner</i>.
 	 */
 	public static Read<?> get(Class<?> owner){
 	    Read<?> read = (Read<?>)ServiceCore.get(owner, Read.class);
@@ -91,7 +91,7 @@ public abstract class Read<T>{
 	 * Reads an object from the given reader (The object should has a read method)
 	 * @param obj Object to read
 	 * @param reader The reader object
-	 * @return 
+	 * @return An object that is read from the reader.
 	 * @throws IOException IOException
 	 */
 	@SuppressWarnings("unchecked")
@@ -103,7 +103,7 @@ public abstract class Read<T>{
 	 * Reads space characters from a input reader up to finding the <i>separator</i> char.
 	 * @param reader Input Reader
 	 * @param separator Character consider separator of tokens
-	 * @throws IOException
+	 * @throws IOException An exception if it was not possible to read a separator sequence.
 	 */
 	public static void readSeparator( ShortTermMemoryReader reader, char separator ) throws IOException{
 		try{

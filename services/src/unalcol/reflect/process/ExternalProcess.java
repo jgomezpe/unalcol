@@ -13,7 +13,6 @@ import java.io.*;
 * <P>
 * <A HREF="https://github.com/jgomezpe/unalcol/blob/master/src/unalcol/reflect/process/ExternalProcess.java">
 * Source code </A> is available.
-* <P>
 *
 * <h3>License</h3>
 *

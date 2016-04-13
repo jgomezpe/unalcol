@@ -4,6 +4,7 @@ unalcol.instance
 unalcol.io
 unalcol.reflect.compiler
 unalcol.reflect.process
+unalcol.reflect.tag
 unalcol.reflect.util
 unalcol.service
 unalcol.tracer

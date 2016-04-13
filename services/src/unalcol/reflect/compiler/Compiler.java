@@ -17,7 +17,6 @@ import java.util.*;
 * <P>
 * <A HREF="https://github.com/jgomezpe/unalcol/blob/master/src/unalcol/reflect./compiler/Compiler.java">
 * Source code </A> is available.
-* <P>
 *
 * <h3>License</h3>
 *

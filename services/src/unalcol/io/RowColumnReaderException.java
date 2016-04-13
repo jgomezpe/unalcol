@@ -18,7 +18,6 @@ import java.io.IOException;
 * <P>
 * <A HREF="https://github.com/jgomezpe/unalcol/blob/master/src/unalcol/io/RowColumnReaderException.java">
 * Source code </A> is available.
-* <P>
 *
 * <h3>License</h3>
 *
