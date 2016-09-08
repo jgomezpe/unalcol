@@ -54,17 +54,6 @@ public abstract class Recognizer<T> implements Labeler<T>{
       return predict(obj).label();
   }
 
-  public int[] label( ArrayCollection<T> set ){
-      int[] tag = new int[set.size()];
-      Iterator<T> iter = set.iterator();
-      int i=0;
-      while( iter.hasNext() ){
-          tag[i] = label(iter.next());
-          i++;
-      }
-      return tag;
-  }
-  
   public Vector<Prediction> predict( ArrayCollection<T> data ){
       Vector<Prediction> pred = new Vector();
       Iterator<T> iter = data.iterator();
