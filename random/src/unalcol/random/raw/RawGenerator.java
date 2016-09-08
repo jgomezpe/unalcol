@@ -142,7 +142,7 @@ public abstract class RawGenerator{
     }
     
     public static RawGenerator get( Object owner ){
-        if( ServiceCore.get(Object.class, RawGenerator.class) == null )  set(owner, new JavaGenerator());
+        if( ServiceCore.get(Object.class, RawGenerator.class) == null )  set(Object.class, new JavaGenerator());
         return (RawGenerator)ServiceCore.get(owner, RawGenerator.class);
     }
     

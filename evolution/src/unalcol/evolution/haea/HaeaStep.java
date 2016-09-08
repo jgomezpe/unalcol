@@ -42,6 +42,17 @@ public class HaeaStep<T> extends VariationReplacePopulationSearch<T,Double> impl
      * @param grow Growing function
      * @param selection Extra parent selection mechanism
      */
+    public HaeaStep(int mu, Selection<T> parent_selection, HaeaOperators<T> operators, boolean steady) {
+    	super(mu, new HaeaVariation<T>(parent_selection, operators ),
+    			 new HaeaReplacement<T>( operators, steady ) );
+    }
+
+    /**
+     * Constructor: Creates a Haea offspring generation strategy
+     * @param operators Genetic operators used to evolve the solution
+     * @param grow Growing function
+     * @param selection Extra parent selection mechanism
+     */
     public HaeaStep(int mu, HaeaVariation<T> variation, HaeaReplacement<T> replacement ){
     	super( mu, variation, replacement);
     }

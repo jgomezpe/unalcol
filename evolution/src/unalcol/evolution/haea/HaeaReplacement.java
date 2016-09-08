@@ -23,12 +23,23 @@ public class HaeaReplacement<T> implements PopulationReplacement<T>, SolutionMan
      */
     protected HaeaOperators<T> operators = null;
 
+    protected boolean steady = true;
+    
     /**
      * Default constructor
      */
     public HaeaReplacement(HaeaOperators<T> operators){
        this.operators = operators;
     }
+  
+    /**
+     * Default constructor
+     */
+    public HaeaReplacement(HaeaOperators<T> operators, boolean steady ){
+       this.operators = operators;
+       this.steady = steady;
+    }
+    
     
     public HaeaOperators<T> operators(){ return operators; }
 
@@ -66,7 +77,7 @@ public class HaeaReplacement<T> implements PopulationReplacement<T>, SolutionMan
             else
                 operators.punish(i);
             
-            if( order.compare(qi, qs) <= 0)
+            if( !steady || order.compare(qi, qs) <= 0)
                 buffer[i] = next.get(sel);
             else
                 buffer[i] = current.get(i);

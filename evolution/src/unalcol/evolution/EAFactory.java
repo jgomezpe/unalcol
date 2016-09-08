@@ -94,5 +94,9 @@ public class EAFactory<T> {
 
 	public PopulationSearch<T,Double> HAEA( HaeaStep<T> step, int MAXITERS ){
 		return HAEA( step, new ForLoopCondition<Population<T>>(MAXITERS) );
+	}
+	
+		public PopulationSearch<T,Double> HAEA_Generational( int mu, HaeaOperators<T> operators, Selection<T> selection, int MAXITERS ){
+		return HAEA( new HaeaStep<T>(mu,selection,operators, false), MAXITERS );
 	}	
 }
