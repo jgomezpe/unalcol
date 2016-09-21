@@ -7,7 +7,6 @@ package unalcol.search;
 
 import unalcol.reflect.tag.TaggedMethod;
 import unalcol.reflect.tag.TaggedObject;
-import unalcol.search.population.Population;
 import unalcol.search.solution.Solution;
 
 /**
@@ -40,14 +39,9 @@ public interface Goal<T, R> extends TaggedMethod<T,R> {
     }
 
 	public default R[] apply( Solution<T>[] x ){
-		System.out.println("Here..in apply goal.");
 		R[] r = array(x.length);
 		for( int i=0; i<x.length; i++) r[i] = apply(x[i]);
 		return r;
-	}
-
-	public default R[] apply( Population<T> x ){
-		return apply( x.object() );
 	}
 
 	public abstract boolean nonStationary();      

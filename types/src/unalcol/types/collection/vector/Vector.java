@@ -4,9 +4,9 @@
  */
 package unalcol.types.collection.vector;
 
-import unalcol.clone.Clone;
 import unalcol.random.integer.IntUniform;
-import unalcol.service.ServiceCore;
+//import unalcol.clone.Clone;
+//import unalcol.service.ServiceCore;
 import unalcol.types.collection.Location;
 import unalcol.types.collection.array.ArrayCollectionLocation;
 import unalcol.types.collection.array.MutableArrayCollection;
@@ -16,10 +16,6 @@ import unalcol.types.collection.array.MutableArrayCollection;
  * @author jgomez
  */
 public class Vector<T> extends ImmutableVector<T> implements MutableArrayCollection<T> {
-	static{
-		ServiceCore.set(Vector.class, Clone.class, new VectorCloneService<Object>());
-	}
-	
 	protected int a, b, c;
 
     protected static final int DEFAULT_C = 144;
@@ -37,10 +33,14 @@ public class Vector<T> extends ImmutableVector<T> implements MutableArrayCollect
         }
     }
     
-    public Vector( T[] buffer ){
-        super( buffer );
-        size = buffer.length;
+	public Vector( Vector<T> vector ){
+    	super( vector );
+    	this.size = vector.size();
         find_fib(size);
+    }
+    
+    public Vector( T[] buffer ){
+        this( buffer, buffer.length );
     }
 
     public Vector( T[] buffer, int s ){

@@ -5,14 +5,14 @@ import unalcol.search.population.Population;
 import unalcol.search.population.RealQualifyPopulationSearch;
 import unalcol.search.population.VariationReplacePopulationSearch;
 import unalcol.search.space.Space;
-import unalcol.search.space.variation.BuildOne;
-import unalcol.search.variation.ArityOneSearchOperator;
+import unalcol.search.variation.Variation_1_1;
+import unalcol.search.variation.Variation_n_1;
 
 public class ESStep<T,P> extends VariationReplacePopulationSearch<T,Double> implements RealQualifyPopulationSearch<T>{
 	protected Space<P> s_space;
 	public ESStep(int mu, int lambda, int ro, 
-       		BuildOne<T> y_recombination, ArityOneSearchOperator<T> mutation, 
-       		BuildOne<P> s_recombination, ArityOneSearchOperator<P> s_mutation, Space<P> s_space,
+			Variation_n_1<T> y_recombination, Variation_1_1<T> mutation, 
+			Variation_n_1<P> s_recombination, Variation_1_1<P> s_mutation, Space<P> s_space,
        		ESReplacement<T> replacement ){
 		super( 	mu, new ESVariation<T,P>(lambda, ro, y_recombination, mutation, s_recombination, s_mutation), 
 				replacement);
@@ -20,8 +20,8 @@ public class ESStep<T,P> extends VariationReplacePopulationSearch<T,Double> impl
 	}
 
 	public ESStep(int mu, int lambda, int ro, 
-       		BuildOne<T> y_recombination, ArityOneSearchOperator<T> mutation, 
-       		BuildOne<P> s_recombination, ArityOneSearchOperator<P> s_mutation, Space<P> s_space,
+			Variation_n_1<T> y_recombination, Variation_1_1<T> mutation, 
+			Variation_n_1<P> s_recombination, Variation_1_1<P> s_mutation, Space<P> s_space,
        		boolean plus_replacement ){
 		this(	mu, lambda, ro, y_recombination, mutation, s_recombination, s_mutation, s_space, 
 				plus_replacement? new PlusReplacement<T>(mu):new CommaReplacement<T>(mu) );

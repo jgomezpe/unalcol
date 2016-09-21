@@ -54,9 +54,9 @@ public class DeterministicCrowding<T> implements PopulationReplacement<T>{
 				C2 = t;
 			}
 			if( order.compare((Double)C1.info(gName), (Double)P1.info(gName)) < 0 )
-				C1 = (Solution<T>)P1.clone(P1.object());
+				C1 = P1;
 			if( order.compare((Double)C2.info(gName), (Double)P2.info(gName)) < 0  )
-				C2 = (Solution<T>)P2.clone(P2.object());
+				C2 = P2;
 			
 			buffer[i] = C1;
 			buffer[i+1] = C2;

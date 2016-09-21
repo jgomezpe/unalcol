@@ -2,11 +2,10 @@ package unalcol.evolution.haea;
 
 import unalcol.search.selection.Selection;
 import unalcol.search.solution.Solution;
-import unalcol.search.solution.variation.SolutionOperator;
-import unalcol.search.variation.SearchOperator;
+import unalcol.search.variation.Variation;
 import unalcol.types.collection.vector.Vector;
 
-public class HaeaVariation<T> implements SolutionOperator<T>{
+public class HaeaVariation<T> extends Variation<T>{
     /**
      * Set of genetic operators that are used by CEA for evolving the solution chromosomes
      */
@@ -57,7 +56,7 @@ public class HaeaVariation<T> implements SolutionOperator<T>{
             // next line added  Feb 25, 2011
             if( available(i) ){
                 int oper = operators.select(i);
-                SearchOperator<T> o = operators.get(i, oper);
+                Variation<T> o = operators.get(i, oper);
                 Vector<Integer> subset = select(i, population);
                 Solution<T>[] pop;
                 if(subset==null){

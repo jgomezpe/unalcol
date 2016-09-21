@@ -1,15 +1,15 @@
-package unalcol.search.solution.variation;
+package unalcol.search.variation;
 
 import unalcol.search.Goal;
 import unalcol.search.selection.Selection;
 import unalcol.search.solution.Solution;
 
-public class SelectionVariation<T> implements SolutionOperator<T>{
+public class VariationSelection<T> extends Variation<T>{
 	protected int lambda;
-	protected SolutionOperator<T> variation;
+	protected Variation<T> variation;
 	protected Selection<T> selection;
 
-	public SelectionVariation( int lambda, SolutionOperator<T> variation, Selection<T> selection ){
+	public VariationSelection( int lambda, Variation<T> variation, Selection<T> selection ){
 		this.lambda = lambda;
 		this.variation = variation;
 		this.selection = selection;
@@ -24,5 +24,10 @@ public class SelectionVariation<T> implements SolutionOperator<T>{
     		c.set(gName, goal);
     	}
         return selection.pick(lambda, children);
+    }
+    
+    @Override
+    public int range_arity(){
+    	return lambda;
     }
 }

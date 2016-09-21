@@ -59,7 +59,7 @@ public class DCHaeaReplacement<T> extends HaeaReplacement<T>{
             if(order.compare(qp, qc) <= 0){
                 buffer[i] = next.get(child);
             }else{
-                buffer[i] = (Solution<T>)current.get(i).clone(parent);
+                buffer[i] = current.get(i);
             }
         }
         return new Population<T>(buffer);

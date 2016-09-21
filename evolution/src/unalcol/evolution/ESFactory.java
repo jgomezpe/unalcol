@@ -8,8 +8,8 @@ import unalcol.search.population.IterativePopulationSearch;
 import unalcol.search.population.Population;
 import unalcol.search.population.PopulationSearch;
 import unalcol.search.space.Space;
-import unalcol.search.space.variation.BuildOne;
-import unalcol.search.variation.ArityOneSearchOperator;
+import unalcol.search.variation.Variation_1_1;
+import unalcol.search.variation.Variation_n_1;
 
 public class ESFactory<T,P> {
 	//Evolutionary Strategy factory
@@ -25,16 +25,16 @@ public class ESFactory<T,P> {
 	
 	public PopulationSearch<T,Double> evolutionarystrategy(
 			int mu, int lambda, int ro, 
-			BuildOne<T> y_recombination, ArityOneSearchOperator<T> mutation, 
-			BuildOne<P> s_recombination, ArityOneSearchOperator<P> s_mutation, Space<P> s_space,
+			Variation_n_1<T> y_recombination, Variation_1_1<T> mutation, 
+			Variation_n_1<P> s_recombination, Variation_1_1<P> s_mutation, Space<P> s_space,
 			ESReplacement<T> replacement, int MAXITERS ){
 		return evolutionarystrategy(new ESStep<T,P>(mu, lambda, ro, y_recombination, mutation, s_recombination, s_mutation, s_space, replacement), MAXITERS);
 	}
 	
 	public PopulationSearch<T,Double> evolutionarystrategy( 
 			int mu, int lambda, int ro, 
-			BuildOne<T> y_recombination, ArityOneSearchOperator<T> mutation, 
-			BuildOne<P> s_recombination, ArityOneSearchOperator<P> s_mutation, Space<P> s_space,
+			Variation_n_1<T> y_recombination, Variation_1_1<T> mutation, 
+			Variation_n_1<P> s_recombination, Variation_1_1<P> s_mutation, Space<P> s_space,
 			boolean plus_replacement, int MAXITERS ){
 		return evolutionarystrategy(new ESStep<T,P>(mu, lambda, ro, y_recombination, mutation, s_recombination, s_mutation, s_space, plus_replacement), MAXITERS);
 	}	

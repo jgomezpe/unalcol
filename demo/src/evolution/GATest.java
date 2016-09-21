@@ -15,6 +15,7 @@ import unalcol.optimization.real.mutation.PermutationPick;
 import unalcol.optimization.real.mutation.PickComponents;
 import unalcol.optimization.real.testbed.Rastrigin;
 import unalcol.optimization.real.xover.LinearXOver;
+import unalcol.optimization.real.xover.RealArityTwo;
 import unalcol.random.real.DoubleGenerator;
 import unalcol.random.real.SimplestSymmetricPowerLawGenerator;
 import unalcol.search.Goal;
@@ -23,11 +24,10 @@ import unalcol.search.multilevel.MultiLevelSearch;
 import unalcol.search.population.Population;
 import unalcol.search.population.PopulationDescriptors;
 import unalcol.search.population.PopulationSearch;
-import unalcol.search.space.variation.ArityOne;
-import unalcol.search.space.variation.ArityTwo;
 import unalcol.search.selection.Tournament;
 import unalcol.search.solution.Solution;
 import unalcol.search.space.Space;
+import unalcol.search.variation.Variation_1_1;
 import unalcol.tracer.ConsoleTracer;
 import unalcol.tracer.Tracer;
 import unalcol.types.collection.bitarray.BitArray;
@@ -52,7 +52,7 @@ public class GATest {
     	PickComponents pick = new PermutationPick(DIM/2); // It can be set to null if the mutation operator is applied to every component of the solution array
     	//AdaptMutationIntensity adapt = new OneFifthRule(500, 0.9); // It can be set to null if no mutation adaptation is required
     	IntensityMutation mutation = new IntensityMutation( 0.1, random, pick );
-    	ArityTwo<double[]> xover = new LinearXOver();
+    	RealArityTwo xover = new LinearXOver();
     	
         // Search method
         int POPSIZE = 100;
@@ -62,7 +62,7 @@ public class GATest {
         		factory.generational_ga(POPSIZE, new Tournament<double[]>(4), mutation, xover, 0.6, MAXITERS );
 
         // Tracking the goal evaluations
-        WriteDescriptors write_desc = new WriteDescriptors();
+        //WriteDescriptors write_desc = new WriteDescriptors();
         Write.set(double[].class, new DoubleArrayPlainWrite(false));
         Descriptors.set(Population.class, new PopulationDescriptors<double[]>());
 
@@ -86,7 +86,7 @@ public class GATest {
         Goal<BitArray,Double> goal = new OptimizationGoal<BitArray>(function, false); // maximizing, remove the parameter false if minimizing   	
     	
     	// Variation definition
-    	ArityOne<BitArray> mutation = new BitMutation();
+    	Variation_1_1<BitArray> mutation = new BitMutation();
     	XOver xover = new XOver();
 
     	// Search method
@@ -131,7 +131,7 @@ public class GATest {
         CodeDecodeMap<BitArray, double[]> map = new BinaryToRealVector(BITS_PER_DOUBLE, min, max);
 
     	// Variation definition
-    	ArityOne<BitArray> mutation = new BitMutation();
+    	Variation_1_1<BitArray> mutation = new BitMutation();
     	XOver xover = new XOver();
         
         // Search method
@@ -146,7 +146,7 @@ public class GATest {
         		new MultiLevelSearch<BitArray,double[],Double>(bin_search, map);
 
         // Tracking the goal evaluations
-        WriteDescriptors write_desc = new WriteDescriptors();
+        //WriteDescriptors write_desc = new WriteDescriptors();
         Write.set(double[].class, new DoubleArrayPlainWrite(false));
         Descriptors.set(Population.class, new PopulationDescriptors<BitArray>());
         
@@ -163,7 +163,7 @@ public class GATest {
 	
     
     public static void main(String[] args){
-    	//real(); // Uncomment if testing real valued functions
+    	real(); // Uncomment if testing real valued functions
     	// binary(); // Uncomment if testing binary valued functions
     	//binary2real(); // Uncomment if you want to try the multi-level search method
     	//queen(); // Uncomment if testing integer (queen) value functions

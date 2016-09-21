@@ -1,7 +1,7 @@
 package unalcol.optimization.binary;
 import unalcol.clone.*;
 import unalcol.random.raw.RawGenerator;
-import unalcol.search.space.variation.ArityTwo;
+import unalcol.search.variation.Variation_2_2;
 import unalcol.types.collection.bitarray.BitArray;
 
 /**
@@ -12,7 +12,7 @@ import unalcol.types.collection.bitarray.BitArray;
  * @version 1.0
  */
 
-public class XOver implements ArityTwo<BitArray>{
+public class XOver extends Variation_2_2<BitArray>{
     public XOver(){}
 
   /**
@@ -28,7 +28,7 @@ public class XOver implements ArityTwo<BitArray>{
    * @param xoverPoint crossover point
    * @return The crossover point
    */
-  public BitArray[] apply(BitArray child1, BitArray child2, int xoverPoint) {
+  protected BitArray[] apply(BitArray child1, BitArray child2, int xoverPoint) {
       try{
           BitArray child1_1 = (BitArray) Clone.create(child1);
           BitArray child2_1 = (BitArray) Clone.create(child2);

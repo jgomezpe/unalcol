@@ -2,8 +2,8 @@ package unalcol.optimization.binary.varlength;
 import unalcol.types.collection.bitarray.BitArray;
 import unalcol.clone.*;
 import unalcol.random.raw.RawGenerator;
-import unalcol.search.space.variation.ArityOne;
 import unalcol.search.variation.ParameterizedObject;
+import unalcol.search.variation.Variation_1_1;
 
 
 /**
@@ -14,7 +14,7 @@ import unalcol.search.variation.ParameterizedObject;
  * @version 1.0
  */
 
-public class DelGen implements ArityOne<BitArray>, ParameterizedObject<int[]> {
+public class DelGen extends Variation_1_1<BitArray> implements ParameterizedObject<int[]> {
   /**
    * If the last gene is going to be deleted or one randomly selected
    */

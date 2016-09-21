@@ -4,7 +4,6 @@ import java.lang.reflect.Array;
 import java.util.Iterator;
 
 import unalcol.clone.Clone;
-import unalcol.service.ServiceCore;
 import unalcol.types.collection.array.*;
 import unalcol.types.collection.*;
 
@@ -23,16 +22,23 @@ import java.util.NoSuchElementException;
  * @version 1.0
  */
 public class ImmutableVector<T> implements ArrayCollection<T>, SearchCollection<T> {
-	static{
-		ServiceCore.set(ImmutableVector.class, Clone.class, new ImmutableVectorCloneService<Object>());
-	}
+	//static{
+	//	ServiceCore.set(ImmutableVector.class, Clone.class, new ImmutableVectorCloneService<Object>());
+	//}
 	
 
 	protected int size;
     protected T[] buffer;
+    
     public ImmutableVector( T[] buffer ) {
         this.buffer = buffer;
         size = (buffer!=null)?buffer.length:0;
+    }
+    
+    @SuppressWarnings("unchecked")
+	public ImmutableVector( ImmutableVector<T> vector ){
+    	this.buffer = (T[])Clone.create(vector.buffer);
+    	this.size = vector.size;
     }
 
     @Override

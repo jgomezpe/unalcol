@@ -1,6 +1,5 @@
 package unalcol.data.clustergenerator;
 
-import unalcol.random.Random;
 import unalcol.random.raw.RawGenerator;
 
 /**

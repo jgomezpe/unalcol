@@ -1,7 +1,7 @@
 package unalcol.optimization.binary.varlength;
 import unalcol.types.collection.bitarray.BitArray;
 import unalcol.clone.*;
-import unalcol.search.space.variation.ArityTwo;
+import unalcol.search.variation.Variation_2_2;
 
 /**
  * <p>Title: Join</p>
@@ -11,7 +11,7 @@ import unalcol.search.space.variation.ArityTwo;
  * @version 1.0
  */
 
-public class Join implements ArityTwo<BitArray>{
+public class Join extends Variation_2_2<BitArray>{
 
   /**
    * Apply the simple point crossover operation over the given genomes

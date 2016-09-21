@@ -10,13 +10,12 @@ import unalcol.search.local.IterativeLocalSearch;
 import unalcol.search.local.LocalSearch;
 import unalcol.search.local.VariationReplaceLocalSearch;
 import unalcol.search.solution.Solution;
-import unalcol.search.space.variation.ArityOne;
-import unalcol.search.variation.ArityOneSearchOperator;
+import unalcol.search.variation.Variation_1_1;
 
 public class OptimizationFactory<T> {
 	public LocalSearch<T,Double> 
 		hill_climbing(
-			ArityOneSearchOperator<T> variation, 
+			Variation_1_1<T> variation, 
 			HillClimbingReplacement<T> replace, 
 			Predicate<Solution<T>> tC ){
 		return new IterativeLocalSearch<T, Double>(new VariationReplaceLocalSearch<T>(variation, replace), tC);
@@ -24,7 +23,7 @@ public class OptimizationFactory<T> {
 
 	 public LocalSearch<T,Double> 
 		hill_climbing(
-			ArityOneSearchOperator<T> variation, 
+			Variation_1_1<T> variation, 
 	 		boolean neutral, int MAX_ITERS ){
 	 	return hill_climbing(	variation, 
 	 							new HillClimbingReplacement<T>( neutral ),
@@ -33,7 +32,7 @@ public class OptimizationFactory<T> {
 	 
 	 public LocalSearch<T,Double> 
 	 	simulated_annealing(  
-	 		ArityOneSearchOperator<T> variation, 
+	 		Variation_1_1<T> variation, 
 			SimulatedAnnealingReplacement<T> replace, 
 			Predicate<Solution<T>> tC ){
 		return new IterativeLocalSearch<T,Double>( 
@@ -42,7 +41,7 @@ public class OptimizationFactory<T> {
 	 
 	 public LocalSearch<T,Double> 
 	 	simulated_annealing(
-    		ArityOneSearchOperator<T> variation, 
+    		Variation_1_1<T> variation, 
    			SimulatedAnnealingScheme scheme, int MAX_ITERS ){
     	return simulated_annealing( variation, 
     			new SimulatedAnnealingReplacement<T>(scheme), 
@@ -51,7 +50,7 @@ public class OptimizationFactory<T> {
 
 	public LocalSearch<T,Double> 
 	 	simulated_annealing(
-	 		ArityOneSearchOperator<T> variation, 
+	 		Variation_1_1<T> variation, 
 			int K, int MAX_ITERS ){
 		return simulated_annealing( variation, 
 									new SimpleSimulatedAnnealingScheme(K), 
@@ -59,7 +58,7 @@ public class OptimizationFactory<T> {
 	}       
 
     public LocalSearch<T,Double> simulated_annealing( 
-    			ArityOne<T> variation, int MAX_ITERS ){
+    			Variation_1_1<T> variation, int MAX_ITERS ){
     	return simulated_annealing( variation, MAX_ITERS, MAX_ITERS );
     }
 }

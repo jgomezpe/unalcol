@@ -8,7 +8,7 @@ package unalcol.search.local;
 import unalcol.search.Goal;
 import unalcol.search.solution.Solution;
 import unalcol.search.space.Space;
-import unalcol.search.variation.ArityOneSearchOperator;
+import unalcol.search.variation.Variation_1_1;
 import unalcol.tracer.Tracer;
 
 /**
@@ -16,10 +16,10 @@ import unalcol.tracer.Tracer;
  * @author jgomez
  */
 public class VariationReplaceLocalSearch<T> extends LocalSearch<T,Double> {
-    protected ArityOneSearchOperator<T> variation;
+    protected Variation_1_1<T> variation;
     protected Replacement<T> replace;
     
-    public VariationReplaceLocalSearch( ArityOneSearchOperator<T> variation, Replacement<T> replace ){
+    public VariationReplaceLocalSearch( Variation_1_1<T> variation, Replacement<T> replace ){
         super();
         this.variation = variation;
         this.replace = replace;
@@ -28,8 +28,7 @@ public class VariationReplaceLocalSearch<T> extends LocalSearch<T,Double> {
     @Override
     public Solution<T> apply(Solution<T> x, Space<T> space){
         // Check if non stationary
-        @SuppressWarnings("unchecked")
-		Solution<T> y = variation.apply(space, x)[0];
+		Solution<T> y = variation.apply(space, x);
         y.set(Goal.class.getName(), x.data(Goal.class.getName()));
         Solution<T> z = replace.apply(x, y);
         Tracer.trace(Solution.class, x, z);

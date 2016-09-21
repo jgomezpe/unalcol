@@ -3,14 +3,14 @@ package unalcol.search.local;
 import unalcol.search.Goal;
 import unalcol.search.solution.Solution;
 import unalcol.search.space.Space;
-import unalcol.search.variation.ArityOneSearchOperator;
+import unalcol.search.variation.Variation_1_1;
 import unalcol.tracer.Tracer;
 
 public class AdaptOperatorLocalSearch<T,P> extends VariationReplaceLocalSearch<T>{
     protected AdaptSearchOperatorParameters<P> adapt;
     
     
-    public AdaptOperatorLocalSearch( ArityOneSearchOperator<T> variation,
+    public AdaptOperatorLocalSearch( Variation_1_1<T> variation,
     								 AdaptSearchOperatorParameters<P> adapt, 
     								 Replacement<T> replace ){
         super( variation, replace );
@@ -21,8 +21,7 @@ public class AdaptOperatorLocalSearch<T,P> extends VariationReplaceLocalSearch<T
     public Solution<T> apply(Solution<T> x, Space<T> space){
         // Check if non stationary
         Double fx = (Double)x.info(Goal.class.getName());        
-        @SuppressWarnings("unchecked")
-		Solution<T> y = variation.apply(space, x)[0];
+		Solution<T> y = variation.apply(space, x);
         y.set(Goal.class.getName(), x.data(Goal.class.getName()));
         Double fy = (Double)y.info(Goal.class.getName());
         if( adapt != null )	adapt.apply(variation, fx, fy);

@@ -2,7 +2,7 @@ package unalcol.evolution.haea;
 import unalcol.types.collection.vector.*;
 import unalcol.random.integer.*;
 import unalcol.random.raw.RawGenerator;
-import unalcol.search.variation.SearchOperator;
+import unalcol.search.variation.Variation;
 import unalcol.types.real.array.DoubleArray;
 
 /**
@@ -91,7 +91,7 @@ public abstract class HaeaOperators<T>{
      * @param operIndex Operator index
      * @return Genetic operator associated to the given index and individual
      */
-    public abstract SearchOperator<T> get( int indIndex, int operIndex );
+    public abstract Variation<T> get( int indIndex, int operIndex );
 
     /**
      * Genetic operator reward mechanism

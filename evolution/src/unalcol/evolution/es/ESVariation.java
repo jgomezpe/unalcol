@@ -3,25 +3,25 @@ package unalcol.evolution.es;
 import unalcol.random.integer.IntUniform;
 import unalcol.search.Goal;
 import unalcol.search.solution.Solution;
-import unalcol.search.solution.variation.SolutionOperator;
-import unalcol.search.space.variation.BuildOne;
-import unalcol.search.variation.ArityOneSearchOperator;
 import unalcol.search.variation.ParameterizedObject;
+import unalcol.search.variation.Variation;
+import unalcol.search.variation.Variation_1_1;
+import unalcol.search.variation.Variation_n_1;
 
-public class ESVariation<T,P> implements SolutionOperator<T>{ 
+public class ESVariation<T,P> extends Variation<T>{ 
 	public static final String PARAMETERS_OPERATOR = "Parameters";
 	protected int lambda;
 	protected int ro;
-	protected BuildOne<T> recombination;
-	protected ArityOneSearchOperator<T> mutation;
+	protected Variation_n_1<T> recombination;
+	protected Variation_1_1<T> mutation;
 	protected ParameterizedObject<P> param_mutation;
-	protected BuildOne<P> s_recombination;
-	protected ArityOneSearchOperator<P> s_mutation;
+	protected Variation_n_1<P> s_recombination;
+	protected Variation_1_1<P> s_mutation;
 	
 	@SuppressWarnings("unchecked")
 	public ESVariation( int lambda, int ro, 
-			       		BuildOne<T> y_recombination, ArityOneSearchOperator<T> mutation, 
-			       		BuildOne<P> s_recombination, ArityOneSearchOperator<P> s_mutation) {
+						Variation_n_1<T> y_recombination, Variation_1_1<T> mutation, 
+						Variation_n_1<P> s_recombination, Variation_1_1<P> s_mutation) {
 		this.lambda = lambda;
 		this.ro = ro;
 		this.recombination = y_recombination;
@@ -67,11 +67,11 @@ public class ESVariation<T,P> implements SolutionOperator<T>{
         		pop[i] = population[subset[i]];
         		s_pop[i] = (P)pop[i].info(PARAMETERS_OPERATOR);
         	}
-        	new_s = s_mutation.apply(s_recombination.build(s_pop));
+        	new_s = s_mutation.apply(s_recombination.apply(s_pop)[0]);
         	if( param_mutation != null ){
         		param_mutation.setParameters(new_s);
         	}
-        	new_y[k] = mutation.apply(recombination.build(pop));
+        	new_y[k] = mutation.apply(recombination.apply(pop)[0]);
         	new_y[k].set(PARAMETERS_OPERATOR, new_s);
         	new_y[k].set(gName, goal);
     	}

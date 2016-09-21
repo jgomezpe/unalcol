@@ -1,6 +1,7 @@
 package unalcol.reflect.tag;
 
 import java.util.Hashtable;
+import java.util.Set;
 
 /**
 *
@@ -93,9 +94,15 @@ public interface TaggedObjectManager<T> {
      * @return A Tagged version of <i>obj</i> using the TagMethods stored by <i>tags</i>.
      */
     public default TaggedObject<T> wrap( T obj, Hashtable<String, Object> tags ){
-	TaggedObject<T> tobj = new TaggedObject<T>(obj);
-	tobj.cloneTaggedMethods(tags);
-	return tobj;
+    	TaggedObject<T> tobj = new TaggedObject<T>(obj);
+		Set<String> keys = tags.keySet();
+		for(String k:keys){
+			Object tagObj = tags.get(k);
+		    if( tagObj instanceof TaggedMethod ){
+		    	tobj.info.put(k, tagObj);
+		    }	
+		}		
+    	return tobj;
     }
 
     /**

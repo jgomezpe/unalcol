@@ -5,13 +5,13 @@
 package unalcol.optimization.real.mutation;
 import unalcol.clone.*;
 import unalcol.random.integer.*;
-import unalcol.search.space.variation.ArityOne;
+import unalcol.search.variation.Variation_1_1;
 
 /**
  *
  * @author jgomez
  */
-public class RTransposition  implements ArityOne<double[]>{
+public class RTransposition extends Variation_1_1<double[]>{
 	    protected IntUniform g;
 	    protected int d = 2;
 	    public RTransposition(){

@@ -1,6 +1,9 @@
 package unalcol.clone;
 
 import java.lang.reflect.Method;
+
+import unalcol.instance.Instance;
+
 import java.lang.reflect.Array;
 
 //
@@ -107,8 +110,7 @@ public class CloneWrapper extends Clone<Object> {
 			Method m = obj.getClass().getMethod(method_name) ;
 			return m.invoke(obj);
 		}catch( Exception e ){            
-			e.printStackTrace();
-			return null;
+			return Instance.create(obj.getClass(), obj);
 		}
 	}
 }

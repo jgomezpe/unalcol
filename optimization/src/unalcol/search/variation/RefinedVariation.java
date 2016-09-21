@@ -2,11 +2,11 @@ package unalcol.search.variation;
 
 import unalcol.search.solution.Solution;
 
-public class RefineSearchOperator<T> implements SearchOperator<T> {
-	protected ArityOneSearchOperator<T> refining;
-	protected SearchOperator<T> refined;
+public class RefinedVariation<T> extends Variation<T> {
+	protected Variation_1_1<T> refining;
+	protected Variation<T> refined;
 	
-	public RefineSearchOperator( SearchOperator<T> refined, ArityOneSearchOperator<T> refining ) {
+	public RefinedVariation( Variation<T> refined, Variation_1_1<T> refining ) {
 		this.refined = refined;
 		this.refining = refining;
 	}

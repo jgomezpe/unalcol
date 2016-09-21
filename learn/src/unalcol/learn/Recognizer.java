@@ -42,7 +42,7 @@ public abstract class Recognizer<T> implements Labeler<T>{
   }
   
   public Vector<double[]> confidence( ArrayCollection<T> data ){
-      Vector<double[]> conf = new Vector();
+      Vector<double[]> conf = new Vector<double[]>();
       Iterator<T> iter = data.iterator();
       while( iter.hasNext() ){
           conf.add(confidence(iter.next()));
@@ -55,7 +55,7 @@ public abstract class Recognizer<T> implements Labeler<T>{
   }
 
   public Vector<Prediction> predict( ArrayCollection<T> data ){
-      Vector<Prediction> pred = new Vector();
+      Vector<Prediction> pred = new Vector<Prediction>();
       Iterator<T> iter = data.iterator();
       while( iter.hasNext() ){
           pred.add(predict(iter.next()));

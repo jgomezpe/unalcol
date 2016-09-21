@@ -41,10 +41,12 @@ public class DatabaseTableIterator implements Iterator<Record>{
         }
     }
 
-    public Record next(){
+    @SuppressWarnings("unchecked")
+	public Record next(){
         try{
             nextCalled = true;
-            Vector v = new Vector();
+            @SuppressWarnings("rawtypes")
+			Vector v = new Vector();
             for( int i=1; i<=n; i++ ){
                 v.add( rs.getObject(i) );
             }

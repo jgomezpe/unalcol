@@ -11,7 +11,7 @@ import unalcol.io.Read;
 import unalcol.io.ShortTermMemoryReader;
 import unalcol.io.Write;
 import unalcol.random.raw.RawGenerator;
-import unalcol.random.rngpack.RanMT;
+import unalcol.random.raw.rngpack.RanMT;
 import unalcol.types.real.array.DoubleArray;
 import unalcol.types.real.array.DoubleArrayPlainRead;
 import unalcol.types.real.array.DoubleArrayPlainWrite;

@@ -8,7 +8,7 @@ package unalcol.search.population;
 import unalcol.search.Goal;
 import unalcol.search.solution.Solution;
 import unalcol.search.space.Space;
-import unalcol.search.variation.SearchOperator;
+import unalcol.search.variation.Variation;
 
 /**
  *
@@ -16,10 +16,10 @@ import unalcol.search.variation.SearchOperator;
  */
 public abstract class VariationReplacePopulationSearch<T,R> implements PopulationSearch<T, R> {
 	protected int mu; // Population size
-    protected SearchOperator<T> variation; 
+    protected Variation<T> variation; 
     protected PopulationReplacement<T> replace;
 
-    public VariationReplacePopulationSearch( int mu, SearchOperator<T> variation, PopulationReplacement<T> replace){    	
+    public VariationReplacePopulationSearch( int mu, Variation<T> variation, PopulationReplacement<T> replace){    	
     	this.mu = mu;
     	this.variation = variation;
     	this.replace = replace;

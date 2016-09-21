@@ -1,8 +1,8 @@
 package unalcol.optimization.binary;
 
 import unalcol.random.util.*;
-import unalcol.search.space.variation.ArityOne;
 import unalcol.search.variation.ParameterizedObject;
+import unalcol.search.variation.Variation_1_1;
 import unalcol.types.collection.bitarray.BitArray;
 import unalcol.clone.*;
 
@@ -14,7 +14,7 @@ import unalcol.clone.*;
  * @version 1.0
  */
 
-public class BitMutation implements ArityOne<BitArray>, ParameterizedObject<Double> {
+public class BitMutation extends Variation_1_1<BitArray> implements ParameterizedObject<Double> {
   /**
    * Probability of mutating one single bit
    */

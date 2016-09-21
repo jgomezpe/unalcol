@@ -1,7 +1,7 @@
 package unalcol.reflect.tag;
 
-
 import unalcol.clone.Clone;
+import unalcol.instance.Instance;
 
 //
 //Unalcol Service structure Pack 1.0 by Jonatan Gomez-Perdomo
@@ -50,17 +50,40 @@ import unalcol.clone.Clone;
 * (E-mail: <A HREF="mailto:jgomezpe@unal.edu.co">jgomezpe@unal.edu.co</A> )
 * @version 1.0
 */
-public class TaggedObjectNonStrictClone<T> extends Clone<TaggedObject<T>> {
-    /**
-     * Creates a clone of the TaggedObject (including just the TaggedMethods).
-     * @param toClone TaggedObject to be  non-strictly copied. 
-     * @return A strict copy of the TaggedObject (including just the TaggedMethods).
-     */
-    @Override
-    public TaggedObject<T> clone(TaggedObject<T> toClone) {
+public class TaggedObjectClone<T> extends Clone<TaggedObject<T>> {
+	/**
+	 * If the object that is tagged should be copied or a shallow clone is enough
+	 */
+	protected boolean cloneObject;
+	
+	/**
+	 * If the copy must be strict or not (copying all tags or just the TaggedMethods)
+	 */
+	protected boolean copyAllTags;
+	
+	/**
+	 * Creates a clone method for TaggedObjects. Clones tags, methods, and object if defined 
+	 * @param cloneObject If the object that is tagged should be copied or a shallow clone is enough
+     * @param copyAllTags Defines if all tags are copied (<i>true</i>) or just the TaggedMethods (<i>false</i>)
+	 */
+	public TaggedObjectClone( boolean cloneObject, boolean copyAllTags ){
+		this.cloneObject = cloneObject;
+		this.copyAllTags = copyAllTags;
+	}
+
+	/**
+	 * Creates a clone of the TaggedObject (including just the TaggedMethods).
+	 * @param toClone TaggedObject to be  non-strictly copied. 
+	 * @return A copy of the TaggedObject (including or the tags or just the TaggedMethods).
+	 */
 	@SuppressWarnings("unchecked")
-	TaggedObject<T> cl = new TaggedObject<T>( (T)Clone.create(toClone.object) );
-	cl.cloneTaggedMethods(toClone);
-	return cl;
-    }
+	public TaggedObject<T> clone(TaggedObject<T> obj){
+		T tObj = obj.object();
+		if( cloneObject ){
+			tObj = (T)Clone.create(tObj);
+		}
+		TaggedObject<T> nObj = (TaggedObject<T>)Instance.create(obj.getClass(),tObj);
+		nObj.cloneTags(obj.info,copyAllTags);
+		return nObj;
+	}
 }

@@ -14,8 +14,9 @@ import unalcol.types.collection.vector.Vector;
  * @version 1.0
  */
 public class Record {
-    protected Vector field;
-    public Record( Vector field ) {
+    @SuppressWarnings("rawtypes")
+	protected Vector field;
+    public Record( @SuppressWarnings("rawtypes") Vector field ) {
         this.field = field;
     }
 

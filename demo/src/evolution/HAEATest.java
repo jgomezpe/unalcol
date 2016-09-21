@@ -16,7 +16,7 @@ import unalcol.optimization.binary.BinarySpace;
 import unalcol.optimization.binary.BitMutation;
 import unalcol.optimization.binary.Transposition;
 import unalcol.optimization.binary.XOver;
-import unalcol.optimization.binary.testbed.Deceptive;
+//import unalcol.optimization.binary.testbed.Deceptive;
 import unalcol.optimization.integer.IntHyperCube;
 import unalcol.optimization.integer.MutationIntArray;
 import unalcol.optimization.integer.XOverIntArray;
@@ -28,23 +28,21 @@ import unalcol.optimization.real.mutation.PermutationPick;
 import unalcol.optimization.real.mutation.PickComponents;
 import unalcol.optimization.real.testbed.Rastrigin;
 import unalcol.optimization.real.xover.LinearXOver;
+import unalcol.optimization.real.xover.RealArityTwo;
 import unalcol.random.real.DoubleGenerator;
 import unalcol.random.real.SimplestSymmetricPowerLawGenerator;
 import unalcol.search.Goal;
 import unalcol.search.solution.Solution;
-import unalcol.search.solution.SolutionDescriptors;
 import unalcol.search.multilevel.CodeDecodeMap;
 import unalcol.search.multilevel.MultiLevelSearch;
 import unalcol.search.population.Population;
 import unalcol.search.population.PopulationDescriptors;
 import unalcol.search.population.PopulationSearch;
-import unalcol.search.space.variation.ArityOne;
-import unalcol.search.space.variation.ArityTwo;
-import unalcol.search.space.variation.Operator;
 import unalcol.search.selection.Tournament;
 import unalcol.search.space.Space;
+import unalcol.search.variation.Variation_1_1;
+import unalcol.search.variation.Variation_2_2;
 import unalcol.tracer.ConsoleTracer;
-import unalcol.tracer.FileTracer;
 import unalcol.tracer.Tracer;
 import unalcol.types.collection.bitarray.BitArray;
 import unalcol.types.integer.array.IntArray;
@@ -69,16 +67,12 @@ public class HAEATest {
     	DoubleGenerator random = new SimplestSymmetricPowerLawGenerator(); // It can be set to Gaussian or other symmetric number generator (centered in zero)
     	PickComponents pick = new PermutationPick(DIM/2); // It can be set to null if the mutation operator is applied to every component of the solution array
     	IntensityMutation mutation = new IntensityMutation( 0.1, random, pick );
-    	ArityTwo<double[]> xover = new LinearXOver();
+    	RealArityTwo xover = new LinearXOver();
     	
         // Search method
         int POPSIZE = 10;
         int MAXITERS = 5;
-		@SuppressWarnings("unchecked")
-		Operator<double[]>[] opers = (Operator<double[]>[])new Operator[2];
-    	opers[0] = mutation;
-    	opers[1] = xover;
-    	HaeaOperators<double[]> operators = new SimpleHaeaOperators<double[]>(opers);
+    	HaeaOperators<double[]> operators = new SimpleHaeaOperators<double[]>(mutation, xover);
         EAFactory<double[]> factory = new EAFactory<double[]>();
         PopulationSearch<double[],Double> search = 
         		factory.HAEA(POPSIZE, operators, new Tournament<double[]>(4), MAXITERS );
@@ -113,15 +107,10 @@ public class HAEATest {
         Goal<BitArray,Double> goal = new OptimizationGoal<BitArray>(function, false); // maximizing, remove the parameter false if minimizing   	
     	
     	// Variation definition
-    	ArityOne<BitArray> mutation = new BitMutation();
-    	ArityOne<BitArray> transposition = new Transposition();
+    	Variation_1_1<BitArray> mutation = new BitMutation();
+    	Variation_1_1<BitArray> transposition = new Transposition();
     	XOver xover = new XOver();
-    	@SuppressWarnings("unchecked")
-		Operator<BitArray>[] opers = (Operator<BitArray>[])new Operator[3];
-    	opers[0] = mutation;
-    	opers[1] = xover;
-    	opers[2] = transposition;
-    	HaeaOperators<BitArray> operators = new SimpleHaeaOperators<BitArray>(opers);
+    	HaeaOperators<BitArray> operators = new SimpleHaeaOperators<BitArray>(mutation, transposition, xover);
         
         // Search method
         int POPSIZE = 100;
@@ -167,15 +156,10 @@ public class HAEATest {
         CodeDecodeMap<BitArray, double[]> map = new BinaryToRealVector(BITS_PER_DOUBLE, min, max);
 
     	// Variation definition
-    	ArityOne<BitArray> mutation = new BitMutation();
-    	ArityOne<BitArray> transposition = new Transposition();
+    	Variation_1_1<BitArray> mutation = new BitMutation();
+    	Variation_1_1<BitArray> transposition = new Transposition();
     	XOver xover = new XOver();
-    	@SuppressWarnings("unchecked")
-		Operator<BitArray>[] opers = (Operator<BitArray>[])new Operator[3];
-    	opers[0] = mutation;
-    	opers[1] = xover;
-    	opers[2] = transposition;
-    	HaeaOperators<BitArray> operators = new SimpleHaeaOperators<BitArray>(opers);
+		HaeaOperators<BitArray> operators = new SimpleHaeaOperators<BitArray>(mutation, transposition, xover);
         
         // Search method
         int POPSIZE = 100;
@@ -219,14 +203,10 @@ public class HAEATest {
         Goal<int[],Double> goal = new OptimizationGoal<int[]>(function); // minimizing   	
     	
     	// Variation definition
-        ArityOne<int[]> mutation = new MutationIntArray(DIM);
-        ArityTwo<int[]> xover = new XOverIntArray();
+        Variation_1_1<int[]> mutation = new MutationIntArray(DIM);
+        Variation_2_2<int[]> xover = new XOverIntArray();
         
-    	@SuppressWarnings("unchecked")
-		Operator<int[]>[] opers = (Operator<int[]>[])new Operator[2];
-    	opers[0] = mutation;
-    	opers[1] = xover;
-    	HaeaOperators<int[]> operators = new SimpleHaeaOperators<int[]>(opers);
+    	HaeaOperators<int[]> operators = new SimpleHaeaOperators<int[]>(mutation, xover);
         
         // Search method
         int POPSIZE = 100;

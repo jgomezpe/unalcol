@@ -2,8 +2,8 @@ package unalcol.optimization.integer;
 
 import unalcol.random.integer.IntUniform;
 import unalcol.random.util.*;
-import unalcol.search.space.variation.ArityOne;
 import unalcol.search.variation.ParameterizedObject;
+import unalcol.search.variation.Variation_1_1;
 
 /**
  * <p>Title: Mutation</p>
@@ -13,7 +13,7 @@ import unalcol.search.variation.ParameterizedObject;
  * @version 1.0
  */
 
-public class MutationIntArray implements ArityOne<int[]> , ParameterizedObject<Double> {
+public class MutationIntArray extends Variation_1_1<int[]> implements ParameterizedObject<Double> {
     
     protected IntUniform g;
   /**

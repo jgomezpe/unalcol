@@ -38,7 +38,7 @@ public class Shunk<T> implements Iterator<Vector<T>>{
     
     @Override
     public Vector<T> next(){
-        Vector<T> v = new Vector();
+        Vector<T> v = new Vector<T>();
         int i=0;
         while( i<n && iter.hasNext() ){
             v.add(iter.next());

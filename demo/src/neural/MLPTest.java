@@ -1,12 +1,8 @@
 package neural;
 
-import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.Arrays;
-
-import com.sun.xml.internal.ws.util.NoCloseInputStream;
-
 import unalcol.io.Read;
 import unalcol.io.ShortTermMemoryReader;
 import unalcol.types.collection.vector.Vector;
@@ -54,7 +50,7 @@ public class MLPTest {
 	public static void main( String[] args ){
     	   Vector[] data = readFile("72-36.csv");
     	   Vector<double[]> in = data[0];
-    	   Vector<double[]> out = data[1];
+    	   //Vector<double[]> out = data[1];
     	   for( int i=0; i< in.size(); i++){
     		   double[] x = in.get(i);
     		   for( int k=0; k<x.length; k++){

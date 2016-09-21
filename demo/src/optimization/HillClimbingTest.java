@@ -60,7 +60,7 @@ public class HillClimbingTest{
     	IntensityMutation variation = new IntensityMutation( 0.1, random, pick );
         
         // Search method
-        int MAXITERS = 100;
+        int MAXITERS = 1000;
         boolean neutral = true; // Accepts movements when having same function value
         boolean adapt_operator = true; //
         LocalSearch<double[],Double> search;

@@ -19,6 +19,7 @@ import unalcol.optimization.real.mutation.OneFifthRule;
 import unalcol.optimization.real.mutation.PermutationPick;
 import unalcol.optimization.real.mutation.PickComponents;
 import unalcol.optimization.real.testbed.Rastrigin;
+import unalcol.optimization.real.testbed.Schwefel;
 import unalcol.random.real.DoubleGenerator;
 import unalcol.random.real.SimplestSymmetricPowerLawGenerator;
 import unalcol.reflect.tag.TaggedObject;
@@ -44,21 +45,21 @@ public class SimulatedAnnealingTest {
 	public static void real(){
 		// Search Space definition
 		int DIM = 10;
-		double[] min = DoubleArray.create(DIM, -5.12);
-		double[] max = DoubleArray.create(DIM, 5.12);
+		double[] min = DoubleArray.create(DIM, -500);
+		double[] max = DoubleArray.create(DIM, 500);
     	Space<double[]> space = new HyperCube( min, max );
+    	
+    	// Optimization Function
+    	OptimizationFunction<double[]> function = new Schwefel();		
+        Goal<double[],Double> goal = new OptimizationGoal<double[]>(function); // minimizing, add the parameter false if maximizing
     	
     	// Variation definition
     	DoubleGenerator random = new SimplestSymmetricPowerLawGenerator(); // It can be set to Gaussian or other symmetric number generator (centered in zero)
     	PickComponents pick = new PermutationPick(DIM/2); // It can be set to null if the mutation operator is applied to every component of the solution array
     	IntensityMutation variation = new IntensityMutation( 0.1, random, pick );
         
-    	// Optimization Function
-    	OptimizationFunction<double[]> function = new Rastrigin();		
-        Goal<double[],Double> goal = new OptimizationGoal<double[]>(function); // minimizing, add the parameter false if maximizing
-    	
         // Search method
-        int MAXITERS = 10000;
+        int MAXITERS = 1000;
         boolean adapt_operator = true; //
         LocalSearch<double[],Double> search;
         if( adapt_operator ){
@@ -79,7 +80,7 @@ public class SimulatedAnnealingTest {
         Write.set(TaggedObject.class, w_desc);
 
         ConsoleTracer tracer = new ConsoleTracer();       
-        Tracer.addTracer(goal,tracer);
+        Tracer.addTracer(search,tracer);
         
         // Apply the search method
         TaggedObject<double[]> solution = search.solve(space, goal);

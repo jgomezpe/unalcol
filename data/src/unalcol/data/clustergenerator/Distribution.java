@@ -20,7 +20,6 @@
  * </copyright>
  */
 package unalcol.data.clustergenerator;
-import unalcol.random.Random;
 import unalcol.random.raw.RawGenerator;
 import unalcol.random.real.DoubleGenerator;
 import unalcol.random.real.GaussianGenerator;
@@ -70,9 +69,9 @@ public class Distribution {
    */
   public double[] generate( double[] center, double t ){
     double[] p = shape.getPoint(t);
-    double[] zero = new double[]{0.0,0.0};
-    double magnitude = shape.getMagnitude(zero, p);
-    double angle = shape.getAngle(zero, p);
+    //double[] zero = new double[]{0.0,0.0};
+    //double magnitude = shape.getMagnitude(zero, p);
+    //double angle = shape.getAngle(zero, p);
     DoubleGenerator g;
     if (gaussian) {
       g = new GaussianGenerator(0.0, 1.0);

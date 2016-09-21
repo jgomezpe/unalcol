@@ -32,7 +32,7 @@ public class SimulatedAnnealingReplacement<T> extends HillClimbingReplacement<T>
     	String gName = Goal.class.getName();
     	double qc = (Double)current.info(gName);
     	double qn = (Double)next.info(gName);
-        if( x==next || Math.exp((qn-qc)/scheme.get(t++)) > Math.random())
+        if( x==next || Math.exp(-Math.abs(qn-qc)/scheme.get(t++)) > Math.random())
             return next;
         else
             return current;

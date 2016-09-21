@@ -8,20 +8,21 @@ public class Population<T> extends Solution<Solution<T>[]>{
 		super(object);
 	}
 
+	public Population(Solution<T>[] object,  @SuppressWarnings("rawtypes") Goal goal ) {
+		super(object, goal);
+	}
+
 	public int size(){ return object.length; }
 
 	public Solution<T> get(int index){
 		return object[index];
 	}
 	
-	public Population(Solution<T>[] object,  @SuppressWarnings("rawtypes") Goal goal ) {
-		super(object, goal);
-	}
 	
-	@Override
-	public Population<T> instance( Solution<T>[] object ){
-		return new Population<T>(object);
-	}
+	//@Override
+	//public Population<T> instance( Solution<T>[] object ){
+	//	return new Population<T>(object);
+	//}
 	
 	@Override
 	public void set( String key, Object value ){

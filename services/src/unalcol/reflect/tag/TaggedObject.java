@@ -1,5 +1,6 @@
 package unalcol.reflect.tag;
 
+import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.Set;
 
@@ -65,61 +66,55 @@ public class TaggedObject<T>{
     public TaggedObject( T object ){ this.object = object; }
  
     /**
-     * Associates every tag in <i>info</i> to the object. 
-     * @param info Set of tags to be associated to the object.
+     * Creates a TaggedObject from the given <i>object</i>.
+     * @param object Object to be tagged.
+     * @param tags Set of tags from which the tags (or just the TaggedMethods) will be copied
+     * @param copyAllTags Defines if all tags are copied (<i>true</i>) or just the TaggedMethods (<i>false</i>)
      */
-    public void cloneTags( Hashtable<String, Object> info ){
-	this.info.clear();
-	Set<String> keys = info.keySet();
-	for(String k:keys){
-	    Object obj = info.get(k);
-	    this.info.put(k, obj);
-	}
+    public TaggedObject( T object, Hashtable<String, Object> tags, boolean copyAllTags ){
+    	this.object = object;
+    	cloneTags( tags, copyAllTags);
     }
-    
+ 
     /**
-     * Associates every tag associated to object <i>x</i> to this object.
-     * @param x Object from which the tags are taken.
+     * Copies the tags (only the TaggedMethods if required) from a given set of tags
+     * @param tags Set of tags from which the tags (or just the TaggedMethods) will be copied
+     * @param copyAllTags Defines if all tags are copied (<i>true</i>) or just the TaggedMethods (<i>false</i>)
      */
-    public void cloneTags( TaggedObject<T> x ){
-	cloneTags(x.info);
-    }
-    
-    /**
-     * Associates just the TaggedMethods in the set of tags <i>info</i> to the object.
-     * @param info Set of tags. 
-     */
-    public void cloneTaggedMethods( Hashtable<String, Object> info ){
-	this.info.clear();
-	Set<String> keys = info.keySet();
-	for(String k:keys){
-	    Object obj = info.get(k);
-	    if( obj instanceof TaggedMethod ){
-		this.info.put(k, obj);
-	    }
-	}
-    }
-	
-    /**
-     * Associates just the TaggedMethods associated to object <i>x</i> to this object.
-     * @param x Object from which the TaggedMethods are taken.
-     */
-    public void cloneTaggedMethods( TaggedObject<T> x ){
-	cloneTaggedMethods(x.info);
+    protected void cloneTags( Hashtable<String, Object> tags, boolean copyAllTags ){
+    	info.clear();
+		Set<String> keys = tags.keySet();
+		for(String k:keys){
+			Object tagObj = tags.get(k);
+		    if( copyAllTags || tagObj instanceof TaggedMethod ){
+		    	info.put(k, tagObj);
+		    }	
+		}		
     }
     
     /**
      * Removes all tag associated to this object that is not a TaggedMethod.
      */
     public void removeNonTaggedMethods(){
-	Set<String> keys = info.keySet();
-	for(String k:keys){
-	    Object obj = data(k);
-	    if( !(obj instanceof TaggedMethod) ){
-		info.remove(k);	
-	    }
-	}		
-	
+		Set<String> keys = info.keySet();
+		ArrayList<String> dKeys = new ArrayList<String>();
+		for(String k:keys){
+		    Object obj = data(k);
+		    if( !(obj instanceof TaggedMethod) ){
+			 dKeys.add(k);	
+		    }
+		}			
+		for(String k:dKeys){
+			info.remove(k);
+		}
+    }
+   
+    /**
+     * Gets the set of tags
+     * @return Tags associated to the object
+     */
+    public Hashtable<String, Object> tags(){
+    	return info;
     }
    
     /**

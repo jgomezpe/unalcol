@@ -5,6 +5,7 @@
 package unalcol.learn;
 
 import unalcol.types.collection.array.ArrayCollection;
+import unalcol.types.collection.array.MutableArrayCollection;
 
 /**
  *
@@ -23,7 +24,7 @@ public interface Labeler<T> {
 	 * @param Objects to be labeled
 	 * @return Labels associated to the given collection of objects
 	 */
-    public final int[] label( ArrayCollection<T> set ){
+    public default int[] label( ArrayCollection<T> set ){
         int[] tag = new int[set.size()];
         int i=0;
         for( T x : set ){
@@ -38,7 +39,7 @@ public interface Labeler<T> {
 	 * @param Objects to be labeled
 	 * @return Labels associated to the given collection of objects
 	 */
-    public final void label( ArrayCollection<T> set, MutableArrayCollection<Integer> labels ){
+    public default void label( ArrayCollection<T> set, MutableArrayCollection<Integer> labels ){
     	labels.clear();
         for( T x : set ){
         	labels.add(label(x));

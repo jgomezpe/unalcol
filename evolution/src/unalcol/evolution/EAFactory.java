@@ -10,16 +10,16 @@ import unalcol.search.population.Population;
 import unalcol.search.population.PopulationSearch;
 import unalcol.search.selection.Selection;
 import unalcol.search.selection.Tournament;
-import unalcol.search.variation.ArityOneSearchOperator;
-import unalcol.search.variation.ArityTwoSearchOperator;
+import unalcol.search.variation.Variation_1_1;
+import unalcol.search.variation.Variation_2_2;
 
 public class EAFactory<T> {
 	//Generational Genetic Algorithm factory (Only uses offsprings in replacement)
 	
 	public PopulationSearch<T,Double>	generational_ga(
 				int mu, Selection<T> parent_selection, 
-				ArityOneSearchOperator<T> mutation, 
-				ArityTwoSearchOperator<T> xover, double xover_probability, 
+				Variation_1_1<T> mutation, 
+				Variation_2_2<T> xover, double xover_probability, 
 				Predicate<Population<T>> tC ){
 		return new IterativePopulationSearch<T,Double>(
 						new GAStep<T>( mu, parent_selection, mutation, xover, xover_probability, true),
@@ -28,8 +28,8 @@ public class EAFactory<T> {
 
 	public PopulationSearch<T,Double>	generational_ga(
 			int mu, Selection<T> parent_selection, 
-			ArityOneSearchOperator<T> mutation, 
-			ArityTwoSearchOperator<T> xover, double xover_probability, 
+			Variation_1_1<T> mutation, 
+			Variation_2_2<T> xover, double xover_probability, 
 			int MAXITERS ){
 		return generational_ga(
 					mu, parent_selection, mutation, xover, xover_probability,
@@ -38,8 +38,8 @@ public class EAFactory<T> {
 	
 	public PopulationSearch<T,Double>	generational_ga(
 			int mu, 
-			ArityOneSearchOperator<T> mutation, 
-			ArityTwoSearchOperator<T> xover, double xover_probability, 
+			Variation_1_1<T> mutation, 
+			Variation_2_2<T> xover, double xover_probability, 
 			int MAXITERS ){
 		return generational_ga(
 					mu, new Tournament<T>(4), mutation, xover, xover_probability,
@@ -50,8 +50,8 @@ public class EAFactory<T> {
 
 	public PopulationSearch<T,Double>	steady_ga(
 			int mu, Selection<T> parent_selection, 
-			ArityOneSearchOperator<T> mutation, 
-			ArityTwoSearchOperator<T> xover, double xover_probability, 
+			Variation_1_1<T> mutation, 
+			Variation_2_2<T> xover, double xover_probability, 
 			Predicate<Population<T>> tC ){
 		return new IterativePopulationSearch<T,Double>(
 						new GAStep<T>( mu, parent_selection, mutation, xover, xover_probability, false),
@@ -60,8 +60,8 @@ public class EAFactory<T> {
 	
 	public PopulationSearch<T,Double>	steady_ga(
 			int mu, Selection<T> parent_selection, 
-			ArityOneSearchOperator<T> mutation, 
-			ArityTwoSearchOperator<T> xover, double xover_probability, 
+			Variation_1_1<T> mutation, 
+			Variation_2_2<T> xover, double xover_probability, 
 			int MAXITERS ){
 		return steady_ga(
 					mu, parent_selection, mutation, xover, xover_probability,
@@ -70,8 +70,8 @@ public class EAFactory<T> {
 	
 	public PopulationSearch<T,Double>	steady_ga(
 			int mu, 
-			ArityOneSearchOperator<T> mutation, 
-			ArityTwoSearchOperator<T> xover, double xover_probability, 
+			Variation_1_1<T> mutation, 
+			Variation_2_2<T> xover, double xover_probability, 
 			int MAXITERS ){
 		return steady_ga(
 					mu, new Tournament<T>(4), mutation, xover, xover_probability,

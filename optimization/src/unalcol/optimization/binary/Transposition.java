@@ -1,7 +1,7 @@
 package unalcol.optimization.binary;
 
 import unalcol.random.integer.*;
-import unalcol.search.space.variation.ArityOne;
+import unalcol.search.variation.Variation_1_1;
 import unalcol.types.collection.bitarray.BitArray;
 import unalcol.clone.*;
 
@@ -13,7 +13,7 @@ import unalcol.clone.*;
  * @version 1.0
  */
 
-public class Transposition implements ArityOne<BitArray>{
+public class Transposition extends Variation_1_1<BitArray>{
     public Transposition(){}
     
   /**

@@ -5,7 +5,7 @@
 
 package unalcol.optimization.real.xover;
 
-import unalcol.search.space.variation.ArityTwo;
+import unalcol.search.variation.Variation_2_2;
 
 /**
  * <p>Title:  RealArityTwo</p>
@@ -14,7 +14,7 @@ import unalcol.search.space.variation.ArityTwo;
  * @author Jonatan Gomez
  * @version 1.0
  */
-public abstract class RealArityTwo implements ArityTwo<double[]>{
+public abstract class RealArityTwo extends Variation_2_2<double[]>{
   /**
    * Class of objects the operator is able to process
    * @return Class of objects the operator is able to process

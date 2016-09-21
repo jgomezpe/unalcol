@@ -44,7 +44,7 @@ public class VectorTest {
           System.out.println( iter.next() );          
       }
       
-      System.out.println(Clone.get(Vector.class).getClass());
+      System.out.println(Clone.get(v).getClass());
       @SuppressWarnings("unchecked")
   	  Vector<Integer> clone = (Vector<Integer>)Clone.create(v);
       if( clone != v ){

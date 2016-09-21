@@ -3,7 +3,7 @@ package unalcol.optimization.binary;
 import unalcol.types.collection.bitarray.BitArray;
 import unalcol.clone.*;
 import unalcol.random.raw.RawGenerator;
-import unalcol.search.space.variation.ArityOne;
+import unalcol.search.variation.Variation_1_1;
 
 /**
  * <p>Title: SingleBitMutation</p>
@@ -14,7 +14,7 @@ import unalcol.search.space.variation.ArityOne;
  * @version 1.0
  */
 
-public class SingleBitMutation implements ArityOne<BitArray> {
+public class SingleBitMutation extends Variation_1_1<BitArray> {
 
   /**
    * Flips a bit in the given genome

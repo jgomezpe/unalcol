@@ -7,7 +7,6 @@ package unalcol.types.collection.vector.sparse;
 import java.util.Iterator;
 
 import unalcol.clone.Clone;
-import unalcol.service.ServiceCore;
 import unalcol.types.collection.array.ArrayCollection;
 import unalcol.types.collection.vector.SortedVector;
 
@@ -16,16 +15,17 @@ import unalcol.types.collection.vector.SortedVector;
  * @author jgomez
  */
 public class ImmutableSparseVector<T> implements ArrayCollection<T>{
-	static{
-		ServiceCore.set(ImmutableSparseVector.class, Clone.class, new ImmutableSparseVectorCloneService<Object>());
-	}
-
 	protected SortedVector<SparseElement<T>> vector;
     protected SparseElement<T> loc = new SparseElement<T>(0, null);
         
     public ImmutableSparseVector( SortedVector<SparseElement<T>> vector ){
         this.vector = vector; // new SortedVector(new SparseElementOrder());
     }
+    
+    @SuppressWarnings("unchecked")
+	public ImmutableSparseVector( ImmutableSparseVector<T> sparse ) {
+    	this.vector = (SortedVector<SparseElement<T>>)Clone.create(sparse.vector);
+	}
     
     @Override
     public T get(int index) throws ArrayIndexOutOfBoundsException {

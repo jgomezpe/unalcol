@@ -5,13 +5,13 @@
 package unalcol.optimization.integer;
 
 import unalcol.random.raw.RawGenerator;
-import unalcol.search.space.variation.ArityTwo;
+import unalcol.search.variation.Variation_2_2;
 
 /**
  *
  * @author Jonatan
  */
-public class XOverIntArray implements ArityTwo<int[]>{
+public class XOverIntArray extends Variation_2_2<int[]>{
     public XOverIntArray(){}
 
     

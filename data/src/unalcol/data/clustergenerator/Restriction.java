@@ -14,7 +14,7 @@ import unalcol.types.real.array.metrics.Euclidean;
  */
 
 public abstract class Restriction {
-  public static QuasiMetric distance = new Euclidean();
+  public static QuasiMetric<double[]> distance = new Euclidean();
   public static RealVectorSpace space = new RealVectorSpace();
 
   /**
