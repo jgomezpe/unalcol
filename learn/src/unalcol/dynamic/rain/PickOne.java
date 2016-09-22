@@ -4,8 +4,7 @@
  */
 package unalcol.dynamic.rain;
 
-import unalcol.random.integer.IntegerGenerator;
-import unalcol.random.integer.UniformIntegerGenerator;
+import unalcol.random.integer.*;
 import unalcol.types.collection.array.ArrayCollection;
 
 /**
@@ -13,7 +12,7 @@ import unalcol.types.collection.array.ArrayCollection;
  * @author jgomez
  */
 public abstract class PickOne<T> {
-    protected IntegerGenerator g;
+    protected RandInt g;
     
     public int pick( int i ){
         int k = g.next();
@@ -26,6 +25,6 @@ public abstract class PickOne<T> {
     protected abstract int apply( int i, ArrayCollection<T> set);
     
     public void set(ArrayCollection<T> set){
-        g = new UniformIntegerGenerator(set.size()-1);
+        g = new IntUniform(set.size()-1);
     }
 }

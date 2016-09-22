@@ -7,8 +7,6 @@ package unalcol.dynamic.rain;
 import java.io.FileWriter;
 import unalcol.data.plaintext.RealVectorFile;
 import unalcol.dynamic.rain.interactionfunction.GravityLaw;
-import unalcol.reflect.service.ServiceProvider;
-import unalcol.reflect.util.ReflectUtil;
 import unalcol.types.collection.vector.Vector;
 import unalcol.types.real.array.RealVectorLinealScale;
 
@@ -20,7 +18,6 @@ public class RainTest {
   
   public static void main(String[] args){
       try{
-            ServiceProvider provider = ReflectUtil.getProvider("/services");
             String fileName = "/home/jgomez/Repository/data/chameleon/t7.10k.dat";
             Vector<double[]> v = RealVectorFile.load(fileName, ' ');
             RealVectorLinealScale scale = new RealVectorLinealScale(v);

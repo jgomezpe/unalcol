@@ -30,12 +30,21 @@ public class Rica<T> implements Labeler<T> {
     
     @Override
     public int[] label(ArrayCollection<T> set) {
-        RainMove<T> m = (RainMove<T>)Clone.get(move);
-        PickOne<T> p = (PickOne<T>)Clone.get(pick);
-        Predicate<DynamicSystem> c = (Predicate<DynamicSystem>)Clone.get(stop);
+        @SuppressWarnings("unchecked")
+		RainMove<T> m = (RainMove<T>)Clone.create(move);
+        @SuppressWarnings("unchecked")
+		PickOne<T> p = (PickOne<T>)Clone.create(pick);
+        @SuppressWarnings("unchecked")
+		Predicate<DynamicSystem> c = (Predicate<DynamicSystem>)Clone.create(stop);
         RainSystem<T> rain = new RainSystem<>(set,m,p);
         rain.simulate(c);
         return rain.structures();
     }
+
+	@Override
+	public int label(T obj) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
 
 }

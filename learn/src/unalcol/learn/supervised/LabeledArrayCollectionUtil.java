@@ -7,7 +7,7 @@ package unalcol.learn.supervised;
 import unalcol.types.collection.array.ArrayCollection;
 import unalcol.types.collection.vector.SortedVector;
 import unalcol.types.integer.IntegerOrder;
-import unalcol.types.integer.array.IntArraySearch;
+import unalcol.types.integer.array.IntArray;
 
 /**
  *
@@ -15,8 +15,8 @@ import unalcol.types.integer.array.IntArraySearch;
  */
 public class LabeledArrayCollectionUtil {
     
-    public static int[] classes( ArrayCollection<LabeledObject> set ){
-        SortedVector<Integer> v = new SortedVector( new IntegerOrder() );
+    public static int[] classes( @SuppressWarnings("rawtypes") ArrayCollection<LabeledObject> set ){
+        SortedVector<Integer> v = new SortedVector<Integer>( new IntegerOrder() );
         int k;
         for( int i=0; i<set.size(); i++ ){
             k = set.get(i).label();
@@ -31,7 +31,8 @@ public class LabeledArrayCollectionUtil {
         return c;
     }
     
-    public static int[][] separatedByClass(ArrayCollection<LabeledObject> set, int classes){
+    
+	public static int[][] separatedByClass(@SuppressWarnings("rawtypes") ArrayCollection<LabeledObject> set, int classes){
         int[] counter = new int[classes];
         for( int i=0; i<set.size(); i++ ){
             counter[set.get(i).label()]++;
@@ -50,12 +51,13 @@ public class LabeledArrayCollectionUtil {
         return groups;
     }
     
-    public static void replace_labels( ArrayCollection<LabeledObject> set,
+    public static void replace_labels( @SuppressWarnings("rawtypes") ArrayCollection<LabeledObject> set,
             int[] classes ){
-        LabeledObject k;
+    	@SuppressWarnings("rawtypes")
+    	LabeledObject k;
         for( int i=0; i<set.size(); i++ ){
             k = set.get(i);
-            k.setLabel(IntArraySearch.find(classes, k.label()));
+            k.setLabel(IntArray.find(classes, k.label()));
         }        
     }
 }

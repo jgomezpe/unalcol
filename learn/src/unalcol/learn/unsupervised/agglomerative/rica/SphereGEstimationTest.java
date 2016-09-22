@@ -9,8 +9,6 @@ import unalcol.dynamic.rain.PickOne;
 import unalcol.dynamic.rain.SimplestPickOne;
 import unalcol.dynamic.rain.SparseSphereMove;
 import unalcol.dynamic.rain.interactionfunction.GravityLaw;
-import unalcol.reflect.service.ServiceProvider;
-import unalcol.reflect.util.ReflectUtil;
 import unalcol.types.collection.vector.Vector;
 import unalcol.types.real.array.sparse.SparseRealVector;
 import unalcol.types.real.array.sparse.SparseRealVectorSphereNormalization;
@@ -22,7 +20,6 @@ import unalcol.types.real.array.sparse.SparseRealVectorSphereNormalization;
 public class SphereGEstimationTest {
 public static void main(String[] args){
       try{
-            ServiceProvider provider = ReflectUtil.getProvider("/services");
             String fileName = "/home/jgomez/Repository/data/misc/datasets/tr11.mat";
             Vector<SparseRealVector> v = SparseRealVectorFile.load(fileName, ' ');
             SparseRealVectorSphereNormalization scale = new SparseRealVectorSphereNormalization();

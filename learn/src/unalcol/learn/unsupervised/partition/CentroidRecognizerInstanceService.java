@@ -4,23 +4,22 @@
  */
 package unalcol.learn.unsupervised.partition;
 
-import unalcol.instance.InstanceService;
 
 /**
  *
  * @author jgomez
  */
-public class CentroidRecognizerInstanceService<T> 
-    implements InstanceService<CentroidsRecognizer<T>> {
+public class CentroidRecognizerInstanceService<T> {
+//    implements InstanceService<CentroidsRecognizer<T>> {
 
-    @Override
-    public CentroidsRecognizer<T> get( CentroidsRecognizer<T> r ) {
-        return new CentroidsRecognizer(null, r.metric(), r.aggregator());
-    }
+//    @Override
+//    public CentroidsRecognizer<T> get( CentroidsRecognizer<T> r ) {
+//        return new CentroidsRecognizer(null, r.metric(), r.aggregator());
+//    }
 
-    @Override
-    public Object owner() {
-        return CentroidsRecognizer.class;
-    }
+//    @Override
+//    public Object owner() {
+//        return CentroidsRecognizer.class;
+//    }
     
 }

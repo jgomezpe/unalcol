@@ -16,7 +16,7 @@ import unalcol.types.collection.vector.Vector;
  */
 public class LabelsFile {
     public static int[] load(String fileName) throws IOException{
-        Hashtable<String,Integer> table = new Hashtable<>();
+        // Hashtable<String,Integer> table = new Hashtable<>();
         Vector<Integer> vals = new Vector<Integer>();
         BufferedReader file = new BufferedReader(new FileReader(fileName));
         String line = file.readLine();

@@ -11,10 +11,8 @@ import unalcol.data.plaintext.RealVectorFile;
 import unalcol.learn.MapLabelRecognizer;
 import unalcol.learn.supervised.ClassicConfussionMatrix;
 import unalcol.learn.supervised.ConfussionMatrix;
-import unalcol.random.integer.IntegerGenerator;
-import unalcol.random.integer.UniformIntegerGenerator;
-import unalcol.reflect.service.ServiceProvider;
-import unalcol.reflect.util.ReflectUtil;
+import unalcol.random.integer.RandInt;
+import unalcol.random.integer.IntUniform;
 import unalcol.types.integer.array.IntArray;
 import unalcol.types.real.array.RealVectorSpace;
 import unalcol.types.real.array.metrics.Euclidean;
@@ -36,17 +34,16 @@ public class KMeansDemo {
   
   public static void main(String[] args){
       try{
-            ServiceProvider provider = ReflectUtil.getProvider("/services");
             String fileName = "/home/jgomez/Repository/data/UCI/pima";
             Vector<double[]> v = RealVectorFile.load(fileName+".dat", ' ');
             int[] real = LabelsFile.load(fileName+".label");
             //print(real);
             int k = IntArray.max(real) + 1;
             System.out.println( "#K"+k);
-            IntegerGenerator g = new UniformIntegerGenerator(v.size());
+            RandInt g = new IntUniform(v.size());
             double[][] mu = new double[k][];            
             for( int i=0; i<k; i++){
-                mu[i] = (double[])Clone.get(v.get(g.next()));
+                mu[i] = (double[])Clone.create(v.get(g.next()));
             }
             Euclidean metric = new Euclidean();
             RealVectorSpace space = new RealVectorSpace();

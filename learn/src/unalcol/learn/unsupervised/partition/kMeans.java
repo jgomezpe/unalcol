@@ -30,7 +30,7 @@ public class kMeans<T> extends UnsupervisedLearningFromArray<T>{
    * @param _condition Termination condition (can be the number of iterations)
    * @param _k Number of groups (clusters) defining the partition
    */
-  public kMeans( Recognizer initialMu, VectorSpace<T> space,
+  public kMeans( Recognizer<T> initialMu, VectorSpace<T> space,
           double epsilon, int MAX_ITER ) {
       output = initialMu;
       this.space = space;
@@ -55,7 +55,8 @@ public class kMeans<T> extends UnsupervisedLearningFromArray<T>{
   }
   
   
-  public double next(int k, ArrayCollection<T> set, 
+  @SuppressWarnings("unchecked")
+public double next(int k, ArrayCollection<T> set, 
           Vector<Prediction> pred){
       CentroidsRecognizer<T> r = (CentroidsRecognizer<T>)output;
       T[] nextMu = (T[])new Object[k];
@@ -71,7 +72,7 @@ public class kMeans<T> extends UnsupervisedLearningFromArray<T>{
           if( nextMu[c] != null ){
               nextMu[c] = space.fastPlus(nextMu[c], set.get(i));
           }else{
-              nextMu[c] = (T)Clone.get(set.get(i));
+              nextMu[c] = (T)Clone.create(set.get(i));
           }
           counter[c]++;
       }

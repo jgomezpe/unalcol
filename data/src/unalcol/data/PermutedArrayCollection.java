@@ -15,6 +15,7 @@ import unalcol.types.collection.array.ArrayCollection;
  */
 public class PermutedArrayCollection<T> extends SampledArrayCollection<T> {
   public static int[] getIndex( int m ){
+      @SuppressWarnings("rawtypes")
       Shuffle shuffle = new Shuffle();
       return shuffle.apply(m);
   }

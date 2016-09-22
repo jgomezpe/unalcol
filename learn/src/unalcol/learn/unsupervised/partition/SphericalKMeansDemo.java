@@ -10,10 +10,8 @@ import unalcol.data.plaintext.SparseRealVectorFile;
 import unalcol.learn.MapLabelRecognizer;
 import unalcol.learn.supervised.ClassicConfussionMatrix;
 import unalcol.learn.supervised.ConfussionMatrix;
-import unalcol.random.integer.IntegerGenerator;
-import unalcol.random.integer.UniformIntegerGenerator;
-import unalcol.reflect.service.ServiceProvider;
-import unalcol.reflect.util.ReflectUtil;
+import unalcol.random.integer.RandInt;
+import unalcol.random.integer.IntUniform;
 import unalcol.types.collection.vector.Vector;
 import unalcol.types.integer.IntUtil;
 import unalcol.types.integer.array.IntArray;
@@ -43,7 +41,6 @@ public class SphericalKMeansDemo {
   
   public static void main(String[] args){
       try{
-            ServiceProvider provider = ReflectUtil.getProvider("/services");
             String fileName = "/home/jgomez/Repository/data/misc/datasets/tr11.mat";
             Vector<SparseRealVector> v = SparseRealVectorFile.load(fileName, ' ');
             int[] real = LabelsFile.load(fileName+".rclass");
@@ -51,10 +48,10 @@ public class SphericalKMeansDemo {
             SparseRealVectorSphereNormalization scale = new SparseRealVectorSphereNormalization();
             scale.fastApply(v);
             int k = IntArray.max(real) + 1;
-            IntegerGenerator g = new UniformIntegerGenerator(v.size());
+            RandInt g = new IntUniform(v.size());
             SparseRealVector[] mu = new SparseRealVector[k];            
             for( int i=0; i<k; i++){
-                mu[i] = (SparseRealVector)Clone.get(v.get(g.next()));
+                mu[i] = (SparseRealVector)Clone.create(v.get(g.next()));
             }
             SparseRealVectorCosineSimilarity metric = new SparseRealVectorCosineSimilarity();
             SparseRealVectorSpace space = new SparseRealVectorSpace();
