@@ -12,13 +12,13 @@ package unalcol.agents.search.classic;
  * @author Jonatan Gómez
  * @version 1.0
  */
-public class DepthFirstSearch extends ClassicSearch {
+public class DepthFirstSearch<T> extends ClassicSearch<T> {
   public DepthFirstSearch( int _max_depth ) {
     super( _max_depth );
   }
 
 
-  public void add( ClassicSearchNode child ){
+  public void add( ClassicSearchNode<T> child ){
     list.add(0,child);
   }
 

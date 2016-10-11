@@ -13,7 +13,7 @@ import unalcol.agents.search.*;
  * @author Jonatan Gómez
  * @version 1.0
  */
-public class ConstantCost implements ActionCost{
+public class ConstantCost<T> implements ActionCost<T>{
   protected double c = 1.0;
   public ConstantCost() {
   }
@@ -21,7 +21,7 @@ public class ConstantCost implements ActionCost{
     c = _c;
   }
 
-  public double evaluate( State state, Action action ){
+  public double evaluate( T state, Action action ){
     return c;
   }
 }

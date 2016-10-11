@@ -1,7 +1,6 @@
 package unalcol.agents.search.classic;
 import unalcol.types.collection.vector.*;
 import unalcol.agents.*;
-import unalcol.agents.search.*;
 
 /**
  * <p>Title: </p>
@@ -15,11 +14,11 @@ import unalcol.agents.search.*;
  * @author Jonatan Gómez
  * @version 1.0
  */
-public class ClassicSearchNode {
-  protected State state;
+public class ClassicSearchNode<T> {
+  protected T state;
   protected Vector<Action> path;
   protected double cost;
-  public ClassicSearchNode( State _state, Vector<Action> _path, double _cost ) {
+  public ClassicSearchNode( T _state, Vector<Action> _path, double _cost ) {
     state = _state;
     path = _path;
     cost = _cost;

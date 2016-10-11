@@ -1,6 +1,7 @@
 package unalcol.agents.search;
 
 import unalcol.agents.*;
+import unalcol.search.space.Space;
 import unalcol.types.collection.vector.*;
 
 /**
@@ -15,8 +16,7 @@ import unalcol.types.collection.vector.*;
  * @author Jonatan Gómez
  * @version 1.0
  */
-public interface SearchSpace {
-  public boolean feasible( State state );
-  public State succesor( State state, Action action );
-  public Vector<Action> succesor( State state );
+public abstract class GraphSpace<T>  extends Space<T>{
+  public abstract T succesor( T state, Action action );
+  public abstract Vector<Action> succesor( T state );
 }

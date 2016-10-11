@@ -13,14 +13,14 @@ import unalcol.types.collection.vector.*;
  * @author Jonatan Gómez
  * @version 1.0
  */
-public class UniformCostSearch extends ClassicSearch {
+public class UniformCostSearch<T> extends ClassicSearch<T> {
   public UniformCostSearch( int _max_depth ) {
     super( _max_depth );
-    list = new SortedVector<ClassicSearchNode>( new ClassicSearchNodeOrder() );
+    list = new SortedVector<ClassicSearchNode<T>>( new ClassicSearchNodeOrder<T>() );
   }
 
 
-  public void add( ClassicSearchNode child ){
+  public void add( ClassicSearchNode<T> child ){
      list.add(child);
   }
 

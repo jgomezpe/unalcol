@@ -1,6 +1,5 @@
 package unalcol.agents.search.classic;
 import unalcol.agents.search.*;
-import unalcol.agents.*;
 
 /**
  * <p>Title: </p>
@@ -14,10 +13,9 @@ import unalcol.agents.*;
  * @author Jonatan Gómez
  * @version 1.0
  */
-public abstract class Heuristic implements ActionCost{
-  protected SearchSpace space;
-  public Heuristic( SearchSpace _space ) {
+public abstract class Heuristic<T> implements ActionCost<T>{
+  protected GraphSpace<T> space;
+  public Heuristic( GraphSpace<T> _space ) {
     space = _space;
   }
-  public abstract double evaluate( State state, Action action );
 }

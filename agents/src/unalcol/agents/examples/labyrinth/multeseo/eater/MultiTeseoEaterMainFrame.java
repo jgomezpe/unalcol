@@ -21,8 +21,6 @@ import javax.swing.JTextField;
 
 import unalcol.agents.Agent;
 import unalcol.agents.examples.labyrinth.Labyrinth;
-import unalcol.agents.examples.labyrinth.LabyrinthDrawer;
-import unalcol.agents.examples.labyrinth.teseoeater.TeseoEaterLabyrinthDrawer;
 import unalcol.agents.simulate.gui.SimpleView;
 import unalcol.agents.simulate.gui.WorkingPanel;
 import unalcol.agents.simulate.util.InteractiveAgentProgram;

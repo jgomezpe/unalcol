@@ -6,5 +6,6 @@
 	<classpathentry kind="lib" path="/Users/jgomez/git/unalcol/libs/services.jar"/>
 	<classpathentry kind="lib" path="/Users/jgomez/git/unalcol/libs/types.jar"/>
 	<classpathentry kind="lib" path="/Users/jgomez/git/unalcol/libs/gui.jar"/>
+	<classpathentry kind="lib" path="/Users/jgomez/git/unalcol/libs/optimization.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

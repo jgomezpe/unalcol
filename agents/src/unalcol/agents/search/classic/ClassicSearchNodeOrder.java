@@ -13,7 +13,7 @@ import unalcol.sort.*;
  * @author Jonatan Gómez
  * @version 1.0
  */
-public class ClassicSearchNodeOrder extends Order<ClassicSearchNode>{
+public class ClassicSearchNodeOrder<T> extends Order<ClassicSearchNode<T>>{
   public String getCanonicalName(){
     return ClassicSearchNode.class.getCanonicalName();
   }
@@ -21,7 +21,7 @@ public class ClassicSearchNodeOrder extends Order<ClassicSearchNode>{
   public ClassicSearchNodeOrder() {
   }
 
-  public int compare( ClassicSearchNode one, ClassicSearchNode two ){
+  public int compare( ClassicSearchNode<T> one, ClassicSearchNode<T> two ){
     return (int)(one.cost - two.cost);
   }
 }

@@ -13,6 +13,6 @@ import unalcol.agents.*;
  * @author Jonatan Gómez
  * @version 1.0
  */
-public interface ActionCost {
-  public double evaluate( State state, Action action );
+public interface ActionCost<T> {
+  public double evaluate( T state, Action action );
 }

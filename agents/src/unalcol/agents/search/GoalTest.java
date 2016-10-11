@@ -1,5 +1,8 @@
 package unalcol.agents.search;
 
+import unalcol.reflect.tag.TaggedObject;
+import unalcol.search.Goal;
+
 /**
  * <p>Title: </p>
  *
@@ -12,6 +15,15 @@ package unalcol.agents.search;
  * @author Jonatan Gómez
  * @version 1.0
  */
-public interface GoalTest {
-  public boolean test( State state );
+public interface GoalTest<T> extends Goal<T,Boolean> {
+@Override
+public default Boolean apply(TaggedObject<T> state) {
+    // TODO Auto-generated method stub
+    return apply(state.object());
+}
+
+@Override
+public default boolean nonStationary() {
+    return false;
+}
 }

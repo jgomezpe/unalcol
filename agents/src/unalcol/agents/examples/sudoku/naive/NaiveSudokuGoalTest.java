@@ -1,5 +1,6 @@
 package unalcol.agents.examples.sudoku.naive;
 import unalcol.agents.search.*;
+import unalcol.reflect.tag.TaggedObject;
 
 /**
  * <p>Title: </p>
@@ -13,12 +14,18 @@ import unalcol.agents.search.*;
  * @author Jonatan Gómez
  * @version 1.0
  */
-public class NaiveSudokuGoalTest implements GoalTest{
+public class NaiveSudokuGoalTest implements GoalTest<NaiveSudokuBoardState>{
   public NaiveSudokuGoalTest() {
   }
+  
+@Override
+public Boolean apply(TaggedObject<NaiveSudokuBoardState> arg0) {
+    // TODO Auto-generated method stub
+    return null;
+}
 
-  public boolean test( State state ){
-    NaiveSudokuBoardState sudoku_state = (NaiveSudokuBoardState)state;
-    return sudoku_state.board.solved();
-  }
+@Override
+public Boolean apply(NaiveSudokuBoardState state) {
+    return state.board.solved();
+}
 }

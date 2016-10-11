@@ -31,7 +31,7 @@ public class VariationReplaceLocalSearch<T> extends LocalSearch<T,Double> {
 		Solution<T> y = variation.apply(space, x);
         y.set(Goal.class.getName(), x.data(Goal.class.getName()));
         Solution<T> z = replace.apply(x, y);
-        Tracer.trace(Solution.class, x, z);
+        Tracer.trace(Solution.class, z, PathTracer.PARENT, z);
         return z;
     }    
 }

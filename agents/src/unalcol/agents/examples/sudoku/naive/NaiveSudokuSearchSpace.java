@@ -16,16 +16,15 @@ import java.io.StringReader;
  * @author Jonatan Gómez
  * @version 1.0
  */
-public class NaiveSudokuSearchSpace implements SearchSpace{
+public class NaiveSudokuSearchSpace extends GraphSpace<NaiveSudokuBoardState>{
   public NaiveSudokuSearchSpace() {
   }
-  public boolean feasible( State state ){
-    NaiveSudokuBoardState sudoku_state = (NaiveSudokuBoardState)state;
-    return sudoku_state.board.valid();
+  public boolean feasible( NaiveSudokuBoardState state ){
+    return state.board.valid();
   }
 
-  public State succesor( State state, Action action ){
-    NaiveSudokuBoardState next_state = new NaiveSudokuBoardState((NaiveSudokuBoardState)state);
+  public NaiveSudokuBoardState succesor( NaiveSudokuBoardState state, Action action ){
+    NaiveSudokuBoardState next_state = new NaiveSudokuBoardState(state);
     int[] values = new int[3];
     int k = 0;
     try {
@@ -45,9 +44,9 @@ public class NaiveSudokuSearchSpace implements SearchSpace{
     return next_state;
   }
 
-  public Vector<Action> succesor( State state ){
+  public Vector<Action> succesor( NaiveSudokuBoardState state ){
     Vector<Action> actions = new Vector<Action>();
-    NaiveSudokuBoardState sudoku_state = (NaiveSudokuBoardState)state;
+    NaiveSudokuBoardState sudoku_state = state;
     int n = sudoku_state.n;
     int i=0;
     int j=0;
@@ -67,5 +66,20 @@ public class NaiveSudokuSearchSpace implements SearchSpace{
     }
     return actions;
   }
+@Override
+public double feasibility(NaiveSudokuBoardState state) {
+    // TODO Auto-generated method stub
+    return feasible(state)?1:0;
+}
+@Override
+public NaiveSudokuBoardState pick() {
+    // TODO Auto-generated method stub
+    return null;
+}
+@Override
+public NaiveSudokuBoardState repair(NaiveSudokuBoardState state) {
+    // TODO Auto-generated method stub
+    return null;
+}
 
 }

@@ -30,9 +30,9 @@ public class NaiveSudokuAgentProgram implements AgentProgram{
     if( cmd.size() == 0 ){
       NaiveSudokuBoardState initial_state = new NaiveSudokuBoardState((SudokuPercept)percept);
       int depth = initial_state.board.emptyPlaces();
-      DepthFirstSearch search = new DepthFirstSearch(depth);
+      DepthFirstSearch<NaiveSudokuBoardState> search = new DepthFirstSearch<NaiveSudokuBoardState>(depth);
       cmd = search.apply( initial_state, new NaiveSudokuSearchSpace(),
-                          new NaiveSudokuGoalTest(), new ConstantCost() );
+                          new NaiveSudokuGoalTest(), new ConstantCost<NaiveSudokuBoardState>() );
       if( cmd == null ){ cmd = new Vector<Action>(); }
     }
     if( cmd.size() > 0 ){
