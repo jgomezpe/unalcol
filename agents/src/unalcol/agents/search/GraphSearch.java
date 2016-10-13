@@ -29,5 +29,8 @@ public abstract class GraphSearch<T> extends LocalSearch<T,Boolean>{
       Vector<Action> action = apply( x.object(), (GraphSpace<T>)space, goal, cost);
       PathUtil<T> path = new PathUtil<T>();
       T y = path.final_state(x.object(), (GraphSpace<T>)space, action);
+      Solution<T> sol = new Solution<T>(y);
+      sol.set(PathUtil.class.getName(), action);
+      return sol;
   }
 }

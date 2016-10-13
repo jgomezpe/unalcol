@@ -22,12 +22,13 @@ public class VectorTest {
       for( int i=0; i<x.length; i++){
           x[i] = i;
       }
-      
-      Vector<Integer> v = new Vector<>(x);
+
+      Vector<Integer> v = new Vector<Integer>(x);
       for( int i=0; i<10; i++ ){
           v.remove(i);
       }
       
+
       System.out.println("Using a regular for loop");
       for(int i=0; i<v.size(); i++ ){
           System.out.println( v.get(i) );
@@ -37,19 +38,20 @@ public class VectorTest {
       for( Integer k:v){
           System.out.println( k );          
       }
-      
+
       System.out.println("Using a locator approach");
       ArrayCollectionLocation<Integer> loc = new ArrayCollectionLocation<>(4,v);
       for(Iterator<Integer> iter = v.iterator(loc); iter.hasNext(); ){
           System.out.println( iter.next() );          
       }
-      
+
+            
       System.out.println(Clone.get(v).getClass());
       @SuppressWarnings("unchecked")
   	  Vector<Integer> clone = (Vector<Integer>)Clone.create(v);
       if( clone != v ){
 	      System.out.println("Clone");
-	      for( Integer k:v){
+	      for( Integer k:clone){
 	          System.out.println( k );          
 	      }
       }

@@ -35,8 +35,7 @@ public class Vector<T> extends ImmutableVector<T> implements MutableArrayCollect
     
 	public Vector( Vector<T> vector ){
     	super( vector );
-    	this.size = vector.size();
-        find_fib(size);
+        find_fib(this.size);
     }
     
     public Vector( T[] buffer ){

@@ -86,7 +86,14 @@ public class CloneWrapper extends Clone<Object> {
 		if( cl.isPrimitive() ) return clonePrimitiveArray(obj);
 		int n = Array.getLength(obj);
 		Object clone = Array.newInstance(cl, n);
-		for( int i=0; i<n; i++ ) Array.set(clone, i, Clone.create(Array.get(obj, i)));
+		for( int i=0; i<n; i++ ){
+			Object the_obj = Array.get(obj, i); 
+			if( the_obj != null ){ 
+				Array.set(clone, i, Clone.create(the_obj));
+			}else{ 
+				Array.set(clone, i, null);
+			}
+		}
 		return clone;
 	}
     

@@ -1,6 +1,5 @@
 package unalcol.agents.search;
 import unalcol.agents.*;
-import unalcol.types.collection.Iterator;
 import unalcol.types.collection.vector.*;
 
 /**

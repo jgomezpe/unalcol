@@ -128,16 +128,20 @@ public abstract class Instance<T> {
 					boolean assignable = true;
 					boolean exact = true;
 					for( int k=0; k<args.length && assignable; k++ ){
-						assignable = parms[k].isAssignableFrom(args[k].getClass());
-						exact = parms[k] == args[k].getClass();
+						assignable = parms[k].isAssignableFrom(argsTypes[k]);
+						exact = parms[k] == argsTypes[k];
 					}
-					if( exact ) return c[i].newInstance(args);
+					if( exact ){
+						Object x = c[i].newInstance(args);
+						return x;
+					}	
 					if( assignable ) cc = c[i];
 				}
 			}
 			if( cc != null )
 				return cc.newInstance(args);
-		}catch( Exception e ){}	
+		}catch( Exception e ){
+		}	
 		return null;
 	}    	
 }

@@ -18,7 +18,7 @@ import unalcol.search.Goal;
  * @author Jonatan Gómez
  * @version 1.0
  */
-public abstract class ClassicSearch<T> implements GraphSearch<T> {
+public abstract class ClassicSearch<T> extends GraphSearch<T> {
   protected Vector<ClassicSearchNode<T>> list;
   protected int max_depth;
   public ClassicSearch( int _max_depth ) {
@@ -35,12 +35,12 @@ public abstract class ClassicSearch<T> implements GraphSearch<T> {
   @Override
   public Vector<Action> apply( T initial, GraphSpace<T> space, Goal<T,Boolean> goal, ActionCost<T> cost ){
     list.clear();
-    ClassicSearchNode<T> node = new ClassicSearchNode<T>(initial, new Vector<Action>(), 0.0 );
+    ClassicSearchNode<T> node = new ClassicSearchNode<T>( new Vector<Action>(), 0.0 );
     list.add(node);
-    while( node != null && !goal.apply(node.state) ){
+    T state = initial;
+    while( node != null && !goal.apply(state) ){
        list.remove(0);
        if( node.path.size() < max_depth ){
-         T state = node.state;
          Vector<Action> actions = space.succesor(state);
          for (int i = 0; i < actions.size(); i++) {
            Action action = actions.get(i);
@@ -50,12 +50,15 @@ public abstract class ClassicSearch<T> implements GraphSearch<T> {
              @SuppressWarnings("unchecked")
 			 Vector<Action> path = (Vector<Action>)Clone.create(node.path);
              path.add(action);
-             ClassicSearchNode<T> child_node = new ClassicSearchNode<T>(child_state, path, path_cost);
+             ClassicSearchNode<T> child_node = new ClassicSearchNode<T>( path, path_cost);
              add(child_node);
            }
          }
        }
        node = list.get(0);
+       if( node!=null){
+    	   state = node.state(space, initial);
+       }
     }
     if( node != null ){
       return node.path;

@@ -1,6 +1,8 @@
 package unalcol.agents.search.classic;
 import unalcol.types.collection.vector.*;
 import unalcol.agents.*;
+import unalcol.agents.search.GraphSpace;
+import unalcol.agents.search.PathUtil;
 
 /**
  * <p>Title: </p>
@@ -15,12 +17,19 @@ import unalcol.agents.*;
  * @version 1.0
  */
 public class ClassicSearchNode<T> {
-  protected T state;
   protected Vector<Action> path;
   protected double cost;
-  public ClassicSearchNode( T _state, Vector<Action> _path, double _cost ) {
-    state = _state;
+  public ClassicSearchNode( Vector<Action> _path, double _cost ) {
     path = _path;
     cost = _cost;
+  }
+  
+  public Vector<Action> path(){
+	  return path;
+  }
+  
+  public T state( GraphSpace<T> space, T initial_state ){
+	  PathUtil<T> util = new PathUtil<T>();
+	  return util.final_state(initial_state, space, path);
   }
 }
