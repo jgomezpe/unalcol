@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package unalcol.types.collection.vector.sparse;
+package unalcol.types.collection.sparse.vector;
 
 import java.util.Iterator;
 
@@ -27,11 +27,14 @@ public class ImmutableSparseVector<T> implements ArrayCollection<T>{
     	this.vector = (SortedVector<SparseElement<T>>)Clone.create(sparse.vector);
 	}
     
+    public int findIndex( int index ){
+        loc.index = index;
+        return vector.findIndex(loc);
+    }
+    
     @Override
     public T get(int index) throws ArrayIndexOutOfBoundsException {
-        loc.index = index;
-        index = vector.findIndex(loc);
-        return vector.get(index).value();
+        return vector.get(findIndex(index)).value();
     }
 
     @Override
@@ -43,7 +46,7 @@ public class ImmutableSparseVector<T> implements ArrayCollection<T>{
         return vector.iterator();
     }
 
-    public int findIndex(T data) {
+    public int locate(T data) {
         int k=0;
         while( k<size() && !data.equals(vector.get(k).value()) ){ k++; }
         return (k==size())?-1:k;
@@ -59,7 +62,22 @@ public class ImmutableSparseVector<T> implements ArrayCollection<T>{
         return vector.size();
     }
     
+    public int low(){
+	if( !isEmpty()){ return vector.get(0).index; }
+	return Integer.MAX_VALUE;
+    }
+    
+    public int high(){
+	if( !isEmpty()){ return vector.get(vector.size()-1).index; }
+	return Integer.MIN_VALUE;
+    }
+       
     public SortedVector<SparseElement<T>> sparseVector(){
         return vector;
+    }
+    
+    @SuppressWarnings("rawtypes")
+    public ArrayCollection<Integer> indices(){
+	return new SparseVectorIndices((SparseVector)this);
     }
 }

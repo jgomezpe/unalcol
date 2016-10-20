@@ -1,4 +1,4 @@
-package unalcol.types.collection.vector.sparse;
+package unalcol.types.collection.sparse.vector;
 
 import unalcol.clone.Clone;
 

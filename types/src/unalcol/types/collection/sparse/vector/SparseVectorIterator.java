@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package unalcol.types.collection.vector.sparse;
+package unalcol.types.collection.sparse.vector;
 
 import java.util.Iterator;
 import java.util.NoSuchElementException;

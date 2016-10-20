@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package unalcol.types.collection.vector.sparse;
+package unalcol.types.collection.sparse.vector;
 
 import unalcol.types.collection.vector.SortedVector;
 
@@ -43,4 +43,5 @@ public class SparseVector<T> extends ImmutableSparseVector<T>{
         loc.index = index;
         return vector.del(loc);
     }    
+    
 }
