@@ -1,6 +1,7 @@
 package unalcol.types.collection.sparse.matrix;
 
 import unalcol.sort.Search;
+import unalcol.types.collection.Iterator;
 import unalcol.types.collection.sparse.vector.SparseVector;
 import unalcol.types.collection.vector.Vector;
 
@@ -18,13 +19,13 @@ public class SparseMatrix<T> {
 	 * Dimension of the matrix
 	 */
 	protected int n;
-
+	
 	/**
 	 * Array of list of non-zero elements of each dimension
 	 */
 	protected SparseVector<SparseMatrix<T>>[] dimension_data = null;
 	protected T data;
-
+	
 	/**
 	 * Class constructor
 	 * @param m Number of rows
@@ -43,135 +44,138 @@ public class SparseMatrix<T> {
 	    this.data = data;
 	    this.n = 0;
 	}
-
+	
 	public void clear(){
 	    if( n > 0 ){
-		for( int k=0; k<n; k++ ){
-		    SparseVector<SparseMatrix<T>> dim = dimension_data[k];
-		    while( dim.size() > 0 ){
-			dim.get(0).clear();
-			dim.del(0);
-		    }
+			for( int k=0; k<n; k++ ){
+				SparseVector<SparseMatrix<T>> dim = dimension_data[k];
+				while( dim.size() > 0 ){
+					dim.get(0).clear();
+					dim.del(0);
+				}
+			}
+		}else{
+			data = null;
 		}
-	    }else{
-		data = null;
-	    }
 	}
 
-public boolean empty(){
-    boolean flag = true;
-    if( n>0 ){
-        for( int k=0; k<n && flag; k++ ){
-            flag = (dimension_data[k].size()==0);
-        }
-    }else{
-        flag = ( data == null );
-    }
-    return flag;
-}
+	public boolean empty(){
+		boolean flag = true;
+		if( n>0 ){
+			for( int k=0; k<n && flag; k++ ){
+				flag = (dimension_data[k].size()==0);
+			}
+		}else{
+			flag = ( data == null );
+		}
+		return flag;
+	}
 
 	public void set( int[] pos, T data ){
-	    if( n > 0 ){
-		int m = n-1;
-		int[] sub_pos = new int[m];
-		for( int k=0; k<n; k++ ){
-		    int index = dimension_data[k].findIndex(pos[k]);
-		    SparseMatrix<T> x;
-		    try{
-			x = dimension_data[k].get(index);
-		    }catch( ArrayIndexOutOfBoundsException ex ){
-			x = new SparseMatrix<T>( m );
-			dimension_data[k].set(pos[k], x);
-		    }
-		    int j = 0;
-		    for( int i=0; i<n; i++ ){
-			if( i!=k ){
-			    sub_pos[j] = pos[i];
-			    j++;
+		if( n > 0 ){
+			int m = n-1;
+			int[] sub_pos = new int[m];
+			for( int k=0; k<n; k++ ){
+				SparseMatrix<T> x;
+				try{
+					x = dimension_data[k].get(pos[k]);
+				}catch( ArrayIndexOutOfBoundsException ex ){
+					x = new SparseMatrix<T>( m );
+					dimension_data[k].set(pos[k], x);
+				}
+				int j = 0;
+				for( int i=0; i<n; i++ ){
+					if( i!=k ){
+						sub_pos[j] = pos[i];
+						j++;
+					}
+				}
+				x.set(sub_pos, data );
 			}
-		    }
-		    x.set(sub_pos, data );
+		}else{
+			this.data = data;
 		}
-	    }else{
-		this.data = data;
-	    }
-}
+	}
 
-/**
- * Delete the element of this sparse matrix
- * @param row Number of row
- * @param column Number of column
- */
-        public boolean del( int[] pos ){
-          boolean flag=true;
-          if( n > 0 ){
-              int m = n-1;
-              int[] sub_pos = new int[m];
-              for( int k=0; k<n && flag; k++ ){
-                try{  
-                    SparseMatrix<T> x = dimension_data[k].get(pos[k] );
-                      int j = 0;
-                      for( int i=0; i<n; i++ ){
-                          if( i!=k ){
-                              sub_pos[j] = pos[i];
-                              j++;
-                          }
-                      }
-                      flag = x.del(sub_pos);
-                      if( x.empty() ){
-                          dimension_data[k].del(pos[k]);
-                      }
-                  }catch( ArrayIndexOutOfBoundsException ex ){
-                      flag = false;
-                  }
-              }
-          }else{
-              flag = (data==null );
-              data = null;
-          }
-          return flag;
-        }
+	/**
+	 * Delete the element of this sparse matrix
+	 * @param row Number of row
+	 * @param column Number of column
+	 */
+	public boolean del( int[] pos ){
+		boolean flag=true;
+		if( n > 0 ){
+			int m = n-1;
+			int[] sub_pos = new int[m];
+			for( int k=0; k<n && flag; k++ ){
+				try{  
+					SparseMatrix<T> x = dimension_data[k].get(pos[k] );
+					int j = 0;
+					for( int i=0; i<n; i++ ){
+						if( i!=k ){
+							sub_pos[j] = pos[i];
+							j++;
+						}
+					}
+					flag = x.del(sub_pos);
+					if( x.empty() ){
+						dimension_data[k].del(pos[k]);
+					}
+				}catch( ArrayIndexOutOfBoundsException ex ){
+					flag = false;
+				}
+			}
+		}else{
+			flag = (data==null );
+			data = null;
+		}
+		return flag;
+	}
 
-        /**
+	/**
 	 * Returns the  value in the position (row, column)
 	 * @param row Number of row
 	 * @param column Number of column
 	 */
-        protected T get( int[] pos, int m ) throws ArrayIndexOutOfBoundsException{
-            T xdata = null;
-            if( n>0 ){
-        		SparseMatrix<T> sub_matrix = dimension_data[0].get( pos[m] );
-        		if( sub_matrix != null )	xdata = sub_matrix.get( pos, m+1 );
-        	    }else{
-                xdata = data;
-            }
-            return xdata;
+	protected T get( int[] pos, int m ) throws ArrayIndexOutOfBoundsException{
+		T xdata = null;
+		if( n>0 ){
+			SparseMatrix<T> sub_matrix = dimension_data[0].get( pos[m] );
+			if( sub_matrix != null )	xdata = sub_matrix.get( pos, m+1 );
+		}else{
+			xdata = data;
+		}
+		return xdata;
 	}
 
-        /**
-         * Returns the  value in the position (row, column)
-         * @param row Number of row
-         * @param column Number of column
-         */
-        public T get(int[] pos) throws ArrayIndexOutOfBoundsException{
-            return get(pos, 0);
-        }
+	/**
+	 * Returns the  value in the position (row, column)
+	 * @param row Number of row
+	 * @param column Number of column
+	 */
+	public T get(int[] pos) throws ArrayIndexOutOfBoundsException{
+		return get(pos, 0);
+	}
 
-        public int[] low(){
-            int[] low = new int[n];
-            for( int k=0; k<n; k++ ){
-        		low[k] = dimension_data[k].low();
-            }
-            return low;
-        }
+	public int[] low(){
+		int[] low = new int[n];
+		for( int k=0; k<n; k++ ){
+			low[k] = dimension_data[k].low();
+		}
+		return low;
+	}
 
-        public int[] high(){
-            int[] low = new int[n];
-            for( int k=0; k<n; k++ ){
-        		low[k] = dimension_data[k].high();
-            }
-            return low;
-        }
+	public int[] high(){
+		int[] low = new int[n];
+		for( int k=0; k<n; k++ ){
+			low[k] = dimension_data[k].high();
+		}
+		return low;
+	}
+	
+	protected Iterator<int[]> indices(int[] order, int k){
+		return null;
+	}
 
         /*
 public boolean move( int k, int current, int future ){
@@ -250,37 +254,38 @@ public boolean move( int k, int current, int future ){
     	    return elements(begin, end, order);
 	}
 */
-     public static void main( String[] args ){
-         Vector<int[]> poss = new Vector<int[]>();
-         int n = 3;
-         SparseMatrix<Integer> matrix = new SparseMatrix<Integer>(n);
-         for( int i=0; i<1000; i++ ){
-             int[] pos = new int[n];
-             for( int k=0; k<n; k++ ){
-                 pos[k] = (int)(Math.random() * 100);
-//                 System.out.print( " " + pos[k] );
- }
- poss.add(pos);
- Integer h = i;
-//             System.out.println( " " + h );
- try{
-     if( matrix.get( pos ) != null ){
-	 System.out.println( "Already there..." );
-     }
- }catch( ArrayIndexOutOfBoundsException  ex ){
-     System.out.println("It is not there...");
- }
- matrix.set( pos, h );
-//             System.out.println( "Recover" + matrix.get( pos ) );
+
+	public static void main( String[] args ){
+		Vector<int[]> poss = new Vector<int[]>();
+		int n = 3;
+		SparseMatrix<Integer> matrix = new SparseMatrix<Integer>(n);
+		for( int i=0; i<1000; i++ ){
+			int[] pos = new int[n];
+			for( int k=0; k<n; k++ ){
+				pos[k] = (int)(Math.random() * 100);
+				System.out.print( " " + pos[k] );
+			}
+			poss.add(pos);
+			Integer h = i;
+			System.out.println( " Inserting... " + h );
+			try{
+				if( matrix.get( pos ) != null ){
+					System.out.println( "Already there..." );
+				}
+			}catch( ArrayIndexOutOfBoundsException  ex ){
+				System.out.println("It is not there...");
+			}
+			matrix.set( pos, h );
+            System.out.println( "Recover" + matrix.get( pos ) );
 //             System.out.println( "******************" );
- }
+		}
 //         System.out.println( matrix.numberElements() );
 //         for( int i=0; i<poss.size(); i++ ){
 //             int[] pos = poss.get(i);
 //             System.out.println( pos[0] + " " + pos[1] + " " + pos[2] + " " + matrix.get(pos) );
 //         }
- System.out.println("+++++++++++++++++++++++++++++");
- int counter = 0;
+		System.out.println("+++++++++++++++++++++++++++++");
+		int counter = 0;
 /* Enumeration<SparseMatrixElement<Integer>> iter = matrix.elements();
  while( iter.hasMoreElements() ){
      System.out.println( iter.nextElement().toString() );
@@ -332,5 +337,5 @@ public boolean move( int k, int current, int future ){
          }
          System.out.println( counter );
 */
-     }
+	}
 }
