@@ -1,5 +1,6 @@
 package unalcol.types.collection.vector;
-import unalcol.types.collection.*;
+
+import java.util.Iterator;
 import java.util.NoSuchElementException;
 
 /**

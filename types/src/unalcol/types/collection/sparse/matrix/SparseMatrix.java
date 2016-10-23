@@ -1,9 +1,10 @@
 package unalcol.types.collection.sparse.matrix;
 
+import java.util.Iterator;
+
 import unalcol.sort.Search;
-import unalcol.types.collection.Iterator;
+import unalcol.types.collection.Collection;
 import unalcol.types.collection.sparse.vector.SparseVector;
-import unalcol.types.collection.vector.Vector;
 
 /**
  * <p>Title: Mesparc</p>
@@ -13,7 +14,7 @@ import unalcol.types.collection.vector.Vector;
  * @author Jonatan Gomez
  * @version 1.0
  */
-public class SparseMatrix<T> {
+public class SparseMatrix<T> implements Collection<T>{
 	protected Search<SparseMatrix<T>> search = new Search<SparseMatrix<T>>();
 	/**
 	 * Dimension of the matrix
@@ -59,7 +60,7 @@ public class SparseMatrix<T> {
 		}
 	}
 
-	public boolean empty(){
+	public boolean isEmpty(){
 		boolean flag = true;
 		if( n>0 ){
 			for( int k=0; k<n && flag; k++ ){
@@ -118,7 +119,7 @@ public class SparseMatrix<T> {
 						}
 					}
 					flag = x.del(sub_pos);
-					if( x.empty() ){
+					if( x.isEmpty() ){
 						dimension_data[k].del(pos[k]);
 					}
 				}catch( ArrayIndexOutOfBoundsException ex ){
@@ -173,8 +174,26 @@ public class SparseMatrix<T> {
 		return low;
 	}
 	
-	protected Iterator<int[]> indices(int[] order, int k){
-		return null;
+	@SuppressWarnings("unchecked")
+	public Iterator<int[]> indices(int[] order){
+		return new SparseMatrixIndicesIterator((SparseMatrix<Object>)this, order);
+	}
+
+	public Iterator<SparseMatrixElement<T>> elements(int[] order){
+		return new SparseMatrixElementsIterator<T>(this, order);
+	}
+
+	@Override
+	public Iterator<T> iterator() {
+		// TODO Auto-generated method stub
+		int[] order = new int[this.n];
+		for( int i=0; i<n; i++ ) order[i] = i;
+		return iterator(order);
+	}
+
+	public Iterator<T> iterator( int[] order ) {
+		// TODO Auto-generated method stub
+		return new SparseMatrixIterator<T>(this, order);
 	}
 
         /*
@@ -211,131 +230,4 @@ public boolean move( int k, int current, int future ){
     return flag;
 } */
 
-/**
- * Returns an Enumeration object for traversing the matrix sequentially
- * @return an Enumeration object for traversing the matrix sequentially.
- */
-/*public Enumeration<SparseMatrixElement<T>>
-        elements(int[] begin, int[] end, int[] order){
-    if( begin != null && end != null && order != null &&
-        begin.length == end.length && end.length == order.length &&
-        n == order.length ){
-        return new SparseMatrixEnumeration<T>(order, begin, end, this);
-    }
-    return null;
-}*/
-
-/**
- * Returns an Enumeration object for traversing the matrix sequentially
- * @return an Enumeration object for traversing the matrix sequentially.
- */
-/*        public Enumeration<SparseMatrixElement<T>>
-                elements(int[] begin, int[] end){
-          int[] order = new int[begin.length];
-          for( int i=0; i<order.length; i++ ){
-            order[i] = i;
-          }
-          return new SparseMatrixEnumeration<T>(order, begin, end, this);
-        }
-*/
-	/**
-	 * Returns an Enumeration object for traversing the matrix sequentially
-	 * @return an Enumeration object for traversing the matrix sequentially.
-	 */
-/*	public Enumeration<SparseMatrixElement<T>> elements() {
-            int[] begin = new int[n];
-            int[] end = new int[n];
-            int[] order = new int[n];
-            for( int k=0; k<n; k++ ){
-                begin[k] = 0;
-                end[k] = -1;
-                order[k] = k;
-            }
-    	    return elements(begin, end, order);
-	}
-*/
-
-	public static void main( String[] args ){
-		Vector<int[]> poss = new Vector<int[]>();
-		int n = 3;
-		SparseMatrix<Integer> matrix = new SparseMatrix<Integer>(n);
-		for( int i=0; i<1000; i++ ){
-			int[] pos = new int[n];
-			for( int k=0; k<n; k++ ){
-				pos[k] = (int)(Math.random() * 100);
-				System.out.print( " " + pos[k] );
-			}
-			poss.add(pos);
-			Integer h = i;
-			System.out.println( " Inserting... " + h );
-			try{
-				if( matrix.get( pos ) != null ){
-					System.out.println( "Already there..." );
-				}
-			}catch( ArrayIndexOutOfBoundsException  ex ){
-				System.out.println("It is not there...");
-			}
-			matrix.set( pos, h );
-            System.out.println( "Recover" + matrix.get( pos ) );
-//             System.out.println( "******************" );
-		}
-//         System.out.println( matrix.numberElements() );
-//         for( int i=0; i<poss.size(); i++ ){
-//             int[] pos = poss.get(i);
-//             System.out.println( pos[0] + " " + pos[1] + " " + pos[2] + " " + matrix.get(pos) );
-//         }
-		System.out.println("+++++++++++++++++++++++++++++");
-		int counter = 0;
-/* Enumeration<SparseMatrixElement<Integer>> iter = matrix.elements();
- while( iter.hasMoreElements() ){
-     System.out.println( iter.nextElement().toString() );
-     counter++;
- }
- System.out.println( counter );
- System.out.println("+++++++++++++++++++++++++++++");
-
- int[] low = matrix.low();
- int[] high = matrix.high();
- for( int i=0; i<low.length; i++ ){
-     System.out.println( "[" + low[i] + "," + high[i] + "]" );
- }
-
-/* matrix.move( 0, 50, 200 );
- matrix.move( 1, 20, 300 );
-
- System.out.println("+++++++++++++++++++++++++++++");
- low = matrix.low_limit();
- high = matrix.high_limit();
- for( int i=0; i<low.length; i++ ){
-     System.out.println( "[" + low[i] + "," + high[i] + "]" );
- }
-* /
-
- counter = 0;
- iter = matrix.elements();
- while( iter.hasMoreElements() ){
-      System.out.println( iter.nextElement().toString() );
-      counter++;
- }
- System.out.println( counter );
-
-
- System.out.println("+++++++++++++++++++++++++++++");
- for( int i=0; i<poss.size(); i++ ){
-     int[] pos = poss.get(i);
-     if( !matrix.del(pos) ){
-         System.out.println( "Already erased..." );
- }
-//             System.out.println( pos[0] + " " + pos[1] + " " + pos[2] + " " + matrix.get(pos) );
- }
- System.out.println( "empty:" + matrix.empty() );
-         counter = 0;
-         iter = matrix.elements();
-         while( iter.hasMoreElements() ){
-              System.out.println( iter.nextElement().toString() );
-              counter++;
-         }
-         System.out.println( counter );
-*/
-	}
 }
