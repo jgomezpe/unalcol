@@ -23,9 +23,13 @@ public class ImmutableSparseVector<T> implements ArrayCollection<T>{
     }
     
     @SuppressWarnings("unchecked")
-	public ImmutableSparseVector( ImmutableSparseVector<T> sparse ) {
-    	this.vector = (SortedVector<SparseElement<T>>)Clone.create(sparse.vector);
-	}
+    public ImmutableSparseVector( ImmutableSparseVector<T> sparse ) {
+	this.vector = (SortedVector<SparseElement<T>>)Clone.create(sparse.vector);
+    }
+    
+    public boolean stored( int index ){
+	return findIndex(index) >= 0;
+    }
     
     public int findIndex( int index ){
         loc.index = index;
