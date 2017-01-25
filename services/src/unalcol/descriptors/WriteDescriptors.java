@@ -14,7 +14,7 @@ import unalcol.io.Write;
 * <p>Writes the descriptors associated to a given object.</p>
 *
 * <P>
-* <A HREF="https://github.com/jgomezpe/unalcol/blob/master/src/unalcol/descriptors/WriteDescriptors.java">
+* <A HREF="https://github.com/jgomezpe/unalcol/blob/master/services/src/unalcol/descriptors/WriteDescriptors.java" target="_blank">
 * Source code </A> is available.
 *
 * <h3>License</h3>

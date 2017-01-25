@@ -9,7 +9,7 @@ import java.util.Set;
 * <p>A set of methods used for going from an object to its TaggedObject version an backwards.</p>
 *
 * <P>
-* <A HREF="https://github.com/jgomezpe/unalcol/blob/master/src/unalcol/reflect/tag/TaggedObjectManager.java">
+* <A HREF="https://github.com/jgomezpe/unalcol/blob/master/services/src/unalcol/reflect/tag/TaggedObjectManager.java" target="_blank">
 * Source code </A> is available.
 *
 * <h3>License</h3>

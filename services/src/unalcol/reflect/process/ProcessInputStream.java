@@ -10,7 +10,7 @@ import java.io.*;
 * <p>A Class for processing input streams used by an External Process (command)..</p>
 *
 * <P>
-* <A HREF="https://github.com/jgomezpe/unalcol/blob/master/src/unalcol/reflect/process/ProcessInputStream.java">
+* <A HREF="https://github.com/jgomezpe/unalcol/blob/master/services/src/unalcol/reflect/process/ProcessInputStream.java" target="_blank">
 * Source code </A> is available.
 *
 * <h3>License</h3>

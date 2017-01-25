@@ -4,13 +4,17 @@ import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.Set;
 
+//
+//Unalcol Service structure Pack 1.0 by Jonatan Gomez-Perdomo
+//https://github.com/jgomezpe/unalcol/tree/master/services/
+//
 /**
 *
 * TaggedObject
 * <p>A tagged object (Object with a set of tags).</p>
 *
 * <P>
-* <A HREF="https://github.com/jgomezpe/unalcol/blob/master/src/unalcol/reflect/tag/TaggedObject.java">
+* <A HREF="https://github.com/jgomezpe/unalcol/blob/master/services/src/unalcol/reflect/tag/TaggedObject.java" target="_blank">
 * Source code </A> is available.
 *
 * <h3>License</h3>

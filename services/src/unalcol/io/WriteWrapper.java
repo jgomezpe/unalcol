@@ -10,7 +10,7 @@ import java.lang.reflect.*;
 * <p>Writing service for primitive types and classes implementing the write method. Writes objects to a {@link java.io.Writer}</p>
 *
 * <P>
-* <A HREF="https://github.com/jgomezpe/unalcol/blob/master/src/unalcol/io/WriteWrapper.java">
+* <A HREF="https://github.com/jgomezpe/unalcol/blob/master/services/src/unalcol/io/WriteWrapper.java" target="_blank">
 * Source code </A> is available.
 *
 * <h3>License</h3>

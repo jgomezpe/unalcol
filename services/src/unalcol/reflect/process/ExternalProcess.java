@@ -11,7 +11,7 @@ import java.io.*;
 * <p>A Class for Executing External Process (commands).</p>
 *
 * <P>
-* <A HREF="https://github.com/jgomezpe/unalcol/blob/master/src/unalcol/reflect/process/ExternalProcess.java">
+* <A HREF="https://github.com/jgomezpe/unalcol/blob/master/services/src/unalcol/reflect/process/ExternalProcess.java" target="_blank">
 * Source code </A> is available.
 *
 * <h3>License</h3>

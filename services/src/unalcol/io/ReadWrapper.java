@@ -13,7 +13,7 @@ import java.lang.reflect.Method;
 * <p>Read service for classes that have implemented a read method.</p>
 *
 * <P>
-* <A HREF="https://github.com/jgomezpe/unalcol/blob/master/src/unalcol/io/ReadWrapper.java">
+* <A HREF="https://github.com/jgomezpe/unalcol/blob/master/services/src/unalcol/io/ReadWrapper.java" target="_blank">
 * Source code </A> is available.
 *
 * <h3>License</h3>

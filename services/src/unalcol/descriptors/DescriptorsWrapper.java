@@ -13,7 +13,7 @@ import java.lang.reflect.Method;
 * <p>Used for classes that already define a descriptors method.</p>
 *
 * <P>
-* <A HREF="https://github.com/jgomezpe/unalcol/blob/master/src/unalcol/descriptors/DescriptorsWrapper.java">
+* <A HREF="https://github.com/jgomezpe/unalcol/blob/master/services/src/unalcol/descriptors/DescriptorsWrapper.java" target="_blank">
 * Source code </A> is available.
 *
 * <h3>License</h3>

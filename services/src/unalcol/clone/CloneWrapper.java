@@ -15,7 +15,7 @@ import java.lang.reflect.Array;
 * CloneWrapper
 * <P>Cloning service wrapper for the clone method. Used for classes that already define a clone method*
 * <P>
-* <A HREF="https://github.com/jgomezpe/unalcol/blob/master/src/unalcol/clone/CloneWrapper.java">
+* <A HREF="https://github.com/jgomezpe/unalcol/blob/master/services/src/unalcol/clone/CloneWrapper.java" target="_blank">
 * Source code </A> is available.
 *
 * <h3>License</h3>

@@ -9,7 +9,7 @@ package unalcol.clone;
 * ShallowClone
 * <p>Shallow Cloning service. Just returns the same object reference.</p>
 * <P>
-* <A HREF="https://github.com/jgomezpe/unalcol/blob/master/src/unalcol/clone/ShallowClone.java">
+* <A HREF="https://github.com/jgomezpe/unalcol/blob/master/services/src/unalcol/clone/ShallowClone.java" target="_blank">
 * Source code </A> is available.
 *
 * <h3>License</h3>

@@ -15,7 +15,7 @@ import java.util.*;
 * <p>A basic Java Compiler.</p>
 *
 * <P>
-* <A HREF="https://github.com/jgomezpe/unalcol/blob/master/src/unalcol/reflect./compiler/Compiler.java">
+* <A HREF="https://github.com/jgomezpe/unalcol/blob/master/services/src/unalcol/reflect/compiler/Compiler.java" target="_blank">
 * Source code </A> is available.
 *
 * <h3>License</h3>

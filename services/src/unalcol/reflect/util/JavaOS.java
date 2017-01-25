@@ -9,12 +9,11 @@ import java.io.*;
 *
 * JavaOS
 * <P>Collection of values which are determined according to the Operative System
- * where the Java Machine is running.
+* where the Java Machine is running.</p>
 *
 * <P>
-* <A HREF="https://github.com/jgomezpe/unalcol/blob/master/src/unalcol/reflect/util/JavaOS.java">
+* <A HREF="https://github.com/jgomezpe/unalcol/blob/master/services/src/unalcol/reflect/util/JavaOS.java" target="_blank">
 * Source code </A> is available.
-* <P>
 *
 * <h3>License</h3>
 *
@@ -51,13 +50,6 @@ import java.io.*;
 * (E-mail: <A HREF="mailto:jgomezpe@unal.edu.co">jgomezpe@unal.edu.co</A> )
 * @version 1.0
 */
-/**
- * <p>Collection of values which are determined according to the Operative System
- * where the Java Machine is running</p>
- *
- * @author Jonatan Gomez Perdomo
- * @version 1.0
- */
 public class JavaOS {
     /**
      * Character used for directories hierarchy

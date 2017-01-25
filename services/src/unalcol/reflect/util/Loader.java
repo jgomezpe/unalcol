@@ -12,7 +12,7 @@ import java.lang.reflect.Array;
 * <P>Wrap for a ClassLoader.
 *
 * <P>
-* <A HREF="https://github.com/jgomezpe/unalcol/blob/master/src/unalcol/reflect/util/Loader.java">
+* <A HREF="https://github.com/jgomezpe/unalcol/blob/master/services/src/unalcol/reflect/util/Loader.java" target="_blank">
 * Source code </A> is available.
 *
 * <h3>License</h3>

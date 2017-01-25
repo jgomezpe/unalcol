@@ -1,5 +1,9 @@
 package unalcol.reflect.tag;
 
+//
+//Unalcol Service structure Pack 1.0 by Jonatan Gomez-Perdomo
+//https://github.com/jgomezpe/unalcol/tree/master/services/
+//
 /**
 *
 * TaggedMethod  
@@ -7,7 +11,7 @@ package unalcol.reflect.tag;
 * of the TaggedObject is.</p>
 *
 * <P>
-* <A HREF="https://github.com/jgomezpe/unalcol/blob/master/src/unalcol/reflect/tag/TaggedMethod.java">
+* <A HREF="https://github.com/jgomezpe/unalcol/blob/master/services/src/unalcol/reflect/tag/TaggedMethod.java" target="_blank">
 * Source code </A> is available.
 *
 * <h3>License</h3>

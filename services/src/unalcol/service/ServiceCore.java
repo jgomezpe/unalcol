@@ -11,7 +11,7 @@ package unalcol.service;
 * Only one ServicePool is associated to the entire Infra-structure.
 *
 * <P>
-* <A HREF="https://github.com/jgomezpe/unalcol/blob/master/services/src/unalcol/service/ServiceCore.java">
+* <A HREF="https://github.com/jgomezpe/unalcol/blob/master/services/src/unalcol/service/ServiceCore.java" target="_blank">
 * Source code </A> is available.
 *
 * <h3>License</h3>

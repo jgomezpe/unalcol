@@ -12,7 +12,7 @@ import unalcol.service.*;
 * <p>Obtains a set of real value descriptors for a given object.</p>
 *
 * <P>
-* <A HREF="https://github.com/jgomezpe/unalcol/blob/master/src/unalcol/descriptors/Descriptors.java">
+* <A HREF="https://github.com/jgomezpe/unalcol/blob/master/services/src/unalcol/descriptors/Descriptors.java" target="_blank">
 * Source code </A> is available.
 *
 * <h3>License</h3>

@@ -16,7 +16,7 @@ import java.io.IOException;
 * <p>An exception for readers that use two dimensions (row, columns) cursor location information.</p>
 *
 * <P>
-* <A HREF="https://github.com/jgomezpe/unalcol/blob/master/src/unalcol/io/RowColumnReaderException.java">
+* <A HREF="https://github.com/jgomezpe/unalcol/blob/master/services/src/unalcol/io/RowColumnReaderException.java" target="_blank">
 * Source code </A> is available.
 *
 * <h3>License</h3>

@@ -8,9 +8,9 @@ import unalcol.types.collection.Location;
 import unalcol.types.collection.array.ArrayCollectionLocation;
 import unalcol.types.collection.array.MutableArrayCollection;
 
-public class Table<T> extends UmmutableTable<T> implements MutableArrayCollection<T> {
+public class FileMutableArrayCollection<T> extends FileArrayCollection<T> implements MutableArrayCollection<T> {
 
-	public Table(RandomAccessFile file, Load<T> load) {
+	public FileMutableArrayCollection(RandomAccessFile file, Load<T> load) {
 		super(file, load);
 	}
 

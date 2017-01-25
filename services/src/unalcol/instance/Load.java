@@ -10,7 +10,7 @@ package unalcol.instance;
 * <p>Loads and stores an object in a byte representation.</p>
 *
 * <P>
-* <A HREF="https://github.com/jgomezpe/unalcol/blob/master/src/unalcol/instance/Load.java">
+* <A HREF="https://github.com/jgomezpe/unalcol/blob/master/services/src/unalcol/instance/Load.java" target="_blank">
 * Source code </A> is available.
 *
 * <h3>License</h3>

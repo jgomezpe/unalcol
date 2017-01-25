@@ -12,7 +12,7 @@ import unalcol.service.*;
 * <p>Read service. Reads objects from a {@link unalcol.io.ShortTermMemoryReader}.</p>
 *
 * <P>
-* <A HREF="https://github.com/jgomezpe/unalcol/blob/master/src/unalcol/io/Read.java">
+* <A HREF="https://github.com/jgomezpe/unalcol/blob/master/services/src/unalcol/io/Read.java" target="_blank">
 * Source code </A> is available.
 *
 * <h3>License</h3>

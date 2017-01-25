@@ -12,7 +12,7 @@ import java.io.*;
 * <p>A Reader that is able to maintain the latest read characters (according to its memory size).</p>
 *
 * <P>
-* <A HREF="https://github.com/jgomezpe/unalcol/blob/master/src/unalcol/io/ShortTermMemoryReader.java">
+* <A HREF="https://github.com/jgomezpe/unalcol/blob/master/services/src/unalcol/io/ShortTermMemoryReader.java" target="_blank">
 * Source code </A> is available.
 *
 * <h3>License</h3>

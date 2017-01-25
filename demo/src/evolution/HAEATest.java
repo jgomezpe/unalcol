@@ -238,9 +238,9 @@ public class HAEATest {
 	
     
     public static void main(String[] args){
-    	//real(); // Uncomment if testing real valued functions
+    	real(); // Uncomment if testing real valued functions
     	// binary(); // Uncomment if testing binary valued functions
     	//binary2real(); // Uncomment if you want to try the multi-level search method
-    	queen(); // Uncomment if testing integer (queen) value functions
+    	//queen(); // Uncomment if testing integer (queen) value functions
     }
 }

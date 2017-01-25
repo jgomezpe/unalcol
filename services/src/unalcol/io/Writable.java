@@ -7,13 +7,17 @@ package unalcol.io;
 import java.io.IOException;
 import java.io.Writer;
 
+//
+//Unalcol Service structure Pack 1.0 by Jonatan Gomez-Perdomo
+//https://github.com/jgomezpe/unalcol/tree/master/services/
+//
 /**
 *
 * Writable
 * <p>Writes objects to a {@link java.io.Writer} implementing the write method.</p>
 *
 * <P>
-* <A HREF="https://github.com/jgomezpe/unalcol/blob/master/src/unalcol/io/Writable.java">
+* <A HREF="https://github.com/jgomezpe/unalcol/blob/master/services/src/unalcol/io/Writable.java" target="_blank">
 * Source code </A> is available.
 *
 * <h3>License</h3>

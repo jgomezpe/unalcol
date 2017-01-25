@@ -14,7 +14,7 @@ import unalcol.service.ServiceCore;
 * <p>Generates instances of a given Class.</p>
 *
 * <P>
-* <A HREF="https://github.com/jgomezpe/unalcol/blob/master/src/unalcol/instance/Instance.java">
+* <A HREF="https://github.com/jgomezpe/unalcol/blob/master/services/src/unalcol/instance/Instance.java" target="_blank">
 * Source code </A> is available.
 *
 * <h3>License</h3>

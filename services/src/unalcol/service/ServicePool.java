@@ -12,7 +12,7 @@ import java.util.Hashtable;
 * <P> Set of services that have been associated to objects.
 *
 * <P>
-* <A HREF="https://github.com/jgomezpe/unalcol/blob/master/services/src/unalcol/service/ServicePool.java">
+* <A HREF="https://github.com/jgomezpe/unalcol/blob/master/services/src/unalcol/service/ServicePool.java" target="_blank">
 * Source code </A> is available.
 *
 * <h3>License</h3>

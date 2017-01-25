@@ -8,11 +8,11 @@ import unalcol.instance.Load;
 import unalcol.types.collection.array.ArrayCollection;
 import unalcol.types.collection.array.ArrayCollectionIterator;
 
-public class UmmutableTable<T> implements ArrayCollection<T>{
+public class FileArrayCollection<T> implements ArrayCollection<T>{
 	protected RandomAccessFile file = null;
 	protected Load<T> load;
 	
-	public UmmutableTable( RandomAccessFile file, Load<T> load ){
+	public FileArrayCollection( RandomAccessFile file, Load<T> load ){
 		this.file = file;
 		this.load = load;
 	}
@@ -53,7 +53,5 @@ public class UmmutableTable<T> implements ArrayCollection<T>{
 			return load.load(b);
 		} catch (IOException e) {}
 		return null;
-	}
-	
-	
+	}	
 }

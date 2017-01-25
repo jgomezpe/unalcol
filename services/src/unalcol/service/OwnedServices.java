@@ -12,7 +12,7 @@ import java.util.Hashtable;
 * OwnedServices
 * <P> Set of services (concrete instances of services) that are specifically associated (owned) by an object (possible owned by a class)
 *
-* <P><A HREF="https://github.com/jgomezpe/unalcol/blob/master/services/src/unalcol/service/OwnedServices.java">
+* <P><A HREF="https://github.com/jgomezpe/unalcol/blob/master/services/src/unalcol/service/OwnedServices.java" target="_blank">
 * Source code </A> is available.
 *
 * <h3>License</h3>

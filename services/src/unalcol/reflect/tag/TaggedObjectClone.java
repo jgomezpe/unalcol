@@ -9,10 +9,10 @@ import unalcol.instance.Instance;
 //
 /**
 *
-* TaggedObjectNonStrictClone
+* TaggedObjectClone
 * <p>Copies a TaggedObject (object and TaggedMethods).</p>
 * <P>
-* <A HREF="https://github.com/jgomezpe/unalcol/blob/master/src/unalcol/clone/TaggedObjectNonStrictClone.java">
+* <A HREF="https://github.com/jgomezpe/unalcol/blob/master/services/src/unalcol/reflect/tag/TaggedObjectClone.java" target="_blank">
 * Source code </A> is available.
 *
 * <h3>License</h3>
@@ -73,7 +73,7 @@ public class TaggedObjectClone<T> extends Clone<TaggedObject<T>> {
 
 	/**
 	 * Creates a clone of the TaggedObject (including just the TaggedMethods).
-	 * @param toClone TaggedObject to be  non-strictly copied. 
+	 * @param obj TaggedObject to be  non-strictly copied. 
 	 * @return A copy of the TaggedObject (including or the tags or just the TaggedMethods).
 	 */
 	@SuppressWarnings("unchecked")

@@ -12,7 +12,7 @@ import unalcol.service.ServiceCore;
 * <P>The Clone Service of the unalcol library. Every clone service should be inherited from it.
 *
 * <P>
-* <A HREF="https://github.com/jgomezpe/unalcol/blob/master/src/unalcol/clone/Clone.java">
+* <A HREF="https://github.com/jgomezpe/unalcol/blob/master/services/src/unalcol/clone/Clone.java" target="_blank">
 * Source code </A> is available.
 *
 * <h3>License</h3>
