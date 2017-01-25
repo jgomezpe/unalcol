@@ -97,6 +97,22 @@ public class SparseMatrix<T> implements Collection<T>{
 			this.data = data;
 		}
 	}
+	
+	public boolean stored( int[] index ){
+		boolean flag = false;
+		try{  
+			SparseMatrix<T> x = dimension_data[0].get( index[0] );
+			int m = n-1;
+			int[] sub_pos = new int[m];
+			int j = 0;
+			for( int i=0; i<n; i++ ){
+				sub_pos[j] = index[i];
+				j++;
+			}
+			flag = x.stored(sub_pos);
+		}catch( ArrayIndexOutOfBoundsException ex ){}
+		return flag;
+	}
 
 	/**
 	 * Delete the element of this sparse matrix
@@ -127,7 +143,7 @@ public class SparseMatrix<T> implements Collection<T>{
 				}
 			}
 		}else{
-			flag = (data==null );
+			flag = (data!=null );
 			data = null;
 		}
 		return flag;
