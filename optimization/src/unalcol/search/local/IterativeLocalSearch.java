@@ -40,4 +40,10 @@ public class IterativeLocalSearch<T,R> extends LocalSearch<T,R> {
         }
         return solution;
 	}
+	
+	@Override
+	public void init(){
+		terminationCondition.init();
+		step.init();
+	}
 }

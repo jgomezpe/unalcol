@@ -25,5 +25,7 @@ public interface Search<T,R> extends SpaceSampler<T>, SolutionManager<T>{
 			return unwrap(solve( space, goal ));
 		}	
 		return null;
-	}        
+	}  
+	
+	public default void init(){}
 }

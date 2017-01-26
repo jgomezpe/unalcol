@@ -20,6 +20,7 @@ import unalcol.optimization.real.mutation.IntensityMutation;
 import unalcol.optimization.real.mutation.OneFifthRule;
 import unalcol.optimization.real.mutation.PermutationPick;
 import unalcol.optimization.real.mutation.PickComponents;
+import unalcol.optimization.real.testbed.Rastrigin;
 //import unalcol.optimization.real.testbed.Rastrigin;
 import unalcol.optimization.real.testbed.Schwefel;
 import unalcol.random.real.DoubleGenerator;
@@ -46,12 +47,13 @@ public class HillClimbingTest{
 	public static void real(){
 		// Search Space definition
 		int DIM = 10;
-		double[] min = DoubleArray.create(DIM, -500.0);
-		double[] max = DoubleArray.create(DIM, 500.0);
+		double[] min = DoubleArray.create(DIM, -5.12);
+		double[] max = DoubleArray.create(DIM, 5.12);
     	Space<double[]> space = new HyperCube( min, max );
     	
     	// Optimization Function
-    	OptimizationFunction<double[]> function = new Schwefel();		
+//    	OptimizationFunction<double[]> function = new Schwefel();		
+    	OptimizationFunction<double[]> function = new Rastrigin();		
         Goal<double[], Double> goal = new OptimizationGoal<double[]>(function); // minimizing, add the parameter false if maximizing   	
     	
     	// Variation definition
@@ -60,7 +62,7 @@ public class HillClimbingTest{
     	IntensityMutation variation = new IntensityMutation( 0.1, random, pick );
         
         // Search method
-        int MAXITERS = 1000;
+        int MAXITERS = 100;
         boolean neutral = true; // Accepts movements when having same function value
         boolean adapt_operator = true; //
         LocalSearch<double[],Double> search;

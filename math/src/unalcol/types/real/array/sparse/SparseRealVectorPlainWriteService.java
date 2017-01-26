@@ -8,7 +8,7 @@ import java.io.IOException;
 import java.io.Writer;
 import java.util.Iterator;
 import unalcol.io.Write;
-import unalcol.types.collection.vector.sparse.SparseElement;
+import unalcol.types.collection.sparse.vector.SparseElement;
 
 /**
  *

@@ -8,10 +8,10 @@ import java.util.Iterator;
 
 import unalcol.clone.Clone;
 import unalcol.math.algebra.VectorSpace;
+import unalcol.types.collection.sparse.vector.SparseElement;
+import unalcol.types.collection.sparse.vector.SparseElementOrder;
+import unalcol.types.collection.sparse.vector.SparseVector;
 import unalcol.types.collection.vector.SortedVector;
-import unalcol.types.collection.vector.sparse.SparseElement;
-import unalcol.types.collection.vector.sparse.SparseElementOrder;
-import unalcol.types.collection.vector.sparse.SparseVector;
 import unalcol.types.collection.vector.Vector;
 
 /**

@@ -36,4 +36,10 @@ public class IterativePopulationSearch<T,R> implements PopulationSearch<T,R> {
 	public Solution<T> pick(Population<T> pop) {
 		return step.pick(pop);
 	}
+	
+	@Override
+	public void init(){
+		terminationCondition.init();
+		step.init();
+	}
 }

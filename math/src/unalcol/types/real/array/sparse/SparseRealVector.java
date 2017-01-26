@@ -5,9 +5,10 @@
 package unalcol.types.real.array.sparse;
 
 import java.util.Iterator;
+
+import unalcol.types.collection.sparse.vector.SparseElement;
+import unalcol.types.collection.sparse.vector.SparseVector;
 import unalcol.types.collection.vector.SortedVector;
-import unalcol.types.collection.vector.sparse.SparseElement;
-import unalcol.types.collection.vector.sparse.SparseVector;
 
 /**
  *

@@ -5,7 +5,7 @@
 package unalcol.types.real.array.sparse;
 
 import unalcol.clone.Clone;
-import unalcol.types.collection.vector.sparse.SparseVector;
+import unalcol.types.collection.sparse.vector.SparseVector;
 
 /**
  *
