@@ -80,7 +80,7 @@ public abstract class Clone<T> {
 		return ServiceCore.set(owner, Clone.class, service);
 	}
     
-    	/**
+   	/**
      * Creates a clone of a given object
      * @param obj Object to be cloned
      * @return A clone of the object, if a cloning service is available for the given object, <i>null</i> otherwise
