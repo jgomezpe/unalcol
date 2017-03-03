@@ -57,26 +57,23 @@ public class Vector<T> extends ImmutableVector<T> implements MutableArrayCollect
         c = DEFAULT_C;
     }
 
-    @SuppressWarnings("unchecked")
 	@Override
     public void clear(){
         size = 0;
-        buffer=(T[])new Object[DEFAULT_C];
+        buffer=create(DEFAULT_C);
         a = DEFAULT_A;
         b = DEFAULT_B;
         c = DEFAULT_C;
     }
 
-    @SuppressWarnings("unchecked")
 	protected T[] grow(){
         // It requires than a > buffer.length/2
         a = b;
         b = c;
         c = a+b;
-        return (T[])new Object[c];        
+        return create(c);        
     };
 
-    @SuppressWarnings("unchecked")
 	protected T[] shrink(){
         // It maintains a > buffer.length/2
         if( a >= DEFAULT_B ){
@@ -85,7 +82,7 @@ public class Vector<T> extends ImmutableVector<T> implements MutableArrayCollect
             a = c-b;
         }    
         if(buffer.length!=c)
-            return (T[])new Object[c];        
+            return create(c);        
         else
             return buffer;
     };
@@ -201,5 +198,23 @@ public class Vector<T> extends ImmutableVector<T> implements MutableArrayCollect
             buffer[k] = temp;
         }
     }
-        
+
+    /**
+     * Sets the size of the array
+     * @param n The new size of the array
+     */
+    public void setSize( int n ){
+		find_fib(n);
+		if( c != buffer.length ){
+			T[] newBuffer = create(c);
+			System.arraycopy( buffer, 0, newBuffer, 0, Math.min(n, size) );
+			buffer = newBuffer;
+		}
+		size = n;
+    }
+    
+    @SuppressWarnings("unchecked")
+	protected T[] create( int n ){
+    	return (T[])new Object[n];
+    }
 }

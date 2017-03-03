@@ -36,4 +36,9 @@ public interface MutableArrayCollection<T> extends ArrayCollection<T>, MutableCo
          */
         public boolean set( int index, T data ) throws ArrayIndexOutOfBoundsException;
 
+        /**
+         * Sets the size of the array
+         * @param n The new size of the array
+         */
+        public void setSize( int n );
 }
