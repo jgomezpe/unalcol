@@ -9,7 +9,7 @@ import java.lang.reflect.Method;
  * @author Jonatan Gomez Perdomo
  * @version 1.0
  */
-public class OrderWrapper extends Order<Object>{
+public class OrderWrapper<T> extends Order<T>{
     /**
      * Creates an order wrapped method for classes with the compareTo method
      */
@@ -24,7 +24,7 @@ public class OrderWrapper extends Order<Object>{
      * @param two Second object to be compared
      * @return a value < 0 if one < two, 0 if one == two and > 0 if one > two.
      */
-    public int compare( Object one, Object two ){
+    public int compare( T one, T two ){
         try{
            Method m = one.getClass().getMethod(method_name, two.getClass()) ;
            return (Integer)m.invoke(one, two);

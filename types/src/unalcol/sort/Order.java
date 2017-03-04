@@ -28,7 +28,7 @@ public abstract class Order<T>{
      * @return Currently used order method (by the object)
      */
     public static Order<?> get( Object owner ){
-    	if( ServiceCore.get(Object.class, Order.class) == null ) ServiceCore.set(Object.class, new OrderWrapper());
+    	if( ServiceCore.get(Object.class, Order.class) == null ) ServiceCore.set(Object.class, new OrderWrapper<>());
         return ((Order<?>)ServiceCore.get(owner, Order.class));
     }
     

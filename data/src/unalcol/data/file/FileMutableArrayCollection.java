@@ -133,4 +133,10 @@ public class FileMutableArrayCollection<T> extends FileArrayCollection<T> implem
 		}
 		return false;
 	}
+
+	@Override
+	public void setSize(int arg0) {
+	    // TODO Auto-generated method stub
+	    
+	}
 }
