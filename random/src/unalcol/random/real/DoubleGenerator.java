@@ -2,6 +2,10 @@ package unalcol.random.real;
 
 import unalcol.random.Random;
 
+//
+//Unified Random generation Pack 1.0 by Jonatan Gómez-Perdomo
+//https://github.com/jgomezpe/unalcol/tree/master/random/
+//
 /**
  * <p>Abstract random number generator.</p>
  *

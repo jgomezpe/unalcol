@@ -4,15 +4,16 @@ import unalcol.random.raw.RawGenerator;
 
 //
 // Unalcol Random generation Pack 1.0 by Jonatan Gomez-Perdomo
-// https://github.com/jgomezpe/unalcol/blob/master/src/unalcol/random/
+// https://github.com/jgomezpe/unalcol/tree/master/random/
 //
 /**
- * <p>Generates integer numbers following an uniform probability distribution</p>
+ * IntUniform
+ * <P>Generates integer numbers following an uniform probability distribution</p>
  *
  * <P>
  *
  * <P>
- * <A HREF="https://github.com/jgomezpe/unalcol/blob/master/src/unalcol/random/integer/IntUniform.java">
+ * <A HREF="https://github.com/jgomezpe/unalcol/tree/master/random/src/unalcol/random/integer/IntUniform.java">
  * Source code </A> is available.
  * <P>
  *

@@ -2,6 +2,10 @@ package unalcol.random.real;
 
 import unalcol.random.raw.RawGenerator;
 
+//
+//Unified Random generation Pack 1.0 by Jonatan Gómez-Perdomo
+//https://github.com/jgomezpe/unalcol/tree/master/random/
+//
 /**
  * <p>Gaussian random number generator.</p>
  * <p>Copyright: Copyright (c) 2009</p>

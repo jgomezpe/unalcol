@@ -4,15 +4,16 @@ import unalcol.random.raw.RawGenerator;
 
 //
 // Unalcol Random generation Pack 1.0 by Jonatan Gomez-Perdomo
-// https://github.com/jgomezpe/unalcol/blob/master/src/unalcol/random/
+// https://github.com/jgomezpe/unalcol/tree/master/random/
 //
 /**
- * <p>Generates integer numbers following a Weighted probability density (Roulette)</p>
+ * IntRoulette
+ * <P>Generates integer numbers following a Weighted probability density (Roulette)</p>
  *
  * <P>
  *
  * <P>
- * <A HREF="https://github.com/jgomezpe/unalcol/blob/master/src/unalcol/random/integer/IntRoulette.java">
+ * <A HREF="https://github.com/jgomezpe/unalcol/tree/master/random/src/unalcol/random/integer/IntRoulette.java">
  * Source code </A> is available.
  * <P>
  *

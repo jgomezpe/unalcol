@@ -1,18 +1,16 @@
 package unalcol.random.raw;
 
-//
-
-
 // Unified Random generation Pack 1.0 by Jonatan Gomez-Perdomo
-// https://github.com/jgomezpe/unalcol/blob/master/src/unalcol/random/
+// https://github.com/jgomezpe/unalcol/tree/master/random/
 //
 /**
  *
- * Wrap of the Java Standard Generator (Math.random()) of Uniform Distributed pseudo Random Numbers in the interval [0.0,1.0) (x~U[0,1)) 
- * <P>
+ * JavaGenerator
+ * 
+ * <P>Wrap of the Java Standard Generator (Math.random()) of Uniform Distributed pseudo Random Numbers in the interval [0.0,1.0) (x~U[0,1)) 
  *
  * <P>
- * <A HREF="https://github.com/jgomezpe/unalcol/blob/master/src/unalcol/random/raw/JavaGenerator.java">
+ * <A HREF="https://github.com/jgomezpe/unalcol/tree/master/random/src/unalcol/random/raw/JavaGenerator.java">
  * Source code </A> is available.
  * <P>
  *

@@ -6,15 +6,14 @@ import unalcol.service.ServiceCore;
 
 //
 // Unalcol Random generation Pack 1.0 by Jonatan Gomez-Perdomo
-// https://github.com/jgomezpe/unalcol/blob/master/src/unalcol/random/
-//
+// https://github.com/jgomezpe/unalcol/tree/master/random/
 /**
  *
  * Random
  * <P>Random Generator Utility
  *
  * <P>
- * <A HREF="https://github.com/jgomezpe/unalcol/blob/master/src/unalcol/random/Random.java">
+ * <A HREF="https://github.com/jgomezpe/unalcol/tree/master/random/src/unalcol/random/Random.java">
  * Source code </A> is available.
  * <P>
  *

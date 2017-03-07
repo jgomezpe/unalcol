@@ -4,14 +4,17 @@ import java.util.*;
 
 //
 // Unified Random generation Pack 1.0 by Jonatan Gómez-Perdomo
-// https://github.com/jgomezpe/unalcol/blob/master/src/unalcol/random/
+// https://github.com/jgomezpe/unalcol/tree/master/random/
 //
 /**
  *
- * Seedable Generator (raw generators using a seed) of Uniform Distributed pseudo Random Numbers in the interval [0.0,1.0) (x~U[0,1)). It is based on the RangPack definition of seedable
+ * Seedable Generator 
  *
- * <P>
- * <A HREF="https://github.com/jgomezpe/unalcol/blob/master/src/unalcol/random/raw/SeedableGenerator.java">
+ * <P> Abstract definition of a RawGenerator that uses a seed for generating uniform distributed pseudo random numbers in the interval [0.0,1.0) (x~U[0,1)). 
+ * It is similar to the seedable class definition in the RangPack library.
+ * 
+ * <P> 
+ * <A HREF="https://github.com/jgomezpe/unalcol/tree/master/src/unalcol/random/raw/SeedableGenerator.java">
  * Source code </A> is available.
  * <P>
  *

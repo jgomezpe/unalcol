@@ -2,6 +2,10 @@ package unalcol.random.real;
 
 import unalcol.random.raw.RawGenerator;
 
+//
+//Unified Random generation Pack 1.0 by Jonatan Gómez-Perdomo
+//https://github.com/jgomezpe/unalcol/tree/master/random/
+//
 /**
  * <p>Creates a double number generator from a uniform number generator (using the inverse notion)</p>
  *
