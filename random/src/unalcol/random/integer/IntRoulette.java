@@ -59,6 +59,19 @@ public class IntRoulette extends RandInt {
 	protected double[] density;
 	
 	/**
+	 * Creates an integer number generator [0,n) with the following probability density:
+	 * p(i) = (n-i)/sum(1,n)
+	 * @param n number of different integer values that can be generated...
+	 */
+	public IntRoulette(int n) {
+		density = new double[n];
+        double total = n * (n + 1) / 2.0;
+        for (int i = 0; i < n; i++) {
+            density[i] = (n - i) / total;
+        }
+	}
+	
+	/**
 	 * Creates an integer number generator with the given probability density
 	 * @param density Probability of generating an integer number [0,length(density))
 	 */

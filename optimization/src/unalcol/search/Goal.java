@@ -8,6 +8,7 @@ package unalcol.search;
 import unalcol.reflect.tag.TaggedMethod;
 import unalcol.reflect.tag.TaggedObject;
 import unalcol.search.solution.Solution;
+import unalcol.sort.Order;
 
 /**
  *
@@ -44,5 +45,7 @@ public interface Goal<T, R> extends TaggedMethod<T,R> {
 		return r;
 	}
 
-	public abstract boolean nonStationary();      
+	public abstract boolean nonStationary();   
+	
+    public Order<R> order();	
 }

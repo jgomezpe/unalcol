@@ -1,6 +1,7 @@
 package unalcol.search.multilevel;
 
 import unalcol.search.Goal;
+import unalcol.sort.Order;
 
 public class MultiLevelGoal<G,P,R> implements Goal<G,R>{
 	protected Goal<P,R> goal;
@@ -20,4 +21,9 @@ public class MultiLevelGoal<G,P,R> implements Goal<G,R>{
 	public boolean nonStationary() {
 		return goal.nonStationary();
 	}
+	
+	@Override
+	public Order<R> order() {
+		return goal.order();
+	}	
 }

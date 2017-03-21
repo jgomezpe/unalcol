@@ -13,6 +13,7 @@ public abstract class RealQualityGoal<T> implements Goal<T,Double> {
     	this.goal_value = goal_value;
     }
     
+    @Override
     public Order<Double> order(){
     	return order;
     }    
