@@ -10,5 +10,5 @@ package unalcol.search.space;
  * @author jgomez
  */
 public interface Repair<T> {
-    public T apply( Space<T> space, T x );        
+	public T apply( Space<T> space, T x );        
 }

@@ -23,7 +23,7 @@ public class Variation_n_1<T> extends Variation<T> {
 		return (Solution<T>[])new Object[]{build(pop)};
 	}
 
-    @Override
+	@Override
 	public int range_arity() {
 		return 1;
 	}	

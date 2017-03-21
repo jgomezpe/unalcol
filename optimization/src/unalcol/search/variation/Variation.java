@@ -7,6 +7,7 @@ import unalcol.search.space.Space;
 
 public class Variation<T>{
 	public int arity(){ return 0; };
+
 	public int range_arity(){ return 0; };
 	
 	@SuppressWarnings("unchecked")

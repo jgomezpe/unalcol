@@ -14,34 +14,34 @@ import unalcol.search.space.Space;
  */
 public class Variation_1_1<T> extends Variation_n_1<T>{
 
-    public T apply( Space<T> space, T x ){ return space.repair(apply(x)); }
+	public T apply( Space<T> space, T x ){ return space.repair(apply(x)); }
 
-    public Solution<T> apply( Space<T> space, Solution<T> x ){
-    	Solution<T> s = apply( x );
-    	s.repair(space);
-    	return s;
-    }
+	public Solution<T> apply( Space<T> space, Solution<T> x ){
+		Solution<T> s = apply( x );
+		s.repair(space);
+		return s;
+	}
     
-    public T apply( T x ){
-    	return apply( new Solution<T>(x) ).object();
-    }   
+	public T apply( T x ){
+    		return apply( new Solution<T>(x) ).object();
+	}   
     
-    public Solution<T> apply( Solution<T> x ){
-    	return new Solution<T>(apply(x.object()), x.tags(), false);
-    }   
+	public Solution<T> apply( Solution<T> x ){
+    		return new Solution<T>(apply(x.object()), x.tags(), false);
+	}   
     
-    @Override
+	@Override
 	public int arity() {
 		return 1;
 	}
     
-    @SuppressWarnings("unchecked")
+	@SuppressWarnings("unchecked")
  	public T[] apply(T... pop){
 		T[] v = (T[])(new Object[pop.length]);
 		for( int i=0; i<pop.length; i++ )
 			v[i] = apply(pop[i]);
 		return v; 
-    }    
+	}    
 
  	@SuppressWarnings("unchecked")
  	public Solution<T>[] apply(Solution<T>... pop){
@@ -49,6 +49,5 @@ public class Variation_1_1<T> extends Variation_n_1<T>{
 		for( int i=0; i<pop.length; i++ )
 			v[i] = apply(pop[i]);
 		return v; 
-    }
-    
+ 	} 
 }

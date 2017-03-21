@@ -13,16 +13,16 @@ public class VariationSelection_n_1<T> extends Variation_n_1<T>{
 		this.selection = selection;
 	}
 	
-    @SuppressWarnings("unchecked")
+	@SuppressWarnings("unchecked")
 	@Override
-    protected Solution<T> build(Solution<T>... parents ){
-    	String gName = Goal.class.getName();
-    	Object goal = parents[0].data(gName);
-    	Solution<T>[] children = variation.apply(parents);
-    	for( Solution<T> c : children ){
-    		c.set(gName, goal);
-    	}
-        int index = selection.choose_one(children);
-        return children[index];
-    }
+	protected Solution<T> build(Solution<T>... parents ){
+		String gName = Goal.class.getName();
+		Object goal = parents[0].data(gName);
+		Solution<T>[] children = variation.apply(parents);
+		for( Solution<T> c : children ){
+    			c.set(gName, goal);
+		}
+		int index = selection.choose_one(children);
+		return children[index];
+	}
 }

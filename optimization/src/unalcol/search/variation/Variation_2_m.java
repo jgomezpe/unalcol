@@ -11,30 +11,30 @@ import unalcol.search.solution.Solution;
  */
 
 public class Variation_2_m<T> extends Variation<T> {
-    @SuppressWarnings("unchecked")
+	@SuppressWarnings("unchecked")
 	public Solution<T>[] apply( Solution<T> one, Solution<T> two ){
-    	T[] next = apply( one.object(), two.object() );    	
-    	Solution<T>[] s = new Solution[next.length];
-    	for( int i=0; i<s.length; i++ ){
-    		s[i] = new Solution<T>(next[i], one.tags(), false);
-    	}	
-    	return s;
-    }   
+    		T[] next = apply( one.object(), two.object() );    	
+    		Solution<T>[] s = new Solution[next.length];
+    		for( int i=0; i<s.length; i++ ){
+    			s[i] = new Solution<T>(next[i], one.tags(), false);
+    		}	
+    		return s;
+	}   
 
-    @SuppressWarnings("unchecked")
+	@SuppressWarnings("unchecked")
 	public T[] apply( T one, T two ){
-    	Solution<T>[] next = apply( new Solution<T>(one), new Solution<T>(two) );    	
-    	T[] s = (T[])new Object[next.length];
-    	for( int i=0; i<s.length; i++ ){
-    		s[i] = next[i].object();
-    	}	
-    	return s;
-    }   
+    		Solution<T>[] next = apply( new Solution<T>(one), new Solution<T>(two) );    	
+    		T[] s = (T[])new Object[next.length];
+    		for( int i=0; i<s.length; i++ ){
+    			s[i] = next[i].object();
+    		}	
+    		return s;
+	}   
 
-    /**
-     * Return the genetic operator arity
-     * @return the genetic operator arity
-     */
-    @Override
-    public int arity() { return 2; }
+	/**
+	 * Return the genetic operator arity
+	 * @return the genetic operator arity
+	 */
+	@Override
+	public int arity() { return 2; }
 }
