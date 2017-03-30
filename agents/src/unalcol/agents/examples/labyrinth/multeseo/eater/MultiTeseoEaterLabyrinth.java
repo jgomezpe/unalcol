@@ -109,7 +109,13 @@ public class MultiTeseoEaterLabyrinth extends MultiAgentLabyrinth{
 	          if( actionID == 2 ){
 	            agent_energy_level[i]--;
 	          }
-	          super.act(agent, action);
+	          if( actionID != 2 || !((Boolean) p.getAttribute("afront")).booleanValue() ) super.act(agent, action);
+	          else {
+	                msg = SimpleView.ERROR +
+	                      "[There is a wall/agent in front of mine (" + agent.getProgram().getClass().getSimpleName() +"). Action " + act +
+	                      " not executed]";
+	                updateViews(msg);
+	            }
 	          break;
 	      }
 	    }
