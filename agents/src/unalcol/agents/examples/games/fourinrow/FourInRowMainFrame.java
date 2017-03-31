@@ -91,7 +91,7 @@ public class FourInRowMainFrame extends JFrame implements EnvironmentView{
 
   private void jbInit() throws Exception {
     this.setSize(new Dimension(430, 540));
-    this.setTitle("Reversi");
+    this.setTitle("Four In Row");
     this.getContentPane().setLayout(borderLayout2);
     jPanel2.setLayout(borderLayout1);
 
