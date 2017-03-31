@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package unalcol.agents.examples.reversi;
+package unalcol.agents.examples.games.fourinrow;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
@@ -17,6 +17,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import unalcol.agents.Agent;
+import unalcol.agents.examples.games.Clock;
 import unalcol.agents.simulate.gui.EnvironmentView;
 import unalcol.agents.simulate.gui.SimpleView;
 import unalcol.agents.simulate.gui.WorkingPanel;
@@ -25,16 +26,17 @@ import unalcol.agents.simulate.gui.WorkingPanel;
  *
  * @author Jonatan
  */
-public class ReversiMainFrame extends JFrame implements EnvironmentView{
+public class FourInRowMainFrame extends JFrame implements EnvironmentView{
+  
   /**
 	 * 
 	 */
-	private static final long serialVersionUID = -3330280926907525019L;
-Agent white_agent;
+	private static final long serialVersionUID = -697350764270364063L;
+  Agent white_agent;
   Agent black_agent;
   String fileDir = ".";
   String fileName = null;
-  Reversi reversi = null;
+  FourInRow reversi = null;
   Thread thread = null;
   SimpleView view;
 
@@ -43,7 +45,7 @@ Agent white_agent;
   BorderLayout borderLayout1 = new BorderLayout();
   FlowLayout flowLayout1 = new FlowLayout();
   GridLayout gridLayout2 = new GridLayout();
-  WorkingPanel drawArea = new WorkingPanel( new ReversiDrawer( ) );
+  WorkingPanel drawArea = new WorkingPanel( new FourInRowDrawer( ) );
   BorderLayout borderLayout2 = new BorderLayout();
   JPanel jPanel1 = new JPanel();
   JLabel jLabel1 = new JLabel();
@@ -58,11 +60,11 @@ Agent white_agent;
   JLabel jLabelw = new JLabel();
   JLabel jLabelb = new JLabel();
 
-  public ReversiMainFrame( Agent w_agent, Agent b_agent ) {
+  public FourInRowMainFrame( Agent w_agent, Agent b_agent ) {
     view = new SimpleView( drawArea );
     white_agent = w_agent;
     black_agent = b_agent;
-    reversi = new Reversi( white_agent, black_agent );
+    reversi = new FourInRow( white_agent, black_agent );
     reversi.setDelay(100);
     reversi.registerView(view);
     reversi.registerView(this);

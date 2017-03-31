@@ -1,4 +1,4 @@
-package unalcol.agents.examples.squares;
+package unalcol.agents.examples.games.squares;
 
 
 

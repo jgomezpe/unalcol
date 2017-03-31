@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package unalcol.agents.examples.squares;
+package unalcol.agents.examples.games.squares;
 
 import unalcol.agents.Action;
 import unalcol.agents.AgentProgram;

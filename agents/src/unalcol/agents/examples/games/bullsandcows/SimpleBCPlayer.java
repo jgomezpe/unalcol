@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package unalcol.agents.examples.bullsandcows;
+package unalcol.agents.examples.games.bullsandcows;
 import unalcol.types.collection.vector.Vector;
 import unalcol.random.raw.JavaGenerator;
 /**

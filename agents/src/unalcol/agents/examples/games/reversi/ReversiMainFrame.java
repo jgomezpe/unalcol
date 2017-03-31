@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package unalcol.agents.examples.squares;
+package unalcol.agents.examples.games.reversi;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
@@ -17,7 +17,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import unalcol.agents.Agent;
-import unalcol.agents.examples.reversi.Clock;
+import unalcol.agents.examples.games.Clock;
 import unalcol.agents.simulate.gui.EnvironmentView;
 import unalcol.agents.simulate.gui.SimpleView;
 import unalcol.agents.simulate.gui.WorkingPanel;
@@ -26,16 +26,16 @@ import unalcol.agents.simulate.gui.WorkingPanel;
  *
  * @author Jonatan
  */
-public class SquaresMainFrame extends JFrame implements EnvironmentView{
+public class ReversiMainFrame extends JFrame implements EnvironmentView{
   /**
 	 * 
 	 */
-	private static final long serialVersionUID = -6958542352671181413L;
+	private static final long serialVersionUID = -3330280926907525019L;
 Agent white_agent;
   Agent black_agent;
   String fileDir = ".";
   String fileName = null;
-  Squares squares = null;
+  Reversi reversi = null;
   Thread thread = null;
   SimpleView view;
 
@@ -44,7 +44,7 @@ Agent white_agent;
   BorderLayout borderLayout1 = new BorderLayout();
   FlowLayout flowLayout1 = new FlowLayout();
   GridLayout gridLayout2 = new GridLayout();
-  WorkingPanel drawArea = new WorkingPanel( new SquaresDrawer( ) );
+  WorkingPanel drawArea = new WorkingPanel( new ReversiDrawer( ) );
   BorderLayout borderLayout2 = new BorderLayout();
   JPanel jPanel1 = new JPanel();
   JLabel jLabel1 = new JLabel();
@@ -59,17 +59,17 @@ Agent white_agent;
   JLabel jLabelw = new JLabel();
   JLabel jLabelb = new JLabel();
 
-  public SquaresMainFrame( Agent w_agent, Agent b_agent ) {
+  public ReversiMainFrame( Agent w_agent, Agent b_agent ) {
     view = new SimpleView( drawArea );
     white_agent = w_agent;
     black_agent = b_agent;
-    squares = new Squares( white_agent, black_agent );
-    squares.setDelay(100);
-    squares.registerView(view);
-    squares.registerView(this);
+    reversi = new Reversi( white_agent, black_agent );
+    reversi.setDelay(100);
+    reversi.registerView(view);
+    reversi.registerView(this);
 
 //    sudoku.addAgent(agent);
-    drawArea.getDrawer().setEnvironment( squares );
+    drawArea.getDrawer().setEnvironment( reversi );
     try {
       jbInit();
     }
@@ -81,7 +81,7 @@ Agent white_agent;
   public void envChanged( String command ){
     if (command.indexOf(DONE) == 0) {
       drawArea.setText(command);
-      squares.stop();
+      reversi.stop();
       thread = null;
       jButton2.setText("Simulate");
     }
@@ -90,7 +90,7 @@ Agent white_agent;
 
   private void jbInit() throws Exception {
     this.setSize(new Dimension(430, 540));
-    this.setTitle("Squares");
+    this.setTitle("Reversi");
     this.getContentPane().setLayout(borderLayout2);
     jPanel2.setLayout(borderLayout1);
 
@@ -131,8 +131,8 @@ Agent white_agent;
     gridLayout3.setColumns(1);
     gridLayout3.setRows(2);
     jPanel3.setLayout(gridLayout3);
-    jLabelw.setText("Blue time:");
-    jLabelb.setText("Red time:");
+    jLabelw.setText("White time:");
+    jLabelb.setText("Black time:");
     jPanel3.add(jLabelw);
     jPanel3.add(jLabelb);
     
@@ -161,22 +161,22 @@ Agent white_agent;
     int dim = Integer.parseInt( jTextField1.getText() );
     long time = 1000*Long.parseLong( jTextField2.getText() );
     Clock clock = new Clock(time, time);
-    squares.init(new Board(dim), clock);
-    //squares.init( emptyPlaces );
+    reversi.init(new Board(dim), clock);
+    //reversi.init( emptyPlaces );
     drawArea.update();
-    jLabelw.setText("Blue time:"+clock.white_time_string());
-    jLabelb.setText("Red time:"+clock.black_time_string());
+    jLabelw.setText("White time:"+clock.white_time_string());
+    jLabelb.setText("Black time:"+clock.black_time_string());
   }
 
   void jButton2_actionPerformed(ActionEvent e) {
     if( thread == null ){
-      thread = new Thread( squares );
-      squares.clock.init(true);
-      squares.run();
+      thread = new Thread( reversi );
+      reversi.clock.init(true);
+      reversi.run();
 //      thread.start();
       jButton2.setText("Stop");
     }else{
-      squares.stop();
+      reversi.stop();
       thread = null;
       jButton2.setText("Simulate");
     }

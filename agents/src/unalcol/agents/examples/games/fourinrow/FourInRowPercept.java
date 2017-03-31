@@ -2,40 +2,41 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package unalcol.agents.examples.reversi;
+package unalcol.agents.examples.games.fourinrow;
 
 import unalcol.agents.Percept;
+import unalcol.agents.examples.games.Clock;
 
 /**
  *
  * @author Jonatan
  */
-public class ReversiPercept extends Percept{
+public class FourInRowPercept extends Percept{
     
     protected Board board;
     protected Clock clock;
   
-    public ReversiPercept( Board board, Clock clock ) {
+    public FourInRowPercept( Board board, Clock clock ) {
       this.board = board;
       this.clock = clock;
     }
     
     @Override
     public Object getAttribute( String code ){
-        if( code.equals(Reversi.TURN) ){
+        if( code.equals(FourInRow.TURN) ){
             if( clock.white_turn() ){
-                return Reversi.WHITE;
+                return FourInRow.WHITE;
             }else{
-                return Reversi.BLACK;
+                return FourInRow.BLACK;
             }
         }else{
-            if( code.equals(Reversi.WHITE + "_" + Reversi.TIME) ){
+            if( code.equals(FourInRow.WHITE + "_" + FourInRow.TIME) ){
                     return clock.white_time_string();
             }else{
-                if( code.equals(Reversi.BLACK + "_" + Reversi.TIME) ){
+                if( code.equals(FourInRow.BLACK + "_" + FourInRow.TIME) ){
                         return clock.white_time_string();
                 }else{
-                    if( code.equals(Reversi.SIZE ) ){
+                    if( code.equals(FourInRow.SIZE ) ){
                         return ""+board.values.length;
                     }else{
                         String[] v = code.split(":");
@@ -43,11 +44,11 @@ public class ReversiPercept extends Percept{
                         int j = Integer.parseInt(v[1]);
                         switch( board.values[i][j]){
                             case -1:
-                                return Reversi.BLACK;
+                                return FourInRow.BLACK;
                             case 1:
-                                return Reversi.WHITE;
+                                return FourInRow.WHITE;
                             default:
-                                return Reversi.SPACE;
+                                return FourInRow.SPACE;
                         }
                     }
                 }    

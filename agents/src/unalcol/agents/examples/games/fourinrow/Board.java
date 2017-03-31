@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package unalcol.agents.examples.fourinrow;
+package unalcol.agents.examples.games.fourinrow;
 
 import java.awt.Color;
 import java.awt.Font;
@@ -107,7 +107,7 @@ public class Board {
     
     public int check_ld( int i, int j ){
 	int n = values.length;
-	if( i<n-LINE && j>=LINE-1 && values[i][j]!=0){
+	if( i<=n-LINE && j>=LINE-1 && values[i][j]!=0){
 	    int c = values[i][j];
 	    int k = 0;
 	    while( k<LINE && c==values[i][j] ){
@@ -121,46 +121,46 @@ public class Board {
     }
     
     public int check_rd( int i, int j ){
-	int n = values.length;
-	if( i<n-LINE && j<n-LINE && values[i][j]!=0){
-	    int c = values[i][j];
-	    int k = 0;
-	    while( k<LINE && c==values[i][j] ){
-		i++;
-		j++;
-		k++;
-	    }
-	    if( k==LINE ) return c;
-	}
-	return 0;
+		int n = values.length;
+		if( i<=n-LINE && j<=n-LINE && values[i][j]!=0){
+		    int c = values[i][j];
+		    int k = 0;
+		    while( k<LINE && c==values[i][j] ){
+		    	i++;
+		    	j++;
+		    	k++;
+		    }
+		    if( k==LINE ) return c;
+		}
+		return 0;
     }
     
     public int check_d( int i, int j ){
-	int n = values.length;
-	if( i<n-LINE && values[i][j]!=0){
-	    int c = values[i][j];
-	    int k = 0;
-	    while( k<LINE && c==values[i][j] ){
-		i++;
-		k++;
-	    }
-	    if( k==LINE ) return c;
-	}
-	return 0;
+		int n = values.length;
+		if( i<=n-LINE && values[i][j]!=0){
+		    int c = values[i][j];
+		    int k = 0;
+		    while( k<LINE && c==values[i][j] ){
+		    	i++;
+		    	k++;
+		    }
+		    if( k==LINE ) return c;
+		}
+		return 0;
     }
     
     public int check_r( int i, int j ){
-	int n = values.length;
-	if( j<n-LINE && values[i][j]!=0){
-	    int c = values[i][j];
-	    int k = 0;
-	    while( k<LINE && c==values[i][j] ){
-		j++;
-		k++;
-	    }
-	    if( k==LINE ) return c;
-	}
-	return 0;
+		int n = values.length;
+		if( j<=n-LINE && values[i][j]!=0){
+		    int c = values[i][j];
+		    int k = 0;
+		    while( k<LINE && c==values[i][j] ){
+				j++;
+				k++;
+		    }
+		    if( k==LINE ) return c;
+		}
+		return 0;
     }
     
    public int check(){

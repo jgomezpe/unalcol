@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package unalcol.agents.examples.reversi;
+package unalcol.agents.examples.games.reversi;
 
 import java.awt.Color;
 import java.awt.Font;

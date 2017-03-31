@@ -2,11 +2,12 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package unalcol.agents.examples.reversi;
+package unalcol.agents.examples.games.fourinrow;
 
 import unalcol.agents.Action;
 import unalcol.agents.Agent;
 import unalcol.agents.Percept;
+import unalcol.agents.examples.games.Clock;
 import unalcol.agents.simulate.Environment;
 import unalcol.agents.simulate.gui.EnvironmentView;
 import unalcol.types.collection.vector.Vector;
@@ -15,7 +16,7 @@ import unalcol.types.collection.vector.Vector;
  *
  * @author Jonatan
  */
-public class Reversi extends Environment{
+public class FourInRow extends Environment{
     public static String PASS = "PASS";
     public static String TURN = "play";
     public static String TIME = "time";
@@ -33,7 +34,7 @@ public class Reversi extends Environment{
         return a;
     }
     
-    public Reversi( Agent white, Agent black ){
+    public FourInRow( Agent white, Agent black ){
         super( init( white, black ) );
     }
     
@@ -45,38 +46,25 @@ public class Reversi extends Environment{
 
     @Override
     public Percept sense(Agent agent) {
-        return new ReversiPercept(board, clock);
+        return new FourInRowPercept(board, clock);
     }
 
     @Override
     public boolean act(Agent agent, Action action){
-        if(board.full()){
+        int w = board.check();
+        if(board.full() ||  w != 0 ){
             agents.get(0).die();
             agents.get(1).die();            
-            int w = board.white_count();
-            int b = board.black_count();
-            if( w > b ){
+            if( w > 0 ){
                updateViews(EnvironmentView.DONE + ": White wins");
             }else{
-               if( b > w ){
+               if( w < 0 ){
                   updateViews(EnvironmentView.DONE + ": Black wins");
                }else{
                   updateViews(EnvironmentView.DONE + ": Draw");
                }
             }
-        }
-        
-        if(board.white_count()==0){
-            agents.get(0).die();
-            agents.get(1).die();            
-            updateViews(EnvironmentView.DONE + ": Black wins");
-        }
-
-        if(board.black_count()==0){
-            agents.get(0).die();
-            agents.get(1).die();            
-            updateViews(EnvironmentView.DONE + ": White wins");
-        }
+        }        
         
         if(clock.white_turn()){
             if( agent != agents.get(0)){
@@ -98,11 +86,6 @@ public class Reversi extends Environment{
                 agents.get(1).die();            
                 updateViews(EnvironmentView.DONE + ": White wins");
             }
-        }
-        if(action.getCode().equals(PASS)){
-            clock.swap();
-            updateViews("Working");
-            return true;
         }
         String[] code = action.getCode().split(":");
         int i = Integer.parseInt(code[0]);
