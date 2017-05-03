@@ -25,15 +25,6 @@ public class TeseoEaterPercept extends TeseoPercept{
 	      flag = (1 << (bit+FOOD_POS));
 	      setAttribute(LabyrinthUtil.RESOURCE[bit], (value & flag)==flag);
 	  }
-/*
-	  flag = (1<<15);
-	  if( (value & flag) == flag ){
-	      flag = (1 << 10);
-	      setAttribute(language.getPercept(10), (value & flag)==flag);
-	  }else{
-	      setAttribute(language.getPercept(10), false);
-	  }
-*/	  
       }
   }
 }

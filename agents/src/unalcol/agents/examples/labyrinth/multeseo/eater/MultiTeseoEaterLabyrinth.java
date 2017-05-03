@@ -95,8 +95,7 @@ public class MultiTeseoEaterLabyrinth extends MultiAgentLabyrinth{
 	              agent_energy_level[i] = Math.min( agent_energy_level[i] + INC_ENERGY_LEVEL, MAX_ENERGY_LEVEL );
 	            }else{
 	              System.out.println("Eating bad food...");
-	              agent_energy_level[i] = Math.min( agent_energy_level[i] + INC_ENERGY_LEVEL, MAX_ENERGY_LEVEL );
-//	              agent_energy_level[i] = Math.max( agent_energy_level[i] - DEC_ENERGY_LEVEL, 0 );
+	              agent_energy_level[i] = Math.max( agent_energy_level[i] - DEC_ENERGY_LEVEL, 0 );
 	            }
 	          }
 	          else {

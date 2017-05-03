@@ -13,7 +13,7 @@ public class MultiTeseoEaterPercept extends TeseoEaterPercept {
     public void rotate( ){
       super.rotate();
       Object f = getAttribute(LabyrinthUtil.AGENT[0]);
-      for( int i=1; i<3; i++ ){
+      for( int i=0; i<3; i++ ){
         setAttribute( LabyrinthUtil.AGENT[i], getAttribute(LabyrinthUtil.AGENT[i+1]) );
       }
       setAttribute( LabyrinthUtil.AGENT[3], f );
