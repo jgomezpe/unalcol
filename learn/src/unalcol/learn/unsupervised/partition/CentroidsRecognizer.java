@@ -4,9 +4,9 @@
  */
 package unalcol.learn.unsupervised.partition;
 
-import unalcol.learn.Aggregator;
-import unalcol.learn.MinAggregator;
 import unalcol.learn.Recognizer;
+import unalcol.learn.supervised.classification.fuzzy.Aggregator;
+import unalcol.learn.supervised.classification.fuzzy.MinAggregator;
 import unalcol.math.metric.QuasiMetric;
 
 /**

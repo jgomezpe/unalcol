@@ -12,7 +12,7 @@ import unalcol.types.collection.vector.Vector;
  *
  * @author jgomez
  */
-public class Shunk<T> implements Iterator<Vector<T>>{
+public class Chunk<T> implements Iterator<Vector<T>>{
     protected Iterator<T> iter;
 
     @Override
@@ -21,12 +21,12 @@ public class Shunk<T> implements Iterator<Vector<T>>{
     }
     protected int n;
     
-    public Shunk( Collection<T> set, int n ){
+    public Chunk( Collection<T> set, int n ){
         this.iter = set.iterator();
         this.n = n;
     }
     
-    public Shunk( Iterator<T> iter, int n ){
+    public Chunk( Iterator<T> iter, int n ){
         this.iter = iter;
         this.n = n;
     }

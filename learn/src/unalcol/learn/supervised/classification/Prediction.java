@@ -1,4 +1,4 @@
-package unalcol.learn;
+package unalcol.learn.supervised.classification;
 
 /**
  * <p>Title: Prediction</p>

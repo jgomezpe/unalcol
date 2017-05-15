@@ -3,8 +3,8 @@ package unalcol.learn.unsupervised.partition;
 
 import unalcol.clone.Clone;
 import unalcol.learn.unsupervised.UnsupervisedLearningFromArray;
-import unalcol.learn.Prediction;
 import unalcol.learn.Recognizer;
+import unalcol.learn.supervised.classification.Prediction;
 import unalcol.math.algebra.VectorSpace;
 import unalcol.types.collection.array.ArrayCollection;
 import unalcol.types.collection.vector.Vector;

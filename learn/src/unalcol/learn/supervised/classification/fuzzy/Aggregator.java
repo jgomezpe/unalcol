@@ -1,4 +1,6 @@
-package unalcol.learn;
+package unalcol.learn.supervised.classification.fuzzy;
+
+import unalcol.learn.supervised.classification.Prediction;
 
 /**
  * <p>Title: Aggregator</p>

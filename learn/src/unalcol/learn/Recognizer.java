@@ -1,5 +1,11 @@
 package unalcol.learn;
 import java.util.Iterator;
+
+import unalcol.learn.supervised.classification.Prediction;
+import unalcol.learn.supervised.classification.fuzzy.Aggregator;
+import unalcol.learn.supervised.classification.fuzzy.FuzzyClassifier;
+import unalcol.learn.supervised.classification.fuzzy.MaxAggregator;
+import unalcol.learn.supervised.classification.Classifier;
 import unalcol.types.collection.array.ArrayCollection;
 import unalcol.types.collection.vector.*;
 
@@ -12,22 +18,25 @@ import unalcol.types.collection.vector.*;
  * @version 1.0
  *
  */
-public abstract class Recognizer<T> implements Labeler<T>{
+public class Recognizer<T> implements Classifier<T>{
     protected Aggregator aggregator;
+    protected FuzzyClassifier<T> labeler;
     
-    public Recognizer(){
+    public Recognizer(FuzzyClassifier<T> labeler){
         aggregator = new MaxAggregator();
+        this.labeler = labeler;
     }
     
-    public Recognizer( Aggregator aggregator ){
+    public Recognizer(FuzzyClassifier<T> labeler, Aggregator aggregator ){
         this.aggregator = aggregator;
+        this.labeler = labeler;
     }
 
   /**
    * Returns the number of classes that a data record belongs to
    * @return The number of classes that a data record belongs to
    */
-  public abstract int classesNumber();
+  public int classesNumber(){ return labeler.classesNumber(); }
 
   /**
    * Calculate the confidence value of classifying the given data into each possible class
@@ -35,11 +44,7 @@ public abstract class Recognizer<T> implements Labeler<T>{
    * @return Confidence values of classifying the data point 'data' in each possible
    * class
    */
-  public abstract double[] confidence( T data );
-  
-  public Prediction predict( T data ){
-      return aggregator.apply(confidence(data));
-  }
+  public double[] confidence( T data ){ return labeler.apply(data); }
   
   public Vector<double[]> confidence( ArrayCollection<T> data ){
       Vector<double[]> conf = new Vector<double[]>();
@@ -48,20 +53,12 @@ public abstract class Recognizer<T> implements Labeler<T>{
           conf.add(confidence(iter.next()));
       }
       return conf;
-  }
-  
-  public int label( T obj ){
-      return predict(obj).label();
-  }
-
-  public Vector<Prediction> predict( ArrayCollection<T> data ){
-      Vector<Prediction> pred = new Vector<Prediction>();
-      Iterator<T> iter = data.iterator();
-      while( iter.hasNext() ){
-          pred.add(predict(iter.next()));
-      }
-      return pred;
   }  
   
   public Aggregator aggregator(){  return aggregator; }
+
+  @Override
+  public Prediction apply(T data) {
+      return aggregator.apply(confidence(data));
+  }
 }

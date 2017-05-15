@@ -9,7 +9,7 @@ import unalcol.dynamic.DynamicSystem;
 import unalcol.dynamic.rain.PickOne;
 import unalcol.dynamic.rain.RainMove;
 import unalcol.dynamic.rain.RainSystem;
-import unalcol.learn.Labeler;
+import unalcol.learn.supervised.classification.Classifier;
 import unalcol.math.logic.Predicate;
 import unalcol.types.collection.array.ArrayCollection;
 
@@ -17,7 +17,7 @@ import unalcol.types.collection.array.ArrayCollection;
  *
  * @author jgomez
  */
-public class Rica<T> implements Labeler<T> {
+public class Rica<T> implements Classifier<T> {
     protected RainMove<T> move;
     protected PickOne<T> pick;
     protected Predicate<DynamicSystem> stop;

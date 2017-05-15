@@ -2,24 +2,27 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package unalcol.learn;
+package unalcol.learn.supervised.classification.fuzzy;
+
+import unalcol.learn.supervised.classification.Prediction;
 
 /**
  *
  * @author jgomez
  */
-public class MinAggregator implements Aggregator{
+public class MaxAggregator implements Aggregator{
 
     @Override
     public Prediction apply(double[] confidence) {
         if( confidence.length == 0 )
-            return new Prediction(0,Double.MAX_VALUE);
+            return new Prediction(0,Double.MIN_VALUE);
         int m = 0;
         for( int i=1; i<confidence.length; i++ ){
-            if( confidence[m] > confidence[i] ){
+            if( confidence[m] < confidence[i] ){
                 m = i;
             }
         }
         return new Prediction(m, confidence[m]);
     }
+    
 }

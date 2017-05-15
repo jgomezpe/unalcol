@@ -2,25 +2,31 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package unalcol.learn.supervised;
+package unalcol.learn.supervised.classification;
 
 import java.util.Iterator;
+
+import unalcol.learn.supervised.classification.fuzzy.FuzzyConfussionMatrix;
 import unalcol.types.collection.vector.Vector;
 
 /**
  *
  * @author jgomez
  */
-public class ClassicConfussionMatrix extends ConfussionMatrix{
+public class ClassicConfussionMatrix extends FuzzyConfussionMatrix{
   public ClassicConfussionMatrix( int real_classes, int predicted_classes){
       super( real_classes, predicted_classes );
   }
   
-  public ClassicConfussionMatrix( int real_classes, Vector<Integer> real, 
-                             int predicted_classes, Vector<Integer> predicted){
-      super( real_classes, predicted_classes);
-      add(real, predicted);
+  public void add( int[] real, int[] predicted ){
+      for( int i=0; i<real.length; i++){          
+          add( real[i], predicted[i] );
+      }
   }
+
+  public void add( int real, int predicted ){
+      add( real, predicted, 1.0 );
+  } 
   
   /**
    *

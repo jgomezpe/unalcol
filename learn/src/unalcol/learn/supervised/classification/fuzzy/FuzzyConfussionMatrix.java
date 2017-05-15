@@ -1,4 +1,4 @@
-package unalcol.learn.supervised;
+package unalcol.learn.supervised.classification.fuzzy;
 
 import unalcol.types.real.matrix.DoubleMatrixUtil;
 
@@ -11,7 +11,7 @@ import unalcol.types.real.matrix.DoubleMatrixUtil;
  * @version 1.0
  *
  */
-public abstract class ConfussionMatrix{
+public abstract class FuzzyConfussionMatrix{
   protected int r;
   protected int p;
   protected double[][] matrix;
@@ -19,7 +19,7 @@ public abstract class ConfussionMatrix{
   protected double[] predicted_total;
   protected double total;
 
-  public ConfussionMatrix( int real_classes, int predicted_classes){
+  public FuzzyConfussionMatrix( int real_classes, int predicted_classes){
       r = real_classes;
       p = predicted_classes; 
       matrix = new double[r+1][p+1];
@@ -37,17 +37,7 @@ public abstract class ConfussionMatrix{
       total += confidence;
   }
   
-  public void add( int[] real, int[] predicted ){
-      for( int i=0; i<real.length; i++){          
-          add( real[i], predicted[i] );
-      }
-  }
-
-  public void add( int real, int predicted ){
-      add( real, predicted, 1.0 );
-  }
-  
-  public void add( ConfussionMatrix cm ){
+  public void add( FuzzyConfussionMatrix cm ){
       for( int i=0; i<real_total.length; i++ ){
         for( int j=0; j<predicted_total.length; j++ ){
             matrix[i][j] += cm.matrix[i][j];

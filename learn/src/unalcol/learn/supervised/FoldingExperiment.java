@@ -1,11 +1,14 @@
 package unalcol.learn.supervised;
 
-import unalcol.learn.Prediction;
 import unalcol.learn.Recognizer;
+import unalcol.learn.supervised.classification.ClassicConfussionMatrix;
+import unalcol.learn.supervised.classification.Prediction;
+import unalcol.learn.supervised.classification.fuzzy.FuzzyConfussionMatrix;
 import unalcol.algorithm.iterative.ForLoopCondition;
 import unalcol.algorithm.iterative.IterativeAlgorithm;
 import unalcol.data.PartitionedArrayCollection;
 import unalcol.random.util.Partition;
+import unalcol.types.collection.FiniteCollection;
 import unalcol.types.collection.array.ArrayCollection;
 import unalcol.types.collection.vector.Vector;
 
@@ -23,15 +26,15 @@ import unalcol.types.collection.vector.Vector;
  *
  */
 
-public class FoldingExperiment extends 
-        IterativeAlgorithm<ArrayCollection<LabeledObject>, ConfussionMatrix>{
+public class FoldingExperiment<T> extends 
+        IterativeAlgorithm<FiniteCollection<InputOutputPair<T,Integer>>, ClassicConfussionMatrix>{
 
-  protected SupervisedLearningFromArray algorithm;
+  protected SupervisedLearning<T,Integer> algorithm;
 
   /**
    * The partition done over the data set
    */
-  protected PartitionedArrayCollection<LabeledObject> partition = null;
+  protected PartitionedArrayCollection<InputOutputPair<T,Integer>> partition = null;
   
   protected int real_classes;
   protected int[][] groups;
@@ -43,9 +46,10 @@ public class FoldingExperiment extends
    * @param _algorithm Algorithm to be executed
    * @param _source Data source used to generate the training and the testing sets
    */
-  public FoldingExperiment( int n, SupervisedLearningFromArray algorithm ) {
-    super( new ForLoopCondition(n) );
-    this.algorithm = algorithm;
+  @SuppressWarnings({ "rawtypes", "unchecked" })
+  public FoldingExperiment( int n, SupervisedLearning<T,Integer> algorithm ) {
+      super( new ForLoopCondition(n) );
+      this.algorithm = algorithm;
   }
 
     /**
@@ -53,7 +57,7 @@ public class FoldingExperiment extends
      * @param input The algorithm input
      * @return O The output produced by the iterative algorithm if no iterations are performed
      */
-  public ConfussionMatrix nonIterOutput(ArrayCollection<LabeledObject> input){
+  public FuzzyConfussionMatrix nonIterOutput(ArrayCollection<InputOutputPair<S,T>> input){
       if( real_classes == 0){
           real_classes = LabeledArrayCollectionUtil.classes(input).length;
           groups = LabeledArrayCollectionUtil.separatedByClass(input, real_classes);
@@ -65,7 +69,7 @@ public class FoldingExperiment extends
   }
 
     @Override
-    public ConfussionMatrix iteration(int k, ArrayCollection<LabeledObject> input, ConfussionMatrix output) {
+    public FuzzyConfussionMatrix iteration(int k, ArrayCollection<InputOutputPair> input, FuzzyConfussionMatrix output) {
         partition.init(k, false);
         Recognizer r = algorithm.apply(partition);
         partition.init(k,true);

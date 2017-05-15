@@ -4,14 +4,13 @@
  */
 package unalcol.learn.supervised;
 
-import unalcol.learn.Recognizer;
-import unalcol.algorithm.Algorithm;
+import unalcol.learn.Learner;
 import unalcol.types.collection.Collection;
 
 /**
  *
  * @author jgomez
  */
-public abstract class SupervisedLearning<T> extends 
-        Algorithm<Collection<LabeledObject<T>>, Recognizer<T>> {    
+public abstract class SupervisedLearning<S,T> extends 
+        Learner<Collection<InputOutputPair<S,T>>, T> {    
 }

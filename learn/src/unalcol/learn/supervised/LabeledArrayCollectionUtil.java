@@ -15,7 +15,7 @@ import unalcol.types.integer.array.IntArray;
  */
 public class LabeledArrayCollectionUtil {
     
-    public static int[] classes( @SuppressWarnings("rawtypes") ArrayCollection<LabeledObject> set ){
+    public static int[] classes( @SuppressWarnings("rawtypes") ArrayCollection<InputOutputPair> set ){
         SortedVector<Integer> v = new SortedVector<Integer>( new IntegerOrder() );
         int k;
         for( int i=0; i<set.size(); i++ ){
@@ -32,7 +32,7 @@ public class LabeledArrayCollectionUtil {
     }
     
     
-	public static int[][] separatedByClass(@SuppressWarnings("rawtypes") ArrayCollection<LabeledObject> set, int classes){
+	public static int[][] separatedByClass(@SuppressWarnings("rawtypes") ArrayCollection<InputOutputPair> set, int classes){
         int[] counter = new int[classes];
         for( int i=0; i<set.size(); i++ ){
             counter[set.get(i).label()]++;
@@ -51,10 +51,10 @@ public class LabeledArrayCollectionUtil {
         return groups;
     }
     
-    public static void replace_labels( @SuppressWarnings("rawtypes") ArrayCollection<LabeledObject> set,
+    public static void replace_labels( @SuppressWarnings("rawtypes") ArrayCollection<InputOutputPair> set,
             int[] classes ){
     	@SuppressWarnings("rawtypes")
-    	LabeledObject k;
+    	InputOutputPair k;
         for( int i=0; i<set.size(); i++ ){
             k = set.get(i);
             k.setLabel(IntArray.find(classes, k.label()));
