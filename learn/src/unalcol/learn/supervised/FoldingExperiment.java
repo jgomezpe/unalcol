@@ -72,7 +72,7 @@ public class FoldingExperiment<T> extends
         partition.init(k, false);
         Function<T,Prediction<Integer>> r = algorithm.apply(partition);
         partition.init(k,true);
-        Prediction<Integer>[] pred = r.apply(new RemovedLabelArrayCollection<T,Integer>(partition));
+        Prediction<Integer>[] pred = r.apply(new RemovedOutputCollection<T,Integer>(partition));
         for( int i=0; i<pred.length; i++ ){
             output.add(partition.get(i).output(), pred[i].label());
         }
