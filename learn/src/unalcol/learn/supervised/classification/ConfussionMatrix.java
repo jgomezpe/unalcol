@@ -13,8 +13,8 @@ import unalcol.types.collection.vector.Vector;
  *
  * @author jgomez
  */
-public class ClassicConfussionMatrix extends FuzzyConfussionMatrix{
-  public ClassicConfussionMatrix( int real_classes, int predicted_classes){
+public class ConfussionMatrix extends FuzzyConfussionMatrix{
+  public ConfussionMatrix( int real_classes, int predicted_classes){
       super( real_classes, predicted_classes );
   }
   

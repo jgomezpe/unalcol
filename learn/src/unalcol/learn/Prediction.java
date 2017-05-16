@@ -1,4 +1,4 @@
-package unalcol.learn.supervised.classification;
+package unalcol.learn;
 
 /**
  * <p>Title: Prediction</p>
@@ -9,11 +9,11 @@ package unalcol.learn.supervised.classification;
  * @version 1.0
  *
  */
-public class Prediction {
+public class Prediction<T> {
   /**
    *
    */
-  public int label;
+  public T label;
 
   /**
    *
@@ -25,7 +25,7 @@ public class Prediction {
    * @param _label
    * @param _confidence
    */
-  public Prediction( int _label, double _confidence ) {
+  public Prediction( T _label, double _confidence ) {
     label = _label;
     confidence = _confidence;
   }
@@ -34,12 +34,12 @@ public class Prediction {
    *
    * @param _label
    */
-  public Prediction( int _label ) {
+  public Prediction( T _label ) {
     label = _label;
     confidence = 1.0;
   }
   
-  public int label(){
+  public T label(){
       return label;
   }
   

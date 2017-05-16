@@ -12,15 +12,15 @@ import unalcol.types.collection.array.ArrayCollectionIterator;
  *
  * @author jgomez
  */
-public class RemovedLabelArrayCollection<T> implements ArrayCollection<T>{
-    protected ArrayCollection<InputOutputPair<T,Object>> labeled;
+public class RemovedLabelArrayCollection<S,T> implements ArrayCollection<S>{
+    protected ArrayCollection<InputOutputPair<S,T>> labeled;
     
-    public RemovedLabelArrayCollection( ArrayCollection<InputOutputPair<T,Object>> labeled ){
+    public RemovedLabelArrayCollection( ArrayCollection<InputOutputPair<S,T>> labeled ){
         this.labeled = labeled;
     }
     
     @Override
-    public T get(int index) throws ArrayIndexOutOfBoundsException {
+    public S get(int index) throws ArrayIndexOutOfBoundsException {
         return labeled.get(index).input();
     }
 
@@ -30,8 +30,8 @@ public class RemovedLabelArrayCollection<T> implements ArrayCollection<T>{
     }
 
     @Override
-    public Iterator<T> iterator() {
-        return new ArrayCollectionIterator<>(0,this);
+    public Iterator<S> iterator() {
+        return new ArrayCollectionIterator<S>(0,this);
     }
 
     @Override

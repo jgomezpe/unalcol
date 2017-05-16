@@ -4,10 +4,11 @@
  */
 package unalcol.learn.supervised.classification;
 
+import unalcol.learn.Prediction;
 import unalcol.math.function.Function;
 
 /**
  *
  * @author jgomez
  */
-public interface Classifier<T> extends Function<T,Prediction> {}
+public interface Classifier<T> extends Function<T,Prediction<Integer>> {}

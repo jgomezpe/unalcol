@@ -4,7 +4,7 @@
  */
 package unalcol.learn.supervised;
 
-import unalcol.types.collection.array.ArrayCollection;
+import unalcol.types.collection.Collection;
 import unalcol.types.collection.vector.SortedVector;
 import unalcol.types.integer.IntegerOrder;
 import unalcol.types.integer.array.IntArray;
@@ -13,15 +13,13 @@ import unalcol.types.integer.array.IntArray;
  *
  * @author jgomez
  */
-public class LabeledArrayCollectionUtil {
+public class LabeledArrayCollectionUtil<T> {
     
-    public static int[] classes( @SuppressWarnings("rawtypes") ArrayCollection<InputOutputPair> set ){
+    public int[] classes( Collection<InputOutputPair<T,Integer>> set ){
         SortedVector<Integer> v = new SortedVector<Integer>( new IntegerOrder() );
-        int k;
-        for( int i=0; i<set.size(); i++ ){
-            k = set.get(i).label();
-            if( !v.contains(k) ){
-                v.add(k);
+        for( InputOutputPair<T,Integer> k:set ){
+            if( !v.contains(k.output()) ){
+                v.add(k.output());
             }    
         }
         int[] c = new int[v.size()];
@@ -32,32 +30,29 @@ public class LabeledArrayCollectionUtil {
     }
     
     
-	public static int[][] separatedByClass(@SuppressWarnings("rawtypes") ArrayCollection<InputOutputPair> set, int classes){
+	public int[][] separatedByClass(Collection<InputOutputPair<T,Integer>> set, int classes){
         int[] counter = new int[classes];
-        for( int i=0; i<set.size(); i++ ){
-            counter[set.get(i).label()]++;
+        for(  InputOutputPair<T,Integer> k:set ){
+            counter[k.output()]++;
         }
         int[][] groups = new int[classes][];
         for( int i=0; i<classes; i++ ){
             groups[i] = new int[counter[i]];
             counter[i] = 0;
         }        
-        int k;
-        for( int i=0; i<set.size(); i++ ){
-            k = set.get(i).label();
-            groups[k][counter[k]] = i;
-            counter[k]++;
+        int i=0;
+        for(  InputOutputPair<T,Integer> k:set ){
+            groups[k.output()][counter[k.output()]] = i;
+            counter[k.output()]++;
+            i++;
         }
         return groups;
     }
     
-    public static void replace_labels( @SuppressWarnings("rawtypes") ArrayCollection<InputOutputPair> set,
+    public void replace_labels( Collection<InputOutputPair<T,Integer>> set,
             int[] classes ){
-    	@SuppressWarnings("rawtypes")
-    	InputOutputPair k;
-        for( int i=0; i<set.size(); i++ ){
-            k = set.get(i);
-            k.setLabel(IntArray.find(classes, k.label()));
+        for( InputOutputPair<T,Integer> k:set ){
+            k.setOutput(IntArray.find(classes, k.output()));
         }        
     }
 }

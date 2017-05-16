@@ -1,6 +1,6 @@
 package unalcol.learn.supervised.classification.fuzzy;
 
-import unalcol.learn.supervised.classification.Prediction;
+import unalcol.learn.Prediction;
 
 /**
  * <p>Title: Aggregator</p>
@@ -18,6 +18,6 @@ public interface Aggregator {
    * (one confidence value per class)
    * @return The final prediction given by a classifier
    */
-  public Prediction apply( double[] confidence );
+  public Prediction<Integer> apply( double[] confidence );
 
 }

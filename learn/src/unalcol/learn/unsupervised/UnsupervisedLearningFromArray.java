@@ -13,7 +13,7 @@ import unalcol.types.collection.array.ArrayCollection;
  * @author jgomez
  */
 public abstract class UnsupervisedLearningFromArray<T> extends 
-        UnsupervisedLearning<T> {
+        UnsupervisedLearner<T> {
 
     public abstract Recognizer<T> apply(ArrayCollection<T> x);
     

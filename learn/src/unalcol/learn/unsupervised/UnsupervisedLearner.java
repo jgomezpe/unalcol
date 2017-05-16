@@ -4,15 +4,14 @@
  */
 package unalcol.learn.unsupervised;
 
-import unalcol.algorithm.Algorithm;
-import unalcol.learn.Recognizer;
+import unalcol.learn.Learner;
 import unalcol.types.collection.Collection;
 
 /**
  *
  * @author jgomez
  */
-public abstract class UnsupervisedLearning<T> extends 
-        Algorithm<Collection<T>, Recognizer<T>> {    
+public abstract class UnsupervisedLearner<T> extends 
+        Learner<Collection<T>, T, Integer> {    
 }
 

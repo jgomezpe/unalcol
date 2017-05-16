@@ -11,6 +11,6 @@ import unalcol.types.collection.Collection;
  *
  * @author jgomez
  */
-public abstract class SupervisedLearning<S,T> extends 
-        Learner<Collection<InputOutputPair<S,T>>, T> {    
+public abstract class SupervisedLearner<S,T> extends 
+        Learner<Collection<InputOutputPair<S,T>>, S, T> {    
 }

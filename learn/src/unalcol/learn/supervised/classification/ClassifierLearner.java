@@ -1,5 +1,5 @@
 package unalcol.learn.supervised.classification;
 
-import unalcol.learn.supervised.SupervisedLearning;
+import unalcol.learn.supervised.SupervisedLearner;
 
-public abstract class  ClassifierLearner<T> extends SupervisedLearning<T, Prediction> {}
+public abstract class  ClassifierLearner<T> extends SupervisedLearner<T, Integer> {}

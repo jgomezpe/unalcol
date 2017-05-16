@@ -4,7 +4,7 @@
  */
 package unalcol.learn.supervised.classification.fuzzy;
 
-import unalcol.learn.supervised.classification.Prediction;
+import unalcol.learn.Prediction;
 
 /**
  *
@@ -13,16 +13,16 @@ import unalcol.learn.supervised.classification.Prediction;
 public class MaxAggregator implements Aggregator{
 
     @Override
-    public Prediction apply(double[] confidence) {
+    public Prediction<Integer> apply(double[] confidence) {
         if( confidence.length == 0 )
-            return new Prediction(0,Double.MIN_VALUE);
+            return new Prediction<Integer>(0,Double.MIN_VALUE);
         int m = 0;
         for( int i=1; i<confidence.length; i++ ){
             if( confidence[m] < confidence[i] ){
                 m = i;
             }
         }
-        return new Prediction(m, confidence[m]);
+        return new Prediction<Integer>(m, confidence[m]);
     }
     
 }

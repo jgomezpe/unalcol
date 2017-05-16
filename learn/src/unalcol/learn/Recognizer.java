@@ -1,7 +1,6 @@
 package unalcol.learn;
 import java.util.Iterator;
 
-import unalcol.learn.supervised.classification.Prediction;
 import unalcol.learn.supervised.classification.fuzzy.Aggregator;
 import unalcol.learn.supervised.classification.fuzzy.FuzzyClassifier;
 import unalcol.learn.supervised.classification.fuzzy.MaxAggregator;

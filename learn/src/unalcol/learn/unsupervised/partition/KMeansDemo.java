@@ -9,7 +9,7 @@ import unalcol.clone.Clone;
 import unalcol.data.plaintext.LabelsFile;
 import unalcol.data.plaintext.RealVectorFile;
 import unalcol.learn.MapLabelRecognizer;
-import unalcol.learn.supervised.classification.ClassicConfussionMatrix;
+import unalcol.learn.supervised.classification.ConfussionMatrix;
 import unalcol.learn.supervised.classification.fuzzy.FuzzyConfussionMatrix;
 import unalcol.random.integer.RandInt;
 import unalcol.random.integer.IntUniform;
@@ -54,7 +54,7 @@ public class KMeansDemo {
             int[] pred = r.label(v);
             //print(pred);
             int pk = IntArray.max(pred) + 1;
-            FuzzyConfussionMatrix cm = new ClassicConfussionMatrix(k,pk);
+            FuzzyConfussionMatrix cm = new ConfussionMatrix(k,pk);
             cm.add(real, pred);
             System.out.println("Without organizing .." + cm.softAccuracy());
             System.out.println(cm.mutual_information());
@@ -62,7 +62,7 @@ public class KMeansDemo {
             MapLabelRecognizer<double[]> mr = new MapLabelRecognizer<>(opt_labels, r);
             pred = mr.label(v);
             pk = IntArray.max(pred) + 1;
-            cm = new ClassicConfussionMatrix(k,pk);
+            cm = new ConfussionMatrix(k,pk);
             cm.add(real, pred);
             System.out.println("Organizing .." + cm.accuracy());
             System.out.println(cm.mutual_information());

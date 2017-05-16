@@ -1,16 +1,14 @@
 package unalcol.learn.supervised;
 
-import unalcol.learn.Recognizer;
-import unalcol.learn.supervised.classification.ClassicConfussionMatrix;
-import unalcol.learn.supervised.classification.Prediction;
-import unalcol.learn.supervised.classification.fuzzy.FuzzyConfussionMatrix;
+import unalcol.learn.Prediction;
+import unalcol.learn.supervised.classification.ClassifierLearner;
+import unalcol.learn.supervised.classification.ConfussionMatrix;
+import unalcol.math.function.Function;
 import unalcol.algorithm.iterative.ForLoopCondition;
 import unalcol.algorithm.iterative.IterativeAlgorithm;
 import unalcol.data.PartitionedArrayCollection;
 import unalcol.random.util.Partition;
-import unalcol.types.collection.FiniteCollection;
 import unalcol.types.collection.array.ArrayCollection;
-import unalcol.types.collection.vector.Vector;
 
 
 /**
@@ -27,9 +25,9 @@ import unalcol.types.collection.vector.Vector;
  */
 
 public class FoldingExperiment<T> extends 
-        IterativeAlgorithm<FiniteCollection<InputOutputPair<T,Integer>>, ClassicConfussionMatrix>{
+        IterativeAlgorithm<ArrayCollection<InputOutputPair<T,Integer>>, ConfussionMatrix>{
 
-  protected SupervisedLearning<T,Integer> algorithm;
+  protected ClassifierLearner<T> algorithm;
 
   /**
    * The partition done over the data set
@@ -47,7 +45,7 @@ public class FoldingExperiment<T> extends
    * @param _source Data source used to generate the training and the testing sets
    */
   @SuppressWarnings({ "rawtypes", "unchecked" })
-  public FoldingExperiment( int n, SupervisedLearning<T,Integer> algorithm ) {
+  public FoldingExperiment( int n, ClassifierLearner<T> algorithm ) {
       super( new ForLoopCondition(n) );
       this.algorithm = algorithm;
   }
@@ -57,26 +55,27 @@ public class FoldingExperiment<T> extends
      * @param input The algorithm input
      * @return O The output produced by the iterative algorithm if no iterations are performed
      */
-  public FuzzyConfussionMatrix nonIterOutput(ArrayCollection<InputOutputPair<S,T>> input){
+  public ConfussionMatrix nonIterOutput(ArrayCollection<InputOutputPair<T,Integer>> input){
       if( real_classes == 0){
-          real_classes = LabeledArrayCollectionUtil.classes(input).length;
-          groups = LabeledArrayCollectionUtil.separatedByClass(input, real_classes);
+	  LabeledArrayCollectionUtil<T> util = new LabeledArrayCollectionUtil<T>();
+          real_classes = util.classes(input).length;
+          groups = util.separatedByClass(input, real_classes);
       }
-      output = new ClassicConfussionMatrix(real_classes, real_classes);
+      output = new ConfussionMatrix(real_classes, real_classes);
       Partition p = new StratifiedPartition(groups, real_classes, true);
-      partition = new PartitionedArrayCollection(input, p, 0, false);
+      partition = new PartitionedArrayCollection<InputOutputPair<T,Integer>>(input, p, 0, false);
       return output;
   }
 
     @Override
-    public FuzzyConfussionMatrix iteration(int k, ArrayCollection<InputOutputPair> input, FuzzyConfussionMatrix output) {
+    public ConfussionMatrix iteration(int k, ArrayCollection<InputOutputPair<T,Integer>> input, ConfussionMatrix output) {
         partition.init(k, false);
-        Recognizer r = algorithm.apply(partition);
+        Function<T,Prediction<Integer>> r = algorithm.apply(partition);
         partition.init(k,true);
-        Vector<Prediction> pred = r.predict(new RemovedLabelArrayCollection(partition));
-        for( int i=0; i<pred.size(); i++ ){
-            output.add(partition.get(i).label(), pred.get(i).label());
+        Prediction<Integer>[] pred = r.apply(new RemovedLabelArrayCollection<T,Integer>(partition));
+        for( int i=0; i<pred.length; i++ ){
+            output.add(partition.get(i).output(), pred[i].label());
         }
         return output;
-    }  
+    }
 }
