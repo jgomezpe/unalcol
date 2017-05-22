@@ -1,13 +1,21 @@
 package unalcol.learn.supervised.classification;
 
+import java.util.Iterator;
+
 import unalcol.algorithm.iterative.StepFunction;
 import unalcol.data.PartitionedArrayCollection;
+import unalcol.learn.Prediction;
 import unalcol.learn.supervised.InputOutputPair;
+import unalcol.learn.supervised.RemovedInputCollection;
+import unalcol.learn.supervised.RemovedOutputCollection;
+import unalcol.math.function.Function;
 import unalcol.random.util.Partition;
+import unalcol.types.collection.Collection;
 import unalcol.types.collection.array.ArrayCollection;
 
 public class FoldingStep<T> implements StepFunction<ArrayCollection<InputOutputPair<T,Integer>>,ConfussionMatrix> {
     protected int folds;
+    protected int k;
     protected ClassifierLearner<T> algorithm;
 
     /**
@@ -23,9 +31,18 @@ public class FoldingStep<T> implements StepFunction<ArrayCollection<InputOutputP
     }
     
     @Override
-    public ConfussionMatrix apply(ConfussionMatrix arg0) {
-	// TODO Auto-generated method stub
-	return null;
+    public ConfussionMatrix apply(ConfussionMatrix cm) {
+        partition.init(k, false);
+        Function<T,Prediction<Integer>> r = algorithm.apply(partition);
+        partition.init(k,true);
+        k++;
+        Collection<Prediction<Integer>> pred = r.apply(new RemovedOutputCollection<T,Integer>(partition));
+        Collection<Integer> label = new RemovedInputCollection<T,Integer>(partition);
+        Iterator<Integer> label_iter = label.iterator();
+        for( Prediction<Integer> p : pred ){
+            cm.add(label_iter.next(), p.label() );
+        }
+	return cm;
     }
 
     @Override
@@ -35,9 +52,8 @@ public class FoldingStep<T> implements StepFunction<ArrayCollection<InputOutputP
 	          real_classes = util.classes(input).length;
 	          groups = util.separatedByClass(input, real_classes);
 	      }
-	      ConfussionMatrix output = new ConfussionMatrix(real_classes, real_classes);
-	      Partition p = new StratifiedPartition(groups, real_classes, true);
+	      Partition p = new StratifiedPartition(groups, folds, true);
 	      partition = new PartitionedArrayCollection<InputOutputPair<T,Integer>>(input, p, 0, false);
-	      return output;
+	      return new ConfussionMatrix(real_classes, real_classes);
     }
 }
