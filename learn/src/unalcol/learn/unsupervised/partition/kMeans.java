@@ -2,6 +2,7 @@ package unalcol.learn.unsupervised.partition;
 
 
 import unalcol.clone.Clone;
+import unalcol.learn.unsupervised.UnsupervisedLearner;
 import unalcol.learn.unsupervised.UnsupervisedLearningFromArray;
 import unalcol.learn.Prediction;
 import unalcol.learn.Recognizer;
@@ -15,10 +16,10 @@ import unalcol.types.collection.vector.Vector;
  * <p>Description:The k-means algorithm</p>
  * <p>Copyright:    Copyright (c) 2006</p>
  * <p>Company:Universidad Nacional De Colombia</p>
- * @author Jonatan Gomez Reviewed by (Aurelio Benitez, Giovanni Cantor, Nestor Bohorquez)
+ * @author Jonatan Gomez
  * @version 1.0
  */
-public class kMeans<T> extends UnsupervisedLearningFromArray<T>{
+public class kMeans<T> extends UnsupervisedLearner<T>{
     protected double epsilon;
     protected int MAX_ITER;
     protected VectorSpace<T> space;

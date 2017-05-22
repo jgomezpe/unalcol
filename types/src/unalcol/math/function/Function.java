@@ -1,6 +1,6 @@
 package unalcol.math.function;
 
-import unalcol.types.collection.FiniteCollection;
+import unalcol.types.collection.Collection;
 import unalcol.types.collection.MutableCollection;
 
 /**
@@ -26,15 +26,8 @@ public interface Function<S, T>{
      * @param Objects to be computed
      * @return Values of the function, associated to the given collection of objects
      */	
-    public default T[] apply( FiniteCollection<S> set ){
-	@SuppressWarnings("unchecked")
-	T[] tag = (T[])new Object[set.size()];
-	int i=0;
-	for( S x : set ){
-	    tag[i] = apply(x);
-	    i++;
-	}
-	return tag;    	
+    public default Collection<T> apply( Collection<S> set ){
+	return new ApplyFunctionCollection<S,T>(this, set);    	
     }
     
 	/**
@@ -42,10 +35,10 @@ public interface Function<S, T>{
 	 * @param Objects to be evaluated
 	 * @return Function values associated to the given collection of objects
 	 */
-    public default void apply( FiniteCollection<S> set, MutableCollection<T> labels ){
-	labels.clear();
+    public default void apply( Collection<S> set, MutableCollection<T> target ){
+	target.clear();
 	for( S x : set ){
-    		labels.add(apply(x));
+    		target.add(apply(x));
 	}	
     }
 }

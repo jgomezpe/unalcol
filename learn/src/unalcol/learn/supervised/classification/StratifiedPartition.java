@@ -1,4 +1,4 @@
-package unalcol.learn.supervised;
+package unalcol.learn.supervised.classification;
 
 import unalcol.random.util.*;
 

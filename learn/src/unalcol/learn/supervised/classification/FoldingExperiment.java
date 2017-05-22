@@ -1,13 +1,18 @@
-package unalcol.learn.supervised;
+package unalcol.learn.supervised.classification;
 
 import unalcol.learn.Prediction;
-import unalcol.learn.supervised.classification.ClassifierLearner;
-import unalcol.learn.supervised.classification.ConfussionMatrix;
+import unalcol.learn.supervised.InputOutputPair;
+import unalcol.learn.supervised.RemovedInputCollection;
+import unalcol.learn.supervised.RemovedOutputCollection;
 import unalcol.math.function.Function;
+
+import java.util.Iterator;
+
 import unalcol.algorithm.iterative.ForLoopCondition;
 import unalcol.algorithm.iterative.IterativeAlgorithm;
 import unalcol.data.PartitionedArrayCollection;
 import unalcol.random.util.Partition;
+import unalcol.types.collection.Collection;
 import unalcol.types.collection.array.ArrayCollection;
 
 
@@ -72,9 +77,11 @@ public class FoldingExperiment<T> extends
         partition.init(k, false);
         Function<T,Prediction<Integer>> r = algorithm.apply(partition);
         partition.init(k,true);
-        Prediction<Integer>[] pred = r.apply(new RemovedOutputCollection<T,Integer>(partition));
-        for( int i=0; i<pred.length; i++ ){
-            output.add(partition.get(i).output(), pred[i].label());
+        Collection<Prediction<Integer>> pred = r.apply(new RemovedOutputCollection<T,Integer>(partition));
+        Collection<Integer> label = new RemovedInputCollection<T,Integer>(partition);
+        Iterator<Integer> label_iter = label.iterator();
+        for( Prediction<Integer> p : pred ){
+            output.add(label_iter.next(), p.label() );
         }
         return output;
     }

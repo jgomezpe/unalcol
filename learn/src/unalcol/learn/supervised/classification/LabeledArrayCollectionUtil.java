@@ -2,8 +2,9 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package unalcol.learn.supervised;
+package unalcol.learn.supervised.classification;
 
+import unalcol.learn.supervised.InputOutputPair;
 import unalcol.types.collection.Collection;
 import unalcol.types.collection.vector.SortedVector;
 import unalcol.types.integer.IntegerOrder;

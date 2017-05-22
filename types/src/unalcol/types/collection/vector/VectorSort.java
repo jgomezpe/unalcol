@@ -16,7 +16,7 @@ import unalcol.clone.*;
  * @author Jonatan Gomez
  * @version 1.0
  */
-public class VectorSort<T> extends ThreadFunction<ImmutableVector<T>,ImmutableVector<T>> {
+public class VectorSort<T> extends Algorithm<ImmutableVector<T>,ImmutableVector<T>> {
 
     protected boolean overwrite = true;
 

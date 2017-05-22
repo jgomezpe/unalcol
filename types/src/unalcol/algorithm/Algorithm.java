@@ -1,5 +1,7 @@
 package unalcol.algorithm;
 
+import unalcol.tracer.Tracer;
+
 /**
  * <p>Abstract version of an algorithm, can be used in a Thread</p>
  * <p>A subclass that implements the Algorithm class can receive the
@@ -11,7 +13,7 @@ package unalcol.algorithm;
  * @version 1.0
  */
 
-public abstract class Algorithm<I, O> extends ThreadFunction<I,O> implements Runnable {
+public abstract class Algorithm<I, O> implements ThreadFunction<I,O>, Runnable {
     /**
      * If the algorithm has finished or not
      */
@@ -65,6 +67,26 @@ public abstract class Algorithm<I, O> extends ThreadFunction<I,O> implements Run
      * Adds the output of the algorithm to the tracers
      */
     public void addToTrace() {
-        addToTrace( output() );
+        Tracer.trace(this, output() );
     }
+    
+    /**
+     * Flag used for determining if the function was stopped or not
+     */
+    protected boolean continueFlag = true;
+
+    /**
+     * Stops the function computation
+     */
+    public void stop() {
+        continueFlag = false;
+    }
+
+    /**
+     * Determines if the function was stopped or not
+     * @return true if the function was stopped, false otherwise
+     */
+    public boolean stopped() {
+        return continueFlag;
+    }    
 }
