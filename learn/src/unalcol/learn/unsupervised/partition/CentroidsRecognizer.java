@@ -4,40 +4,29 @@
  */
 package unalcol.learn.unsupervised.partition;
 
-import unalcol.learn.Recognizer;
-import unalcol.learn.supervised.classification.fuzzy.Aggregator;
-import unalcol.learn.supervised.classification.fuzzy.MinAggregator;
+import unalcol.learn.supervised.classification.fuzzy.FuzzyClassifier;
 import unalcol.math.metric.QuasiMetric;
 
 /**
  *
  * @author jgomez
  */
-public class CentroidsRecognizer<T> extends Recognizer<T> {
+public class CentroidsRecognizer<T> implements FuzzyClassifier<T> {
     T[] mu;
     QuasiMetric<T> metric;
     
-    public CentroidsRecognizer( T[] mu, QuasiMetric<T> metric, Aggregator aggregator ){
-        super(aggregator);
+    public CentroidsRecognizer( T[] mu, QuasiMetric<T> metric ){
         this.mu = mu;        
         this.metric = metric;
     }
 
-    public CentroidsRecognizer( T[] mu, QuasiMetric<T> metric, boolean simmilarity ){
-        this.mu = mu;        
-        this.metric = metric;
-        if( !simmilarity ){
-            aggregator = new MinAggregator();
-        }
-    }
-    
     @Override
     public int classesNumber() {
         return mu.length;
     }
 
     @Override
-    public double[] confidence(T data) {
+    public double[] apply(T data) {
         double[] conf = new double[mu.length];
         for( int i=0; i<conf.length; i++ ){
             if( mu[i] != null )
