@@ -4,8 +4,8 @@
  */
 package unalcol.learn;
 
-import unalcol.learn.supervised.classification.fuzzy.Aggregator;
-import unalcol.learn.supervised.classification.fuzzy.MaxAggregator;
+import unalcol.learn.fuzzy.Aggregator;
+import unalcol.learn.fuzzy.MaxAggregator;
 import unalcol.types.integer.array.IntArray;
 
 /**

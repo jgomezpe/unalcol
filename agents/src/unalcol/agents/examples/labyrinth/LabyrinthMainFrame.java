@@ -1,6 +1,8 @@
 package unalcol.agents.examples.labyrinth;
 
 import unalcol.agents.*;
+import unalcol.agents.examples.labyrinth.generate.LabyrinthGenerator;
+import unalcol.agents.examples.labyrinth.generate.LabyrinthStructure;
 import unalcol.agents.simulate.util.*;
 import unalcol.agents.simulate.gui.*;
 import java.awt.*;
@@ -98,6 +100,24 @@ protected SimpleLanguage language = null;
       e.printStackTrace();
     }
   }
+  
+  protected JButton jButton3 = new JButton();
+
+  protected void jButton3_actionPerformed(ActionEvent e) {
+        int xsize = labyrinth.structure[0].length;
+        int ysize = labyrinth.structure.length;
+        String prob = JOptionPane.showInputDialog("Ingrese probabilidad: ");
+        try {
+            double probability = Double.parseDouble(prob);
+            probability = (probability < 0)? -probability : probability;
+            if(probability < 0.00001) probability = 0.00001;
+            LabyrinthStructure structure = LabyrinthGenerator.generate(15, 15, probability);
+            labyrinth.structure = structure.getStructure();
+            drawArea.update();
+        } catch(Exception exp) {
+            JOptionPane.showMessageDialog(null, "No se pudo generar el laberinto, el numero ingresado no es válido");
+        }
+    }  
 
   protected void initMenu(){
     this.setJMenuBar(jMenuBar1);
@@ -206,6 +226,15 @@ protected SimpleLanguage language = null;
       } } );
 
     this.initMenu();
+    
+    jButton3.setToolTipText("");
+    jButton3.setText("Generate");
+    jButton3.addActionListener(new java.awt.event.ActionListener() {
+         public void actionPerformed(ActionEvent e) {
+           jButton3_actionPerformed(e);
+         }
+     });
+    jPanel1.add(jButton3, null);   
   }
 
 

@@ -1,9 +1,9 @@
 package unalcol.learn;
 import java.util.Iterator;
 
-import unalcol.learn.supervised.classification.fuzzy.Aggregator;
 import unalcol.learn.supervised.classification.fuzzy.FuzzyClassifier;
-import unalcol.learn.supervised.classification.fuzzy.MaxAggregator;
+import unalcol.learn.fuzzy.Aggregator;
+import unalcol.learn.fuzzy.MaxAggregator;
 import unalcol.learn.supervised.classification.Classifier;
 import unalcol.types.collection.array.ArrayCollection;
 import unalcol.types.collection.vector.*;

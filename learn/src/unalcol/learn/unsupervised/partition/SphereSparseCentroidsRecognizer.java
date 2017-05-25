@@ -4,7 +4,7 @@
  */
 package unalcol.learn.unsupervised.partition;
 
-import unalcol.learn.supervised.classification.fuzzy.Aggregator;
+import unalcol.learn.fuzzy.Aggregator;
 import unalcol.math.algebra.ScalarProduct;
 import unalcol.math.metric.QuasiMetric;
 import unalcol.types.real.array.sparse.SparseRealVector;

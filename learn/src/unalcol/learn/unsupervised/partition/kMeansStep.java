@@ -4,8 +4,8 @@ import java.util.Iterator;
 
 import unalcol.algorithm.iterative.StepFunction;
 import unalcol.learn.Prediction;
+import unalcol.learn.fuzzy.MinAggregator;
 import unalcol.learn.supervised.classification.fuzzy.FuzzyToCrispClassifier;
-import unalcol.learn.supervised.classification.fuzzy.MinAggregator;
 import unalcol.math.algebra.VectorSpace;
 import unalcol.math.metric.QuasiMetric;
 import unalcol.random.integer.IntUniform;

@@ -1,6 +1,7 @@
 package unalcol.learn.supervised.classification.fuzzy;
 
 import unalcol.learn.Prediction;
+import unalcol.learn.fuzzy.Aggregator;
 import unalcol.learn.supervised.classification.Classifier;
 
 public class FuzzyToCrispClassifier<T> implements Classifier<T> {

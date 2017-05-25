@@ -1,4 +1,4 @@
-package unalcol.learn.supervised.classification.fuzzy;
+package unalcol.learn.fuzzy;
 
 import unalcol.learn.Prediction;
 
