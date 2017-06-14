@@ -1,5 +1,7 @@
 package unalcol.service;
 
+import java.util.Hashtable;
+
 //
 //Unalcol Service structure Pack 1.0 by Jonatan Gomez-Perdomo
 //https://github.com/jgomezpe/unalcol/tree/master/services/
@@ -55,6 +57,22 @@ public class ServiceCore {
 	 * The ServicePool used for all the Unalcol Service Infra-structure. 
 	 */
 	protected static ServicePool hierarchy = new ServicePool();
+	
+	/**
+	 * Nickname - service association. Given a nick name maintains the service associated to it
+	 */
+	protected static Hashtable<String, Class<?>> nick_names = new Hashtable<String, Class<?>>();
+	
+	public static boolean register_service( String nick_name, Class<?> type ){
+	    Class<?> c = nick_names.get(nick_name);
+	    if( c==null ){
+		nick_names.put(nick_name, type);
+		return true;
+	    }
+	    return false;
+	}
+	
+	public static Class<?> get( String nick_name ){ return nick_names.get(nick_name); }
 	
    /**
     * Obtains the set of service instances providing the requested <i>type</i> of service for 
