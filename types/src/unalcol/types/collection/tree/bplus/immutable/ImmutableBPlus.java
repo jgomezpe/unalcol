@@ -9,6 +9,7 @@ import java.util.NoSuchElementException;
 
 import unalcol.sort.Order;
 import unalcol.sort.Search;
+import unalcol.types.collection.IterableCollection;
 import unalcol.types.collection.Location;
 import unalcol.types.collection.SearchCollection;
 import unalcol.types.collection.tree.bplus.BPlusInnerNode;
@@ -20,7 +21,7 @@ import unalcol.types.collection.tree.bplus.memory.MemoryLeafNode;
  *
  * @author jgomez
  */
-public class ImmutableBPlus<T> implements SearchCollection<T> {
+public class ImmutableBPlus<T> implements SearchCollection<T>, IterableCollection<T> {
     protected ImmutableInnerNode<T> root;
     protected Order<T> order;
     protected ImmutableNodeOrder<T> node_order;

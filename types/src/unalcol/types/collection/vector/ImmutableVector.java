@@ -21,7 +21,7 @@ import java.util.NoSuchElementException;
  * @author Jonatan Gomez Perdomo
  * @version 1.0
  */
-public class ImmutableVector<T> implements ArrayCollection<T>, SearchCollection<T> {
+public class ImmutableVector<T> implements ArrayCollection<T>, SearchCollection<T>, IterableCollection<T> {
 	//static{
 	//	ServiceCore.set(ImmutableVector.class, Clone.class, new ImmutableVectorCloneService<Object>());
 	//}

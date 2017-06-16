@@ -3,6 +3,7 @@ import java.util.Iterator;
 import java.util.NoSuchElementException;
 
 import unalcol.types.collection.FiniteCollection;
+import unalcol.types.collection.IterableCollection;
 import unalcol.types.collection.Location;
 import unalcol.types.collection.MutableCollection;
 import unalcol.types.collection.SearchCollection;
@@ -19,7 +20,7 @@ import unalcol.types.collection.SearchCollection;
  * @author Jonatan Gomez Perdomo
  * @version 1.0
  */
-public class List<T> implements FiniteCollection<T>, MutableCollection<T>, SearchCollection<T> {
+public class List<T> implements FiniteCollection<T>, MutableCollection<T>, IterableCollection<T>, SearchCollection<T> {
     protected int size = 0;
     protected Node<T> head = null;
     protected Node<T> last = null;
