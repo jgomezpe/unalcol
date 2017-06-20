@@ -9,11 +9,11 @@ public interface IterableCollection<T> extends Collection<T> {
      * (if some one is in the locator)
      * @return Iterator of the objects in the structure starting at the given Locator
      */
- public Iterator<T> iterator( Location<T> locator );
+	public Iterator<T> iterator( Location<T> locator );
 
- /**
-  * Obtains an iterator of the objects in the structure 
- * @return Iterator of the objects in the structure 
-  */
-public Iterator<T> iterator(); 
+	/**
+	 * Obtains an iterator of the objects in the structure 
+	 * @return Iterator of the objects in the structure 
+	 */
+	public Iterator<T> iterator(); 
 }

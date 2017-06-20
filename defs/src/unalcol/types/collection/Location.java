@@ -15,5 +15,5 @@ import java.util.NoSuchElementException;
  * @version 1.0
  */
 public interface Location<T> {
-    public T get() throws NoSuchElementException;
+	public T get() throws NoSuchElementException;
 }
