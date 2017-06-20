@@ -72,5 +72,13 @@ public class LogPanel extends JPanel {
     public JTextArea getErrorArea() {
         return this.jErrorTextArea;
     }
-
+    
+    public void select( boolean output ){
+    	jLogPaneTab.setSelectedIndex(output?0:1);
+    }
+    
+    public void setLanguage( String out, String error ){
+    	jLogPaneTab.setTitleAt(0, out);
+    	jLogPaneTab.setTitleAt(1, error);
+    }
 }
