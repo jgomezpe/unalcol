@@ -1,7 +1,6 @@
 package unalcol.gui.I18N;
 
 import java.io.BufferedReader;
-import java.io.FileInputStream;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.Hashtable;
@@ -55,6 +54,20 @@ public class I18NManager {
 	
 	public I18NManager(){}
 
+	public I18NManager(InputStream in) throws Exception{
+		BufferedReader reader = new BufferedReader(new InputStreamReader(in));
+		StringBuilder sb=new StringBuilder();
+		String line = reader.readLine();
+		while(line!=null && line.length()>0){
+			sb.append(line);
+			sb.append('\n');
+			line = reader.readLine();
+		}
+		in.close();
+		load(sb.toString());		
+	}
+
+/*	
 	public I18NManager(String fileName, boolean asResource ){
 		InputStream in=null;
 		try{
@@ -72,7 +85,7 @@ public class I18NManager {
 			load(sb.toString());
 		}catch(Exception e){ System.err.println(e.getMessage()); }
 	} 
-	
+*/	
 	public void load(String config){
 		table.clear();
 		String[] lines = config.split("\\n");

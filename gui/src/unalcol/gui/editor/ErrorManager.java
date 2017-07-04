@@ -1,5 +1,7 @@
 package unalcol.gui.editor;
 
+import java.io.InputStream;
+
 import unalcol.gui.I18N.I18NManager;
 
 public class ErrorManager extends I18NManager{
@@ -10,8 +12,8 @@ public class ErrorManager extends I18NManager{
 
 	public ErrorManager(){}
 	
-	public ErrorManager(String fileName, boolean asResource ){
-		super(fileName, asResource);
+	public ErrorManager(InputStream is) throws Exception{
+		super(is);
 	}
 	
 	public Exception error( Position pos, String c ){
