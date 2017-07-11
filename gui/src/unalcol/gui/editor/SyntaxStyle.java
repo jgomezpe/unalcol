@@ -1,7 +1,5 @@
 package unalcol.gui.editor;
 
-import java.util.Vector;
-
 import unalcol.gui.util.ObjectParser;
 
 public class SyntaxStyle {
@@ -16,51 +14,38 @@ public class SyntaxStyle {
 	protected boolean under_line=false;
 	protected int size=0;
 	protected String font_family=null;
-	protected Vector<Integer> color=null;
+	protected int[] color=null;
 	
-	@SuppressWarnings("unchecked")
 	public SyntaxStyle( String style ){
 		try {
-			Object obj = ObjectParser.parse(style);
-			if( obj instanceof Vector ){
-				for( Object o:(Vector<Object>)obj ){
-					if(o instanceof String){ 
-						try{
-							size = Integer.parseInt((String)o);
-						}catch(NumberFormatException e){
-							tag = (String)o;
-						}
-					}else{
-						Vector<Object> v = (Vector<Object>)o;
-						for( Object x:v ){
-							if(x instanceof Vector){
-								Vector<Object> y = (Vector<Object>)x;
-								color = new Vector<Integer>();
-								for(int i=0; i<y.size(); i++){
-									color.add( Integer.parseInt((String)y.get(i)) );
-								}
-							}else{
+			Object[] obj = ObjectParser.parse(style);
+			for( Object o:obj ){
+				if(o instanceof String){ 
+					tag = (String)o;
+				}else{
+					Object[] v = (Object[])o;
+					for( Object x:v ){
+						if(x instanceof Object[]){
+							Object[] y = (Object[])x;
+							color = new int[y.length];
+							for(int i=0; i<y.length; i++) color[i]=(int)y[i];
+						}else{
+							if( x instanceof String ){
 								String s = (String)x;
 								if( s.equals(ITALIC) ) italic = true;
 								else if( s.equals(BOLD) ) bold = true;
-								else if( s.equals(UNDER_LINE) ) under_line = true; 
-								else{
-									try{
-										size = Integer.parseInt(s);
-									}catch(NumberFormatException e){
-										font_family = s;
-									}
-								} 
-							}
+								else if( s.equals(UNDER_LINE) ) under_line = true;
+								else font_family = s;
+							}else{
+								try{
+									size = (int)x;
+								}catch(NumberFormatException e){}
+							} 
 						}
 					}
 				}
-			}else{
-				tag = style;
 			}
-		} catch (Exception e) {
-			//e.printStackTrace();
-		}
+		} catch (Exception e){}
 	}
 	
 	public boolean italic(){ return italic; }
@@ -71,9 +56,7 @@ public class SyntaxStyle {
 	public int font_size(){ return size; }
 	public int[] color(){
 		if( color == null ) return null;
-		int[] c = new int[4];
-		for( int i=0; i<c.length; i++) c[i] = color.get(i);
-		return c; 
+		return color.clone(); 
 	}
 	
 	
@@ -108,7 +91,11 @@ public class SyntaxStyle {
 			last="]";
 		}
 		if(color!=null){
-			sb.append(first+color);
+			sb.append(first);
+			sb.append('[');
+			sb.append(""+color[0]);
+			for( int i=1;i<color.length; i++) sb.append(","+color[i]);
+			sb.append(']');
 			first=",";
 			last="]";
 		}
@@ -123,7 +110,7 @@ public class SyntaxStyle {
 	}
 	
 	public static void main( String[] args ){
-		String style = "[normal,[3,[3,4,5,255],italic,bold,Sans Serif]]";
+		String style = "[\"normal\",[3,[3,4,5,255],\"italic\",\"bold\",\"Sans Serif\"]]";
 		System.out.println(new SyntaxStyle(style));
 	}
 }
