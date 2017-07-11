@@ -4,7 +4,7 @@ import java.util.Vector;
 
 public class ObjectParser {
 	
-	public static Object parse(String obj) throws Exception{
+	public static Object[] parse(String obj) throws Exception{
 		if( obj.charAt(0) != '[' || obj.charAt(obj.length()-1) != ']') throw new Exception("Invalid object representation..");
 		Vector<Object> v = new Vector<Object>();
 		obj = obj.substring(1, obj.length()-1);
@@ -41,13 +41,17 @@ public class ObjectParser {
 			}
 		}
 		if(start<obj.length()) v.add(obj.substring(start,i));
-		return v;
+		Object[] tobj = new Object[v.size()];
+		for(i=0; i<v.size(); i++){ tobj[i] = v.get(i); }
+		return tobj;
 	}
 	
 	public static void main( String[] args ){
 		String txt="[[2]]";
 		try{ 
-			System.out.println(parse(txt));
+			Object[] obj = parse(txt);
+			for( Object x:obj )
+				System.out.println(x);
 		}catch(Exception e){ e.printStackTrace(); }
 	}
 }
