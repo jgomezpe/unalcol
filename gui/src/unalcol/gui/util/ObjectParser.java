@@ -5,6 +5,12 @@ import java.util.Vector;
 public class ObjectParser {
 	public static String INVALID = "Invalid expression..";
 	
+	public static String store( Object obj ){
+		if( obj instanceof Object[] ) return store((Object[])obj);
+		if( obj instanceof String ) return store( (String)obj );
+		return obj.toString();
+	}
+	
 	public static String store( String str ){
 		StringBuilder sb = new StringBuilder();
 		sb.append('"');
@@ -14,6 +20,18 @@ public class ObjectParser {
 			sb.append(c);
 		}
 		sb.append('"');
+		return sb.toString();
+	}
+	
+	public static String store( Object[] obj ){
+		StringBuilder sb = new StringBuilder();
+		sb.append('[');
+		sb.append(store(obj[0]));
+		for( int i=1; i<obj.length; i++ ){
+			sb.append(',');
+			sb.append(store(obj[i]));			
+		}
+		sb.append(']');
 		return sb.toString();
 	}
 	

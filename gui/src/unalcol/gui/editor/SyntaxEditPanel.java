@@ -33,6 +33,10 @@ public class SyntaxEditPanel extends JTextPane{
 	public void setTokenizer(Tokenizer tokenizer, String[] token_style){
 		this.tokenizer = tokenizer;
 		this.token_style = token_style;
+		String str = this.getText();
+		if( str != null && str.length()>0 ){
+			this.setText(str);
+		}
 	}
 	
 	public void setStyle( SyntaxStyle style ){
