@@ -91,8 +91,7 @@ public class ObjectParser {
 				case ']' : throw new Exception(INVALID);
 				case ',' :
 					if(start==i) throw new Exception(INVALID);
-					String s = obj.substring(start,i);
-					v.add(load(s));
+					v.add(load(obj.substring(start,i)));
 					i++;
 					start=i;
 				break;	
@@ -105,12 +104,12 @@ public class ObjectParser {
 		return tobj;
 	}
 	
-	public static void main( String[] args ){
+/*	public static void main( String[] args ){
 		String txt="[2345678901111,true,\"Hello\n world!\"]";
 		try{ 
 			Object[] obj = parse(txt);
 			for( Object x:obj )
 				System.out.println(x.getClass() +":"+x);
 		}catch(Exception e){ e.printStackTrace(); }
-	}
+	} */
 }

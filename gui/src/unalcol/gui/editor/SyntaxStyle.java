@@ -1,5 +1,6 @@
 package unalcol.gui.editor;
 
+import unalcol.gui.paint.Color;
 import unalcol.gui.util.ObjectParser;
 
 public class SyntaxStyle {
@@ -14,38 +15,16 @@ public class SyntaxStyle {
 	protected boolean under_line=false;
 	protected int size=0;
 	protected String font_family=null;
-	protected int[] color=null;
+	protected Color color=null;
 	
-	public SyntaxStyle( String style ){
-		try {
-			Object[] obj = ObjectParser.parse(style);
-			for( Object o:obj ){
-				if(o instanceof String){ 
-					tag = (String)o;
-				}else{
-					Object[] v = (Object[])o;
-					for( Object x:v ){
-						if(x instanceof Object[]){
-							Object[] y = (Object[])x;
-							color = new int[y.length];
-							for(int i=0; i<y.length; i++) color[i]=(int)y[i];
-						}else{
-							if( x instanceof String ){
-								String s = (String)x;
-								if( s.equals(ITALIC) ) italic = true;
-								else if( s.equals(BOLD) ) bold = true;
-								else if( s.equals(UNDER_LINE) ) under_line = true;
-								else font_family = s;
-							}else{
-								try{
-									size = (int)x;
-								}catch(NumberFormatException e){}
-							} 
-						}
-					}
-				}
-			}
-		} catch (Exception e){}
+	public SyntaxStyle( String tag, String font_family, int font_size, boolean bold, boolean italic, boolean under_line, Color color ){
+		this.tag = tag;
+		this.font_family = font_family;
+		this.size = font_size;
+		this.bold = bold;
+		this.italic = italic;
+		this.under_line = under_line;
+		this.color = color;
 	}
 	
 	public boolean italic(){ return italic; }
@@ -54,63 +33,31 @@ public class SyntaxStyle {
 	public String font_family(){ return font_family; }
 	public String tag(){ return tag; }
 	public int font_size(){ return size; }
-	public int[] color(){
-		if( color == null ) return null;
-		return color.clone(); 
+	public Color color(){ return color;	}
+	
+	public static SyntaxStyle[] get( String styles ){
+		SyntaxStyleInstance si = new SyntaxStyleInstance();
+		Object[] objs;
+		try {
+			objs = ObjectParser.parse(styles);
+			SyntaxStyle[] s = new SyntaxStyle[objs.length];
+			for( int i=0; i<s.length; i++ )	s[i] = si.load((Object[])objs[i]);
+			return s;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
+	protected static String color( java.awt.Color c ){
+		return ObjectParser.store(new Object[]{"color",c.getRed(),c.getGreen(),c.getBlue(),c.getAlpha()});
 	}
 	
-	
-	public String toString(){
-		StringBuilder sb = new StringBuilder();
-		String first=",[";
-		String last="";
-		sb.append("["+tag);
-		if(size>0){
-			sb.append(first+size);
-			first=",";
-			last="]";
-		}
-		if(font_family!=null){
-			sb.append(first+font_family);
-			first=",";
-			last="]";
-		}
-		if(italic){
-			sb.append(first+ITALIC);
-			first=",";
-			last="]";
-		}
-		if(bold){
-			sb.append(first+BOLD);
-			first=",";
-			last="]";			
-		}
-		if(under_line){
-			sb.append(first+UNDER_LINE);
-			first=",";
-			last="]";
-		}
-		if(color!=null){
-			sb.append(first);
-			sb.append('[');
-			sb.append(""+color[0]);
-			for( int i=1;i<color.length; i++) sb.append(","+color[i]);
-			sb.append(']');
-			first=",";
-			last="]";
-		}
-		sb.append(last+"]");
-		return sb.toString();
-	}
-	
-	public static SyntaxStyle[] get( String[] styles ){
-		SyntaxStyle[] s = new SyntaxStyle[styles.length];
-		for( int i=0; i<s.length; i++ ) s[i] = new SyntaxStyle(styles[i]);
-		return s;
-	}
-	
-	public static void main( String[] args ){
-		String style = "[\"normal\",[3,[3,4,5,255],\"italic\",\"bold\",\"Sans Serif\"]]";
-		System.out.println(new SyntaxStyle(style));
-	}
+/*	public static void main( String[] args ){
+		SyntaxStyleInstance si = new SyntaxStyleInstance();
+		String style =  "[[\"style\",\"regular\",[\"SansSerif\",12]],[\"style\",\"undef\",["+color(java.awt.Color.pink)+"]],[\"style\",\"comment\",[\"italic\","+color(java.awt.Color.gray)+"]],[\"style\",\"symbol\",["+color(java.awt.Color.blue)+"]],[\"style\",\"stitch\",["+color(java.awt.Color.red)+"]],[\"style\",\"reserved\",[\"bold\"]],[\"style\",\"remnant\",["+color(java.awt.Color.orange)+"]]]"; // "[[\"style\",\"normal\",[3,[\"color\",3,4,5,255],\"italic\",\"bold\",\"Sans Serif\"]]]";
+		System.out.println(style);
+		SyntaxStyle[] styles = get(style);
+		for( int i=0; i<styles.length; i++ ) System.out.println( ObjectParser.store(si.store(styles[i])) );
+	} */
 }

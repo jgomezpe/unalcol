@@ -33,10 +33,13 @@ public class SyntaxEditPanel extends JTextPane{
 	public void setTokenizer(Tokenizer tokenizer, String[] token_style){
 		this.tokenizer = tokenizer;
 		this.token_style = token_style;
+		updateView();
+	}
+	
+	public void updateView(){
 		String str = this.getText();
-		if( str != null && str.length()>0 ){
-			this.setText(str);
-		}
+		this.setText("");
+		if( str != null && str.length()>0 )	this.setText(""+str);
 	}
 	
 	public void setStyle( SyntaxStyle style ){
@@ -53,14 +56,23 @@ public class SyntaxEditPanel extends JTextPane{
 		StyleConstants.setItalic(s, style.italic()); 
 		StyleConstants.setBold(s, style.bold()); 
 		StyleConstants.setUnderline(s, style.under_line());
-		int[] c = style.color();
+		int[] c = (style.color()!=null)?style.color().values():null;
 		if( c!=null ) StyleConstants.setForeground(s, new Color(c[0],c[1],c[2],c[3]));
 	}
 	
-	public void setStyle( SyntaxStyle[] styles ){ for( SyntaxStyle style:styles ) setStyle(style); }
+	public void setStyle( SyntaxStyle[] styles ){
+		for( SyntaxStyle style:styles ) setStyle(style); 
+	}
 
-	public void setStyle( String style ){ setStyle(new SyntaxStyle(style)); }
-	public void setStyle( String[] styles ){ setStyle(SyntaxStyle.get(styles)); }
+	public void setStyle( String styles ){
+		StyledDocument doc = this.getStyledDocument();
+		try {
+			doc.remove(0, this.getText().length());
+		} catch (BadLocationException e) {
+		}
+		setStyle(SyntaxStyle.get(styles));
+		updateView();
+	}
 }
 
 class SyntaxDocumentListener implements DocumentListener {

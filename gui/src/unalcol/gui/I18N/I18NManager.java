@@ -66,26 +66,7 @@ public class I18NManager {
 		in.close();
 		load(sb.toString());		
 	}
-
-/*	
-	public I18NManager(String fileName, boolean asResource ){
-		InputStream in=null;
-		try{
-			if( asResource ) in = this.getClass().getResourceAsStream(fileName);
-			else in = new FileInputStream(fileName);
-			BufferedReader reader = new BufferedReader(new InputStreamReader(in));
-			StringBuilder sb=new StringBuilder();
-			String line = reader.readLine();
-			while(line!=null && line.length()>0){
-				sb.append(line);
-				sb.append('\n');
-				line = reader.readLine();
-			}
-			in.close();
-			load(sb.toString());
-		}catch(Exception e){ System.err.println(e.getMessage()); }
-	} 
-*/	
+	
 	public void load(String config){
 		table.clear();
 		String[] lines = config.split("\\n");
@@ -131,10 +112,10 @@ public class I18NManager {
 		return table.get(code);
 	}	
 	
-	public static void main(String[] args){
+/*	public static void main(String[] args){
 		I18NManager manager = new I18NManager();
 		manager.load("LOC=Localizacion\nMED=Medio\\n loco\n");
 		System.out.println(manager.get("LOC"));
 		System.out.println(manager.get("MED"));
-	}
+	} */
 }
