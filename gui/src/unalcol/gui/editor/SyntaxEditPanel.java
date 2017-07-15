@@ -14,7 +14,7 @@ import javax.swing.text.StyleConstants;
 import javax.swing.text.StyleContext;
 import javax.swing.text.StyledDocument;
 
-public class SyntaxEditPanel extends JTextPane{
+public class SyntaxEditPanel extends JTextPane implements SyntaxEditComponent{
 	protected SyntaxStyle def;
 	protected SyntaxStyle[] styles;
 	protected String[] token_style=null;
@@ -33,16 +33,16 @@ public class SyntaxEditPanel extends JTextPane{
 	public void setTokenizer(Tokenizer tokenizer, String[] token_style){
 		this.tokenizer = tokenizer;
 		this.token_style = token_style;
-		updateView();
+		update();
 	}
 	
-	public void updateView(){
+	public void update(){
 		String str = this.getText();
 		this.setText("");
 		if( str != null && str.length()>0 )	this.setText(""+str);
 	}
 	
-	public void setStyle( SyntaxStyle style ){
+	protected void setStyle( SyntaxStyle style ){
 		StyledDocument doc = this.getStyledDocument();
 		Style s = doc.getStyle(style.tag());
 		if( s==null ){
@@ -61,17 +61,9 @@ public class SyntaxEditPanel extends JTextPane{
 	}
 	
 	public void setStyle( SyntaxStyle[] styles ){
+		try { this.getStyledDocument().remove(0, this.getText().length()); }catch(BadLocationException e) {}
 		for( SyntaxStyle style:styles ) setStyle(style); 
-	}
-
-	public void setStyle( String styles ){
-		StyledDocument doc = this.getStyledDocument();
-		try {
-			doc.remove(0, this.getText().length());
-		} catch (BadLocationException e) {
-		}
-		setStyle(SyntaxStyle.get(styles));
-		updateView();
+		update();
 	}
 }
 
