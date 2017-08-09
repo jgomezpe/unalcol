@@ -104,8 +104,6 @@ protected SimpleLanguage language = null;
   protected JButton jButton3 = new JButton();
 
   protected void jButton3_actionPerformed(ActionEvent e) {
-        int xsize = labyrinth.structure[0].length;
-        int ysize = labyrinth.structure.length;
         String prob = JOptionPane.showInputDialog("Ingrese probabilidad: ");
         try {
             double probability = Double.parseDouble(prob);
