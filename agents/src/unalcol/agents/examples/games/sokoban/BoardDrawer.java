@@ -3,8 +3,7 @@ package unalcol.agents.examples.games.sokoban;
 import java.awt.Color;
 import java.awt.Graphics;
 
-import unalcol.agents.examples.labyrinth.Labyrinth;
-import unalcol.agents.examples.labyrinth.LabyrinthPercept;
+import unalcol.agents.simulate.SimulatedAgent;
 import unalcol.agents.simulate.gui.Drawer;
 
 public class BoardDrawer extends Drawer {
@@ -18,29 +17,61 @@ public class BoardDrawer extends Drawer {
 		return val*CELL_SIZE+MARGIN;
 	}
 
-    @Override
-    public void paint(Graphics g) {
-	    if( environment != null && ((Labyrinth)environment).structure != null ){
-		      Labyrinth   env = (Labyrinth)environment;
-		      int n = env.structure.length;
-		      int m = env.structure[0].length;
-		      g.setColor( Color.lightGray );
-		      int GRID_SIZE = CELL_SIZE * DIMENSION;
-		      for (int i = 0; i <= n; i++) {
-		        int j = getCanvasValue( i );
-		        g.drawLine( j, GRID_SIZE + MARGIN, j, MARGIN );
-		        g.drawLine( GRID_SIZE + MARGIN, j, MARGIN, j );
-		      }
-		      for (int i = 0; i < n; i++) {
-		        for (int j = 0; j < m; j++) {
-		          g.setColor( Color.blue );
-		          LabyrinthPercept p = env.getPercept(i,j);
-		          int x = getCanvasValue(i);
-		          int y = getCanvasValue(j);
-		          pDrawer.draw( g, x, y, CELL_SIZE, p );
+	@Override
+	public void paint(Graphics g) {
+		if( environment != null && ((SokobanEnvironment)environment).board != null ){
+			SokobanEnvironment   env = (SokobanEnvironment)environment;
+			SokobanBoard b = env.board;
+			int n = b.rows();
+			int m = b.columns();
+			DIMENSION = Math.max(n, m);
+			g.setColor( Color.lightGray );
+			int GRID_SIZE = CELL_SIZE * DIMENSION;
+			for (int i = 0; i <= n; i++) {
+				int j = getCanvasValue( i );
+				g.drawLine( j, GRID_SIZE + MARGIN, j, MARGIN );
+				g.drawLine( GRID_SIZE + MARGIN, j, MARGIN, j );
+			}
+			for (int i = 0; i < n; i++) {
+				int X = getCanvasValue(i);
+				for (int j = 0; j < m; j++) {
+					int Y=getCanvasValue(j);
+					int v = b.get(i, j);
+					if((v&SokobanBoard.WALL)==SokobanBoard.WALL){
+						g.setColor( Color.gray );
+					        g.fillRect(X, Y, CELL_SIZE, CELL_SIZE);  
+					}
+					if((v&SokobanBoard.GRASS)==SokobanBoard.GRASS){
+						g.setColor( Color.green );
+					        g.fillRect(X, Y, CELL_SIZE, CELL_SIZE);  
+					}
+					if((v&SokobanBoard.MARK)==SokobanBoard.MARK){
+						g.setColor( Color.yellow );
+					        g.fillRect(X+CELL_SIZE/4, Y+CELL_SIZE/4, CELL_SIZE/2, CELL_SIZE/2);  
+					}
+					if((v&SokobanBoard.BLOCK)==SokobanBoard.BLOCK){
+						g.setColor( Color.pink );
+					        g.fillRect(X, Y, CELL_SIZE, CELL_SIZE);  
+					}
+				}
+			}
+			SimulatedAgent a = (SimulatedAgent)env.getAgent();
+			int direction = ((Integer) a.getAttribute(SokobanEnvironment.D)).intValue();
+			int x = ((Integer) a.getAttribute(SokobanEnvironment.X)).intValue();
+			int y = ((Integer) a.getAttribute(SokobanEnvironment.Y)).intValue();
+		        g.setColor( Color.black );
+		        int X = getCanvasValue( x );
+		        int Y = getCanvasValue( y );
+		        int EYE_SIZE = 6;
+		        g.drawOval( X + EYE_SIZE/2, Y + EYE_SIZE/2, CELL_SIZE - EYE_SIZE, CELL_SIZE - EYE_SIZE );
+		        switch( direction ){
+		          case 0: g.drawOval( X + CELL_SIZE/2 - EYE_SIZE/2, Y , EYE_SIZE, EYE_SIZE); break;
+		          case 1: g.drawOval( X +  CELL_SIZE - EYE_SIZE, Y + CELL_SIZE/2 - EYE_SIZE/2, EYE_SIZE, EYE_SIZE); break;
+		          case 2: g.drawOval( X + CELL_SIZE/2 - EYE_SIZE/2, Y + CELL_SIZE - EYE_SIZE, EYE_SIZE, EYE_SIZE); break;
+		          case 3: g.drawOval( X, Y + CELL_SIZE/2 - EYE_SIZE/2, EYE_SIZE, EYE_SIZE); break;
 		        }
-		      }
-    }
+		}
+	}
 
     @Override
     public void setDimension(int width, int height) {
@@ -48,5 +79,4 @@ public class BoardDrawer extends Drawer {
 	    CELL_SIZE = DRAW_AREA_SIZE / (DIMENSION+1);
 	    MARGIN = CELL_SIZE / 2;
     }
-
 }
