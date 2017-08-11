@@ -38,8 +38,8 @@ public class SyntaxEditPanel extends JTextPane implements SyntaxEditComponent{
 	
 	public void update(){
 		String str = this.getText();
-		this.setText("");
-		if( str != null && str.length()>0 )	this.setText(""+str);
+		try { this.getStyledDocument().remove(0, this.getText().length()); }catch(BadLocationException e) {}
+		if( str != null && str.length()>0 )	this.setText(str);
 	}
 	
 	protected void setStyle( SyntaxStyle style ){
@@ -61,9 +61,10 @@ public class SyntaxEditPanel extends JTextPane implements SyntaxEditComponent{
 	}
 	
 	public void setStyle( SyntaxStyle[] styles ){
+		String str = this.getText();
 		try { this.getStyledDocument().remove(0, this.getText().length()); }catch(BadLocationException e) {}
 		for( SyntaxStyle style:styles ) setStyle(style); 
-		update();
+		if( str != null && str.length()>0 )	this.setText(str);
 	}
 }
 
