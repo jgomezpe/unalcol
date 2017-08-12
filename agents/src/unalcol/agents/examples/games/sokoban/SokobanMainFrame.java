@@ -24,6 +24,7 @@ import unalcol.agents.simulate.gui.SimpleView;
 import unalcol.agents.simulate.gui.WorkingPanel;
 import unalcol.agents.simulate.util.InteractiveAgentProgram;
 import unalcol.agents.simulate.util.SimpleLanguage;
+import unalcol.gui.io.FileFilter;
 
 public class SokobanMainFrame extends JFrame {
 
@@ -40,7 +41,7 @@ public class SokobanMainFrame extends JFrame {
     protected Thread thread = null;
 
     protected Agent agent;
-    protected SokobanEnvironment labyrinth = null;
+    protected SokobanEnvironment environment = null;
     protected SimpleView view;
     protected String title = "Labyrinth";
 
@@ -73,18 +74,18 @@ public class SokobanMainFrame extends JFrame {
     protected JButton jButton2 = new JButton();
   //  MultiChart multiChart1 = new MultiChart();
 
-    public SokobanEnvironment newLabyrinthInstance(){
-      labyrinth = new SokobanEnvironment( agent, new SokobanBoard(new int[SokobanEnvironment.DEFAULT_SIZE][SokobanEnvironment.DEFAULT_SIZE] ));
-      return labyrinth;
+    public SokobanEnvironment newEnvironmentInstance(){
+      environment = new SokobanEnvironment( agent, new SokobanBoard(SokobanEnvironment.DEFAULT_SIZE));
+      return environment;
     }
 
-    public void initLabyrinth(){
-        if( drawArea.getDrawer()==null ) drawArea.setDrawer(new BoardDrawer());
-        labyrinth = this.newLabyrinthInstance();
-        labyrinth.setAgentPosition( 0, 0, 0);
-        labyrinth.setDelay(100);
-        drawArea.getDrawer().setEnvironment( labyrinth );
-        labyrinth.registerView(view);
+    public void initEnvironment(){
+        if( drawArea.getDrawer()==null ) drawArea.setDrawer(new SokobanBoardDrawer());
+        environment = this.newEnvironmentInstance();
+        environment.setAgentPosition( 0, 0, 0);
+        environment.setDelay(100);
+        drawArea.getDrawer().setEnvironment( environment );
+        environment.registerView(view);
     }
 
     public SokobanMainFrame( Agent _agent, SimpleLanguage _language ) {
@@ -96,8 +97,8 @@ public class SokobanMainFrame extends JFrame {
       view = new SimpleView( drawArea );
       agent = _agent;
       language = _language;
-      labyrinth = this.newLabyrinthInstance();
-      this.initLabyrinth();
+      environment = this.newEnvironmentInstance();
+      this.initEnvironment();
       try {
         jbInit();
       }
@@ -175,7 +176,7 @@ public class SokobanMainFrame extends JFrame {
           drawArea_mouseClicked(e);
         }
       });
-      jLabel1.setText("Initial Agent Position X:");
+      jLabel1.setText("Agent Position X:");
       jTextField1.setPreferredSize(new Dimension(37, 20));
       jTextField1.setText("0");
       jLabel2.setText("Y");
@@ -207,7 +208,7 @@ public class SokobanMainFrame extends JFrame {
       // Closing the window
       this.addWindowListener( new WindowAdapter(){
         public void windowClosing( WindowEvent e ){
-          labyrinth.stop();
+          environment.stop();
           thread = null;
           System.exit(0);
         } } );
@@ -216,19 +217,22 @@ public class SokobanMainFrame extends JFrame {
     }
 
 
-    protected void loadButton_actionPerformed(ActionEvent e) {
-      JFileChooser file = new JFileChooser( fileDir );
-      if( file.showOpenDialog(drawArea) == JFileChooser.APPROVE_OPTION ){
-        fileDir = file.getSelectedFile().getAbsolutePath();
-        fileName = file.getSelectedFile().getAbsolutePath();
-        loadFile();
-      }
-    }
+	protected void loadButton_actionPerformed(ActionEvent e) {
+		FileFilter filter = new FileFilter( FILE +" (*"+SKB+")" );
+		filter.add(SKB.substring(1));
+		JFileChooser file = new JFileChooser( fileDir );
+		file.setFileFilter(filter);
+		if( file.showOpenDialog(drawArea) == JFileChooser.APPROVE_OPTION ){
+			fileDir = file.getSelectedFile().getAbsolutePath();
+			fileName = file.getSelectedFile().getAbsolutePath();
+			loadFile();
+		}
+	}
 
     protected void loadFile(){
       this.setTitle(title + " ["+fileName+"]");
-      this.initLabyrinth();
-      labyrinth.load( fileName );
+      this.initEnvironment();
+      environment.load( fileName );
       view();
     }
 
@@ -244,35 +248,39 @@ public class SokobanMainFrame extends JFrame {
     protected void drawArea_mouseClicked(MouseEvent e) {
       int X = e.getX();
       int Y = e.getY();
-      labyrinth.edit(X, Y);
+      environment.edit(X, Y);
       drawArea.update();
     }
 
+    
+    public final static String FILE = "Archivos Sokoban";
+    public final static String SKB = ".skb";
 
-
-    protected void jMenuItem4_actionPerformed(ActionEvent e) {
-//      ii..
-      JFileChooser file = new JFileChooser( fileDir );
-      if( file.showSaveDialog(drawArea) == JFileChooser.APPROVE_OPTION ){
-        fileDir = file.getSelectedFile().getAbsolutePath();
-        fileName = file.getSelectedFile().getAbsolutePath();
-        labyrinth.save( fileName );
-        this.setTitle(title + " ["+fileName+"]");
-      }
-    }
+	protected void jMenuItem4_actionPerformed(ActionEvent e) {
+		FileFilter filter = new FileFilter( FILE +" (*"+SKB+")" );
+		filter.add(SKB.substring(1));
+		JFileChooser file = new JFileChooser( fileDir );
+		file.setFileFilter(filter);
+		if( file.showSaveDialog(drawArea) == JFileChooser.APPROVE_OPTION ){
+			fileDir = file.getSelectedFile().getAbsolutePath();
+			fileName = file.getSelectedFile().getAbsolutePath();
+			environment.save( fileName );
+			this.setTitle(title + " ["+fileName+"]");
+		}
+	}
 
     protected void jMenuItem2_actionPerformed(ActionEvent e) {
       if( fileName == null ){
         jMenuItem4_actionPerformed( e );
       }else{
-        labyrinth.save( fileName );
+        environment.save( fileName );
       }
     }
 
     protected void jMenuInteractiveAgentProgram_actionPerformed(ActionEvent e) {
-      Agent agent = labyrinth.getAgent();
+      Agent agent = environment.getAgent();
       agent.setProgram(new InteractiveAgentProgram(this.language));
-      labyrinth.init(agent);
+      environment.init(agent);
     }
 
     protected void jMenuLoadAgentProgram_actionPerformed(ActionEvent e) {
@@ -310,18 +318,18 @@ public class SokobanMainFrame extends JFrame {
     protected void jButton1_actionPerformed(ActionEvent e) {
       int x = Integer.parseInt( jTextField1.getText() );
       int y = Integer.parseInt( jTextField2.getText() );
-      labyrinth.setAgentPosition( x, y, 0 );
+      environment.setAgentPosition( x, y, 0 );
       drawArea.update();
     }
 
     protected void jButton2_actionPerformed(ActionEvent e) {
       if( thread == null ){
-        thread = new Thread( labyrinth );
-        labyrinth.run();
+        thread = new Thread( environment );
+        environment.run();
 //        thread.start();
         jButton2.setText("Stop");
       }else{
-        labyrinth.stop();
+        environment.stop();
         thread = null;
         jButton2.setText("Simulate");
       }

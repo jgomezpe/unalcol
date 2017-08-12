@@ -15,7 +15,7 @@ import unalcol.types.collection.vector.Vector;
 
 public class SokobanEnvironment  extends Environment{
     
-	protected String[] available_actions = {SokobanUtil.NOP, SokobanUtil.DIE, SokobanUtil.ADVANCE, SokobanUtil.ROTATE, SokobanUtil.SHADOW_ADVANCE};
+	protected String[] available_actions = {SokobanUtil.NOP, SokobanUtil.DIE, SokobanUtil.ADVANCE, SokobanUtil.ROTATE, SokobanUtil.PLAY};
 	public static String msg;
         protected SokobanBoard board=null;
         
@@ -49,7 +49,7 @@ public class SokobanEnvironment  extends Environment{
 			case 2: iy++; break;
 			case 3: ix--; break;
 		}
-		return( board.get(x+ix,y+iy) !=SokobanBoard.WALL && (board.get(x+ix,y+iy) !=SokobanBoard.BLOCK||board.get(x+2*ix,y+2*iy)<=SokobanBoard.MARK) );
+		return( board.get(x+ix,y+iy) !=SokobanBoard.WALL && ((board.get(x+ix,y+iy)&SokobanBoard.BLOCK) !=SokobanBoard.BLOCK || board.get(x+2*ix,y+2*iy)<=SokobanBoard.MARK) );
 	}
 	
 	public void go( SimulatedAgent a, int x, int y, int direction ){
@@ -63,7 +63,7 @@ public class SokobanEnvironment  extends Environment{
 		}
 		a.setAttribute(Y, new Integer(y+iy));
 		a.setAttribute(X, new Integer(x+ix));
-		if(board.get(x+ix,y+iy) ==SokobanBoard.BLOCK){
+		if( (board.get(x+ix,y+iy)&SokobanBoard.BLOCK) == SokobanBoard.BLOCK ){
 			board.xor(x+ix,y+iy,SokobanBoard.BLOCK);
 			board.xor(x+2*ix,y+2*iy,SokobanBoard.BLOCK);			
 		}
@@ -83,7 +83,6 @@ public class SokobanEnvironment  extends Environment{
 	}	
 	
 	public boolean act(Agent agent, Action action){
-		boolean fail = false;
 		boolean flag = (action!=null);
 		SimulatedAgent a = (SimulatedAgent)agent;
 		if( flag ){
@@ -96,6 +95,7 @@ public class SokobanEnvironment  extends Environment{
 			int direction = ((Integer) a.getAttribute(D)).intValue();
 			int x = ((Integer) a.getAttribute(X)).intValue();
 			int y = ((Integer) a.getAttribute(Y)).intValue();
+			boolean play_mode = ((Boolean) a.getAttribute(SokobanUtil.MODE)).booleanValue();
 			Percept p = sense(a);
 			String msg = null;
 			switch (Language.getIndex(available_actions,act)) {
@@ -105,28 +105,32 @@ public class SokobanEnvironment  extends Environment{
 					a.die();
 				break;
 				case 2: // advance
-					a.setAttribute(SokobanUtil.MODE, true);
-					if ( can_go(x,y,direction) ) {
-						go(a,x,y,direction);
-					} else {
-						msg = SimpleView.ERROR +
-							"[There is a wall/fixed block in front of mine (" + agent.getProgram().getClass().getSimpleName() +"). Action " + act +
-							" not executed]";
-						fail = true;
+					if( play_mode ){
+						if ( can_go(x,y,direction) ) {
+							go(a,x,y,direction);
+						} else {
+							msg = SimpleView.ERROR +
+								"[There is a wall/fixed block in front of mine (" + agent.getProgram().getClass().getSimpleName() +"). Action " + act +
+								" not executed]";
+						}
+					}else{
+						if(!((Boolean) p.getAttribute("front")).booleanValue()) { 
+						    shadow(a,x,y,direction);
+						} else {
+							msg = SimpleView.ERROR +
+								"[There is a wall in front of mine (" + agent.getProgram().getClass().getSimpleName() +"). Action " + act +
+								" not executed]";
+						}
 					}
 				break;
 				case 3: // rotate
 					direction = (direction + 1) % 4;
 					a.setAttribute(D, new Integer(direction));
 				break;
-				case 4: // shadow advance
-					fail = !((Boolean) a.getAttribute(X)).booleanValue() && !((Boolean) p.getAttribute("front")).booleanValue();					
-					if(!fail) { 
-					    shadow(a,x,y,direction);
-					} else {
-						msg = SimpleView.ERROR +
-							"[There is a wall in front of mine (" + agent.getProgram().getClass().getSimpleName() +"). Action " + act +
-							" not executed]";
+				case 4: // play mode
+					if( !play_mode ){
+						setAgentPosition(sx, sy, 0);
+						a.setAttribute(SokobanUtil.MODE, true);
 					}
 				break;    
 				default:
@@ -146,8 +150,12 @@ public class SokobanEnvironment  extends Environment{
 		agent.setAttribute(Y, new Integer(y));
 		agent.setAttribute(SokobanUtil.MODE, false);
 		agent.status = Action.CONTINUE;
+		sx = x;
+		sy = y;
 		init( agent );
 	}
+	
+	private int sx, sy;
 	
 	public void init( Agent agent ){
 	      //@TODO: Any special initialization process of the environment
@@ -181,7 +189,7 @@ public class SokobanEnvironment  extends Environment{
 	    return acts;
 	}
 	
-	public static int[][] read( String fileName ){
+	public int[][] read( String fileName ){
 		try {
 			FileReader file = new FileReader(fileName);
 			StreamTokenizer tok = new StreamTokenizer( file );
@@ -196,6 +204,13 @@ public class SokobanEnvironment  extends Environment{
 					structure[i][j] = (int)tok.nval;
 				}
 			}
+			tok.nextToken();
+			int x = (int)tok.nval;
+			tok.nextToken();
+			int y = (int)tok.nval;
+			file.close();
+			setAgentPosition(x, y, 0);
+			System.out.println("("+x+","+y+")");
 			msg = null;
 			return structure;
 		}catch (Exception e) {
@@ -208,7 +223,7 @@ public class SokobanEnvironment  extends Environment{
 		board = new SokobanBoard(read( fileName ));
 	}
 
-	public static void save( String fileName, SokobanBoard structure ){
+	public void save( String fileName, SokobanBoard structure ){
 		try {
 			FileWriter file = new FileWriter(fileName);
 			int n = structure.rows();
@@ -224,6 +239,10 @@ public class SokobanEnvironment  extends Environment{
 				}
 				file.write("\n");
 			}
+			SimulatedAgent a = (SimulatedAgent)getAgent(); 
+			int x = ((Integer) a.getAttribute(X)).intValue();
+			int y = ((Integer) a.getAttribute(Y)).intValue();
+			file.write(""+x+" "+y);
 			file.close();
 			msg = null;
 		}catch (Exception e) {
@@ -240,18 +259,18 @@ public class SokobanEnvironment  extends Environment{
 
 	public boolean edit( int X, int Y ){
 		boolean flag = false;
-		X -= BoardDrawer.MARGIN;
-		Y -= BoardDrawer.MARGIN;
-		int x = X/BoardDrawer.CELL_SIZE;
-		int y = Y/BoardDrawer.CELL_SIZE;
-		int x1 = X - x*BoardDrawer.CELL_SIZE;
-		int y1 = Y - y*BoardDrawer.CELL_SIZE;
-		if( BoardDrawer.CELL_SIZE/4<=x1 && x1<=3*BoardDrawer.CELL_SIZE/4  &&
-			BoardDrawer.CELL_SIZE/4<=y1 && y1<=3*BoardDrawer.CELL_SIZE/4	){ 
+		X -= SokobanBoardDrawer.MARGIN;
+		Y -= SokobanBoardDrawer.MARGIN;
+		int x = X/SokobanBoardDrawer.CELL_SIZE;
+		int y = Y/SokobanBoardDrawer.CELL_SIZE;
+		int x1 = X - x*SokobanBoardDrawer.CELL_SIZE;
+		int y1 = Y - y*SokobanBoardDrawer.CELL_SIZE;
+		if( SokobanBoardDrawer.CELL_SIZE/4<=x1 && x1<=3*SokobanBoardDrawer.CELL_SIZE/4  &&
+			SokobanBoardDrawer.CELL_SIZE/4<=y1 && y1<=3*SokobanBoardDrawer.CELL_SIZE/4	){ 
 		    setAgentPosition(x, y, 0);
 		}else{
-			if( x1 <= BoardDrawer.CELL_SIZE/2 ){  
-				if( y1 < BoardDrawer.CELL_SIZE / 2 ){
+			if( x1 <= SokobanBoardDrawer.CELL_SIZE/2 ){  
+				if( y1 < SokobanBoardDrawer.CELL_SIZE / 2 ){
 					if( board.get(x, y) != SokobanBoard.WALL) board.reset(x, y);
 					board.xor(x, y, SokobanBoard.WALL);
 					flag = true;
@@ -261,7 +280,7 @@ public class SokobanEnvironment  extends Environment{
 					flag = true;
 				}
 			}else{
-				if( y1 < BoardDrawer.CELL_SIZE / 2 ){
+				if( y1 < SokobanBoardDrawer.CELL_SIZE / 2 ){
 					flag = board.get(x, y) != SokobanBoard.WALL && board.get(x, y) != SokobanBoard.GRASS;
 					if(flag) board.xor(x, y, SokobanBoard.BLOCK);
 				}else{

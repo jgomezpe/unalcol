@@ -8,7 +8,7 @@ import unalcol.agents.simulate.util.SimpleLanguage;
 public class SokobanMain {
     private static SimpleLanguage getLanguage(){
 	    return  new SimpleLanguage( new String[]{"front", "right", "back", "left", "block", "mark"},
-	                                   new String[]{"no_op", "die", "advance", "rotate", "shadow_advance"}
+	                                   new String[]{"no_op", "die", "advance", "rotate", "play"}
 	                                   );
 	  }
 
@@ -17,8 +17,8 @@ public class SokobanMain {
 //	    TeseoSimple p = new TeseoSimple();
 	    RandomReflexTeseo p = new RandomReflexTeseo();
 	    p.setLanguage(getLanguage());
-	    BoardDrawer.DRAW_AREA_SIZE = 600;
-	    BoardDrawer.CELL_SIZE = 40;
+	    SokobanBoardDrawer.DRAW_AREA_SIZE = 600;
+	    SokobanBoardDrawer.CELL_SIZE = 40;
 	    Labyrinth.DEFAULT_SIZE = 15;
 	    Agent agent = new Agent( p );
 	    SokobanMainFrame frame = new SokobanMainFrame( agent, getLanguage() );

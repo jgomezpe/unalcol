@@ -9,6 +9,13 @@ public class SokobanBoard {
 
     private int[][] data;
     
+    public SokobanBoard(int n){
+    	this.data = new int[n][n];
+    	for( int i=0; i<n; i++ )
+    		for( int j=0; j<n; j++ )
+    			this.data[i][j] = SokobanBoard.GRASS;
+    }
+    
     public SokobanBoard( int[][] data ){ this.data = data; }
     
     public void reset( int x, int y ){ data[x][y]=0; }
