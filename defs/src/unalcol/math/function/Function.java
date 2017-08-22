@@ -1,7 +1,7 @@
 package unalcol.math.function;
 
 import unalcol.types.collection.Collection;
-import unalcol.types.collection.MutableCollection;
+import unalcol.types.collection.GrowCollection;
 
 /**
  * <p>Abstract definition of a function</p>
@@ -14,31 +14,26 @@ import unalcol.types.collection.MutableCollection;
  * @param <T> Domain of the function
  */
 public interface Function<S, T>{
-    /**
-     * Computes the function
-     * @param x Parameter of the function
-     * @return Computed value of the function
-     */
-    public T apply(S x);
+	/**
+	 * Computes the function
+	 * @param x Parameter of the function
+	 * @return Computed value of the function
+	 */
+	public T apply(S x);
     
-    /**
-     * Computes the function for a given collection of objects
-     * @param Objects to be computed
-     * @return Values of the function, associated to the given collection of objects
-     */	
-    public default Collection<T> apply( Collection<S> set ){
-	return new ApplyFunctionCollection<S,T>(this, set);    	
-    }
+	/**
+	 * Computes the function for a given collection of objects
+	 * @param Objects to be computed
+	 * @return Values of the function, associated to the given collection of objects
+	 */	
+	public default Collection<T> apply( Collection<S> set ){ return new ApplyFunctionCollection<S,T>(this, set); }
     
 	/**
 	 * Gets the function values for a given collection of objects
 	 * @param Objects to be evaluated
 	 * @return Function values associated to the given collection of objects
 	 */
-    public default void apply( Collection<S> set, MutableCollection<T> target ){
-	target.clear();
-	for( S x : set ){
-    		target.add(apply(x));
-	}	
-    }
+	public default void apply( Collection<S> set, GrowCollection<T> target ){
+		for( S x : set ) target.add(apply(x));
+	}
 }

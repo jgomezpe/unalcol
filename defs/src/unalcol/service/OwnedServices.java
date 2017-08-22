@@ -52,86 +52,78 @@ import java.util.Hashtable;
 */
 
 public class OwnedServices {
-    /**
-     * Services owned by the object associated to this class by the ServicePool  
-     * Here, the service instance is associated with a service class (by default, to the service class)
-     */
-    protected Hashtable<Class<?>, Object> instances = new Hashtable<Class<?>,Object>();
+	/**
+	 * Services owned by the object associated to this class by the ServicePool  
+	 * Here, the service instance is associated with a service class (by default, to the service class)
+	 */
+	protected Hashtable<Class<?>, Object> instances = new Hashtable<Class<?>,Object>();
 
-    /**
-     * Instance currently associated to the service by the owner
-     */
-    protected Hashtable<Class<?>, Object> current = new Hashtable<Class<?>,Object>();
+	/**
+	 * Instance currently associated to the service by the owner
+	 */
+	protected Hashtable<Class<?>, Object> current = new Hashtable<Class<?>,Object>();
 
-    /**
-     * Associates a service to an object for answering request of a type of services  
-     * The class of the service <i>instance</i> must be assignable to service class <i>type</i> 
-     * @param type Type of the service that <i>instance</i> will provide
-     * @param instance Service that will provide the <i>type</i> of service
-     * @return A boolean value indicating if the service <i>instance</i> 
-     * was set for providing the class of service <i>type</i> 
-     */
-    public boolean set( Class<?> type,  Object instance ){
+	/**
+	 * Associates a service to an object for answering request of a type of services  
+	 * The class of the service <i>instance</i> must be assignable to service class <i>type</i> 
+	 * @param type Type of the service that <i>instance</i> will provide
+	 * @param instance Service that will provide the <i>type</i> of service
+	 * @return A boolean value indicating if the service <i>instance</i> 
+	 * was set for providing the class of service <i>type</i> 
+	 */
+	public boolean set( Class<?> type,  Object instance ){
 		instances.put(type, instance);
-    	if( type!= null && instance != null && type.isAssignableFrom(instance.getClass()) ){
-    		current.put(type, instance);
-    		return true;
-    	}
-    	return false;
-    }
+		if( type== null || instance == null || !type.isAssignableFrom(instance.getClass()) ) return false;
+		current.put(type, instance);
+		return true;
+	}
     
-    /**
-     * Associates a service to an object for answering request of the service type  
-     * @param instance Service that will provide the service
-     * @return A boolean value indicating if the service <i>instance</i> 
-     * was set for providing the class of service (the <i>instance</i> class) 
-     */
-    public boolean set( Object instance ){
-    	return set( instance.getClass(), instance );
-    }
+	/**
+	 * Associates a service to an object for answering request of the service type  
+	 * @param instance Service that will provide the service
+	 * @return A boolean value indicating if the service <i>instance</i> 
+	 * was set for providing the class of service (the <i>instance</i> class) 
+	 */
+	public boolean set( Object instance ){ return set( instance.getClass(), instance ); }
     
-    /**
-     * Obtains the service instance that provides the requested <i>type</i> of service.
-     * If there is not a service instance associated to the requested <i>type</i>, it will
-     * look for a registered instance that can be assignable (according to instances class type) to the requested <i>type</i>. 
-     * @param type Type of service requested
-     * @return A service instance that provides the requested <i>type</i> of service if available, <i>null</i> otherwise
-     */
-    public Object get( Class<?> type ){
-    	Object obj = current.get(type);
-    	if( obj == null ){
-    		obj = instances.get(type);
-    	}
-    	if( obj == null ){
-    		Enumeration<Object> x = instances.elements();
-    		while( x.hasMoreElements() ){
-    			Object y = x.nextElement();
-    			if( type.isAssignableFrom(y.getClass()) ){
-    				if( obj == null || y.getClass().isAssignableFrom(obj.getClass()) ){
-    					obj = y;
-    				}	
-    			}
-    		}
-    	}
-    	return obj;
-    }  
+	/**
+	 * Obtains the service instance that provides the requested <i>type</i> of service.
+	 * If there is not a service instance associated to the requested <i>type</i>, it will
+	 * look for a registered instance that can be assignable (according to instances class type) to the requested <i>type</i>. 
+	 * @param type Type of service requested
+	 * @return A service instance that provides the requested <i>type</i> of service if available, <i>null</i> otherwise
+	 */
+	public Object get( Class<?> type ){
+		Object obj = current.get(type);
+		if( obj == null ) obj = instances.get(type);
+		if( obj == null ){
+			Enumeration<Object> x = instances.elements();
+			while( x.hasMoreElements() ){
+				Object y = x.nextElement();
+				if( type.isAssignableFrom(y.getClass()) && ( obj == null || y.getClass().isAssignableFrom(obj.getClass())) )
+					obj = y;
+
+			}
+		}
+		return obj;
+	}  
  
-    /**
-     * Obtains the set of service instances providing the requested <i>type</i> of service.
-     * It looks for every registered instance that can be assignable 
-     * (according to instances class type) to the requested <i>type</i>.
-     * Services that can be associated to the requested <i>type</i> are added to 
-     * the ArrayList <i>list</i>. 
-     * @param type Type of service requested.
-     * @param list ArrayList where found services are added.
-     */
-    protected void getAll( Class<?> type, ArrayList<Object> list ){
-    	Object obj = instances.get(type);
-    	if( obj != null ) list.add(obj);
+	/**
+	 * Obtains the set of service instances providing the requested <i>type</i> of service.
+	 * It looks for every registered instance that can be assignable 
+	 * (according to instances class type) to the requested <i>type</i>.
+	 * Services that can be associated to the requested <i>type</i> are added to 
+	 * the ArrayList <i>list</i>. 
+	 * @param type Type of service requested.
+	 * @param list ArrayList where found services are added.
+	 */
+	protected void getAll( Class<?> type, ArrayList<Object> list ){
+		Object obj = instances.get(type);
+		if( obj != null ) list.add(obj);	
 		Enumeration<Object> x = instances.elements();
 		while( x.hasMoreElements() ){
 			Object y = x.nextElement();
 			if( type.isAssignableFrom(y.getClass()) )	list.add(y);	
-		}    	
-    }
+		}
+	}
 }

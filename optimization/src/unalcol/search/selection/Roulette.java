@@ -56,7 +56,7 @@ public class Roulette implements QualityBasedSelection<Double>{
 					for( int i=0; i<x.length; i++ ) y[i] = -x[i];
 				}
 			}else{
-				
+				//@TODO: Case positive and negative values are in the density
 			}			
 		}
 		return y;
@@ -64,14 +64,13 @@ public class Roulette implements QualityBasedSelection<Double>{
 
 	@Override
 	public int[] apply(int n, Double[] x, Order<Double> order) {
-		IntRoulette roulette = new IntRoulette(n);
-		return null;
+		IntRoulette roulette = new IntRoulette(get(x,order));
+		return roulette.generate(n);
 	}
 
 	@Override
 	public int choose_one(Double[] x, Order<Double> order) {
-		// TODO Auto-generated method stub
-		return 0;
+		IntRoulette roulette = new IntRoulette(get(x,order));
+		return roulette.next();
 	}
-
 }

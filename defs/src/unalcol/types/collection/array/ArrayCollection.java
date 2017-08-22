@@ -1,4 +1,5 @@
 package unalcol.types.collection.array;
+
 import unalcol.types.collection.*;
 
 /**
@@ -20,5 +21,5 @@ public interface ArrayCollection<T> extends FiniteCollection<T>{
          * @return T
          * @throws ArrayIndexOutOfBoundsException
          */
-        public T get( int index ) throws ArrayIndexOutOfBoundsException;
+        public T get( int index ) throws ArrayIndexOutOfBoundsException;        
 }

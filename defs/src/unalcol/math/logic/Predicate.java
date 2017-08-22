@@ -10,16 +10,15 @@ package unalcol.math.logic;
  */
 public abstract class Predicate<T> {
 
-    /**
-     * Evaluates the predicate
-     * @param object Predicates argument
-     * @return true if the attributes of the predicate (arguments) satisfy the predicate, false in other case
-     */
-    public abstract boolean evaluate(T object);
+	/**
+	 * Evaluates the predicate
+	 * @param object Predicates argument
+	 * @return true if the attributes of the predicate (arguments) satisfy the predicate, false in other case
+	 */
+	public abstract boolean evaluate(T object);
 
-    /**
-     * Initializes the internal state of the predicate
-     */
-    public void init() {}
-
+	/**
+	 * Initializes the internal state of the predicate
+	 */
+	public void init() {}
 }

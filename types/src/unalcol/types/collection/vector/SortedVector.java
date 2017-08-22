@@ -40,8 +40,7 @@ public class SortedVector<T> extends Vector<T>{
     }
     
     public SortedVector( SortedVector<T> vector ){
-    	super(vector);
-    	this.order = vector.order;
+    	this(vector, vector.order);
     }
 
     public int findIndex( T data ){

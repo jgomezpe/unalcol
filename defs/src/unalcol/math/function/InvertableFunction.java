@@ -9,10 +9,10 @@ package unalcol.math.function;
  * @version 1.0
  */
 public interface InvertableFunction<S, T> extends Function<S, T> {
-    /**
-     * Inverse value
-     * @param y computed value (in the range of the function)
-     * @return Argument value (in the domain of the function)
-     */
-    public abstract S inverse(T y);
+	/**
+	 * Inverse value
+	 * @param y computed value (in the range of the function)
+	 * @return Argument value (in the domain of the function)
+	 */
+	public abstract S inverse(T y);
 }

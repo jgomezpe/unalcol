@@ -57,19 +57,17 @@ public class ServiceCore {
 	 * The ServicePool used for all the Unalcol Service Infra-structure. 
 	 */
 	protected static ServicePool hierarchy = new ServicePool();
-	
+
 	/**
 	 * Nickname - service association. Given a nick name maintains the service associated to it
 	 */
 	protected static Hashtable<String, Class<?>> nick_names = new Hashtable<String, Class<?>>();
 	
 	public static boolean register_service( String nick_name, Class<?> type ){
-	    Class<?> c = nick_names.get(nick_name);
-	    if( c==null ){
+		Class<?> c = nick_names.get(nick_name);
+		if( c!=null ) return false;
 		nick_names.put(nick_name, type);
 		return true;
-	    }
-	    return false;
 	}
 	
 	public static Class<?> get( String nick_name ){ return nick_names.get(nick_name); }
@@ -83,9 +81,7 @@ public class ServiceCore {
     * @param type Type of service requested.
     * @return Array with the found services.
     */
-    public static Object[] getAll( Class<?> owner, Class<?> type ){
-    	return hierarchy.getAll(owner, type);
-    }
+	public static Object[] getAll( Class<?> owner, Class<?> type ){ return hierarchy.getAll(owner, type); }
 	
     /**
      * Obtains the set of service instances providing the requested <i>type</i> of service for 
@@ -96,66 +92,54 @@ public class ServiceCore {
      * @param type Type of service requested.
      * @return Array with the found services.
      */
-    public static Object[] getAll( Object owner, Class<?> type ){
-    	return hierarchy.getAll(owner, type);
-    }
+	public static Object[] getAll( Object owner, Class<?> type ){ return hierarchy.getAll(owner, type); }
 	
     
 	/**
-     * Obtains the service instance that provides the requested <i>type</i> of service to the given class <i>owner</i>.
-     * If there is not a service instance associated to the given class <i>owner</i>, it will
-     * look in the super classes of the class <i>owner</i>. 
+	 * Obtains the service instance that provides the requested <i>type</i> of service to the given class <i>owner</i>.
+	 * If there is not a service instance associated to the given class <i>owner</i>, it will
+	 * look in the super classes of the class <i>owner</i>.
 	 * @param owner Class that owns the service
-     * @param type Type of service requested
-     * @return A service instance that provides the requested <i>type</i> of service to the class <i>owner</i> 
-     * if available, <i>null</i> otherwise.
+	 * @param type Type of service requested
+	 * @return A service instance that provides the requested <i>type</i> of service to the class <i>owner</i> 
+	 * if available, <i>null</i> otherwise.
 	 */
-    public static Object get( Class<?> owner, Class<?> type ){
-    	return hierarchy.get(owner, type);
-    }
+	public static Object get( Class<?> owner, Class<?> type ){ return hierarchy.get(owner, type); }
 	
 	/**
-     * Obtains the service instance that provides the requested <i>type</i> of service to the given object <i>owner</i>.
-     * If there is not a service instance associated to the given object <i>owner</i>, it will
-     * look if there is a service associated to the class (or super classes) of the object <i>owner</i>, and
-     * it will look in the super classes of the class <i>owner</i>.  
+	 * Obtains the service instance that provides the requested <i>type</i> of service to the given object <i>owner</i>.
+	 * If there is not a service instance associated to the given object <i>owner</i>, it will
+	 * look if there is a service associated to the class (or super classes) of the object <i>owner</i>, and
+	 * it will look in the super classes of the class <i>owner</i>.  
 	 * @param owner Object that owns the service
-     * @param type Type of service requested
-     * @return A service instance that provides the requested <i>type</i> of service to the object <i>owner</i> 
-     * if available, <i>null</i> otherwise.
+	 * @param type Type of service requested
+	 * @return A service instance that provides the requested <i>type</i> of service to the object <i>owner</i> 
+	 * if available, <i>null</i> otherwise.
 	 */
-   public static Object get( Object owner, Class<?> type ){
-    	return hierarchy.get(owner, type);
-    }
+	public static Object get( Object owner, Class<?> type ){ return hierarchy.get(owner, type); }
 	
-   /**
-    * Sets the service <i>instance</i> that will be associated to the service <i>type</i> to the object <i>owner</i>. 
-    * @param owner Object that will own the service
-    * @param type Type of service that will by provided
-    * @param instance Service that will provide the service.
-    * @return If the service <i>instance</i> was associated to the service <i>type</i> for the object <i>owner</i>.
-    */
-    public static boolean set( Object owner, Class<?> type, Object instance ){
-    	return hierarchy.set(owner, type, instance);
-    }    	
+	/**
+	 * Sets the service <i>instance</i> that will be associated to the service <i>type</i> to the object <i>owner</i>. 
+	 * @param owner Object that will own the service
+	 * @param type Type of service that will by provided
+	 * @param instance Service that will provide the service.
+	 * @return If the service <i>instance</i> was associated to the service <i>type</i> for the object <i>owner</i>.
+	 */
+	public static boolean set( Object owner, Class<?> type, Object instance ){ return hierarchy.set(owner, type, instance); }    	
 
-    /**
-     * Sets the service <i>instance</i> to the object <i>owner</i>. 
-     * @param owner Object that will own the service.
-     * @param instance Service that will provide the service.
-     * @return If the service <i>instance</i> was associated to the object <i>owner</i>.
-     */
-    public static boolean set( Object owner, Object instance ){
-    	return hierarchy.set(owner, instance.getClass(), instance);
-    } 
+	/**
+	 * Sets the service <i>instance</i> to the object <i>owner</i>. 
+	 * @param owner Object that will own the service.
+	 * @param instance Service that will provide the service.
+	 * @return If the service <i>instance</i> was associated to the object <i>owner</i>.
+	 */
+	public static boolean set( Object owner, Object instance ){ return hierarchy.set(owner, instance.getClass(), instance);	} 
     
-    /**
-     * Removes the object <i>owner</i> from the service pool (removes all services associated
-     * to the object <i>owner</i>)
-     * @param owner Object that will be removed from the service pool
-     * @return If the object <i>owner</i> was removed from the service pool.
-     */
-    public static boolean remove( Object owner ){ 
-    	return hierarchy.remove(owner);
-    }
+	/**
+	 * Removes the object <i>owner</i> from the service pool (removes all services associated
+	 * to the object <i>owner</i>)
+	 * @param owner Object that will be removed from the service pool
+	 * @return If the object <i>owner</i> was removed from the service pool.
+	 */
+	public static boolean remove( Object owner ){ return hierarchy.remove(owner); }
 }

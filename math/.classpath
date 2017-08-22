@@ -5,5 +5,6 @@
 	<classpathentry kind="lib" path="/home/jgomez/git/unalcol/libs/types.jar"/>
 	<classpathentry kind="lib" path="/home/jgomez/git/unalcol/libs/random.jar"/>
 	<classpathentry kind="lib" path="/home/jgomez/git/unalcol/libs/services.jar"/>
+	<classpathentry kind="lib" path="/home/jgomez/git/unalcol/libs/defs.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
