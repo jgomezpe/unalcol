@@ -1,4 +1,4 @@
-package unalcol.services2;
+package unalcol.services;
 
 public interface MicroService {
 	public Object apply( Object obj, Object... args );

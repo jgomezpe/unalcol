@@ -1,4 +1,4 @@
-package unalcol.services2;
+package unalcol.services;
 
 import java.util.Hashtable;
 
@@ -12,6 +12,7 @@ public class Service{
 	
 	public String name(){ return name; }
 	
+	public MicroService get(Object owner){ return micro.get(owner); }
 	protected Object apply( Class<?> owner, Object obj, Object... args ) throws Exception{
 		MicroService m = micro.get(owner);
 		if(m!=null) return m.apply(owner, args);
@@ -36,6 +37,14 @@ public class Service{
 		Service s = services.get(service);
 		if( s!= null ) return s.apply(owner, args);
 		else throw new Exception("Undefined service "+service);
+	}
+	
+	public static Service get(String service){ return services.get(service); }
+	
+	public static MicroService get(String service, Object owner){
+		Service s = services.get(service);
+		if( s!=null ) return s.get(owner);
+		return null;
 	}
 	
 	public static void register(String service, Object owner, MicroService micro){

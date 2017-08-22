@@ -1,6 +1,6 @@
 package unalcol.clone;
 
-import unalcol.service.ServiceCore;
+import unalcol.services.MicroService;
 
 //
 //Unalcol Service structure Pack 1.0 by Jonatan Gomez-Perdomo
@@ -51,42 +51,17 @@ import unalcol.service.ServiceCore;
 * @version 1.0
 * @param <T> Type of objects to be cloned.
 */
-public abstract class Clone<T> {
+public abstract class Clone<T> implements MicroService{
+	
+	public static final String name="clone";
+	
 	/**
      * Creates a clone of a given object
      * @param toClone Object to be cloned
      * @return A clone of the object
      */
 	public abstract T clone(T toClone);
-    
-    /**
-     * Obtains the Clone service associated to the given object.
-     * @param owner Object that owns the clone service.
-     * @return A Clone service for the given object (if available), <i>null</i> otherwise.
-     */
-	public static Clone<?> get(Object owner){
-		if( ServiceCore.get(Object.class, Clone.class) == null )
-			set(Object.class, new CloneWrapper());
-		return (Clone<?>)ServiceCore.get(owner, Clone.class);
-	}
-    
-    /**
-     * Sets the clone <i>service</i> to the object <i>owner</i>. 
-     * @param owner Object that will own the service.
-     * @param service Instance that will provide the clone service to the object <i>owner</i>.
-     * @return If the clone <i>service</i> was associated to the object <i>owner</i>.
-     */
-	public static boolean set( Object owner, Clone<?> service ){
-		return ServiceCore.set(owner, Clone.class, service);
-	}
-    
-   	/**
-     * Creates a clone of a given object
-     * @param obj Object to be cloned
-     * @return A clone of the object, if a cloning service is available for the given object, <i>null</i> otherwise
-     */
+	
 	@SuppressWarnings("unchecked")
-	public static Object create( Object obj ){
-		return ((Clone<Object>)get(obj)).clone(obj);
-	}  
+	public Object apply( Object obj, Object... args ){ return clone((T)obj); }    
 }

@@ -3,6 +3,7 @@ package unalcol.clone;
 import java.lang.reflect.Method;
 
 import unalcol.instance.Instance;
+import unalcol.services.Service;
 
 import java.lang.reflect.Array;
 
@@ -84,15 +85,14 @@ public class CloneWrapper extends Clone<Object> {
 	protected Object cloneArray( Object obj ){
 		Class<?> cl = obj.getClass().getComponentType();
 		if( cl.isPrimitive() ) return clonePrimitiveArray(obj);
+		Service s = Service.get(Clone.name);
 		int n = Array.getLength(obj);
 		Object clone = Array.newInstance(cl, n);
 		for( int i=0; i<n; i++ ){
 			Object the_obj = Array.get(obj, i); 
-			if( the_obj != null ){ 
-				Array.set(clone, i, Clone.create(the_obj));
-			}else{ 
-				Array.set(clone, i, null);
-			}
+			if( the_obj != null ) 
+				try { Array.set(clone, i, s.apply(the_obj)); }catch(Exception e){ Array.set(clone, i, the_obj); }
+			else Array.set(clone, i, null);
 		}
 		return clone;
 	}
