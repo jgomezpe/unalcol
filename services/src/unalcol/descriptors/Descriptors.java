@@ -1,6 +1,6 @@
 package unalcol.descriptors;
 
-import unalcol.service.*;
+import unalcol.services.MicroService;
 
 //
 //Unalcol Service structure Pack 1.0 by Jonatan Gomez-Perdomo
@@ -51,42 +51,16 @@ import unalcol.service.*;
 * @version 1.0
 * @param <T> Type of objects to be described.
 */
-public abstract class Descriptors<T> {
+public abstract class Descriptors<T>  implements MicroService{	
+	public static final String name="descriptors";
+	
 	/**
-     * Obtains the descriptors of (an array of double values describing) an object.
-     * @param obj Object to be described using double values (features).
-     * @return An array of double values used for describing the object.
-     */
+	 * Obtains the descriptors of (an array of double values describing) an object.
+	 * @param obj Object to be described using double values (features).
+	 * @return An array of double values used for describing the object.
+	 */
 	public abstract double[] descriptors(T obj);
     
-	/**
-     * Obtains the descriptor service associated to a given object.
-     * @param owner Object to be described. 
-     * @return Descriptor service associated to a given object.
-     */
-	public static Descriptors<?> get(Object owner){
-		if( ServiceCore.get(Object.class, Descriptors.class) == null )
-			set(Object.class, new DescriptorsWrapper());
-		return (Descriptors<?>)ServiceCore.get(owner, Descriptors.class);
-	}
-    
-	/**
-     * Associates to a given object <i>owner</i> its descriptor <i>service</i>.
-     * @param owner Object that will be associated to the descriptors <i>service</i>.
-     * @param service Descriptors service used by the object <i>owner</i>.
-     * @return If the <i>owner</i> was associated to the descriptors <i>service</i>.
-     */
-	public static boolean set( Object owner, Descriptors<?> service ){
-		return ServiceCore.set(owner, Descriptors.class, service);
-	}
-    
-	/**
-     * Obtains the descriptors of an object.
-     * @param obj Object to be described
-     * @return An array of double values used for describing the object.
-     */
 	@SuppressWarnings("unchecked")
-	public static double[] obtain(Object obj) {
-		return ((Descriptors<Object>)get(obj)).descriptors(obj);
-	}
+	public Object apply( Object obj, Object... args ) throws Exception{ return descriptors((T)obj); }    
 }

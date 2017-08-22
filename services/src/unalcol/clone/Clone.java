@@ -56,12 +56,12 @@ public abstract class Clone<T> implements MicroService{
 	public static final String name="clone";
 	
 	/**
-     * Creates a clone of a given object
-     * @param toClone Object to be cloned
-     * @return A clone of the object
-     */
+	 * Creates a clone of a given object
+	 * @param toClone Object to be cloned
+	 * @return A clone of the object
+	 */
 	public abstract T clone(T toClone);
 	
 	@SuppressWarnings("unchecked")
-	public Object apply( Object obj, Object... args ){ return clone((T)obj); }    
+	public Object apply( Object obj, Object... args ) throws Exception { return clone((T)obj); }    
 }

@@ -13,6 +13,7 @@ public class Service{
 	public String name(){ return name; }
 	
 	public MicroService get(Object owner){ return micro.get(owner); }
+	
 	protected Object apply( Class<?> owner, Object obj, Object... args ) throws Exception{
 		MicroService m = micro.get(owner);
 		if(m!=null) return m.apply(owner, args);

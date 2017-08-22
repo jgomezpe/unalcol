@@ -3,6 +3,8 @@ package unalcol.descriptors;
 import java.lang.reflect.Array;
 import java.lang.reflect.Method;
 
+import unalcol.services.Service;
+
 //
 //Unalcol Service structure Pack 1.0 by Jonatan Gomez-Perdomo
 //https://github.com/jgomezpe/unalcol/tree/master/services/
@@ -72,6 +74,13 @@ public class DescriptorsWrapper extends Descriptors<Object> {
 			return d;
 		}
 		
+		if( obj instanceof char[] ){
+			char[] x = (char[])obj;
+			double[] d = new double[x.length];
+			for( int i=0; i<d.length; i++) d[i] = x[i];
+			return d;
+		}
+		
 		if( obj instanceof byte[] ){
 			byte[] x = (byte[])obj;
 			double[] d = new double[x.length];
@@ -110,19 +119,19 @@ public class DescriptorsWrapper extends Descriptors<Object> {
 	}
     	
 	/**
-     * Creates a descriptors array for an array of objects. 
-     * @param obj Array of objects to be described.
-     * @return Descriptors array for an array of objects.
-     */
+	 * Creates a descriptors array for an array of objects. 
+	 * @param obj Array of objects to be described.
+	 * @return Descriptors array for an array of objects.
+	 */
 	protected double[] descriptorsArray( Object obj ){
 		Class<?> cl = obj.getClass().getComponentType();
 		if( cl.isPrimitive() ) return descriptorsPrimitiveArray(obj);
-        
+		Service s = Service.get(Descriptors.name);
 		int m = 0;
 		int n = Array.getLength(obj);
 		double[][] desc = new double[n][];
 		for( int i=0; i<n; i++ ){
-			desc[i] = Descriptors.obtain(Array.get(obj, i));
+			try { desc[i] = (double[])s.apply(Array.get(obj,i)); }catch(Exception e){ desc[i]=new double[0]; }
 			m += desc[i].length;
 		}
 		double[] d = new double[m];
@@ -135,14 +144,13 @@ public class DescriptorsWrapper extends Descriptors<Object> {
 	}
     
 	/**
-     * Obtains the descriptors of an object
-     * @param obj Object to be analyzed
-     * @return An array of double values used for describing the object
-     */
+	 * Obtains the descriptors of an object
+	 * @param obj Object to be analyzed
+	 * @return An array of double values used for describing the object
+	 */
 	@Override
 	public double[] descriptors(Object obj) {
 		if( obj.getClass().isArray() ) return descriptorsArray(obj);
-
 		try {
 			Method m = obj.getClass().getMethod(method_name) ;
 			return (double[]) m.invoke(obj);
