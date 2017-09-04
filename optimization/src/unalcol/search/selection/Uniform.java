@@ -27,7 +27,7 @@ public class Uniform<T> implements Selection<T>{
    * @return Index of the selected candidate solution
    */
   protected int choose_one( IntUniform g ){
-    return g.generate();
+    return g.next();
   }
 
   /**
@@ -49,10 +49,6 @@ public class Uniform<T> implements Selection<T>{
   @Override
   public int[] apply( int n, Solution<T>[] x){
     IntUniform g =  new IntUniform(x.length);
-    int[] sel = new int[n];
-    for (int i = 0; i<n; i++) {
-        sel[i] = g.generate();
-    }
-    return sel;
+    return g.generate(n);
   }
 }

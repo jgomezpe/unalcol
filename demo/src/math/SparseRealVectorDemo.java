@@ -6,8 +6,14 @@ package math;
 
 import java.io.StringReader;
 
+import unalcol.clone.DefaultClone;
 import unalcol.io.ShortTermMemoryReader;
-import unalcol.io.Write;
+import unalcol.random.raw.JavaGenerator;
+import unalcol.services.Service;
+import unalcol.services.ServicePool;
+import unalcol.types.collection.vector.Vector;
+import unalcol.types.collection.vector.VectorClone;
+import unalcol.types.real.array.DoubleArrayPlainRead;
 import unalcol.types.real.array.DoubleArrayPlainWrite;
 import unalcol.types.real.array.sparse.SparseRealVector;
 import unalcol.types.real.array.sparse.SparseRealVectorDotProduct;
@@ -20,7 +26,20 @@ import unalcol.types.real.array.sparse.SparseRealVectorSphereNormalization;
  * @author jgomez
  */
 public class SparseRealVectorDemo {
-    public static void persistency(){
+	public static void init_services(){
+		ServicePool service = new ServicePool();
+        service.register(new JavaGenerator(), Object.class);         
+    	service.register(new DoubleArrayPlainRead(), double[].class);
+        service.register(new DoubleArrayPlainWrite(), double[].class);
+        service.register(new DefaultClone(), Object.class);
+        service.register(new VectorClone<Object>(), Vector.class);
+//        service.register(new ConsoleTracer(), Object.class);
+        service.register(new DoubleArrayPlainWrite(','),double[].class);
+        Service.set(service);
+	}
+	
+	public static void persistency(){
+		init_services();
         StringReader r = new StringReader("  3, 5.0, 1, -1234.4555e-123, 6, 345.6789, 9, 23.456    ");
         ShortTermMemoryReader reader = new ShortTermMemoryReader(r);
         SparseRealVector x;
@@ -39,8 +58,6 @@ public class SparseRealVectorDemo {
 	
 	public static void main( String[] args ){
          // Reflection
-        DoubleArrayPlainWrite key = new DoubleArrayPlainWrite(',');
-        Write.set(double[].class,key);
        
         SparseRealVector x = new SparseRealVector(100);
         for( int i=0; i<10; i++){

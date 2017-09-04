@@ -5,9 +5,8 @@
  */
 package unalcol.search.solution;
 
-import java.util.Hashtable;
-
-import unalcol.reflect.tag.TaggedObject;
+import unalcol.types.collection.keymap.KeyMap;
+import unalcol.types.tag.TaggedObject;
 import unalcol.search.Goal;
 import unalcol.search.space.Space;
 
@@ -20,7 +19,7 @@ public class Solution<T> extends TaggedObject<T>{
 		super(object);
 	}
 	
-	public Solution(T object, Hashtable<String, Object> tags, boolean copyAllTags ){
+	public Solution(T object, KeyMap<String, Object> tags, boolean copyAllTags ){
 		super( object, tags, copyAllTags );
 	}
 	

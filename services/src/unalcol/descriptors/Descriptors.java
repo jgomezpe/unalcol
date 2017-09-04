@@ -51,16 +51,20 @@ import unalcol.services.MicroService;
 * @version 1.0
 * @param <T> Type of objects to be described.
 */
-public abstract class Descriptors<T>  implements MicroService{	
-	public static final String name="descriptors";
-	
+public interface Descriptors<T>  extends MicroService{	
 	/**
 	 * Obtains the descriptors of (an array of double values describing) an object.
 	 * @param obj Object to be described using double values (features).
 	 * @return An array of double values used for describing the object.
 	 */
-	public abstract double[] descriptors(T obj);
+	public double[] descriptors();
     
-	@SuppressWarnings("unchecked")
-	public Object apply( Object obj, Object... args ) throws Exception{ return descriptors((T)obj); }    
+	// The MicroService methods
+
+	/**
+	 * The method name that can be used for describing an object
+	 */
+	public static final String name="descriptors";
+	
+	public default Object run( Object... args ) throws Exception{ return descriptors(); }    	
 }

@@ -1,10 +1,10 @@
-package services;
+package unalcol.io;
 
+import java.io.IOException;
+import java.lang.reflect.Method;
 
-import unalcol.clone.Clone;
-import unalcol.clone.ShallowClone;
-import unalcol.tracer.ConsoleTracer;
-import unalcol.tracer.Tracer;
+import unalcol.services.TaggedMicroService;
+import unalcol.types.tag.Tags;
 
 //
 //Unalcol Service structure Pack 1.0 by Jonatan Gomez-Perdomo
@@ -12,13 +12,12 @@ import unalcol.tracer.Tracer;
 //
 /**
 *
-* ServiceTest
-* <P> Testing the Unalcol Service Infra-structure 
+* DefaultRead
+* <p>Read service for classes that have implemented a read method.</p>
 *
 * <P>
-* <A HREF="https://github.com/jgomezpe/unalcol/blob/master/demo/service/ServiceTest.java">
+* <A HREF="https://github.com/jgomezpe/unalcol/blob/master/services/src/unalcol/io/DefaultRead.java" target="_blank">
 * Source code </A> is available.
-* <P>
 *
 * <h3>License</h3>
 *
@@ -55,28 +54,25 @@ import unalcol.tracer.Tracer;
 * (E-mail: <A HREF="mailto:jgomezpe@unal.edu.co">jgomezpe@unal.edu.co</A> )
 * @version 1.0
 */
-
-public class ServiceTest {
-    /**
-     * Test the clone service infrastructure
-     */
-    public static void coreTest(){    	
-        Clone<Object> shallow = new ShallowClone();
-        String s = "Comparing the two copy methods";
-        String cs = (String)Clone.create(s);
-        
-        ConsoleTracer tracer = new ConsoleTracer();
-        Tracer.addTracer(String.class, tracer);
-        Tracer.trace(cs, "Value of cs:",cs);
-        Tracer.trace(cs, "Is it a Shallow copy?"+(cs==s));        
-        Clone.set(String.class, shallow);
-        cs = (String)Clone.create(s);
-        Tracer.trace(cs, "Value of cs:"+cs);
-        Tracer.trace(cs, "Is it a shallow copy?"+(cs==s));        
-    }
-    
-    public static void main( String[] args ){
-//        cloneTest();
-    	coreTest();
-    }    
+public class DefaultRead  extends Tags implements TaggedMicroService, Read<Object> {
+	/**
+	 * Reads an instance of the class associated to the service from the <i>reader</i>, if possible.
+	 * @param reader The ShortTermMemoryReader from which the instance will be read.
+	 * @return An instance of the class associated to the service that is read from the <i>reader</i>.
+	 * @throws IOException if an error reading the instance occurred.  
+	 */
+	@Override
+	public Object read(ShortTermMemoryReader reader) throws IOException {
+		try{ 
+			Object obj = caller();
+			Class<?> type = (obj instanceof Class<?>)?(Class<?>)obj:obj.getClass();
+			Method method = type.getDeclaredMethod(name(), parameterTypes);
+			Class<?>[] param = method.getParameterTypes();
+			if(param.length!=1 || param[0] != ShortTermMemoryReader.class){
+				method = null;
+				throw new Exception("Incorrect number of arguments method "+name()+" for class " + type.getName());
+			}
+			return method.invoke(reader); 
+		}catch( Exception e ){ throw new IOException(e.getMessage()); }
+	}
 }

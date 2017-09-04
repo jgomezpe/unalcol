@@ -8,6 +8,7 @@ package unalcol.search.local;
 import unalcol.math.logic.Predicate;
 import unalcol.search.solution.Solution;
 import unalcol.search.space.Space;
+import unalcol.services.Service;
 import unalcol.tracer.Tracer;
 
 /**
@@ -32,11 +33,11 @@ public class IterativeLocalSearch<T,R> extends LocalSearch<T,R> {
 	public Solution<T> apply(Solution<T> solution, Space<T> space) {
         terminationCondition.init();
         int i=0;
-        Tracer.trace(this, i, solution);
+        try{ Service.run(Tracer.name,this, i, solution); }catch(Exception e){}
         while( terminationCondition.evaluate(solution) ){
             solution = step(solution, space);
             i++;
-            Tracer.trace(this, i, solution);
+            try{ Service.run(Tracer.name,this, i, solution); }catch(Exception e){}
         }
         return solution;
 	}

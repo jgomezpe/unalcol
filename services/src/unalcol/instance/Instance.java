@@ -1,6 +1,5 @@
 package unalcol.instance;
 
-import java.lang.reflect.Constructor;
 import unalcol.services.MicroService;
 
 //
@@ -52,42 +51,21 @@ import unalcol.services.MicroService;
 * @version 1.0
 * @param <T> Type of objects from which instances will be generated.
 */
-public class Instance<T>  implements MicroService{
-	public static final String name="instance";
-
-	public Object apply( Class<?> type, Object... args ){ return create(type, args); }    
-
-	@Override
-	public Object apply(Object obj, Object... args){ return apply(obj.getClass(),args); }    	
-    
+public interface Instance<T> extends MicroService{
 	/**
 	 * Generates an instance belonging to the class <i>type</i> according to the parameters (it does not support VarArgs constructors).
 	 * @param type Class of instances that will be generated.
 	 * @param args Arguments for creating an instance.
 	 * @return An instance belonging to the class <i>type</i> using the parameters.
 	 */
-	public static Object create( Class<?> type, Object... args ){
-		Class<?>[] argsTypes = new Class<?>[args.length];
-		for( int i=0; i<argsTypes.length; i++) argsTypes[i] = args[i].getClass();
-		try{
-			Constructor<?>[] c = type.getConstructors();
-			Constructor<?> cc = null;
-			// @TODO: Check var ags constructors.. 
-			for( int i=0; i<c.length; i++ ){
-				Class<?>[] parms = c[i].getParameterTypes();
-				if( parms.length==args.length ){
-					boolean assignable = true;
-					boolean exact = true;
-					for( int k=0; k<args.length && assignable; k++ ){
-						assignable = parms[k].isAssignableFrom(argsTypes[k]);
-						exact = parms[k] == argsTypes[k];
-					}
-					if( exact ) return  c[i].newInstance(args);
-					if( assignable ) cc = c[i];
-				}
-			}
-			if( cc != null )	return cc.newInstance(args);
-		}catch( Exception e ){}	
-		return null;
-	}
+	public T create( Object... args );
+
+	// The MicroService methods
+
+	public static final String name="instance";
+
+	@Override
+	public default Object run(Object... args) throws Exception{
+		return create(args); 
+	}    	
 }

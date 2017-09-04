@@ -16,7 +16,5 @@ public class DoubleArrayInstance extends DoubleArrayZeroOneInstance {
     }
     
     @Override
-    public double[] get(int n) {
-        return scale.inverse(super.get(n));
-    }
+    public double[] create(int n){ return scale.inverse(super.create(n)); }
 }

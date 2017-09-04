@@ -1,8 +1,6 @@
 package unalcol.random;
 
-import unalcol.random.raw.JavaGenerator;
-import unalcol.random.raw.RawGenerator;
-import unalcol.service.ServiceCore;
+import unalcol.services.ServiceProvider;
 
 //
 // Unalcol Random generation Pack 1.0 by Jonatan Gomez-Perdomo
@@ -52,12 +50,12 @@ import unalcol.service.ServiceCore;
  * (E-mail: <A HREF="mailto:jgomezpe@unal.edu.co">jgomezpe@unal.edu.co</A> )
  * @version 1.0
  */
-public abstract class Random<T>{
+public interface RandomGenerator<T> extends ServiceProvider{
 	/**
 	 * Generates a random object of class <i>T</i>.
 	 * @return A random object of class <i>T</i>.
 	 */
-	public abstract T next();
+	public T next();
     
 	/**
 	 * generates a random objects array of class <i>T</i>.
@@ -65,8 +63,9 @@ public abstract class Random<T>{
 	 * @param offset Initial position in the array for the generated objects.
 	 * @param m The total number of random objects to be generated.
 	 */
-	public void raw(T[] v, int offset, int m) {
+	public default T[] raw(T[] v, int offset, int m) {
 	    for (int i = 0; i < m; i++) v[i+offset] = next();
+	    return v;
 	}
 	
 	/**
@@ -75,97 +74,33 @@ public abstract class Random<T>{
 	 * @return A random objects array (size <i>m</i>) of class <i>T</i>.
 	 */
 	@SuppressWarnings("unchecked")
-	public T[] raw(int m) {
+	public default T[] raw(int m) {
 		T[] v = null;
 		if (m > 0) {
 			v = (T[])new Object[m];
 			raw(v, 0, m);
 		}
 		return v;
-	}
-    
-    // Most used random generated types
-	/**
-	 * The by default RawGenerator used by the Random generator. 
-	 * @return The by default RawGenerator used by the Random generator.
-	 */
-	protected static RawGenerator raw(){
-		RawGenerator raw = RawGenerator.get(Random.class);
-		if( raw == null ){ 
-			raw = new JavaGenerator();
-			RawGenerator.set(Random.class, raw);
-		}
-		return raw;
-	}
-	
-	/**
-	 * Generates a x~U[0,1) double number.
-	 * @return A x~U[0,1) double number.
-	 */
-	public static double nextDouble(){
-		return raw().next();
-	}
-	
-	/**
-	 * Generates a x~U[0,max) integer number.
-	 * @param max The upper bound of the open-close interval for generating integer numbers.  
-	 * @return A x~U[0,max) integer number.
-	 */
-	public static int nextInt( int max ){
-		return raw().integer(max);
-	}
-	
-	/**
-	 * Generates a <i>false</i> value with probability <i>falseProbability</i> and
-	 * a <i>true</i> value with probability <i>1-falseProbability</i>. 
-	 * @param falseProbability The probability of generating a </ifalse</i> value.
-	 * @return A <i>false</i> value with probability <i>falseProbability</i> and
-	 * a <i>true</i> value with probability <i>1-falseProbability</i>.
-	 */
-	public static boolean nextBool( double falseProbability ){
-		return raw().bool(falseProbability);
-	}
-	
-	/**
-	 * Generates a <i>false</i> value with probability <i>0.5</i> and
-	 * a <i>true</i> value with probability <i>0.5</i>. 
-	 * @return A <i>false</i> value with probability <i>0.5</i> and
-	 * a <i>true</i> value with probability <i>0.5</i>.
-	 */
-	public static boolean nextBool( ){
-		return nextBool(0.5);
-	}
-    
-	// Defining it as a service
-	/**
-	 * Obtains the Random generator associated to a given object (<i>owner</i>).
-	 * @param owner The object from which the associated Random generator will be obtained.
-	 * @return The Random generator associated to a given object (<i>owner</i>).
-	 */
-	public static Random<?> get( Object owner ){
-		return (Random<?>)ServiceCore.get(owner, Random.class);
-	}
-        
-	/**
-	 * 
-	 * @param owner
-	 * @return
-	 */
-	public static Object next( Object owner ){
-	    Random<?> service = get(owner);
-	    if( service != null )   return service.next();
-	    return null;
-	}
-	
-	public static Object[] raw( Object owner, int m ){
-		Random<?> service = get(owner);
-		if( service != null ) return service.raw(m);        
-		return null;
-	}
-	
-	@SuppressWarnings("unchecked")
-	public static void raw( Object owner, Object[] v, int offset, int m ){
-		Random<Object> service = (Random<Object>)get(owner);
-		if( service != null ) service.raw(v, offset, m);        
 	}    
+
+	// The MicroService methods
+	public static String name="random";
+	public static String next=name+".next";
+	public static final String raw=name+".raw"; 
+	
+	public static final String[] methods = new String[]{name,next,raw};
+	
+	@Override
+	public default String[] provides(){ return new String[]{name,next,raw}; }
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public default Object run( String service, Object obj, Object... args ) throws Exception{
+		if(service.equals(next) || service.equals(name)) return next();
+		if(service.equals(raw)){
+			if( args.length==1 ) return raw((int)args[0]);
+			else return raw((T[])args[0],(int)args[1], (int)args[2]);
+		}				
+		throw new Exception("Undefined service "+service);		
+	}
 }

@@ -4,6 +4,7 @@
  */
 package unalcol.types.collection.array;
 
+import java.util.Iterator;
 import java.util.NoSuchElementException;
 import unalcol.types.collection.Location;
 
@@ -11,11 +12,11 @@ import unalcol.types.collection.Location;
  *
  * @author jgomez
  */
-public class ArrayCollectionLocation<T> implements Location<T> {
+public class ArrayLocation<T> implements Location<T> {
     protected int pos;
-    protected ArrayCollection<T> array;
+    protected Array<T> array;
 
-    public ArrayCollectionLocation( int pos, ArrayCollection<T> array ) {
+    public ArrayLocation( int pos, Array<T> array ) {
         this.array = array;
         this.pos = pos;
     }
@@ -28,9 +29,13 @@ public class ArrayCollectionLocation<T> implements Location<T> {
             throw new NoSuchElementException("Invalid index .." + pos);
         }
     }
+
+	/**
+	 * Obtains an iterator of the objects in the structure starting at the given Locator
+	 * @return Iterator of the objects in the structure starting at the given Locator
+	 */
+	public Iterator<T> iterator(){ return new ArrayIterator<T>( pos, array ); }
     
-    public int getPos(){
-        return pos;
-    }
+    public int getPos(){ return pos; }
 
 }

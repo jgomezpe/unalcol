@@ -1,53 +1,64 @@
 package services;
 
 import unalcol.clone.Clone;
+import unalcol.clone.DefaultClone;
 import unalcol.clone.ShallowClone;
+import unalcol.services.Service;
+import unalcol.services.ServicePool;
 import unalcol.tracer.ConsoleTracer;
 import unalcol.tracer.Tracer;
 
 public class CloneTest {
+	public static void init_services(){
+		ServicePool service = new ServicePool();
+        service.register(new DefaultClone(), Object.class);         
+        service.register(new ConsoleTracer(), Object.class);
+        Service.set(service);
+    }
+	
 	/**
 	 * Obtaining the default Clone service 
 	 */
-	public static void default_clone(){
+	public static void default_clone() throws Exception{
 		System.out.println("############Testing the default clone service############");
-		// Obtaining the Clone service for the String class. Since no service has been
-		// associated to the String class, it will used the CloneWrapper service (default)
-		Clone<?> clone = Clone.get(String.class);
-		System.out.println("Clone service for String class"+clone.getClass().getName());
         String s = "Hello world!";
-        String cs = (String)Clone.create(s);       
+        // We can use the Service class method (it is general)
+        String cs = (String)Service.run(Clone.name,s);       
 		System.out.println("Original: "+s);
-		System.out.println("Clone: "+s);
+		System.out.println("Clone: "+cs);
+        // or we can use the specialized method in Clone (it is specific for Clone)
+        cs = (String)Service.run(Clone.name, s);
+		System.out.println("Clone: "+cs);
         System.out.println("Is it a shallow copy?"+(cs==s));        		
 	}
 	
 	/**
 	 * Comparing the shallow vs the wrapper clone services
 	 */
-	public static void shallow_wrapper(){
+	public static void shallow_wrapper() throws Exception{
 		System.out.println("############Comparing the Shallow vs the Wrapper (by default) clone services############");
         String s = "Hello World!";
-        String cs = (String)Clone.create(s);       
-        ConsoleTracer tracer = new ConsoleTracer();
-        Tracer.addTracer(String.class, tracer);
-        Tracer.trace(s, "Original:",s);
-        Tracer.trace(cs, "Clone:",cs);
-        Tracer.trace(cs, "Is it a Shallow copy?"+(cs==s));        
+        String cs = (String)Service.run(Clone.name,s);
+        Service.run(Tracer.name, s, "Original:", s);
+        Service.run(Tracer.name, cs, "Clone:", cs);
+        Service.run(Tracer.name, cs, "Is it a Shallow copy?"+(cs==s));        
         Clone<Object> shallow = new ShallowClone();
-        Clone.set(String.class, shallow);
-        cs = (String)Clone.create(s);
-        Tracer.trace(cs, "Clone:"+cs);
-        Tracer.trace(cs, "Is it a shallow copy?"+(cs==s));        		
+        ServicePool service = (ServicePool)Service.get();
+        service.register(shallow, String.class);
+        System.out.println("Now we are using shallow copy method.. Careful it will be the clone method from now on");
+        cs = (String)Service.run(Clone.name, s);
+        service.run(Tracer.name, cs, "Clone:"+cs);
+        service.run(Tracer.name, cs, "Is it a shallow copy?"+(cs==s)); 
+        Service.run(Tracer.close, Object.class);
 	}
 	
 	/**
 	 * Testing the clone service on primitive type arrays 
 	 */
-	public static void cloneArray(){
+	public static void cloneArray() throws Exception{
 		System.out.println("############Testing the clone service on arrays############");
 		int[] a = new int[]{1,2,3,4};
-		int[] b = (int[])Clone.create(a);
+		int[] b = (int[])Service.run(Clone.name,a);
 		System.out.print("Original:");
 		for(int i=0; i<a.length; i++ ){
 			System.out.print(" "+a[i]);
@@ -60,14 +71,16 @@ public class CloneTest {
 		System.out.println();
 	}
 	
-    /**
-     * Test the clone service infrastructure
-     * @param args Unused
-     */
-    public static void main( String[] args ){
-    	//default_clone(); // Testing the default clone service
-    	//shallow_wrapper(); // Testing the shallow vs the wrapper
-    	cloneArray(); // Testing the clone service on primitive type arrays 
-    }
-    
+	/**
+	 * Test the clone service infrastructure
+	 * @param args Unused
+	 */
+	public static void main( String[] args ){
+		try{
+			init_services(); // Initializing the set of services used here
+			default_clone(); // Testing the default clone service
+			cloneArray(); // Testing the clone service on primitive type arrays
+			shallow_wrapper(); // Testing the shallow vs the wrapper
+		}catch(Exception e){ e.printStackTrace(); }
+	}
 }

@@ -1,5 +1,6 @@
 package unalcol.types.real.array;
 import unalcol.random.raw.RawGenerator;
+import unalcol.services.Service;
 import unalcol.types.real.*;
 
 /**
@@ -33,7 +34,7 @@ public class DoubleArray{
      * @return A vector of doubles
      */
     public static double[] random(int n) {
-        return RawGenerator.raw(double[].class, n);
+    	try{ return (double[])Service.run(RawGenerator.raw, Object.class, n); }catch(Exception e){ return null; }
     }
 
     /**

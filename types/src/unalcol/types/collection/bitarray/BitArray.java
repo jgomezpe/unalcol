@@ -1,7 +1,7 @@
 package unalcol.types.collection.bitarray;
 import unalcol.types.integer.IntUtil;
 import unalcol.random.integer.IntUniform;
-import unalcol.random.raw.RawGenerator;
+import unalcol.random.util.RandBool;
 
 /**
  * <p>Title: BitArray</p>
@@ -35,10 +35,10 @@ public class BitArray implements Cloneable {
     data = new int[m];
     if (randomly){
       IntUniform g = new IntUniform(IntUtil.HIGHEST_BIT >>> 1);
-      RawGenerator rg = RawGenerator.get(this);
+      RandBool rg = new RandBool();
       g.generate( data, 0, m );
       for (int i = 0; i < m; i++) {
-        if(rg.bool()){ data[i] = -data[i]; }
+        if(rg.next()){ data[i] = -data[i]; }
       }
     } else {
       for (int i = 0; i < m; i++) {

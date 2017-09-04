@@ -1,5 +1,6 @@
 package unalcol.types.collection;
 
+import java.util.Iterator;
 import java.util.NoSuchElementException;
 
 /**
@@ -16,4 +17,9 @@ import java.util.NoSuchElementException;
  */
 public interface Location<T> {
 	public T get() throws NoSuchElementException;
+	/**
+	 * Obtains an iterator of the objects in the structure starting at the given Locator
+	 * @return Iterator of the objects in the structure starting at the given Locator
+	 */
+	public Iterator<T> iterator();
 }

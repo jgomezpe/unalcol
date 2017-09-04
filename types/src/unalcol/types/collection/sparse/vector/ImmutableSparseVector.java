@@ -7,14 +7,15 @@ package unalcol.types.collection.sparse.vector;
 import java.util.Iterator;
 
 import unalcol.clone.Clone;
-import unalcol.types.collection.array.ArrayCollection;
+import unalcol.services.Service;
+import unalcol.types.collection.array.Array;
 import unalcol.types.collection.vector.SortedVector;
 
 /**
  *
  * @author jgomez
  */
-public class ImmutableSparseVector<T> implements ArrayCollection<T>{
+public class ImmutableSparseVector<T> implements Array<T>{
 	protected SortedVector<SparseElement<T>> vector;
     protected SparseElement<T> loc = new SparseElement<T>(0, null);
         
@@ -24,7 +25,11 @@ public class ImmutableSparseVector<T> implements ArrayCollection<T>{
     
     @SuppressWarnings("unchecked")
     public ImmutableSparseVector( ImmutableSparseVector<T> sparse ) {
-	this.vector = (SortedVector<SparseElement<T>>)Clone.create(sparse.vector);
+    	try{
+    		this.vector = (SortedVector<SparseElement<T>>)Service.run(Clone.name,sparse.vector);
+    	}catch(Exception e){
+    		this.vector=sparse.vector;
+    	}
     }
     
     public boolean stored( int index ){
@@ -43,7 +48,7 @@ public class ImmutableSparseVector<T> implements ArrayCollection<T>{
 
     @Override
     public Iterator<T> iterator() {
-        return new SparseVectorIterator<>(0, this);
+        return new SparseVectorIterator<T>(0, this);
     }
 
     public Iterator<SparseElement<T>> sparse_elements() {
@@ -81,7 +86,7 @@ public class ImmutableSparseVector<T> implements ArrayCollection<T>{
     }
     
     @SuppressWarnings("rawtypes")
-    public ArrayCollection<Integer> indices(){
-	return new SparseVectorIndices((SparseVector)this);
+    public Array<Integer> indices(){
+    	return new SparseVectorIndices((SparseVector)this);
     }
 }

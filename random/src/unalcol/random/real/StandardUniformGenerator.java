@@ -1,7 +1,5 @@
 package unalcol.random.real;
 
-import unalcol.random.raw.RawGenerator;
-
 //
 //Unified Random generation Pack 1.0 by Jonatan Gómez-Perdomo
 //https://github.com/jgomezpe/unalcol/tree/master/random/
@@ -22,19 +20,15 @@ public class StandardUniformGenerator extends InverseDoubleGenerator {
      * @return A random double number
      */
     @Override
-    public double next( double x ) {
+    public Double next( double x ) {
         return x;
     }        
     
-    public StandardUniformGenerator(){    
-        super();
-    }
-
-    @Override
+    /*@Override
     public DoubleGenerator new_instance(){
         RawGenerator g = RawGenerator.get(this);
         DoubleGenerator dg = new StandardUniformGenerator();
         RawGenerator.set(dg, g.new_instance());
         return dg; 
-    }
+    }*/
 }

@@ -16,7 +16,7 @@ public class Uniform implements Pick{
 	   * @return Index of the selected candidate solution
 	   */
 	  protected int choose_one( IntUniform g, double[] q ){
-	    return g.generate();
+	    return g.next();
 	  }
 
 	  /**

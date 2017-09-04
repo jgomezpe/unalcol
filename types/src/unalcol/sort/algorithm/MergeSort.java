@@ -46,22 +46,19 @@ public class MergeSort<T> extends Sort<T> {
      * @param end Final position in the array to be sorte
      * @return <i>true</i> If the sorting process was done without fails, <i>false</i> otherwise
      */
-    public boolean apply(T[] a, int start, int end) {
-       if( getOrder(a) != null ){
-           insertion = new InsertionSort<T>(order, true);
-           int i=start;
-            while( i<end-1 && order.compare(a[i], a[i+1]) <= 0 ){ i++; }
-            if( i<end-1 ){
-                int n = end - start;
-                @SuppressWarnings("unchecked")
-				T[] ca = (T[])new Object[n];
-                System.arraycopy(a, start, ca, 0, n);
-                this.rec_apply( ca );
-                System.arraycopy(ca,0,a,start,n);
-            }
-            return true;
+	public boolean apply(T[] a, int start, int end) {
+		insertion = new InsertionSort<T>(order, true);
+		int i=start;
+		while( i<end-1 && compare(a[i], a[i+1]) <= 0 ){ i++; }
+        if( i<end-1 ){
+        	int n = end - start;
+        	@SuppressWarnings("unchecked")
+        	T[] ca = (T[])new Object[n];
+        	System.arraycopy(a, start, ca, 0, n);
+        	this.rec_apply( ca );
+        	System.arraycopy(ca,0,a,start,n);
         }
-       return false;
+        return true;
     }
 
     /**
@@ -86,7 +83,7 @@ public class MergeSort<T> extends Sort<T> {
             int izq = 0;
             int der = 0;
             while (izq < nizq && der < nder && continueFlag) {
-                if (order.compare(aIzq[izq], aDer[der]) < 0) {
+                if(compare(aIzq[izq], aDer[der]) < 0) {
                     a[k] = aIzq[izq];
                     izq++;
                 } else {

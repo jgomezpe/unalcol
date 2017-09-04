@@ -1,5 +1,6 @@
 package unalcol.algorithm;
 
+import unalcol.services.Service;
 import unalcol.tracer.Tracer;
 
 /**
@@ -66,9 +67,7 @@ public abstract class Algorithm<I, O> implements ThreadFunction<I,O>, Runnable {
     /**
      * Adds the output of the algorithm to the tracers
      */
-    public void addToTrace() {
-        Tracer.trace(this, output() );
-    }
+    public void addToTrace() throws Exception{ Service.run(Tracer.name, this, output()); }
     
     /**
      * Flag used for determining if the function was stopped or not

@@ -1,6 +1,6 @@
 package unalcol.random.integer;
 
-import unalcol.random.raw.RawGenerator;
+import unalcol.random.InverseGenerator;
 
 //
 // Unalcol Random generation Pack 1.0 by Jonatan Gomez-Perdomo
@@ -52,7 +52,7 @@ import unalcol.random.raw.RawGenerator;
  * (E-mail: <A HREF="mailto:jgomezpe@unal.edu.co">jgomezpe@unal.edu.co</A> )
  * @version 1.0
  */
-public class IntRoulette extends RandInt {
+public class IntRoulette extends InverseGenerator<Integer> implements RandInt {
 	/**
 	 * Probability of generating an integer number [0,length(density))
 	 */
@@ -84,10 +84,8 @@ public class IntRoulette extends RandInt {
 	 * @return An integer number following the associated density function
 	 */
 	@Override
-	public int generate() {
+	public Integer next(double x) {
 		int length = density.length;
-		RawGenerator g = RawGenerator.get(this);		
-		double x = g.next();
 		int i = 0;
 		while (i < length && x >= density[i]) {
 			x -= density[i];

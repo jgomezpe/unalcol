@@ -14,7 +14,7 @@ import unalcol.search.variation.Variation_1_1;
  * @version 1.0
  */
 
-public class SingleBitMutation extends Variation_1_1<BitArray> {
+public class SingleBitMutation implements Variation_1_1<BitArray> {
 
   /**
    * Flips a bit in the given genome
@@ -23,7 +23,7 @@ public class SingleBitMutation extends Variation_1_1<BitArray> {
    */
   public BitArray apply(BitArray genome) {
       try {
-          genome = (BitArray) Clone.create(genome);
+          genome = new BitArray(genome);
           int pos = -1;
           try {
               RawGenerator g = RawGenerator.get(this);

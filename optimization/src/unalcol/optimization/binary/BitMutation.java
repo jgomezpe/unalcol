@@ -4,7 +4,6 @@ import unalcol.random.util.*;
 import unalcol.search.variation.ParameterizedObject;
 import unalcol.search.variation.Variation_1_1;
 import unalcol.types.collection.bitarray.BitArray;
-import unalcol.clone.*;
 
 /**
  * <p>Title: Mutation</p>
@@ -14,7 +13,7 @@ import unalcol.clone.*;
  * @version 1.0
  */
 
-public class BitMutation extends Variation_1_1<BitArray> implements ParameterizedObject<Double> {
+public class BitMutation implements Variation_1_1<BitArray>, ParameterizedObject<Double> {
   /**
    * Probability of mutating one single bit
    */
@@ -41,7 +40,7 @@ public class BitMutation extends Variation_1_1<BitArray> implements Parameterize
   @Override
   public BitArray apply(BitArray gen) {
     try{
-      BitArray genome = (BitArray) Clone.create(gen);
+      BitArray genome = new BitArray(gen);
       double rate = 1.0 - ((bit_mutation_rate == 0.0)?1.0/genome.size():bit_mutation_rate);
       RandBool g = new RandBool(rate);
       for (int i = 0; i < genome.size(); i++) {

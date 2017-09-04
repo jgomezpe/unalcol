@@ -4,7 +4,8 @@ import java.io.IOException;
 import java.io.StringWriter;
 import java.io.Writer;
 
-import unalcol.service.*;
+import unalcol.services.MicroService;
+import unalcol.services.Service;
 
 //
 //Unalcol Service structure Pack 1.0 by Jonatan Gomez-Perdomo
@@ -54,49 +55,15 @@ import unalcol.service.*;
 * (E-mail: <A HREF="mailto:jgomezpe@unal.edu.co">jgomezpe@unal.edu.co</A> )
 * @version 1.0
 */
-public abstract class Write<T>{
+public interface Write<T> extends MicroService{
     /**
      * Writes an object to the given writer
      * @param obj Object to write
      * @param writer The writer object
      * @throws IOException IOException
      */
-    public abstract void write(T obj, Writer writer) throws Exception;
+    public void write(T obj, Writer writer) throws IOException;
     
-    /**
-     * Gets the writing service used by the object <i>owner</i>.
-     * @param owner Object owning the writing service.
-     * @return The writing service used by the object.
-     */
-    public static Write<?> get(Object owner){
-        if( ServiceCore.get(Object.class, Write.class) == null )
-            set(Object.class, new WriteWrapper());
-        return (Write<?>)ServiceCore.get(owner, Write.class);
-    }
-    
-    /**
-     * Sets the writing service used by object <i>owner</i> to service <i>service</i>.
-     * @param owner Object owning the writing service.
-     * @param service Writing service that will be used by object <i>owner</i>.
-     * @return <i>true</i> if the <i>service</i> can be used by object owner, <i>false</i> otherwise.
-     */
-    public static boolean set( Object owner, Write<?> service ){
-        return ServiceCore.set(owner, Write.class, service);
-    }
-        
-    /**
-     * Writes an object to the given writer (The object should has a write method)
-     * @param obj Object to write
-     * @param writer The writer object
-     * @throws IOException IOException
-     */
-    @SuppressWarnings("unchecked")
-	public static void apply(Object obj, Writer writer) throws Exception {
-        Write<?> service = (Write<?>)get(obj);
-        ((Write<Object>)service).write(obj, writer);
-    }
-
-
     /**
      * Gets the persistent version of an object in String version. The Class which the
      * object belongs to should have associated a ClassPersistence object in the
@@ -107,10 +74,20 @@ public abstract class Write<T>{
     public static String toString(Object obj) {
         try {
             StringWriter sw = new StringWriter();
-            apply(obj, sw);
+            Service.run(Write.name, obj, sw);
             sw.close();
             return sw.toString();
         } catch (Exception e) {}
         return obj.toString();
-    }       
+    }
+    
+	public static final String name="write";
+
+	public default String name(){ return Write.name; }
+
+	@SuppressWarnings("unchecked")
+	public default Object run( Object obj, Object... args ) throws Exception{ 
+		write((T)obj, (Writer)args[0]); 
+		return null;
+	}
 }

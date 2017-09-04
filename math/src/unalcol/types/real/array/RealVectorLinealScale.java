@@ -1,7 +1,7 @@
 package unalcol.types.real.array;
 import java.util.Iterator;
 import unalcol.math.algebra.InvertableScale;
-import unalcol.types.collection.array.ArrayCollection;
+import unalcol.types.collection.array.Array;
 import unalcol.types.real.*;
 
 
@@ -9,7 +9,7 @@ public class RealVectorLinealScale extends InvertableScale<double[]> {
     protected double originalMin;
     protected ToZeroOneLinealScale[] scale;
 
-    public RealVectorLinealScale( ArrayCollection<double[]> a ){
+    public RealVectorLinealScale( Array<double[]> a ){
       double[] min = a.get(0).clone();
       double[] max = min.clone();
       double[] tmp;

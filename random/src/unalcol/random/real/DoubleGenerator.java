@@ -1,6 +1,6 @@
 package unalcol.random.real;
 
-import unalcol.random.Random;
+import unalcol.random.RandomGenerator;
 
 //
 //Unified Random generation Pack 1.0 by Jonatan Gómez-Perdomo
@@ -16,29 +16,14 @@ import unalcol.random.Random;
  *
  */
 
-public abstract class DoubleGenerator extends Random<Double>{
-	/**
-	 * Returns a random double number
-	 * @return A random double number
-	 */
-	public abstract double generate();
-
-	/**
-	 * Returns a random double number
-	 * @return A random double number
-	 */
-	@Override
-	public Double next(){
-		return generate();
-	}
-
+public interface DoubleGenerator extends RandomGenerator<Double>{
 	/**
 	 * Returns a set of random double numbers
 	 * @param v Array where random numbers will be stored
 	 * @param m The total number of random numbers
 	 */
-	public void generate(double[] v, int offset, int m) {
-		for (int i=0; i<m; i++) v[i+offset] = this.generate();
+	public default void generate(double[] v, int offset, int m) {
+		for (int i=0; i<m; i++) v[i+offset] = this.next();
 	}
 
 	/**
@@ -46,7 +31,7 @@ public abstract class DoubleGenerator extends Random<Double>{
 	 * @param m The total number of random numbers
 	 * @return A set of m random double numbers
 	 */
-	public double[] generate(int m) {
+	public default double[] generate(int m) {
 		double[] v = null;
 		if (m > 0) {
 			v = new double[m];                  
@@ -55,5 +40,5 @@ public abstract class DoubleGenerator extends Random<Double>{
 		return v;
 	}
   
-	public abstract DoubleGenerator new_instance();
+	//public abstract DoubleGenerator new_instance();
 }

@@ -4,6 +4,7 @@ import unalcol.search.Goal;
 import unalcol.search.solution.Solution;
 import unalcol.search.space.Space;
 import unalcol.search.variation.Variation_1_1;
+import unalcol.services.Service;
 import unalcol.tracer.Tracer;
 
 public class AdaptOperatorLocalSearch<T,P> extends VariationReplaceLocalSearch<T>{
@@ -26,8 +27,7 @@ public class AdaptOperatorLocalSearch<T,P> extends VariationReplaceLocalSearch<T
         Double fy = (Double)y.info(Goal.class.getName());
         if( adapt != null )	adapt.apply(variation, fx, fy);
         Solution<T> z = replace.apply(x, y);
-        Tracer.trace(Solution.class, x, z);
+        try{ Service.run(Tracer.name,this, x, z); }catch(Exception e){}
         return z;
     }    
-
 }

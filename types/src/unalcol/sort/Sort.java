@@ -1,6 +1,7 @@
 package unalcol.sort;
 
 import unalcol.algorithm.Algorithm;
+import unalcol.services.Service;
 
 /**
  * <p>Abstract Sorting algorithm for Arrays of objects</p>
@@ -80,26 +81,17 @@ public abstract class Sort<T> extends Algorithm<T[], T[]>{
      * @param input Array to be sorted
      * @return Sorted array
      */
-    @Override
+	@Override
     public T[] apply(T[] input) {
-        if (!overwrite) {
-            input = input.clone();
-        }
+        if (!overwrite) input = input.clone();
         apply(input, 0, input.length);
         return input;
     }
 
-    @SuppressWarnings("unchecked")
-	public Order<T> getOrder( T[] a ){
-        if( order == null ){
-            int k=0;
-            while( k<a.length && a[k] == null ){
-                k++;
-            }
-            if( k<a.length ){
-               order = (Order<T>)Order.get(a[k]);
-            }
-        }
-        return order;
+	public int compare( T a, T b ){
+        if( order != null ) return order.compare(a, b);
+        try{ return (int)Service.run(Order.compare, a, b); }catch(Exception e){ return 0; }
     }
+	
+	public Order<T> getOrder(){ return order; }
 }

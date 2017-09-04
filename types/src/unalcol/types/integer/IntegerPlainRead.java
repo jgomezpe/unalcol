@@ -12,7 +12,7 @@ import java.io.*;
  *
  * @author jgomez
  */
-public class IntegerPlainRead extends Read<Integer>{
+public class IntegerPlainRead implements Read<Integer>{
 
     public static void back( char c, ShortTermMemoryReader reader ){
         if( c != (char)-1 ){

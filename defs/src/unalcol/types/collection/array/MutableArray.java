@@ -12,7 +12,7 @@ import unalcol.types.collection.*;
  * @author Jonatan Gomez Perdomo
  * @version 1.0
  */
-public interface MutableArrayCollection<T> extends ArrayCollection<T>, MutableCollection<T>{
+public interface MutableArray<T> extends Array<T>, MutableCollection<T>{
         /**
          * Adds an element to the array at the given position
          * @param index Position where the element will be located in the array

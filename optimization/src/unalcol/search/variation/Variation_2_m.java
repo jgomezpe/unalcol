@@ -10,9 +10,9 @@ import unalcol.search.solution.Solution;
  * @version 1.0
  */
 
-public class Variation_2_m<T> extends Variation<T> {
+public interface Variation_2_m<T> extends Variation<T> {
 	@SuppressWarnings("unchecked")
-	public Solution<T>[] apply( Solution<T> one, Solution<T> two ){
+	public default Solution<T>[] apply( Solution<T> one, Solution<T> two ){
     		T[] next = apply( one.object(), two.object() );    	
     		Solution<T>[] s = new Solution[next.length];
     		for( int i=0; i<s.length; i++ ){
@@ -22,7 +22,7 @@ public class Variation_2_m<T> extends Variation<T> {
 	}   
 
 	@SuppressWarnings("unchecked")
-	public T[] apply( T one, T two ){
+	public default T[] apply( T one, T two ){
     		Solution<T>[] next = apply( new Solution<T>(one), new Solution<T>(two) );    	
     		T[] s = (T[])new Object[next.length];
     		for( int i=0; i<s.length; i++ ){
@@ -36,5 +36,5 @@ public class Variation_2_m<T> extends Variation<T> {
 	 * @return the genetic operator arity
 	 */
 	@Override
-	public int arity() { return 2; }
+	public default int arity() { return 2; }
 }

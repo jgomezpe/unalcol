@@ -10,8 +10,11 @@ import java.io.StringReader;
 import unalcol.io.Read;
 import unalcol.io.ShortTermMemoryReader;
 import unalcol.io.Write;
+import unalcol.random.raw.JavaGenerator;
 import unalcol.random.raw.RawGenerator;
 import unalcol.random.raw.rngpack.RanMT;
+import unalcol.services.Service;
+import unalcol.services.ServicePool;
 import unalcol.types.real.array.DoubleArray;
 import unalcol.types.real.array.DoubleArrayPlainRead;
 import unalcol.types.real.array.DoubleArrayPlainWrite;
@@ -21,7 +24,16 @@ import unalcol.types.real.array.DoubleArrayPlainWrite;
  * @author Jonatan
  */
 public class DoubleArrayTest {
-    public static double[] sort(){
+	public static void init_services(){
+		ServicePool service = new ServicePool();
+        service.register(new JavaGenerator(), Object.class);         
+    	service.register(new DoubleArrayPlainRead(), double[].class);
+        service.register(new DoubleArrayPlainWrite(), double[].class);
+//        service.register(new ConsoleTracer(), Object.class);
+        Service.set(service);
+	}
+
+	public static double[] sort(){
         RawGenerator g = new RanMT();
         int N = 1000;
         double[] x = g.raw(N);
@@ -36,9 +48,6 @@ public class DoubleArrayTest {
     }    
     
     public static double[] persistency(){
-        // Registering the PlainRead service (reading double arrays as plain text,
-        // notice that an instance of the Plain read service is provided.
-        Read.set(double[].class, new DoubleArrayPlainRead());
         // The first value is the number of real values, followed by the values
         // to be stored in the double array
         StringReader r = new StringReader("  3  -1234.4555e-123 345.6789 23.456");
@@ -46,14 +55,13 @@ public class DoubleArrayTest {
         double[] x = new double[0];
         try{
            // Reading the array from the provided buffer (reader) 
-           x = (double[])Read.apply(double[].class, reader);
+           x = (double[])Service.run(Read.name,double[].class, reader);
            // Printing the array using a regular for loop
            for( int i=0; i<x.length; i++ ){
                System.out.println(x[i]);
            }
            // Using a service for printing the array. Here we register the plain text
            // writing service for double arrays and use it by default           
-           Write.set(double[].class, new DoubleArrayPlainWrite());
            // Printing to a String
            System.out.println(Write.toString(x));
            return x;

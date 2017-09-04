@@ -8,16 +8,35 @@ package types;
 import java.util.Iterator;
 
 import unalcol.clone.Clone;
-import unalcol.types.collection.array.ArrayCollectionLocation;
+import unalcol.clone.DefaultClone;
+import unalcol.random.raw.JavaGenerator;
+import unalcol.services.Service;
+import unalcol.services.ServicePool;
+import unalcol.types.collection.array.ArrayLocation;
 import unalcol.types.collection.vector.Vector;
+import unalcol.types.collection.vector.VectorClone;
+import unalcol.types.real.array.DoubleArrayPlainRead;
+import unalcol.types.real.array.DoubleArrayPlainWrite;
 
 /**
  *
  * @author Jonatan
  */
 public class VectorTest {
-    public static void main( String[] args ){
-              
+	public static void init_services(){
+		ServicePool service = new ServicePool();
+        service.register(new JavaGenerator(), Object.class);         
+    	service.register(new DoubleArrayPlainRead(), double[].class);
+        service.register(new DoubleArrayPlainWrite(), double[].class);
+        service.register(new DefaultClone(), Object.class);
+        service.register(new VectorClone<Object>(), Vector.class);
+//        service.register(new ConsoleTracer(), Object.class);
+        Service.set(service);
+	}
+
+	public static void main( String[] args ){
+		init_services();
+		
       Integer[] x = new Integer[50];
       for( int i=0; i<x.length; i++){
           x[i] = i;
@@ -40,21 +59,22 @@ public class VectorTest {
       }
 
       System.out.println("Using a locator approach");
-      ArrayCollectionLocation<Integer> loc = new ArrayCollectionLocation<>(4,v);
-      for(Iterator<Integer> iter = v.iterator(loc); iter.hasNext(); ){
+      ArrayLocation<Integer> loc = new ArrayLocation<Integer>(4,v);
+      for(Iterator<Integer> iter = loc.iterator(); iter.hasNext(); ){
           System.out.println( iter.next() );          
       }
 
             
-      System.out.println(Clone.get(v).getClass());
-      @SuppressWarnings("unchecked")
-  	  Vector<Integer> clone = (Vector<Integer>)Clone.create(v);
-      if( clone != v ){
-	      System.out.println("Clone");
-	      for( Integer k:clone){
-	          System.out.println( k );          
+      try{
+	      @SuppressWarnings("unchecked")
+	  	  Vector<Integer> clone = (Vector<Integer>)Service.run(Clone.name, v);
+	      if( clone != v ){
+		      System.out.println("Clone");
+		      for( Integer k:clone){
+		          System.out.println( k );          
+		      }
 	      }
-      }
+      }catch(Exception e){e.printStackTrace();}
     }  
 
 

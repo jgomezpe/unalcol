@@ -2,10 +2,11 @@ package unalcol.search.variation;
 
 import unalcol.clone.Clone;
 import unalcol.search.solution.Solution;
+import unalcol.services.Service;
 
-public class Variation_2_2<T> extends Variation_2_m<T>{
+public interface Variation_2_2<T> extends Variation_2_m<T>{
 	@Override
-	public int range_arity() { return 2; };	
+	public default int range_arity() { return 2; };	
 	
 	/**
 	 * Apply the genetic operator to the first and second individuals in the population of parents
@@ -16,7 +17,7 @@ public class Variation_2_2<T> extends Variation_2_m<T>{
 	 */
 	@SuppressWarnings("unchecked")
 	@Override
-	public T[] apply( T... parents ){
+	public default T[] apply( T... parents ){
 		T[] v = (T[])(new Object[parents.length]);
 		int n = (v.length>>1)<<1;
 		for( int i=0; i<n;i+=2){
@@ -24,7 +25,7 @@ public class Variation_2_2<T> extends Variation_2_m<T>{
 			v[i] = p[0]; 
 			v[i+1] = p[1];
 		}
-		if( n < v.length ) v[n] = (T)Clone.create(parents[n]);
+		if( n < v.length ) try{ v[n] = (T)Service.run(Clone.name, parents[n]); }catch(Exception e){ v[n] = parents[n]; }
 		return v;
 	}    
     
@@ -37,7 +38,7 @@ public class Variation_2_2<T> extends Variation_2_m<T>{
 	 */
 	@Override
 	@SuppressWarnings("unchecked")
-	public Solution<T>[] apply( Solution<T>... parents ){
+	public default Solution<T>[] apply( Solution<T>... parents ){
 		Solution<T>[] v = new Solution[parents.length];
 		int n = (v.length>>1)<<1;
 		for( int i=0; i<n;i+=2){
@@ -45,7 +46,7 @@ public class Variation_2_2<T> extends Variation_2_m<T>{
 			v[i] = p[0]; 
 			v[i+1] = p[1];
 		}
-		if( n < v.length ) v[n] = (Solution<T>)Clone.create(parents[n]);
+		if( n < v.length ) try{ v[n] = (Solution<T>)Service.run(Clone.name, parents[n]); }catch(Exception e){ v[n] = parents[n]; }
 		return v;
 	}     
 }

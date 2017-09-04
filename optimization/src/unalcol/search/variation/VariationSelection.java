@@ -4,7 +4,7 @@ import unalcol.search.Goal;
 import unalcol.search.selection.Selection;
 import unalcol.search.solution.Solution;
 
-public class VariationSelection<T> extends Variation<T>{
+public class VariationSelection<T> implements Variation<T>{
 	protected int lambda;
 	protected Variation<T> variation;
 	protected Selection<T> selection;

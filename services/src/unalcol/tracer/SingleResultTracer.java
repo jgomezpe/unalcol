@@ -57,31 +57,24 @@ public class SingleResultTracer extends Tracer {
     /**
      * Creates a new SingleResultTracer
      */
-    public SingleResultTracer() {
-    }
+    public SingleResultTracer(){}
 
     /**
      * Replaces the traced information with a new one
      * @param obj Traced information
      */
-    public void add(Object... obj) {
-        object = obj;
-    }
+    public void add(Object owner, Object... obj){ object = obj; }
 
     /**
      * Returns the traced information
      * @return A single object representing the traced information
      */
-    public Object get() {
-        return object;
-    }
+    public Object get(){ return object; }
 
     /**
      * Cleans the traced information
      */
-    public void clean() {
-        object = null;
-    }
+    public void clean(){ object = null; }
 
     /**
      * Closes the tracer (does nothing)

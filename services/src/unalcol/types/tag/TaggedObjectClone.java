@@ -1,4 +1,9 @@
-package unalcol.reflect.tag;
+package unalcol.types.tag;
+
+import unalcol.clone.Clone;
+import unalcol.clone.UsesClone;
+import unalcol.instance.UsesInstance;
+import unalcol.types.tag.TaggedObject;
 
 //
 //Unalcol Service structure Pack 1.0 by Jonatan Gomez-Perdomo
@@ -6,12 +11,10 @@ package unalcol.reflect.tag;
 //
 /**
 *
-* TaggedMethod  
-* <p>A method that can be associated to a TaggedObject. TaggedMethods are computed on a TaggedObject when the info method
-* of the TaggedObject is.</p>
-*
+* TaggedObjectClone
+* <p>Copies a TaggedObject (object and TaggedMethods).</p>
 * <P>
-* <A HREF="https://github.com/jgomezpe/unalcol/blob/master/services/src/unalcol/reflect/tag/TaggedMethod.java" target="_blank">
+* <A HREF="https://github.com/jgomezpe/unalcol/blob/master/services/src/unalcol/reflect/tag/TaggedObjectClone.java" target="_blank">
 * Source code </A> is available.
 *
 * <h3>License</h3>
@@ -49,11 +52,37 @@ package unalcol.reflect.tag;
 * (E-mail: <A HREF="mailto:jgomezpe@unal.edu.co">jgomezpe@unal.edu.co</A> )
 * @version 1.0
 */
-public interface TaggedMethod<T,R> {
-    /**
-     * Applies the method to the TaggedObject
-     * @param object The TaggedObject the tTaggedMethod will be computed on. 
-     * @return The return value of applying the TaggedMethod on the TaggedObject.
-     */
-    public R apply( TaggedObject<T> object );
+public class TaggedObjectClone<T> extends Tags implements Clone<TaggedObject<T>>, UsesClone<T>, UsesInstance<TaggedObject<T>> {
+	/**
+	 * If the object that is tagged should be copied or a shallow clone is enough
+	 */
+	protected boolean cloneObject;
+	
+	/**
+	 * If the copy must be strict or not (copying all tags or just the TaggedMethods)
+	 */
+	protected boolean copyAllTags;
+	
+	/**
+	 * Creates a clone method for TaggedObjects. Clones tags, methods, and object if defined 
+	 * @param cloneObject If the object that is tagged should be copied or a shallow clone is enough
+     * @param copyAllTags Defines if all tags are copied (<i>true</i>) or just the TaggedMethods (<i>false</i>)
+	 */
+	public TaggedObjectClone( boolean cloneObject, boolean copyAllTags ){
+		this.cloneObject = cloneObject;
+		this.copyAllTags = copyAllTags;
+	}
+
+	/**
+	 * Creates a clone of the TaggedObject (including just the TaggedMethods).
+	 * @param obj TaggedObject to be  non-strictly copied. 
+	 * @return A copy of the TaggedObject (including or the tags or just the TaggedMethods).
+	 */
+	public TaggedObject<T> clone(TaggedObject<T> obj){
+		T tObj = obj.object();
+		if( cloneObject ) tObj = getClone().clone(tObj);
+		TaggedObject<T> nObj = getInstance(obj).create(obj,tObj);
+		nObj.cloneTags(obj.info,copyAllTags);
+		return nObj;
+	}
 }

@@ -36,19 +36,16 @@ public class InsertionSort<T> extends Sort<T> {
    * Sorts a vector of objects using Insertion sort
    * @param a array to be sorted
    */
-  public boolean apply(T[] a, int start, int end) {
-      if( getOrder(a) != null ){
-        for (int i = start; i < end && continueFlag; i++) {
-          int j = i - 1;
-          T value = a[i];
-          while( j >= start && order.compare(value, a[j])<0 && continueFlag) {
-            a[j+1] = a[j];
-            j--;
-          }
-          a[j+1] = value;
-        }
-        return true;
-      }
-      return false;
-  }
+	public boolean apply(T[] a, int start, int end) {
+		for (int i = start; i < end && continueFlag; i++) {
+			int j = i - 1;
+			T value = a[i];
+			while(j >= start && compare(value, a[j])<0 && continueFlag) {
+				a[j+1] = a[j];
+				j--;
+			}
+			a[j+1] = value;
+		}
+		return true;
+	}
 }

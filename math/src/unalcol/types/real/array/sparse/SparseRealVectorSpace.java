@@ -8,6 +8,7 @@ import java.util.Iterator;
 
 import unalcol.clone.Clone;
 import unalcol.math.algebra.VectorSpace;
+import unalcol.services.Service;
 import unalcol.types.collection.sparse.vector.SparseElement;
 import unalcol.types.collection.sparse.vector.SparseElementOrder;
 import unalcol.types.collection.sparse.vector.SparseVector;
@@ -186,61 +187,62 @@ public class SparseRealVectorSpace implements VectorSpace<SparseRealVector> {
 	 * @param y The vector
 	 * @param x The scalar
 	 */
-  @Override
-  public SparseRealVector fastMultiply(SparseRealVector y, double x) {
-    if( x==0.0 ){
-        y.values.clear();      
-    }else{  
-        Iterator<SparseElement<Double>> iter = y.elements();
-        SparseElement<Double> elem;
-        while( iter.hasNext() ){
-            elem = iter.next();
-            elem.setValue(x * elem.value());
-        }
-    }            
-    return y;
-  }
+	@Override
+	public SparseRealVector fastMultiply(SparseRealVector y, double x) {
+		if( x==0.0 ) y.values.clear();
+		else{  
+			Iterator<SparseElement<Double>> iter = y.elements();
+			SparseElement<Double> elem;
+			while( iter.hasNext() ){
+				elem = iter.next();
+				elem.setValue(x * elem.value());
+			}
+		}            
+		return y;
+	}
+	
 	/**
 	 * Divides a vector by an scalar.
 	 * @param one The vector
 	 * @param x The scalar
 	 */
-  @Override
-  public SparseRealVector fastDivide(SparseRealVector y, double x) {
-    Iterator<SparseElement<Double>> iter = y.elements();
-    SparseElement<Double> elem;
-    while( iter.hasNext() ){
-        elem = iter.next();
-        elem.setValue(elem.value()/x);
-    }
-    return y;
-  }
+	@Override
+	public SparseRealVector fastDivide(SparseRealVector y, double x) {
+		Iterator<SparseElement<Double>> iter = y.elements();
+		SparseElement<Double> elem;
+		while( iter.hasNext() ){
+			elem = iter.next();
+			elem.setValue(elem.value()/x);
+		}
+		return y;
+	}
+	
+	protected SparseRealVector create(SparseRealVector x){
+		try{ return (SparseRealVector)Service.run(Clone.name,x); } catch(Exception e){ return x; }
+	}
 
     @Override
     public SparseRealVector inverse(SparseRealVector x) {
-        return fastInverse((SparseRealVector)Clone.create(x));
+        return fastInverse(create(x));
     }
 
     @Override
     public SparseRealVector minus(SparseRealVector one, SparseRealVector two) {
-        return fastMinus((SparseRealVector)Clone.create(one), two);
+        return fastMinus(create(one), two);
     }
 
     @Override
     public SparseRealVector plus(SparseRealVector one, SparseRealVector two) {
-        return fastPlus((SparseRealVector)Clone.create(one), two);
+        return fastPlus(create(one), two);
     }
 
     @Override
     public SparseRealVector divide(SparseRealVector one, double x) {
-        return fastDivide((SparseRealVector)Clone.create(one), x);
+        return fastDivide(create(one), x);
     }
 
     @Override
     public SparseRealVector multiply(SparseRealVector one, double x) {
-        return fastMultiply((SparseRealVector)Clone.create(one), x);
+        return fastMultiply(create(one), x);
     }
-
-    
 }
-

@@ -4,17 +4,27 @@
  */
 package random;
 
+import unalcol.random.raw.JavaGenerator;
 import unalcol.random.real.DoubleGenerator;
 import unalcol.random.real.SimplestGeneralizedPowerLawGenerator;
 import unalcol.random.real.StandardGaussianGenerator;
 import unalcol.random.real.SymmetricGenerator;
 import unalcol.random.real.UniformGenerator;
+import unalcol.services.Service;
+import unalcol.services.ServicePool;
 
 /**
  *
  * @author jgomez
  */
 public class DoubleGeneratorTest{
+	public static void init_services(){
+		ServicePool service = new ServicePool();
+        service.register(new JavaGenerator(), Object.class);         
+//        service.register(new ConsoleTracer(), Object.class);
+        Service.set(service);
+	}
+	
 	public static DoubleGenerator uniform(){
 		System.out.println( "Uniform" );
 		return  new UniformGenerator(0.0,2.0);
@@ -36,6 +46,7 @@ public class DoubleGeneratorTest{
 	}
       
 	public static void main( String[] args ){
+		init_services();
 		// DoubleGenerator g = uniform();
 		DoubleGenerator g = gaussian();
 		// DoubleGenerator g = power_law();

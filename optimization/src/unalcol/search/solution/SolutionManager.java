@@ -1,7 +1,7 @@
 package unalcol.search.solution;
 
-import unalcol.reflect.tag.TaggedObject;
-import unalcol.reflect.tag.TaggedObjectManager;
+import unalcol.types.tag.TaggedObject;
+import unalcol.types.tag.TaggedObjectManager;
 
 public interface SolutionManager<T> extends TaggedObjectManager<T> {
 	@SuppressWarnings("unchecked")

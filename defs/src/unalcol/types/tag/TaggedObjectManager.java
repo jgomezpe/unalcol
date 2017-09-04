@@ -1,4 +1,4 @@
-package unalcol.reflect.tag;
+package unalcol.types.tag;
 
 import java.util.Hashtable;
 import java.util.Set;

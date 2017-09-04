@@ -5,7 +5,7 @@
  */
 package unalcol.search.space;
 
-import unalcol.reflect.tag.TaggedObject;
+import unalcol.types.tag.TaggedObject;
 
 /**
  *

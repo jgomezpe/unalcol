@@ -51,31 +51,33 @@ import unalcol.services.MicroService;
 * @version 1.0
 * @param <T> Type of objects that will be read from the ShortTermMemoryReader.
 */
-public abstract class Read<T>  implements MicroService{
-	public static final String name="read";
-
-	public Object apply( Object obj, Object... args ) throws Exception{ 	return read((ShortTermMemoryReader)args[0]); }    
-
+public interface Read<T> extends MicroService{
 	/**
 	 * Reads an object from the given reader
 	 * @param reader The input stream from which the object will be read
 	 * @return An object, of the type the read service is attending, that is read from the input stream
 	 * @throws IOException IOException
 	 */
-	public abstract T read(ShortTermMemoryReader reader) throws IOException;
-    
+	public T read(ShortTermMemoryReader reader) throws IOException;
+
 	/**
 	 * Reads space characters from a input reader up to finding the <i>separator</i> char.
 	 * @param reader Input Reader
 	 * @param separator Character consider separator of tokens
 	 * @throws IOException An exception if it was not possible to read a separator sequence.
 	 */
-	public static void readSeparator( ShortTermMemoryReader reader, char separator ) throws IOException{
+	public static void readSeparator( ShortTermMemoryReader reader, char separator ) throws Exception{
 		try{
 			char c = (char)reader.read();
 			while( c!=separator && Character.isSpaceChar(c)) c = (char)reader.read();
 			
 			if( c != separator && c != (char)-1 ) throw new Exception("Non available separator...");
 		}catch( Exception e ){ throw reader.getException("ReadService Parser Error "+e.getMessage()); }
-	}
+	}	
+	
+	// The MicroService methods
+
+	public static final String name="read";
+	
+	public default Object run( Object... args ) throws Exception{ return read((ShortTermMemoryReader)args[0]); }    
 }

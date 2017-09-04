@@ -1,5 +1,8 @@
 package unalcol.clone;
 
+import unalcol.services.TaggedMicroService;
+import unalcol.types.tag.Tags;
+
 //
 //Unalcol Service structure Pack 1.0 by Jonatan Gomez-Perdomo
 //https://github.com/jgomezpe/unalcol/tree/master/services/
@@ -47,13 +50,11 @@ package unalcol.clone;
 * (E-mail: <A HREF="mailto:jgomezpe@unal.edu.co">jgomezpe@unal.edu.co</A> )
 * @version 1.0
 */
-public class ShallowClone extends Clone<Object>{
+public class ShallowClone extends Tags implements Clone<Object>, TaggedMicroService {
     /**
      * Returns the same object (shallow copy)
      * @param obj Object to be cloned (shallow)
      * @return A Clone (the same object) of the object
      */
-	public Object clone(Object obj){
-		return obj;
-	}
+	public Object clone(){ return caller(); }
 }

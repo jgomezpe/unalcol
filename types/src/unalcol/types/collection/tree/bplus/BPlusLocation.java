@@ -4,6 +4,7 @@
  */
 package unalcol.types.collection.tree.bplus;
 
+import java.util.Iterator;
 import java.util.NoSuchElementException;
 import unalcol.types.collection.Location;
 import unalcol.types.collection.tree.bplus.immutable.ImmutableLeafNode;
@@ -29,5 +30,7 @@ public class BPlusLocation<T> implements Location<T> {
             throw new NoSuchElementException("No such element");
         }    
     }
-    
+
+	@Override
+	public Iterator<T> iterator(){ return new BPlusIterator<>(this); }    
 }

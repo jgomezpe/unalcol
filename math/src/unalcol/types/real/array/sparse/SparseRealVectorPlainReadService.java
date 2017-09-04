@@ -5,17 +5,16 @@
 package unalcol.types.real.array.sparse;
 
 import java.io.IOException;
+
 import unalcol.io.Read;
 import unalcol.io.ShortTermMemoryReader;
-import unalcol.types.integer.IntegerPlainRead;
-import unalcol.types.real.DoublePlainRead;
+import unalcol.services.Service;
 
 /**
  *
  * @author jgomez
  */
-public class SparseRealVectorPlainReadService 
-    extends Read<SparseRealVector>{
+public class SparseRealVectorPlainReadService implements Read<SparseRealVector>{
     /**
      * Character used for separating the values in the array
      */
@@ -23,6 +22,8 @@ public class SparseRealVectorPlainReadService
 
     protected boolean read_dimension = true;
     protected int n = -1;
+	protected Read<Integer> ri=null;
+	protected Read<Double> rr=null;
 
     /**
      * Creates an integer array persistent method that uses an space for separatng the array values
@@ -58,35 +59,36 @@ public class SparseRealVectorPlainReadService
         }
         return false;
     }
+
+    public void setIntReader( Read<Integer> ri ){ this.ri = ri; }
+	
+	protected int readInt(ShortTermMemoryReader reader) throws Exception{
+		if( ri!=null ) return ri.read(reader);
+		return (int)Service.run(Read.name, Integer.class, reader);
+	}
+	
+	public void setDoubleReader( Read<Double> rr ){ this.rr = rr; }
+	
+	protected double readDouble(ShortTermMemoryReader reader) throws Exception{
+		if( rr!=null ) return rr.read(reader);
+		return (double)Service.run(Read.name, Double.class, reader);
+	}
     
     public SparseRealVector read( ShortTermMemoryReader reader ) throws IOException{
-        @SuppressWarnings("unchecked")
-		Read<Double> real = (Read<Double>)get(Double.class); 
-        if( real==null ){
-        	real = new DoublePlainRead();
-        	set( Double.class, real);        	
-        }
-        @SuppressWarnings("unchecked")
-		Read<Integer> integer = (Read<Integer>)get(Integer.class); 
-        if( integer == null ){
-        	integer = new IntegerPlainRead();
-        	set( Integer.class, integer);
-        }
         if( read_dimension ){
-        	n = integer.read(reader);
+        	n = readInt(reader);
             Read.readSeparator(reader, separator);        	
         }
         SparseRealVector d = new SparseRealVector(n);
         int k;
         double v;
         while( hasNext(reader) ){
-            k = integer.read(reader);
-            readSeparator(reader, separator);
-            v = real.read(reader);
-            readSeparator(reader, separator);
+            k = readInt(reader);
+            Read.readSeparator(reader, separator);
+            v = readDouble(reader);
+            Read.readSeparator(reader, separator);
             d.set(k,v);
         }
         return d;
     }
 }
-

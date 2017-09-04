@@ -5,8 +5,8 @@
  */
 package unalcol.search;
 
-import unalcol.reflect.tag.TaggedMethod;
-import unalcol.reflect.tag.TaggedObject;
+import unalcol.types.tag.TaggedMethod;
+import unalcol.types.tag.TaggedObject;
 import unalcol.search.solution.Solution;
 import unalcol.sort.Order;
 

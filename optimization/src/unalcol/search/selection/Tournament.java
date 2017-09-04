@@ -54,7 +54,7 @@ public class Tournament<R> implements QualityBasedSelection<R>{
 		R[] candidates = (R[])new Object[m];
 		int[] indices = new int[m];
 		for( int i=0; i<m; i++ ){
-			indices[i] = g.generate();
+			indices[i] = g.next();
 			candidates[i] = x[indices[i]];
 		}
 		return indices[inner.choose_one(candidates,order)];

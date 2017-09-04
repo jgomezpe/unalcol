@@ -9,6 +9,7 @@ import unalcol.search.Goal;
 import unalcol.search.Search;
 import unalcol.search.solution.Solution;
 import unalcol.search.space.Space;
+import unalcol.services.Service;
 import unalcol.tracer.Tracer;
 
 /**
@@ -25,7 +26,7 @@ public abstract class LocalSearch<T,R> implements Search<T,R> {
     public Solution<T> solve(Space<T> space, Goal<T,R> goal){
     	Solution<T> x = new Solution<T>(space.pick());
     	x.set(Goal.class.getName(), goal);
-        Tracer.trace(Solution.class, x);
+        try{ Service.run(Tracer.name,Solution.class, x); }catch(Exception e){}
         return apply(x, space);
     }
 }

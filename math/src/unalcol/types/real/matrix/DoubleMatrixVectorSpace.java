@@ -1,6 +1,7 @@
 package unalcol.types.real.matrix;
 import unalcol.clone.Clone;
 import unalcol.math.algebra.*;
+import unalcol.services.Service;
 
 
 /**
@@ -118,26 +119,27 @@ public class DoubleMatrixVectorSpace implements VectorSpace<double[][]> {
         return y;
     }
     
+    protected double[][] create(double[][] x){
+    	try{ return (double[][])Service.run(Clone.name,x); }catch(Exception e){ return x; }
+    }
+        
     @Override
     public double[][] minus(double[][] one, double[][] two) {
-        return fastMinus((double[][])Clone.create(one), two);
+        return fastMinus(create(one), two);
     }
 
     @Override
     public double[][] plus(double[][] one, double[][] two) {
-        return fastPlus((double[][])Clone.create(one), two);
+        return fastPlus(create(one), two);
     }
 
     @Override
     public double[][] divide(double[][] one, double x) {
-        return fastDivide((double[][])Clone.create(one), x);
+        return fastDivide(create(one), x);
     }
 
     @Override
     public double[][] multiply(double[][] one, double x) {
-        return fastMultiply((double[][])Clone.create(one), x);
+        return fastMultiply(create(one), x);
     }
-
-    
-    
 }

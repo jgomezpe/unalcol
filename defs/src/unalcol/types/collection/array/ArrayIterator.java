@@ -11,16 +11,16 @@ import java.util.NoSuchElementException;
  *
  * @author jgomez
  */
-public class ArrayCollectionIterator<T>  implements Iterator<T> {
+public class ArrayIterator<T>  implements Iterator<T> {
     protected int pos=-1;
-    protected ArrayCollection<T> array;
+    protected Array<T> array;
 
-    public ArrayCollectionIterator( int pos, ArrayCollection<T> array ) {
+    public ArrayIterator( int pos, Array<T> array ) {
         this.array = array;
         this.pos = pos-1;
     }
 
-    public ArrayCollectionIterator( ArrayCollectionLocation<T> location ) {
+    public ArrayIterator( ArrayLocation<T> location ) {
         this.array = location.array;
         this.pos = location.pos-1;
     }
@@ -42,8 +42,8 @@ public class ArrayCollectionIterator<T>  implements Iterator<T> {
 
     @Override
     public void remove() {
-        if( array instanceof MutableArrayCollection ){
-            ((MutableArrayCollection<T>)array).remove(pos);
+        if( array instanceof MutableArray ){
+            ((MutableArray<T>)array).remove(pos);
         }
     }    
 }

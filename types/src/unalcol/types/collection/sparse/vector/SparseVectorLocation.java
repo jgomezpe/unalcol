@@ -4,6 +4,7 @@
  */
 package unalcol.types.collection.sparse.vector;
 
+import java.util.Iterator;
 import java.util.NoSuchElementException;
 import unalcol.types.collection.Location;
 import unalcol.types.collection.vector.SortedVector;
@@ -30,4 +31,6 @@ public class SparseVectorLocation<T> implements Location<T> {
         }
     }
 
+	@Override
+	public Iterator<T> iterator(){ return new SparseVectorIterator<T>(this); }
 }

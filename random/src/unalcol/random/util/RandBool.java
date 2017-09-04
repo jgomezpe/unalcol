@@ -1,7 +1,6 @@
 package unalcol.random.util;
 
-import unalcol.random.Random;
-import unalcol.random.raw.RawGenerator;
+import unalcol.random.InverseGenerator;
 
 //
 // Unalcol Random generation Pack 1.0 by Jonatan Gomez-Perdomo
@@ -52,7 +51,7 @@ import unalcol.random.raw.RawGenerator;
  * (E-mail: <A HREF="mailto:jgomezpe@unal.edu.co">jgomezpe@unal.edu.co</A> )
  * @version 1.0
  */
-public class RandBool extends Random<Boolean>{
+public class RandBool extends InverseGenerator<Boolean>{
 	/**
 	 * Probability of generating a <i>false</i> value
 	 */
@@ -77,26 +76,17 @@ public class RandBool extends Random<Boolean>{
 	 * @return A boolean value according to the stored probability distribution
 	 */
 	@Override
-	public Boolean next() {
-		return generate();
+	public Boolean next(double x) {
+		return x>falseProbability;
 	}
 
-	/**
-	 * Produces a boolean value according to the stored probability distribution
-	 * @return A boolean value according to the stored probability distribution
-	 */
-	public boolean generate() {
-		RawGenerator g = RawGenerator.get(this);
-		return g.bool(falseProbability);
-	}
 	/**
 	 * Returns a set of random boolean values
 	 * @param v Array where boolean values will be stored
 	 * @param m The total number of random boolean values
 	 */
 	public void generate(boolean[] v, int offset,  int m) {
-		RawGenerator g = RawGenerator.get(this);
-		for (int i = 0; i < m; i++) v[i+offset] = g.bool(falseProbability);
+		for (int i = 0; i < m; i++) v[i+offset] = next();
 	}
 
 	/**
@@ -113,10 +103,10 @@ public class RandBool extends Random<Boolean>{
 		return v;
 	}    
 	
-	public RandBool new_instance(){
-		RawGenerator g = RawGenerator.get(this);
+	/*public RandBool new_instance(){
+		RawGenerator g = (RawGenerator)Service.get().get(RawGenerator.name,this);
 		RandBool rb = new RandBool();
 		RawGenerator.set(rb, g.new_instance());
 		return rb;
-	}    
+	} */   
 }

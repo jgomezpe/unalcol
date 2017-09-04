@@ -14,7 +14,7 @@ import unalcol.types.collection.sparse.vector.SparseElement;
  *
  * @author jgomez
  */
-public class SparseRealVectorPlainWriteService  extends Write<SparseRealVector> {
+public class SparseRealVectorPlainWriteService  implements Write<SparseRealVector> {
     /**
      * Character used for separating the values in the array
      */

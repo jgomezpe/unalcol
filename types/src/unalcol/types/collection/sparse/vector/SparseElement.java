@@ -1,6 +1,7 @@
 package unalcol.types.collection.sparse.vector;
 
 import unalcol.clone.Clone;
+import unalcol.services.Service;
 
 /**
  * <p>Title: SparseValue</p>
@@ -33,9 +34,11 @@ public class SparseElement<T>{
    * @return The new SparseValue
    */
   @SuppressWarnings("unchecked")
-@Override
-  public SparseElement<T> clone() {
-    return new SparseElement<T>(index, (T)Clone.get(obj));
+  @Override
+  public SparseElement<T> clone(){
+    try{
+    	return new SparseElement<T>(index, (T)Service.run(Clone.name,obj));
+    }catch(Exception e){ return new SparseElement<T>(index,obj); }
   }
 
   /**

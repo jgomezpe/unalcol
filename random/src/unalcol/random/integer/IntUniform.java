@@ -1,6 +1,6 @@
 package unalcol.random.integer;
 
-import unalcol.random.raw.RawGenerator;
+import unalcol.random.InverseGenerator;
 
 //
 // Unalcol Random generation Pack 1.0 by Jonatan Gomez-Perdomo
@@ -52,7 +52,7 @@ import unalcol.random.raw.RawGenerator;
  * (E-mail: <A HREF="mailto:jgomezpe@unal.edu.co">jgomezpe@unal.edu.co</A> )
  * @version 1.0
  */
-public class IntUniform extends RandInt {
+public class IntUniform extends InverseGenerator<Integer> implements RandInt {
 	/**
 	 * Low Limit
 	 */
@@ -87,8 +87,7 @@ public class IntUniform extends RandInt {
 	 * @return A uniform integer number in the interval [min,max)
 	 */
 	@Override
-	public int generate() {
-		RawGenerator g = RawGenerator.get(this);
-		return (min + g.integer(length));
+	public Integer next(double x) {
+		return (min + (int)(length*x));
 	}
 }

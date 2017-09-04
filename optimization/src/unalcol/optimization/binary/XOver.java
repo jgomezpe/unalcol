@@ -12,7 +12,7 @@ import unalcol.types.collection.bitarray.BitArray;
  * @version 1.0
  */
 
-public class XOver extends Variation_2_2<BitArray>{
+public class XOver implements Variation_2_2<BitArray>{
     public XOver(){}
 
   /**
@@ -30,10 +30,10 @@ public class XOver extends Variation_2_2<BitArray>{
    */
   protected BitArray[] apply(BitArray child1, BitArray child2, int xoverPoint) {
       try{
-          BitArray child1_1 = (BitArray) Clone.create(child1);
-          BitArray child2_1 = (BitArray) Clone.create(child2);
-          BitArray child1_2 = (BitArray) Clone.create(child1);
-          BitArray child2_2 = (BitArray) Clone.create(child2);
+          BitArray child1_1 = new BitArray(child1);
+          BitArray child2_1 = new BitArray(child2);
+          BitArray child1_2 = new BitArray(child1);
+          BitArray child2_2 = new BitArray(child2);
 
           cross_over_point = xoverPoint;
 

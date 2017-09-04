@@ -10,7 +10,7 @@ import unalcol.descriptors.*;
  * @version 1.0
  *
  */
-public class DoubleArrayDescriptors extends Descriptors<double[]>{
+public class DoubleArrayDescriptors implements Descriptors<double[]>{
  
     /**
      * Gets a numeric description of the given numeric values (this method produces just a clone)

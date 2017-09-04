@@ -3,7 +3,6 @@ package unalcol.optimization.binary;
 import unalcol.random.integer.*;
 import unalcol.search.variation.Variation_1_1;
 import unalcol.types.collection.bitarray.BitArray;
-import unalcol.clone.*;
 
 /**
  * <p>Title: Transposition</p>
@@ -13,7 +12,7 @@ import unalcol.clone.*;
  * @version 1.0
  */
 
-public class Transposition extends Variation_1_1<BitArray>{
+public class Transposition implements Variation_1_1<BitArray>{
     public Transposition(){}
     
   /**
@@ -25,7 +24,7 @@ public class Transposition extends Variation_1_1<BitArray>{
     @Override
   public BitArray apply(BitArray _genome) {
       try{
-          BitArray genome = (BitArray) Clone.create(_genome);
+          BitArray genome = new BitArray(_genome);
 
           IntUniform gen = new IntUniform(genome.size());
           int start = gen.next();

@@ -6,6 +6,7 @@ import unalcol.agents.examples.labyrinth.Labyrinth;
 import unalcol.agents.examples.labyrinth.LabyrinthDrawer;
 import unalcol.agents.examples.labyrinth.LabyrinthPercept;
 import unalcol.agents.examples.labyrinth.teseo.TeseoPercept;
+import unalcol.random.raw.JavaGenerator;
 import unalcol.random.raw.RawGenerator;
 import unalcol.types.collection.vector.Vector;
 
@@ -13,6 +14,7 @@ public class TeseoVariableLabyrinth  extends Labyrinth {
 	protected int x = -1;
 	protected int y;
 	protected boolean flag = false;
+	protected RawGenerator raw = new JavaGenerator();
 
 	  protected static Vector<Agent> add( Agent agent ){
 		  Vector<Agent> v = new Vector<Agent>();
@@ -84,9 +86,9 @@ public class TeseoVariableLabyrinth  extends Labyrinth {
 	            if( y > 0 )  structure[x][y-1] ^= B;				
 		      }
 			}
-			x = RawGenerator.integer(this, COLUMNS);
-		    y = RawGenerator.integer(this, ROWS);
-			flag = RawGenerator.bool(this);
+			x = raw.integer(COLUMNS);
+		    y = raw.integer(ROWS);
+			flag = raw.bool();
 			if( flag ){
 			  if( x < COLUMNS ) structure[x][y] ^= L;
 		      if( x > 0 )  structure[x-1][y] ^= R;

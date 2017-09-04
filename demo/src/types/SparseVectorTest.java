@@ -1,11 +1,30 @@
 package types;
 
-import unalcol.types.collection.array.ArrayCollection;
+import unalcol.clone.DefaultClone;
+import unalcol.random.raw.JavaGenerator;
+import unalcol.services.Service;
+import unalcol.services.ServicePool;
+import unalcol.types.collection.array.Array;
 import unalcol.types.collection.sparse.vector.SparseVector;
 import unalcol.types.collection.vector.Vector;
+import unalcol.types.collection.vector.VectorClone;
+import unalcol.types.real.array.DoubleArrayPlainRead;
+import unalcol.types.real.array.DoubleArrayPlainWrite;
 
 public class SparseVectorTest {
+	public static void init_services(){
+		ServicePool service = new ServicePool();
+        service.register(new JavaGenerator(), Object.class);         
+    	service.register(new DoubleArrayPlainRead(), double[].class);
+        service.register(new DoubleArrayPlainWrite(), double[].class);
+        service.register(new DefaultClone(), Object.class);
+        service.register(new VectorClone<Object>(), Vector.class);
+//        service.register(new ConsoleTracer(), Object.class);
+        Service.set(service);
+	}
+
     public static void main( String[] args ){
+    	init_services();
 		Vector<Integer> indices = new Vector<Integer>();
 		// Creating a SparseVector 
 		SparseVector<Integer> vector = new SparseVector<Integer>();
@@ -24,7 +43,7 @@ public class SparseVectorTest {
 		System.out.println();
 		
 		// Getting the final set of indices and its stored value
-		ArrayCollection<Integer> the_indices = vector.indices();
+		Array<Integer> the_indices = vector.indices();
 		for( int i : the_indices ){
 			System.out.println( i + ":" + vector.get(i));
 		}

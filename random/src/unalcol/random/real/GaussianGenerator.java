@@ -1,7 +1,5 @@
 package unalcol.random.real;
 
-import unalcol.random.raw.RawGenerator;
-
 //
 //Unified Random generation Pack 1.0 by Jonatan Gómez-Perdomo
 //https://github.com/jgomezpe/unalcol/tree/master/random/
@@ -39,16 +37,18 @@ public class GaussianGenerator extends StandardGaussianGenerator {
    * Returns a random double number
    * @return A random double number
    */
-  public double generate() {
-    return (sigma*super.generate() + miu);
+  @Override
+  public Double next() {
+    return (sigma*super.next() + miu);
   }
 
+/*
   @Override
   public DoubleGenerator new_instance(){
-      RawGenerator g = RawGenerator.get(this);
+	  RawGenerator g = (RawGenerator)Service.get().get(RawGenerator.name,this);
       DoubleGenerator dg = new GaussianGenerator(miu, sigma);
       RawGenerator.set(dg, g.new_instance());
       return dg;
   }    
-  
+*/  
 }

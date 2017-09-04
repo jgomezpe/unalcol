@@ -13,7 +13,7 @@ import unalcol.io.*;
  * @version 1.0
  */
 
-public abstract class DoubleMatrixPersistent extends Write<double[][]>{
+public abstract class DoubleMatrixPersistent implements Write<double[][]>{
     protected double[][] theBase = new double[0][];
 
     /**

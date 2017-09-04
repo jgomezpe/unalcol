@@ -1,8 +1,9 @@
-package unalcol.reflect.tag;
+package unalcol.types.tag;
 
 import java.util.ArrayList;
-import java.util.Hashtable;
-import java.util.Set;
+import java.util.Iterator;
+
+import unalcol.types.collection.keymap.KeyMap;
 
 //
 //Unalcol Service structure Pack 1.0 by Jonatan Gomez-Perdomo
@@ -52,16 +53,11 @@ import java.util.Set;
 * (E-mail: <A HREF="mailto:jgomezpe@unal.edu.co">jgomezpe@unal.edu.co</A> )
 * @version 1.0
 */
-public class TaggedObject<T>{
+public class TaggedObject<T> extends Tags{
     /**
      * Object that is being tagged.
      */
     protected T object;
-	
-    /**
-     * Set of tags associated to the object.
-     */
-    protected Hashtable<String, Object> info = new Hashtable<>();
 	
     /**
      * Creates a TaggedObject from the given <i>object</i>.
@@ -75,7 +71,7 @@ public class TaggedObject<T>{
      * @param tags Set of tags from which the tags (or just the TaggedMethods) will be copied
      * @param copyAllTags Defines if all tags are copied (<i>true</i>) or just the TaggedMethods (<i>false</i>)
      */
-    public TaggedObject( T object, Hashtable<String, Object> tags, boolean copyAllTags ){
+    public TaggedObject( T object, KeyMap<String, Object> tags, boolean copyAllTags ){
     	this.object = object;
     	cloneTags( tags, copyAllTags);
     }
@@ -85,10 +81,11 @@ public class TaggedObject<T>{
      * @param tags Set of tags from which the tags (or just the TaggedMethods) will be copied
      * @param copyAllTags Defines if all tags are copied (<i>true</i>) or just the TaggedMethods (<i>false</i>)
      */
-    protected void cloneTags( Hashtable<String, Object> tags, boolean copyAllTags ){
+    protected void cloneTags( KeyMap<String, Object> tags, boolean copyAllTags ){
     	info.clear();
-		Set<String> keys = tags.keySet();
-		for(String k:keys){
+		Iterator<String> keys = tags.keys();
+		while(keys.hasNext()){
+			String k=keys.next();
 			Object tagObj = tags.get(k);
 		    if( copyAllTags || tagObj instanceof TaggedMethod ){
 		    	info.put(k, tagObj);
@@ -100,34 +97,29 @@ public class TaggedObject<T>{
      * Removes all tag associated to this object that is not a TaggedMethod.
      */
     public void removeNonTaggedMethods(){
-		Set<String> keys = info.keySet();
+		Iterator<String> keys = info.keys();
 		ArrayList<String> dKeys = new ArrayList<String>();
-		for(String k:keys){
+		while(keys.hasNext()){
+			String k = keys.next();
 		    Object obj = data(k);
-		    if( !(obj instanceof TaggedMethod) ){
-			 dKeys.add(k);	
-		    }
+		    if( !(obj instanceof TaggedMethod) ){ dKeys.add(k); }
 		}			
-		for(String k:dKeys){
-			info.remove(k);
-		}
+		for(String k:dKeys)	info.remove(k);
     }
    
     /**
      * Gets the set of tags
      * @return Tags associated to the object
      */
-    public Hashtable<String, Object> tags(){
-    	return info;
-    }
+    public KeyMap<String, Object> tags(){ return info; }
    
     /**
      * Sets the object that is being tagged. Removes all the non TaggedMethods associated to this object.
      * @param object Object that is being tagged.
      */
     public void set( T object ){
-	removeNonTaggedMethods();
-	this.object = object;
+    	removeNonTaggedMethods();
+    	this.object = object;
     }
 	
     /**
@@ -153,23 +145,5 @@ public class TaggedObject<T>{
 	    return null;
 	} 
 	return obj;
-    }
-	
-    /**
-     * Gets the actual tag data. If the the tag is a TaggedMethod it will return the TaggedMethod.
-     * @param key Tag.
-     * @return The actual tag data.
-     */
-    public Object data( String key ){
-	return info.get(key);
-    }
-	
-    /**
-     * Sets the data associated to a tag.
-     * @param key Tag.
-     * @param value Value associated to the given tag.
-     */
-    public void set( String key, Object value ){
-	info.put(key, value);
     }	
 }

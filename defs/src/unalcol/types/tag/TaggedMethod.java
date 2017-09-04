@@ -1,13 +1,19 @@
+package unalcol.types.tag;
+
+import unalcol.types.tag.TaggedObject;
+
 //
 //Unalcol Service structure Pack 1.0 by Jonatan Gomez-Perdomo
 //https://github.com/jgomezpe/unalcol/tree/master/services/
 //
 /**
 *
-* Tag infrastructure for associating services to objects.
+* TaggedMethod  
+* <p>A method that can be associated to a TaggedObject. TaggedMethods are computed on a TaggedObject when the info method
+* of the TaggedObject is.</p>
 *
 * <P>
-* <A HREF="https://github.com/jgomezpe/unalcol/blob/master/services/src/unalcol/reflect/tag" target="_blank">
+* <A HREF="https://github.com/jgomezpe/unalcol/blob/master/services/src/unalcol/reflect/tag/TaggedMethod.java" target="_blank">
 * Source code </A> is available.
 *
 * <h3>License</h3>
@@ -45,4 +51,11 @@
 * (E-mail: <A HREF="mailto:jgomezpe@unal.edu.co">jgomezpe@unal.edu.co</A> )
 * @version 1.0
 */
-package unalcol.reflect.tag;
+public interface TaggedMethod<T,R> {
+    /**
+     * Applies the method to the TaggedObject
+     * @param object The TaggedObject the tTaggedMethod will be computed on. 
+     * @return The return value of applying the TaggedMethod on the TaggedObject.
+     */
+    public R apply( TaggedObject<T> object );
+}

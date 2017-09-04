@@ -1,6 +1,6 @@
 package unalcol.tracer;
 
-import unalcol.service.*;
+import unalcol.services.ServiceProvider;
 
 //
 //Unalcol Service structure Pack 1.0 by Jonatan Gomez-Perdomo
@@ -50,12 +50,8 @@ import unalcol.service.*;
 * (E-mail: <A HREF="mailto:jgomezpe@unal.edu.co">jgomezpe@unal.edu.co</A> )
 * @version 1.0
 */
-public abstract class Tracer{
-	/**
-	 * Determines if objects are being traced or not.
-	 */
-    protected boolean tracing = true;
-
+public abstract class Tracer implements ServiceProvider{
+	
     /**
      * Default constructor
      */
@@ -85,7 +81,7 @@ public abstract class Tracer{
      * Adds an object sent by an object to the tracer
      * @param obj Traced information to be added
      */
-    public abstract void add(Object... obj);
+    public abstract void add(Object owner, Object... obj);
 
     /**
      * Returns the traced object
@@ -103,67 +99,54 @@ public abstract class Tracer{
      */
     public abstract void close();
 
-    /**
-     * Add an object that can call the associated tracing process.
-     * @param owner Object that can call the tracing process.
-     * @param tracer Trace process that can be used by the object.
-     * @return <i>true</i>If the tracer process can be associated to the given object, <i>false</i>otherwise. 
-     */
-    public static boolean addTracer( Object owner, Tracer tracer ){
-    	return ServiceCore.set(owner, tracer);
-    }
-    
-    /**
-     * Obtains a list of the tracing process that can be carried on by an object
-     * @param owner The object that can carry on the trace process
-     * @return A list of the tracing process that can be carried on by an object, the list will have length zero  
-     * if the object has not trace process that can carry on.
-     */
-    public static Tracer[] get( Object owner ){
-        try{
-           Object[] services = ServiceCore.getAll(owner, Tracer.class);
-           Tracer[] tracers = new Tracer[services.length];
-           for( int i=0; i<services.length; i++ ){
-               tracers[i] = (Tracer)services[i];
-           }
-           return tracers;
-        }catch( Exception e ){
-            e.printStackTrace();
-        }
-        return new Tracer[0];
-    }
+	/**
+	 * Determines if objects are being traced or not.
+	 */
+    protected boolean tracing = true;
 
-    /**
-     * Adds a traceable data object to each tracer associated to a given object
-     * @param obj Object carrying on the trace process
-     * @param data Object to be added to each tracer associated to the object
-     */
-    public static void trace(Object obj, Object... data) {
-        Tracer[] services = get(obj);
-        for (Tracer service : services) {
-            service.add(data);
-        }
-    }
+	// The MicroService methods
+	public static final String name="trace";
+	public static final String clean=name+".clean"; 
+	public static final String start=name+".start"; 
+	public static final String stop=name+".stop"; 
+	public static final String get=name+".get"; 
+	public static final String close=name+".close";
+	
+	public static final String[] methods = new String[]{Tracer.name,Tracer.start,Tracer.stop,Tracer.get,Tracer.close,Tracer.clean}; 
 
-    /**
-     * Closes each tracer associated to a given object
-     * @param obj Object being traced
-     */
-    public static void close(Object obj) {
-        Tracer[] services = get(obj);
-        for (Tracer service : services) {
-            service.close();
-        }
-    }
+	@Override
+	public String[] provides(){ return methods;	}
 
-    /**
-     * Cleans each tracer associated to a given object
-     * @param obj Object being traced
-     */
-    public static void clean(Object obj) {
-        Tracer[] services = get(obj);
-        for (Tracer service : services) {
-            service.clean();
-        }
-    }
+	@Override
+	public Object run( String service, Object obj, Object... args ) throws Exception{
+		if( service.equals(name)){
+			add(obj, args);
+			return null;
+		}
+		
+		if(service.equals(get)){ return get(); }
+
+		if(service.equals(clean)){
+			this.clean();
+			return null;
+		}
+		
+		if(service.equals(start)){
+			this.start();
+			return null;
+		}
+		
+		if(service.equals(stop)){
+			this.stop();
+			return null;
+		} 
+		
+		
+		if(service.equals(close)){
+			close();
+			return null;
+		} 
+
+		throw new Exception("Undefined service "+service);		
+	}
 }

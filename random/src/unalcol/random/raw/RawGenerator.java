@@ -1,6 +1,6 @@
 package unalcol.random.raw;
 
-import unalcol.service.ServiceCore;
+import unalcol.services.ServiceProvider;
 
 // Unified Random generation Pack 1.0 by Jonatan Gomez-Perdomo
 // https://github.com/jgomezpe/unalcol/tree/master/random/
@@ -51,151 +51,90 @@ import unalcol.service.ServiceCore;
  * (E-mail: <A HREF="mailto:jgomezpe@unal.edu.co">jgomezpe@unal.edu.co</A> )
  * @version 1.0
  */
-public abstract class RawGenerator{
-    /**
-     * Generates a random number in the interval [0.0,1.0) following a uniform distribution x~U[0,1)
-     * @return a random number in the interval [0.0,1.0) following a uniform distribution x~U[0,1)
-     */
-    public abstract double next();
-
+public abstract class RawGenerator implements ServiceProvider{
+	/**
+	 * Generates a random number in the interval [0.0,1.0) following a uniform distribution x~U[0,1)
+	 * @return a random number in the interval [0.0,1.0) following a uniform distribution x~U[0,1)
+	 */
+	public abstract double next();
     
-    /**
-     * Generates a boolean value (<i>false</i> or <i>true</i> with equal probability)
-     * @return A boolean value (<i>false</i> or <i>true</i> with equal probability)
-     */
-    public boolean bool() {
-        return (next() >= 0.5);
-    }
+	/**
+	 * Generates a boolean value (<i>false</i> or <i>true</i> with equal probability)
+	 * @return A boolean value (<i>false</i> or <i>true</i> with equal probability)
+	 */
+	public boolean bool(){ return (next() >= 0.5); }
 
-    /**
-     * Generates a boolean value with the given probability
-     * @param falseProbability The probability of generating a <i>false</i>. Clearly, (1.0-falseProbability)
-     * provides the probability of generating a <i>true</i> value
-     * @return A boolean value with the given probability
-     */
-    public boolean bool(double falseProbability) {
-        return (next() >= falseProbability);
-    }
+	/**
+	 * Generates a boolean value with the given probability
+	 * @param falseProbability The probability of generating a <i>false</i>. Clearly, (1.0-falseProbability)
+	 * provides the probability of generating a <i>true</i> value
+	 * @return A boolean value with the given probability
+	 */
+	public boolean bool(double falseProbability){ return (next() >= falseProbability); }
 
-    /**
-     * Generates a uniform distributed integer value in the interval [0,max-1]
-     * @param max The superior limit of the half-open interval [0,max) defined for generating integer values
-     * @return An integer value in the interval [0,max) with uniform distribution
-     */
-    public int integer(int max) {
-        return ((int) (max * next()));
-    }    
+	/**
+	 * Generates a uniform distributed integer value in the interval [0,max-1]
+	 * @param max The superior limit of the half-open interval [0,max) defined for generating integer values
+	 * @return An integer value in the interval [0,max) with uniform distribution
+	 */
+	public int integer(int max){ return ((int) (max * next())); }    
     
-    /**
-     * Returns a set of random numbers following the x ~ U[0,1) distribution
-     * @param v Array used for returning the generated random numbers
-     * @param offset Stating point for storing the generated real numbers
-     * @param m The number of random numbers to be generated and returned in array <i>v</i>.
-     */
-    public void raw(double[] v, int offset, int m) {
-        for (int i = 0; i < m; i++) {
-            v[i+offset] = next();
-        }
-    }
+	/**
+	 * Returns a set of random numbers following the x ~ U[0,1) distribution
+	 * @param v Array used for returning the generated random numbers
+	 * @param offset Stating point for storing the generated real numbers
+	 * @param m The number of random numbers to be generated and returned in array <i>v</i>.
+	 */
+	public double[] raw(double[] v, int offset, int m){
+		for(int i = 0; i < m; i++) v[i+offset] = next();
+		return v;
+	}
 
-    /**
-     * Returns a set of random numbers following the x ~ U[0,1) distribution
-     * @param m The number of random numbers to be generated
-     * @return An array with <i>m</i> random numbers following the x ~ U[0,1) distribution
-     */
-    public double[] raw(int m) {
-        double[] v = null;
-        if (m > 0) {
-            v = new double[m];
-            raw(v, 0, m);
-        }
-        return v;
-    }
+	/**
+	 * Returns a set of random numbers following the x ~ U[0,1) distribution
+	 * @param m The number of random numbers to be generated
+	 * @return An array with <i>m</i> random numbers following the x ~ U[0,1) distribution
+	 */
+	public double[] raw(int m){
+		double[] v = null;
+		if (m > 0) {
+			v = new double[m];
+			raw(v, 0, m);
+		}
+		return v;
+	}
     
-    /**
-     * Creates a new instance of the random number generator
-     * @return A new instance of the random number generator
-     */
-    public abstract RawGenerator new_instance();
-    
-    /**
-     * Generates a random number in the interval [0.0,1.0) following a uniform distribution x~U[0,1), 
-     * using the RawGenerator associated to the given object <i>obj</i>.
-     * @param obj Owner of the RawGenerator that will be used for generating the real value. 
-     * @return A random number in the interval [0.0,1.0) following a uniform distribution x~U[0,1).
-     */
-     public static double next( Object obj ){
-        return get(obj).next();        
-    }
+	/**
+	 * Creates a new instance of the random number generator
+	 * @return A new instance of the random number generator
+	 */
+	public abstract RawGenerator new_instance();    
+	
+	// The MicroService methods
+	public static final String name="raw.random";
+	public static final String next=name+".next"; 
+	public static final String bool=name+".bool"; 
+	public static final String integer=name+".int"; 
+	public static final String raw=name+".raw"; 	
 
-    /**
-     * Generates a boolean value (with same probability), using the RawGenerator associated to the given object <i>obj</i>
-     * @param obj Owner of the RawGenerator that will be used for generating the boolean value. 
-     * @return A boolean value.
-     */
-    public static boolean bool( Object obj ){
-        return get(obj).bool();        
-    }
+	public static final String[] methods = new String[]{name,next,bool,integer,raw};
+	
+	@Override
+	public String[] provides(){ return methods; }
 
-    /**
-     * Generates a boolean value with the given probability, using the RawGenerator associated to the given object <i>obj</i>.
-     * @param obj Owner of the RawGenerator that will be used for generating the boolean value. 
-     * @param falseProbability The probability of generating a <i>false</i>. Clearly, (1.0-falseProbability)
-     * provides the probability of generating a <i>true</i> value
-     * @return A boolean value with the given probability
-     */
-    public static boolean bool( Object obj, double falseProbability ){
-        return get(obj).bool(falseProbability);        
-    }
-
-    /**
-     * Generates a uniform distributed integer value in the interval [0,max-1], using the RawGenerator associated to the given object <i>obj</i>.
-     * @param obj Owner of the RawGenerator that will be used for generating the boolean value. 
-     * @param max The superior limit of the half-open interval [0,max) defined for generating integer values
-     * @return An integer value in the interval [0,max) with uniform distribution
-     */
-    public static int integer( Object obj, int max ){
-        return get(obj).integer(max);        
-    }
-
-    /**
-     * Returns a set of random numbers following the x ~ U[0,1) distribution, using the RawGenerator associated to the given object <i>obj</i>.
-     * @param obj Owner of the RawGenerator that will be used for generating the boolean value. 
-     * @param v Array used for returning the generated random numbers
-     * @param offset Stating point for storing the generated real numbers
-     * @param m The number of random numbers to be generated and returned in array <i>v</i>.
-     */
-    public static void raw( Object obj, double[] v, int offset, int m ){
-        get(obj).raw(v, offset, m);        
-    }
-
-    /**
-     * Returns a set of random numbers following the x ~ U[0,1) distribution, using the RawGenerator associated to the given object <i>obj</i>.
-     * @param obj Owner of the RawGenerator that will be used for generating the boolean value. 
-     * @param m The number of random numbers to be generated
-     * @return An array with <i>m</i> random numbers following the x ~ U[0,1) distribution
-     */
-    public static double[] raw( Object obj, int m ){
-        return get(obj).raw(m);        
-    }
-    
-    /**
-     * Obtains the RawGenerator associated to object <i>owner</i>.
-     * @param owner Owner of the RawGenerator that is being searched for.
-     * @return The RawGenerator associated to object <i>owner</i>.
-     */
-    public static RawGenerator get( Object owner ){
-        if( ServiceCore.get(Object.class, RawGenerator.class) == null )  set(Object.class, new JavaGenerator());
-        return (RawGenerator)ServiceCore.get(owner, RawGenerator.class);
-    }
- 
-    /**
-     * Associates a RawGenerator (if possible) to an object.
-     * @param owner Object that will have associated the RawGenerator.
-     * @param raw The RawGenerator to be associated to object <i>owner</i>.
-     * @return <i>true</i> if it was possible to associate <i>raw</i> as RawGenerator to object <i>owner</i>, <i>false</i> otherwise.
-     */
-    public static boolean set( Object owner, RawGenerator raw ){
-    	return ServiceCore.set(owner, RawGenerator.class, raw);
-    }   
+	@Override
+	public Object run( String service, Object obj, Object... args ) throws Exception{
+		if(service.equals(name) || service.equals(next)) return next();
+		
+		if(service.equals(bool)) if( args.length==0 ) return bool(); else return bool((double)args[0]);
+		
+		if(service.equals(integer)) return integer((int)args[0]);
+		
+		if(service.equals(raw)){
+			if( args.length==1 ) return raw((int)args[0]);
+			else return raw((double[])args[0],(int)args[1], (int)args[2]);
+		}
+		
+		throw new Exception("Undefined service "+service);		
+	}
 }

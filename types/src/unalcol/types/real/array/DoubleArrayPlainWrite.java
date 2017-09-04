@@ -14,7 +14,7 @@ import java.io.*;
  * @version 1.0
  */
 
-public class DoubleArrayPlainWrite extends Write<double[]> {
+public class DoubleArrayPlainWrite implements Write<double[]> {
     /**
      * Character used for separating the values in the array
      */

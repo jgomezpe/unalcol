@@ -5,6 +5,7 @@ import unalcol.agents.Action;
 import unalcol.agents.search.*;
 import unalcol.clone.Clone;
 import unalcol.search.Goal;
+import unalcol.services.Service;
 
 /**
  * <p>Title: </p>
@@ -32,7 +33,8 @@ public abstract class ClassicSearch<T> extends GraphSearch<T> {
     return actual_cost + action_cost.evaluate(state, action);
   }
 
-  @Override
+  @SuppressWarnings("unchecked")
+@Override
   public Vector<Action> apply( T initial, GraphSpace<T> space, Goal<T,Boolean> goal, ActionCost<T> cost ){
     list.clear();
     ClassicSearchNode<T> node = new ClassicSearchNode<T>( new Vector<Action>(), 0.0 );
@@ -47,8 +49,8 @@ public abstract class ClassicSearch<T> extends GraphSearch<T> {
            T child_state = space.succesor(state, action);
            if( space.feasible(child_state) ){
              double path_cost = evaluate(state, action, node.cost, cost);
-             @SuppressWarnings("unchecked")
-			 Vector<Action> path = (Vector<Action>)Clone.create(node.path);
+             Vector<Action> path;
+             try{ path = (Vector<Action>)Service.run(Clone.name,node.path); }catch(Exception e){ path=node.path; }
              path.add(action);
              ClassicSearchNode<T> child_node = new ClassicSearchNode<T>( path, path_cost);
              add(child_node);

@@ -13,7 +13,7 @@ import java.io.*;
  * @version 1.0
  */
 
-public class IntArrayPlainWrite extends Write<int[]>{
+public class IntArrayPlainWrite implements Write<int[]>{
     /**
      * Character used for separating the values in the array
      */

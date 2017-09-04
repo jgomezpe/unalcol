@@ -3,6 +3,7 @@ import unalcol.algorithm.*;
 import unalcol.sort.*;
 import unalcol.sort.algorithm.*;
 import unalcol.clone.*;
+import unalcol.services.Service;
 
 /**
  * <p>Title: </p>
@@ -46,10 +47,8 @@ public class VectorSort<T> extends Algorithm<ImmutableVector<T>,ImmutableVector<
     @SuppressWarnings("unchecked")
 	public ImmutableVector<T> apply( ImmutableVector<T> input ){
         if( input.size() > 0 ){
-            if (!overwrite) {
-                input = (Vector<T>) Clone.create(input);
-            }
-            Order<T> order = sort.getOrder(input.buffer);
+            if (!overwrite) try{ input = (Vector<T>)Service.run(Clone.name, input); }catch( Exception e ){}
+            Order<T> order = sort.getOrder();
             apply(input, 0, input.size, order);
         }
         return input;

@@ -40,19 +40,14 @@ public class BubbleSort<T> extends Sort<T> {
      * @param end Final position in the array to be sorte
      * @return <i>true</i> If the sorting process was done without fails, <i>false</i> otherwise
      */
-  public boolean apply(T[] a, int start, int end) {
-      if( getOrder(a) != null ){
-        for (int i = start; i < end - 1 && continueFlag; i++) {
-          for (int j = i + 1; j < end && continueFlag; j++) {
-            if (order.compare(a[j], a[i])<0) {
-              T x = a[i];
-              a[i] = a[j];
-              a[j] = x;
-            }
-          }
-        }
+	public boolean apply(T[] a, int start, int end) {
+		for(int i = start; i < end - 1 && continueFlag; i++)
+			for(int j = i + 1; j < end && continueFlag; j++)
+				if(compare(a[j], a[i])<0) {
+					T x = a[i];
+					a[i] = a[j];
+					a[j] = x;
+				}
         return true;
-      }
-      return false;
-  }
+	}
 }

@@ -17,5 +17,5 @@ public interface Collection<T> extends Iterable<T> {
          * Determines if the data structure is empty or not
          * @return <i>true</i> if the data structure is empty <i>false</i> otherwise
          */
-        public boolean isEmpty();
+        public boolean isEmpty();        
 }

@@ -7,8 +7,9 @@ package unalcol.math.algebra;
 import java.util.Iterator;
 
 import unalcol.clone.Clone;
-import unalcol.types.collection.array.ArrayCollection;
-import unalcol.types.collection.array.MutableArrayCollection;
+import unalcol.services.Service;
+import unalcol.types.collection.array.Array;
+import unalcol.types.collection.array.MutableArray;
 import unalcol.types.collection.vector.Vector;
 
 /**
@@ -18,22 +19,16 @@ import unalcol.types.collection.vector.Vector;
 public abstract class InvertableScale<T> extends Scale<T>{
     public abstract T fastInverse( T x );
     @SuppressWarnings("unchecked")
-	public T inverse( T x ){
-        return fastInverse( (T)Clone.create(x) );
-    }
-    public Vector<T> inverse( ArrayCollection<T> a ){
+    
+	public T inverse( T x ){ try{ return fastInverse( (T)Service.run(Clone.name,x)); }catch(Exception e){ return fastInverse(x); } }
+    public Vector<T> inverse( Array<T> a ){
         Vector<T> v = new Vector<T>();
         Iterator<T> iter = a.iterator();
-        while( iter.hasNext() ){
-            v.add(inverse(iter.next()));
-        }
+        while( iter.hasNext() ) v.add(inverse(iter.next()));
         return v;
     } 
     
-    public void fastInverse( MutableArrayCollection<T> a ){
-        for( int i=0; i<a.size(); i++ ){
-            a.set(i, fastInverse(a.get(i)));
-        }
-    } 
-    
+    public void fastInverse( MutableArray<T> a ){
+        for( int i=0; i<a.size(); i++ ) a.set(i, fastInverse(a.get(i)));
+    }    
 }

@@ -14,7 +14,7 @@ import unalcol.random.util.RandBool;
  *
  * @author jgomez
  */
-public class SymmetricGenerator extends DoubleGenerator {
+public class SymmetricGenerator implements DoubleGenerator {
     protected DoubleGenerator g;
     protected RandBool b = new RandBool();
     public SymmetricGenerator(DoubleGenerator _g){
@@ -25,8 +25,8 @@ public class SymmetricGenerator extends DoubleGenerator {
      * @return A random double number
      */
     @Override
-    public double generate() {
-        return b.next()?g.generate():-g.generate();
+    public Double next() {
+        return b.next()?g.next():-g.next();
     }     
     
     public SymmetricGenerator( DoubleGenerator _g, RandBool _b ){
@@ -34,8 +34,8 @@ public class SymmetricGenerator extends DoubleGenerator {
         b = _b;
     }
     
-    @Override
+    /*@Override
     public DoubleGenerator new_instance(){
         return new SymmetricGenerator(g.new_instance(), b.new_instance());
-    }        
+    }*/        
 }

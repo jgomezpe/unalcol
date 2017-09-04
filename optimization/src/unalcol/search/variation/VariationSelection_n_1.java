@@ -4,7 +4,7 @@ import unalcol.search.Goal;
 import unalcol.search.selection.Selection;
 import unalcol.search.solution.Solution;
 
-public class VariationSelection_n_1<T> extends Variation_n_1<T>{
+public class VariationSelection_n_1<T> implements Variation_n_1<T>{
 	protected Variation<T> variation;
 	protected Selection<T> selection;
 
@@ -15,7 +15,7 @@ public class VariationSelection_n_1<T> extends Variation_n_1<T>{
 	
 	@SuppressWarnings("unchecked")
 	@Override
-	protected Solution<T> build(Solution<T>... parents ){
+	public Solution<T> build(Solution<T>... parents ){
 		String gName = Goal.class.getName();
 		Object goal = parents[0].data(gName);
 		Solution<T>[] children = variation.apply(parents);

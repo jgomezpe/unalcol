@@ -102,7 +102,7 @@ public abstract class OutputStreamTracer extends Tracer {
      * @param obj Traced information to be shown in the console
      */
     @Override
-    public void add(Object... obj) {
+    public void add(Object owner, Object... obj) {
         if( tracing && obj.length > 0 ){
     		write(SEPARATOR+Write.toString(obj[0]));
         	for( int i=1; i<obj.length; i++ )

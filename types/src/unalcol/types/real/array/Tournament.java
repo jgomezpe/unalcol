@@ -44,7 +44,7 @@ public class Tournament extends Uniform{
 	    double[] candidates = new double[m];
 	    Vector<Integer> indices = new Vector<Integer>();
 	    for( int i=0; i<m; i++ ){
-	        indices.add(g.generate());
+	        indices.add(g.next());
 	        candidates[i] = q[indices.get(i)];
 	    }
 	    return indices.get(inner.choose_one(candidates));

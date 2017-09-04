@@ -1,8 +1,10 @@
 package unalcol.descriptors;
 
+import java.io.IOException;
 import java.io.Writer;
 
 import unalcol.io.Write;
+import unalcol.services.Service;
 
 //
 //Unalcol Service structure Pack 1.0 by Jonatan Gomez-Perdomo
@@ -52,7 +54,7 @@ import unalcol.io.Write;
 * (E-mail: <A HREF="mailto:jgomezpe@unal.edu.co">jgomezpe@unal.edu.co</A> )
 * @version 1.0
 */
-public class WriteDescriptors extends Write<Object>{
+public class WriteDescriptors implements Write<Object>{
    /**
      * Writes an object to the given <i>writer</i>.
      * @param obj Object to write
@@ -60,7 +62,9 @@ public class WriteDescriptors extends Write<Object>{
      * @throws Exception An IOException
      */
 	@Override
-	public void write(Object obj, Writer writer) throws Exception {
-		Write.apply(Descriptors.obtain(obj), writer);
+	public void write(Object obj, Writer writer) throws IOException {
+		try{ Service.run("write",Service.run("descriptors",obj), writer); }
+		catch(IOException e){ throw e; }
+		catch(Exception e1){ throw new IOException(e1.getMessage()); }
 	}
 }

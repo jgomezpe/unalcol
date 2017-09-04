@@ -51,17 +51,20 @@ import unalcol.services.MicroService;
 * @version 1.0
 * @param <T> Type of objects to be cloned.
 */
-public abstract class Clone<T> implements MicroService{
-	
-	public static final String name="clone";
-	
+public interface Clone<T> extends MicroService{	
 	/**
 	 * Creates a clone of a given object
 	 * @param toClone Object to be cloned
 	 * @return A clone of the object
 	 */
-	public abstract T clone(T toClone);
+	public T clone();
 	
-	@SuppressWarnings("unchecked")
-	public Object apply( Object obj, Object... args ) throws Exception { return clone((T)obj); }    
+	// The MicroService methods
+
+	/**
+	 * The method name that can be used for describing an object
+	 */
+	public static final String name="clone";
+	
+	public default Object run( Object... args ) throws Exception { return clone(); }		
 }

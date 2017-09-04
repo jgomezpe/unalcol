@@ -1,5 +1,6 @@
 package unalcol.random.real;
 
+import unalcol.random.InverseGenerator;
 import unalcol.random.raw.RawGenerator;
 
 //
@@ -14,24 +15,9 @@ import unalcol.random.raw.RawGenerator;
  * @author Jonatan Gomez Perdomo
  * @version 1.0
  */
-public abstract class InverseDoubleGenerator extends DoubleGenerator {
+public abstract class InverseDoubleGenerator extends InverseGenerator<Double> implements DoubleGenerator {
      
     public InverseDoubleGenerator(){}
     
-    /**
-     * Returns a random double number
-     * @param x Inverse value (cumulative probability)
-     * @return A random double number
-     */
-    public abstract double next(double x);
-
-    /**
-     * Returns a random double number
-     * @return A random double number
-     */
-    @Override
-    public double generate() {
-        RawGenerator g = RawGenerator.get(this);
-        return next(g.next());
-    }
+    public InverseDoubleGenerator(RawGenerator raw){ super(raw); }    
 }

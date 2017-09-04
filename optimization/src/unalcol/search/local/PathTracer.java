@@ -8,15 +8,16 @@ public class PathTracer<T> extends Tracer {
     
 	@SuppressWarnings("unchecked")
 	@Override
-	public void add(Object... obj) {
+	public Object add(Object caller, Object... obj){
 		// TODO Auto-generated method stub
-		Solution<T> child = (Solution<T>)obj[0];
+		Solution<T> parent = (Solution<T>)obj[0];
 		if( obj.length % 2 == 1 ){
 			int k=1;		
 			for( int i=k; i<obj.length; i+=2 ){
-			    child.set( (String)obj[i], obj[i+1]);
+			    parent.set( (String)obj[i], obj[i+1]);
 			}	
 		}
+		return null;
 	}
 
 	@Override

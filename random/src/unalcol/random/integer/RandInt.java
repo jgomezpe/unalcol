@@ -1,6 +1,6 @@
 package unalcol.random.integer;
 
-import unalcol.random.Random;
+import unalcol.random.RandomGenerator;
 
 
 //
@@ -53,26 +53,13 @@ import unalcol.random.Random;
  * (E-mail: <A HREF="mailto:jgomezpe@unal.edu.co">jgomezpe@unal.edu.co</A> )
  * @version 1.0
  */
-public abstract class RandInt extends Random<Integer>{
-	   /**
-	 * Generates an integer number
-	 * @return An integer number
-	 */
-	public abstract int generate();
-	
-	/**
-	 * Generates an integer number
-	 * @return An integer number
-	 */
-	@Override
-	public Integer next(){ return generate(); }
-	
+public interface RandInt extends RandomGenerator<Integer>{	
 	/**
 	 * Returns a set of random integer numbers
 	 * @param v Array where integer numbers will be stored
 	 * @param m The total number of integer numbers
 	 */
-	public void generate(int[] v, int offset, int m) {
+	public default void generate(int[] v, int offset, int m) {
 	    for (int i = 0; i < m; i++) v[i+offset] = next();
 	}
 	
@@ -81,7 +68,7 @@ public abstract class RandInt extends Random<Integer>{
 	 * @param m The total number of random integer numbers
 	 * @return A set of m random integer numbers
 	 */
-	public int[] generate(int m) {
+	public default int[] generate(int m) {
 		int[] v = null;
 		if (m > 0) {
 		    v = new int[m];

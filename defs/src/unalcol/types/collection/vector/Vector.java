@@ -2,6 +2,7 @@ package unalcol.types.collection.vector;
 
 import unalcol.types.collection.Location;
 import unalcol.types.collection.MutableCollection;
+import unalcol.types.collection.array.ArrayLocation;
 
 public class Vector<T> extends ImmutableVector<T> implements MutableCollection<T>{
 	protected int a, b, c;
@@ -109,9 +110,10 @@ public class Vector<T> extends ImmutableVector<T> implements MutableCollection<T
     protected void leftShift( int index ) throws IndexOutOfBoundsException{
         size--;
         if( size < a ){
+        	System.out.println(size+":"+index);
             T[] newData = shrink();
             System.arraycopy(buffer, 0, newData, 0, index );
-            System.arraycopy(buffer, index+1, newData, index, size-index );
+            if( index < size ) System.arraycopy(buffer, index+1, newData, index, size-index );
             buffer = newData;
         }else{
             System.arraycopy(buffer, index+1, buffer, index, size-index );
@@ -170,8 +172,8 @@ public class Vector<T> extends ImmutableVector<T> implements MutableCollection<T
      */
     @Override
     public boolean del( Location<T> locator ){
-        if( locator instanceof ImmutableVector.VectorLocation ){
-            VectorLocation loc = ((VectorLocation)locator);
+        if( locator instanceof ArrayLocation ){
+        	ArrayLocation<T> loc = ((ArrayLocation<T>)locator);
             leftShift( loc.getPos() );
             return true;
         }

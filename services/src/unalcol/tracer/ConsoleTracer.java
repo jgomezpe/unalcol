@@ -110,5 +110,6 @@ public class ConsoleTracer extends OutputStreamTracer {
      * Closes the console (does nothing)
      */
     @Override
-    public void close() {};
+    public void close(){}
+
 }

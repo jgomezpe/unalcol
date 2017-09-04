@@ -11,7 +11,7 @@ import unalcol.types.integer.IntegerPlainRead;
  *
  * @author jgomez
  */
-public class DoublePlainRead extends Read<Double>{
+public class DoublePlainRead implements Read<Double>{
 
     @Override
     public Double read(ShortTermMemoryReader reader) throws RowColumnReaderException{

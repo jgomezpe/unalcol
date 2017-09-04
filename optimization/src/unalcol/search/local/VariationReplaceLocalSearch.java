@@ -9,6 +9,7 @@ import unalcol.search.Goal;
 import unalcol.search.solution.Solution;
 import unalcol.search.space.Space;
 import unalcol.search.variation.Variation_1_1;
+import unalcol.services.Service;
 import unalcol.tracer.Tracer;
 
 /**
@@ -31,7 +32,7 @@ public class VariationReplaceLocalSearch<T> extends LocalSearch<T,Double> {
 		Solution<T> y = variation.apply(space, x);
         y.set(Goal.class.getName(), x.data(Goal.class.getName()));
         Solution<T> z = replace.apply(x, y);
-        Tracer.trace(Solution.class, z, PathTracer.PARENT, z);
+        try{ Service.run(Tracer.name,this, Solution.class, x, PathTracer.PARENT, z); }catch(Exception e){}
         return z;
     }    
 }

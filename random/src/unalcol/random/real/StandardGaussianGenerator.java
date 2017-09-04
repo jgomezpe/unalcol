@@ -1,6 +1,7 @@
 package unalcol.random.real;
 
-import unalcol.random.raw.RawGenerator;
+import unalcol.random.UsesRawGenerator;
+import unalcol.types.tag.Tags;
 
 //
 //Unified Random generation Pack 1.0 by Jonatan Gómez-Perdomo
@@ -15,7 +16,7 @@ import unalcol.random.raw.RawGenerator;
  * @version 1.0
  */
 
-public class StandardGaussianGenerator extends DoubleGenerator{
+public class StandardGaussianGenerator extends Tags implements UsesRawGenerator, DoubleGenerator{
     
     /**
      * Creates a standard Gaussian number generator
@@ -28,25 +29,24 @@ public class StandardGaussianGenerator extends DoubleGenerator{
      * @return A random double number
      */
     @Override
-    public double generate() {
-        RawGenerator g = RawGenerator.get(this);
+    public Double next() {
         double x,y;
         double r;
         do {
-            x = 2.0 * g.next() - 1.0;
-            y = 2.0 * g.next() - 1.0;
+            x = 2.0 * real() - 1.0;
+            y = 2.0 * real() - 1.0;
             r = x * x + y * y;
         } while (r >= 1.0);
 
         double z = Math.sqrt( -2.0 * Math.log(r) / r);
         return (y * z);
     }
-    
-    @Override
+
+    /*@Override
     public DoubleGenerator new_instance(){
         RawGenerator g = RawGenerator.get(this);
         DoubleGenerator dg = new StandardGaussianGenerator();
         RawGenerator.set(dg, g.new_instance());
         return dg;
-    }    
+    }*/
 }

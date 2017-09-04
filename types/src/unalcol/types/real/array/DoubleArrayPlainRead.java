@@ -5,19 +5,18 @@
 
 package unalcol.types.real.array;
 import unalcol.io.*;
-import unalcol.types.integer.IntegerPlainRead;
-import unalcol.types.real.DoublePlainRead;
-
-import java.io.*;
+import unalcol.services.Service;
 
 /**
  *
  * @author jgomez
  */
-public class DoubleArrayPlainRead extends Read<double[]>{
+public class DoubleArrayPlainRead implements Read<double[]>{
 	protected boolean read_dimension = true;
 	protected char separator = ' ';
 	protected int n=-1;
+	protected Read<Integer> ri=null;
+	protected Read<Double> rr=null;
 	
 	public DoubleArrayPlainRead(){}
 	
@@ -35,31 +34,33 @@ public class DoubleArrayPlainRead extends Read<double[]>{
 		this.separator = separator;
 		read_dimension = (n <=0 );
 	}
+
+	public void setIntReader( Read<Integer> ri ){ this.ri = ri; }
+	
+	protected int readInt(ShortTermMemoryReader reader) throws Exception{
+		if( ri!=null ) return ri.read(reader);
+		return (int)Service.run(Read.name, Integer.class, reader);
+	}
+	
+	public void setDoubleReader( Read<Double> rr ){ this.rr = rr; }
+	
+	protected double readDouble(ShortTermMemoryReader reader) throws Exception{
+		if( rr!=null ) return rr.read(reader);
+		return (double)Service.run(Read.name, Double.class, reader);
+	}
 	
     @Override
-    public double[] read( ShortTermMemoryReader reader ) throws IOException{
-        @SuppressWarnings("unchecked")
-		Read<Double> rd = (Read<Double>)get(Double.class); 
-        if( rd==null ){
-        	rd = new DoublePlainRead();
-        	set( Double.class, rd);        	
-        }
+    public double[] read( ShortTermMemoryReader reader ) throws Exception{
         if( read_dimension ){
-            @SuppressWarnings("unchecked")
-    		Read<Integer> ri = (Read<Integer>)get(Integer.class); 
-            if( ri == null ){
-            	ri = new IntegerPlainRead();
-            	set( Integer.class, ri);
-            }
-        	n = ri.read(reader);
+        	n = readInt(reader);
             Read.readSeparator(reader, separator);        	
         }
-        double[] a = new double[n];
+		double[] a = new double[n];
         for (int i = 0; i < n-1; i++) {
-            a[i] = rd.read(reader);
+            a[i] = readDouble(reader);
             Read.readSeparator(reader, separator);        	
         }
-        if( n-1 >= 0 ) a[n-1] = rd.read(reader);
+        if( n-1 >= 0 ) a[n-1] = readDouble(reader);
         return a;
     }
 }
