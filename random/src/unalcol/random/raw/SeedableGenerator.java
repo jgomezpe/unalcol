@@ -2,6 +2,9 @@ package unalcol.random.raw;
 
 import java.util.*;
 
+import unalcol.services.TaggedCallerNamePair;
+import unalcol.types.tag.Tags;
+
 //
 // Unified Random generation Pack 1.0 by Jonatan Gómez-Perdomo
 // https://github.com/jgomezpe/unalcol/tree/master/random/
@@ -53,7 +56,7 @@ import java.util.*;
  * (E-mail: <A HREF="mailto:jgomezpe@unal.edu.co">jgomezpe@unal.edu.co</A> )
  * @version 1.0
  */
-public abstract class SeedableGenerator extends RawGenerator {
+public abstract class SeedableGenerator<T> extends Tags implements TaggedCallerNamePair<T>, RawGenerator<T> {
 
     /**
      * Generators Seed

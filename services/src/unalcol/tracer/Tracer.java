@@ -1,6 +1,6 @@
 package unalcol.tracer;
 
-import unalcol.services.ServiceProvider;
+import unalcol.services.MicroService;
 
 //
 //Unalcol Service structure Pack 1.0 by Jonatan Gomez-Perdomo
@@ -50,77 +50,66 @@ import unalcol.services.ServiceProvider;
 * (E-mail: <A HREF="mailto:jgomezpe@unal.edu.co">jgomezpe@unal.edu.co</A> )
 * @version 1.0
 */
-public abstract class Tracer implements ServiceProvider{
+public interface Tracer<T> extends MicroService<T>{
 	
-    /**
-     * Default constructor
-     */
-    public Tracer(){}
+    public boolean tracing();
 
     /**
      * Starts the tracing of objects process
      * @return <i>true</i> if the Tracer was tracing objects, <i>false</i>otherwise.
      */
-    public boolean start(){
-        boolean old = tracing;
-        tracing = true;
-        return old;
-    }
+    public boolean start();
 
     /**
      * Stops the tracing of objects process
      * @return <i>true</i> if the Tracer was tracing objects, <i>false</i>otherwise.
      */
-    public boolean stop(){
-        boolean old = tracing;
-        tracing = false;
-        return old;
-    }
+    public boolean stop();
 
     /**
      * Adds an object sent by an object to the tracer
      * @param obj Traced information to be added
      */
-    public abstract void add(Object owner, Object... obj);
+    public void add(Object... obj);
 
     /**
      * Returns the traced object
      * @return An object representing the traced information
      */
-    public abstract Object get();
+    public Object get();
 
     /**
      * Cleans the traced information
      */
-    public abstract void clean();
+    public void clean();
 
     /**
      * Closes the tracer
      */
-    public abstract void close();
-
-	/**
-	 * Determines if objects are being traced or not.
-	 */
-    protected boolean tracing = true;
+    public void close();
 
 	// The MicroService methods
 	public static final String name="trace";
 	public static final String clean=name+".clean"; 
+	public static final String tracing=name+".tracing"; 
 	public static final String start=name+".start"; 
 	public static final String stop=name+".stop"; 
 	public static final String get=name+".get"; 
 	public static final String close=name+".close";
 	
-	public static final String[] methods = new String[]{Tracer.name,Tracer.start,Tracer.stop,Tracer.get,Tracer.close,Tracer.clean}; 
+	public static final String[] methods = new String[]{Tracer.name,Tracer.tracing,Tracer.start,Tracer.stop,Tracer.get,Tracer.close,Tracer.clean}; 
 
 	@Override
-	public String[] provides(){ return methods;	}
+	public default String[] provides(){ return methods; }
 
 	@Override
-	public Object run( String service, Object obj, Object... args ) throws Exception{
+	public default boolean multiple(){ return true; }
+
+	@Override
+	public default Object run( Object... args ) throws Exception{
+		String service=name();
 		if( service.equals(name)){
-			add(obj, args);
+			add(args);
 			return null;
 		}
 		
@@ -131,15 +120,11 @@ public abstract class Tracer implements ServiceProvider{
 			return null;
 		}
 		
-		if(service.equals(start)){
-			this.start();
-			return null;
-		}
+		if(service.equals(tracing)){ return this.tracing(); }
 		
-		if(service.equals(stop)){
-			this.stop();
-			return null;
-		} 
+		if(service.equals(start)){ return this.start(); }
+		
+		if(service.equals(stop)){ return this.stop(); } 
 		
 		
 		if(service.equals(close)){

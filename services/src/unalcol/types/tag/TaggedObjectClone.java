@@ -3,6 +3,7 @@ package unalcol.types.tag;
 import unalcol.clone.Clone;
 import unalcol.clone.UsesClone;
 import unalcol.instance.UsesInstance;
+import unalcol.services.TaggedCallerNamePair;
 import unalcol.types.tag.TaggedObject;
 
 //
@@ -52,7 +53,7 @@ import unalcol.types.tag.TaggedObject;
 * (E-mail: <A HREF="mailto:jgomezpe@unal.edu.co">jgomezpe@unal.edu.co</A> )
 * @version 1.0
 */
-public class TaggedObjectClone<T> extends Tags implements Clone<TaggedObject<T>>, UsesClone<T>, UsesInstance<TaggedObject<T>> {
+public class TaggedObjectClone<T> extends Tags implements Clone<TaggedObject<T>>, TaggedCallerNamePair<TaggedObject<T>>, UsesClone<T>, UsesInstance<TaggedObject<T>> {
 	/**
 	 * If the object that is tagged should be copied or a shallow clone is enough
 	 */
@@ -78,10 +79,12 @@ public class TaggedObjectClone<T> extends Tags implements Clone<TaggedObject<T>>
 	 * @param obj TaggedObject to be  non-strictly copied. 
 	 * @return A copy of the TaggedObject (including or the tags or just the TaggedMethods).
 	 */
-	public TaggedObject<T> clone(TaggedObject<T> obj){
+	public TaggedObject<T> clone(){
+		TaggedObject<T> obj = caller();
 		T tObj = obj.object();
-		if( cloneObject ) tObj = getClone().clone(tObj);
-		TaggedObject<T> nObj = getInstance(obj).create(obj,tObj);
+		if( cloneObject ) tObj = getClone(tObj).clone();
+		@SuppressWarnings("unchecked")
+		TaggedObject<T> nObj = getInstance((Class<TaggedObject<T>>)obj.getClass()).create(obj,tObj);
 		nObj.cloneTags(obj.info,copyAllTags);
 		return nObj;
 	}

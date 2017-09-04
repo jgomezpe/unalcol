@@ -5,13 +5,15 @@
 
 package unalcol.types.real;
 import unalcol.io.*;
+import unalcol.services.TaggedCallerNamePair;
 import unalcol.types.integer.IntegerPlainRead;
+import unalcol.types.tag.Tags;
 
 /**
  *
  * @author jgomez
  */
-public class DoublePlainRead implements Read<Double>{
+public class DoublePlainRead extends Tags implements TaggedCallerNamePair<Double>, Read<Double>{
 
     @Override
     public Double read(ShortTermMemoryReader reader) throws RowColumnReaderException{

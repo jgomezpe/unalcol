@@ -1,6 +1,7 @@
 package services;
 
 import unalcol.clone.DefaultClone;
+import unalcol.instance.DefaultInstance;
 import unalcol.instance.Instance;
 import unalcol.services.Service;
 import unalcol.services.ServicePool;
@@ -9,11 +10,11 @@ import unalcol.tracer.ConsoleTracer;
 public class InstanceTest {
 	public static void init_services(){
 		ServicePool service = new ServicePool();
-        service.register(new DefaultClone(), Object.class);         
-        service.register(new ConsoleTracer(), Object.class);
-		service.register(new Instance<Object>(), Object.class);
-        Service.set(service);
-    }
+		service.register(new DefaultInstance<Object>(), Object.class);
+		service.register(new DefaultClone(), Object.class);         
+		service.register(new ConsoleTracer<Object>(), Object.class);
+		Service.set(service);
+	}
 	
 	public static void main( String[] args ){
 		try{

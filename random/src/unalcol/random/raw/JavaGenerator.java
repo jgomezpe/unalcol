@@ -1,5 +1,8 @@
 package unalcol.random.raw;
 
+import unalcol.services.TaggedCallerNamePair;
+import unalcol.types.tag.Tags;
+
 // Unified Random generation Pack 1.0 by Jonatan Gomez-Perdomo
 // https://github.com/jgomezpe/unalcol/tree/master/random/
 //
@@ -49,7 +52,7 @@ package unalcol.random.raw;
  * (E-mail: <A HREF="mailto:jgomezpe@unal.edu.co">jgomezpe@unal.edu.co</A> )
  * @version 1.0
  */
-public class JavaGenerator extends RawGenerator {
+public class JavaGenerator<T> extends Tags implements TaggedCallerNamePair<T>, RawGenerator<T> {
     /**
      * Generates a random number in the interval [0.0,1.0) following a uniform distribution x~U[0,1)
      * using the Java standard random generator (Math.random())
@@ -59,13 +62,4 @@ public class JavaGenerator extends RawGenerator {
     public double next() {
         return Math.random();
     }
-    
-    /**
-     * Creates a new instance of the Java random number generator (shallow copy)
-     * @return A new instance of the random number generator (Math.random())
-     */
-    @Override
-    public RawGenerator new_instance(){
-        return this;
-    }    
 }

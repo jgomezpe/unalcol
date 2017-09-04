@@ -11,25 +11,25 @@ import unalcol.tracer.Tracer;
 public class CloneTest {
 	public static void init_services(){
 		ServicePool service = new ServicePool();
-        service.register(new DefaultClone(), Object.class);         
-        service.register(new ConsoleTracer(), Object.class);
-        Service.set(service);
-    }
+		service.register(new DefaultClone(), Object.class);         
+		service.register(new ConsoleTracer<Object>(), Object.class);
+		Service.set(service);
+	}
 	
 	/**
 	 * Obtaining the default Clone service 
 	 */
 	public static void default_clone() throws Exception{
 		System.out.println("############Testing the default clone service############");
-        String s = "Hello world!";
-        // We can use the Service class method (it is general)
-        String cs = (String)Service.run(Clone.name,s);       
+		String s = "Hello world!";
+		// We can use the Service class method (it is general)
+		String cs = (String)Service.run(Clone.name,s);       
 		System.out.println("Original: "+s);
 		System.out.println("Clone: "+cs);
-        // or we can use the specialized method in Clone (it is specific for Clone)
-        cs = (String)Service.run(Clone.name, s);
+		// or we can use the specialized method in Clone (it is specific for Clone)
+		cs = (String)Service.run(Clone.name, s);
 		System.out.println("Clone: "+cs);
-        System.out.println("Is it a shallow copy?"+(cs==s));        		
+		System.out.println("Is it a shallow copy?"+(cs==s));        		
 	}
 	
 	/**
@@ -37,19 +37,19 @@ public class CloneTest {
 	 */
 	public static void shallow_wrapper() throws Exception{
 		System.out.println("############Comparing the Shallow vs the Wrapper (by default) clone services############");
-        String s = "Hello World!";
-        String cs = (String)Service.run(Clone.name,s);
-        Service.run(Tracer.name, s, "Original:", s);
-        Service.run(Tracer.name, cs, "Clone:", cs);
-        Service.run(Tracer.name, cs, "Is it a Shallow copy?"+(cs==s));        
-        Clone<Object> shallow = new ShallowClone();
-        ServicePool service = (ServicePool)Service.get();
-        service.register(shallow, String.class);
-        System.out.println("Now we are using shallow copy method.. Careful it will be the clone method from now on");
-        cs = (String)Service.run(Clone.name, s);
-        service.run(Tracer.name, cs, "Clone:"+cs);
-        service.run(Tracer.name, cs, "Is it a shallow copy?"+(cs==s)); 
-        Service.run(Tracer.close, Object.class);
+		String s = "Hello World!";
+		String cs = (String)Service.run(Clone.name,s);
+		Service.run(Tracer.name, s, "Original:", s);
+		Service.run(Tracer.name, cs, "Clone:", cs);
+		Service.run(Tracer.name, cs, "Is it a Shallow copy?"+(cs==s));        
+		Clone<Object> shallow = new ShallowClone<Object>();
+		ServicePool service = (ServicePool)Service.get();
+		service.register(shallow, String.class);
+		System.out.println("Now we are using shallow copy method.. Careful it will be the clone method from now on");
+		cs = (String)Service.run(Clone.name, s);
+		service.run(Tracer.name, cs, "Clone:"+cs);
+		service.run(Tracer.name, cs, "Is it a shallow copy?"+(cs==s)); 
+		Service.run(Tracer.close, Object.class);
 	}
 	
 	/**

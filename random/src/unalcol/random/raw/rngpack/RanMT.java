@@ -64,7 +64,7 @@ import unalcol.random.raw.*;
  */
 
 
-public class RanMT extends SeedableGenerator{
+public class RanMT<T> extends SeedableGenerator<T>{
 
     private static final int N = 624;
     private static final int M = 397;
@@ -235,15 +235,5 @@ public class RanMT extends SeedableGenerator{
 
 	/* derived from nextDouble documentation in jdk 1.2 docs, see top */
 	return ((((long)(y >>> 6)) << 27) + (z >>> 5)) / (double)(1L << 53);
-    }
-    
-    /**
-     * Creates a new instance of the RanMT generator 
-     * @return A new instance of the RanMT generator
-     */
-    @Override
-    public RawGenerator new_instance(){
-        return this; //new RanMT();
-    }
-    
+    }    
 }

@@ -1,14 +1,11 @@
 package unalcol.random;
 
-import unalcol.random.raw.RawGenerator;
+import unalcol.services.TaggedCallerNamePair;
 import unalcol.types.tag.Tags;
 
-public abstract class InverseGenerator<T> extends Tags implements RandomGenerator<T>, UsesRawGenerator {
-	protected RawGenerator raw = null;
+public abstract class InverseGenerator<T> extends Tags implements TaggedCallerNamePair<T>, RandomGenerator<T>, UsesRawGenerator<T> {
 	
     public InverseGenerator(){}
-    
-    public InverseGenerator(RawGenerator raw){ setRawGenerator(raw); }
     
     /**
      * Returns a random double number
@@ -22,5 +19,5 @@ public abstract class InverseGenerator<T> extends Tags implements RandomGenerato
      * @return A random double number
      */
     @Override
-    public T next(){ return next(real()); }
+    public T next(){ return next(getRawGenerator(caller()).next()); }
 }

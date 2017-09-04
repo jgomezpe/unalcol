@@ -1,5 +1,7 @@
 package unalcol.types.real.array;
 import unalcol.descriptors.*;
+import unalcol.services.TaggedCallerNamePair;
+import unalcol.types.tag.Tags;
 
 /**
  * <p>Descriptor Service for double arrays</p>
@@ -10,14 +12,14 @@ import unalcol.descriptors.*;
  * @version 1.0
  *
  */
-public class DoubleArrayDescriptors implements Descriptors<double[]>{
+public class DoubleArrayDescriptors extends Tags implements TaggedCallerNamePair<double[]>,  Descriptors<double[]>{
  
     /**
      * Gets a numeric description of the given numeric values (this method produces just a clone)
      * @param ind Numeric values to be described using numeric values
      * @return Numeric description of the given numeric values (just creates a clone)
      */
-    public double[] descriptors(double[] ind) {
-        return ind.clone();
+    public double[] descriptors() {
+        return caller().clone();
     }
 }

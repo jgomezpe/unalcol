@@ -51,7 +51,7 @@ import unalcol.services.MicroService;
 * @version 1.0
 * @param <T> Type of objects from which instances will be generated.
 */
-public interface Instance<T> extends MicroService{
+public interface Instance<T> extends MicroService<Class<T>>{
 	/**
 	 * Generates an instance belonging to the class <i>type</i> according to the parameters (it does not support VarArgs constructors).
 	 * @param type Class of instances that will be generated.
@@ -68,4 +68,6 @@ public interface Instance<T> extends MicroService{
 	public default Object run(Object... args) throws Exception{
 		return create(args); 
 	}    	
+
+	public default String[] provides(){ return new String[]{name}; }		
 }

@@ -1,5 +1,8 @@
 package unalcol.tracer;
 
+import unalcol.services.TaggedCallerNamePair;
+import unalcol.types.tag.Tags;
+
 //
 //Unalcol Service structure Pack 1.0 by Jonatan Gomez-Perdomo
 //https://github.com/jgomezpe/unalcol/tree/master/services/
@@ -48,7 +51,7 @@ package unalcol.tracer;
 * (E-mail: <A HREF="mailto:jgomezpe@unal.edu.co">jgomezpe@unal.edu.co</A> )
 * @version 1.0
 */
-public class SingleResultTracer extends Tracer {
+public class SingleResultTracer<T> extends Tags implements TaggedCallerNamePair<T>, Tracer<T> {
     /**
      * Traced information
      */
@@ -63,7 +66,7 @@ public class SingleResultTracer extends Tracer {
      * Replaces the traced information with a new one
      * @param obj Traced information
      */
-    public void add(Object owner, Object... obj){ object = obj; }
+    public void add(Object... obj){ object = obj; }
 
     /**
      * Returns the traced information
@@ -80,4 +83,23 @@ public class SingleResultTracer extends Tracer {
      * Closes the tracer (does nothing)
      */
     public void close() {};
+    
+	protected boolean isTracing=false;
+	
+	@Override
+	public boolean tracing() { return isTracing; }
+
+	@Override
+	public boolean start() {
+		boolean old = isTracing;
+		isTracing=true;
+		return old;
+	}
+
+	@Override
+	public boolean stop() {
+		boolean old = isTracing;
+		isTracing=false;
+		return old;
+	}    
 }

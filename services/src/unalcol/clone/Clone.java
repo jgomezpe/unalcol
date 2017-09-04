@@ -51,20 +51,22 @@ import unalcol.services.MicroService;
 * @version 1.0
 * @param <T> Type of objects to be cloned.
 */
-public interface Clone<T> extends MicroService{	
+public interface Clone<T> extends MicroService<T>{	
 	/**
 	 * Creates a clone of a given object
 	 * @param toClone Object to be cloned
 	 * @return A clone of the object
 	 */
 	public T clone();
-	
+
 	// The MicroService methods
 
+	public default Object run( Object... args ) throws Exception { return clone(); }		
+	
 	/**
 	 * The method name that can be used for describing an object
 	 */
-	public static final String name="clone";
+	public static final String name="clone";	
 	
-	public default Object run( Object... args ) throws Exception { return clone(); }		
+	public default String[] provides(){ return new String[]{name}; }	
 }

@@ -48,7 +48,7 @@ package unalcol.tracer;
 * (E-mail: <A HREF="mailto:jgomezpe@unal.edu.co">jgomezpe@unal.edu.co</A> )
 * @version 1.0
 */
-public class ConsoleTracer extends OutputStreamTracer {
+public class ConsoleTracer<T> extends OutputStreamTracer<T> {
     /**
      * Determines if a new line symbol is added after tracing an object
      */

@@ -51,7 +51,7 @@ import unalcol.services.MicroService;
 * @version 1.0
 * @param <T> Type of objects that will be read from the ShortTermMemoryReader.
 */
-public interface Read<T> extends MicroService{
+public interface Read<T> extends MicroService<T>{
 	/**
 	 * Reads an object from the given reader
 	 * @param reader The input stream from which the object will be read
@@ -66,7 +66,7 @@ public interface Read<T> extends MicroService{
 	 * @param separator Character consider separator of tokens
 	 * @throws IOException An exception if it was not possible to read a separator sequence.
 	 */
-	public static void readSeparator( ShortTermMemoryReader reader, char separator ) throws Exception{
+	public static void readSeparator( ShortTermMemoryReader reader, char separator ) throws IOException{
 		try{
 			char c = (char)reader.read();
 			while( c!=separator && Character.isSpaceChar(c)) c = (char)reader.read();
@@ -79,5 +79,7 @@ public interface Read<T> extends MicroService{
 
 	public static final String name="read";
 	
-	public default Object run( Object... args ) throws Exception{ return read((ShortTermMemoryReader)args[0]); }    
+	public default Object run( Object... args ) throws IOException{ return read((ShortTermMemoryReader)args[0]); }    
+	
+	public default String[] provides(){ return new String[]{name}; }		
 }

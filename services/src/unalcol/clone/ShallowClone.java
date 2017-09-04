@@ -1,6 +1,6 @@
 package unalcol.clone;
 
-import unalcol.services.TaggedMicroService;
+import unalcol.services.TaggedCallerNamePair;
 import unalcol.types.tag.Tags;
 
 //
@@ -50,11 +50,11 @@ import unalcol.types.tag.Tags;
 * (E-mail: <A HREF="mailto:jgomezpe@unal.edu.co">jgomezpe@unal.edu.co</A> )
 * @version 1.0
 */
-public class ShallowClone extends Tags implements Clone<Object>, TaggedMicroService {
+public class ShallowClone<T> extends Tags implements Clone<T>, TaggedCallerNamePair<T> {
     /**
      * Returns the same object (shallow copy)
      * @param obj Object to be cloned (shallow)
      * @return A Clone (the same object) of the object
      */
-	public Object clone(){ return caller(); }
+	public T clone(){ return caller(); }	
 }

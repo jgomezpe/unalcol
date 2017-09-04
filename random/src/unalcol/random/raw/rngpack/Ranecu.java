@@ -34,7 +34,7 @@ import unalcol.random.raw.*;
  */
 
 
-public class Ranecu extends SeedableGenerator {
+public class Ranecu<T> extends SeedableGenerator<T> {
 
     /**
      * Partial seed information
@@ -101,11 +101,5 @@ public class Ranecu extends SeedableGenerator {
         int lz = seed1 - seed2;
         if (lz < 1) lz = lz + 2147483562;
         return lz * 4.656613e-10;
-    }
-    
-    @Override
-    public RawGenerator new_instance(){
-        return new Ranecu();
-    }
-    
+    }    
 }

@@ -3,7 +3,7 @@ package unalcol.io;
 import java.io.IOException;
 import java.lang.reflect.Method;
 
-import unalcol.services.TaggedMicroService;
+import unalcol.services.TaggedCallerNamePair;
 import unalcol.types.tag.Tags;
 
 //
@@ -54,7 +54,7 @@ import unalcol.types.tag.Tags;
 * (E-mail: <A HREF="mailto:jgomezpe@unal.edu.co">jgomezpe@unal.edu.co</A> )
 * @version 1.0
 */
-public class DefaultRead  extends Tags implements TaggedMicroService, Read<Object> {
+public class DefaultRead extends Tags implements TaggedCallerNamePair<Object>, Read<Object> {
 	/**
 	 * Reads an instance of the class associated to the service from the <i>reader</i>, if possible.
 	 * @param reader The ShortTermMemoryReader from which the instance will be read.
@@ -66,12 +66,7 @@ public class DefaultRead  extends Tags implements TaggedMicroService, Read<Objec
 		try{ 
 			Object obj = caller();
 			Class<?> type = (obj instanceof Class<?>)?(Class<?>)obj:obj.getClass();
-			Method method = type.getDeclaredMethod(name(), parameterTypes);
-			Class<?>[] param = method.getParameterTypes();
-			if(param.length!=1 || param[0] != ShortTermMemoryReader.class){
-				method = null;
-				throw new Exception("Incorrect number of arguments method "+name()+" for class " + type.getName());
-			}
+			Method method = type.getMethod(name(), new Class<?>[]{reader.getClass()});
 			return method.invoke(reader); 
 		}catch( Exception e ){ throw new IOException(e.getMessage()); }
 	}

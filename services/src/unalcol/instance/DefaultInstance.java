@@ -2,10 +2,10 @@ package unalcol.instance;
 
 import java.lang.reflect.Constructor;
 
-import unalcol.services.TaggedMicroService;
+import unalcol.services.TaggedCallerNamePair;
 import unalcol.types.tag.Tags;
 
-public class DefaultInstance<T> extends Tags implements TaggedMicroService, Instance<T>{
+public class DefaultInstance<T> extends Tags implements TaggedCallerNamePair<Class<T>>, Instance<T>{
 	/**
 	 * Generates an instance belonging to the class <i>type</i> according to the parameters (it does not support VarArgs constructors).
 	 * @param type Class of instances that will be generated.
@@ -36,11 +36,6 @@ public class DefaultInstance<T> extends Tags implements TaggedMicroService, Inst
 		return null;
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
-	public T create(Object... args) {
-		Object obj = caller();
-		if( obj instanceof Class<?> ) return create((Class<T>)obj, args);
-		return create((Class<T>)obj.getClass(), args);
-	}
+	public T create(Object... args) { return create(caller(), args); }
 }

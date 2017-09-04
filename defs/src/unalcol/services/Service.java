@@ -1,6 +1,7 @@
 package unalcol.services;
 
 public class Service {
+	public static final String USES="uses.";
 	// Defining the infra-structure
 	private static ServiceProvider pool;
 	public static ServiceProvider get(){ return pool; }

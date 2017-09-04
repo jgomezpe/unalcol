@@ -16,7 +16,7 @@ import unalcol.types.tag.Tags;
  * @version 1.0
  */
 
-public class StandardGaussianGenerator extends Tags implements UsesRawGenerator, DoubleGenerator{
+public class StandardGaussianGenerator extends Tags implements UsesRawGenerator<T>, DoubleGenerator{
     
     /**
      * Creates a standard Gaussian number generator

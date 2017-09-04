@@ -1,7 +1,6 @@
 package unalcol.random.real;
 
 import unalcol.random.InverseGenerator;
-import unalcol.random.raw.RawGenerator;
 
 //
 //Unified Random generation Pack 1.0 by Jonatan Gómez-Perdomo
@@ -17,7 +16,5 @@ import unalcol.random.raw.RawGenerator;
  */
 public abstract class InverseDoubleGenerator extends InverseGenerator<Double> implements DoubleGenerator {
      
-    public InverseDoubleGenerator(){}
-    
-    public InverseDoubleGenerator(RawGenerator raw){ super(raw); }    
+    public InverseDoubleGenerator(){}    
 }

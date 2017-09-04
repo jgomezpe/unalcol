@@ -5,21 +5,16 @@
 package unalcol.types.real.array;
 
 import unalcol.instance.Instance;
+import unalcol.services.TaggedCallerNamePair;
+import unalcol.types.tag.Tags;
 
 /**
  *
  * @author jgomez
  */
-public class DoubleArrayZeroOneInstance extends Instance<double[]> {
-    public DoubleArrayZeroOneInstance(){
-    }
-    
-    public double[] create( int n ) {
-        return DoubleArray.random(n);
-    }
+public class DoubleArrayZeroOneInstance extends Tags implements TaggedCallerNamePair<Class<double[]>>, Instance<double[]> {
+    public double[] create( int n ){  return DoubleArray.random(n); }
     
     @Override
-    public double[] create( Object... n) {
-        return create((int)n[0]);
-    }
+    public double[] create( Object... n) { return create((int)n[0]); }
 }

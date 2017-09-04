@@ -4,19 +4,22 @@
  */
 
 package unalcol.types.real.array;
+import java.io.IOException;
+
 import unalcol.io.*;
-import unalcol.services.Service;
+import unalcol.services.TaggedCallerNamePair;
+import unalcol.types.integer.UsesIntRead;
+import unalcol.types.real.UsesDoubleRead;
+import unalcol.types.tag.Tags;
 
 /**
  *
  * @author jgomez
  */
-public class DoubleArrayPlainRead implements Read<double[]>{
+public class DoubleArrayPlainRead extends Tags implements TaggedCallerNamePair<double[]>, Read<double[]>, UsesDoubleRead, UsesIntRead{
 	protected boolean read_dimension = true;
 	protected char separator = ' ';
 	protected int n=-1;
-	protected Read<Integer> ri=null;
-	protected Read<Double> rr=null;
 	
 	public DoubleArrayPlainRead(){}
 	
@@ -34,23 +37,9 @@ public class DoubleArrayPlainRead implements Read<double[]>{
 		this.separator = separator;
 		read_dimension = (n <=0 );
 	}
-
-	public void setIntReader( Read<Integer> ri ){ this.ri = ri; }
-	
-	protected int readInt(ShortTermMemoryReader reader) throws Exception{
-		if( ri!=null ) return ri.read(reader);
-		return (int)Service.run(Read.name, Integer.class, reader);
-	}
-	
-	public void setDoubleReader( Read<Double> rr ){ this.rr = rr; }
-	
-	protected double readDouble(ShortTermMemoryReader reader) throws Exception{
-		if( rr!=null ) return rr.read(reader);
-		return (double)Service.run(Read.name, Double.class, reader);
-	}
 	
     @Override
-    public double[] read( ShortTermMemoryReader reader ) throws Exception{
+    public double[] read( ShortTermMemoryReader reader ) throws IOException{
         if( read_dimension ){
         	n = readInt(reader);
             Read.readSeparator(reader, separator);        	

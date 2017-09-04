@@ -1,6 +1,8 @@
 package unalcol.types.integer.array;
 
 import unalcol.io.*;
+import unalcol.services.TaggedCallerNamePair;
+import unalcol.types.tag.Tags;
 
 import java.io.*;
 
@@ -13,7 +15,7 @@ import java.io.*;
  * @version 1.0
  */
 
-public class IntArrayPlainWrite implements Write<int[]>{
+public class IntArrayPlainWrite extends Tags implements TaggedCallerNamePair<int[]>,  Write<int[]>{
     /**
      * Character used for separating the values in the array
      */
@@ -45,7 +47,8 @@ public class IntArrayPlainWrite implements Write<int[]>{
      * @param out The writer object
      * @throws IOException IOException
      */
-    public void write(int[] obj, Writer out) throws Exception {
+    public void write(Writer out) throws IOException {
+	int[] obj = caller();
         StringBuilder sb = new StringBuilder();
         int n = obj.length;
         if( write_dimension ){

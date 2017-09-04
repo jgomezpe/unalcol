@@ -4,6 +4,9 @@ import java.io.IOException;
 import java.io.Writer;
 import java.lang.reflect.*;
 
+import unalcol.services.TaggedCallerNamePair;
+import unalcol.types.tag.Tags;
+
 /**
 *
 * DefaultWrite
@@ -48,7 +51,7 @@ import java.lang.reflect.*;
 * (E-mail: <A HREF="mailto:jgomezpe@unal.edu.co">jgomezpe@unal.edu.co</A> )
 * @version 1.0
 */
-public class DefaultWrite implements Write<Object> {  
+public class DefaultWrite extends Tags implements TaggedCallerNamePair<Object>,  Write<Object> {  
     /**
      * Writes an object to the given writer (The object should has a write method)
      * @param obj Object to write
@@ -56,7 +59,8 @@ public class DefaultWrite implements Write<Object> {
      * @throws IOException IOException
      */
     @Override
-    public void write(Object obj, Writer writer) throws IOException {
+    public void write(Writer writer) throws IOException {
+	Object obj = caller();
         try {
            	if( obj instanceof Double || obj instanceof Long || obj instanceof Integer ||
             	obj instanceof Character || obj instanceof String ){ 

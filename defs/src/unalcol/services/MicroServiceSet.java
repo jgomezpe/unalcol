@@ -3,21 +3,18 @@ package unalcol.services;
 import unalcol.types.collection.vector.Vector;
 import unalcol.types.tag.Tags;
 
-public class ServiceSet extends Tags implements MicroService, TaggedMicroService{
-	protected Vector<MicroService> services = new Vector<MicroService>();
+public class MicroServiceSet<T> extends Tags implements MicroService<T>, TaggedCallerNamePair<T>{
+	protected Vector<MicroService<T>> services = new Vector<MicroService<T>>();
 	
 	@Override
 	public String[] provides(){	return services.get(0).provides();	}
 	
 	@Override
-	public String name(){ return services.get(0).name(); }
-	
-	@Override
 	public Object run(Object... args) throws Exception {
-		Object caller = caller();
+		T caller = caller();
 		String name = name();
 		Vector<Object> objs = new Vector<Object>();
-		for(MicroService s:services){
+		for(MicroService<T> s:services){
 			s.setCaller(caller);
 			s.setName(name);
 			objs.add(s.run(args));
@@ -25,8 +22,7 @@ public class ServiceSet extends Tags implements MicroService, TaggedMicroService
 		return objs;
 	}
 	
-	public void add(MicroService service){ services.add(service); }
-
+	public void add(MicroService<T> service){ services.add(service); }
 
 	public void remove(ServiceProvider service){
 		int i=0; 

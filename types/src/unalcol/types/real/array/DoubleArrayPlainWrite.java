@@ -1,6 +1,9 @@
 package unalcol.types.real.array;
 
 import unalcol.io.*;
+import unalcol.services.TaggedCallerNamePair;
+import unalcol.types.tag.Tags;
+
 import java.io.*;
 
 
@@ -14,7 +17,7 @@ import java.io.*;
  * @version 1.0
  */
 
-public class DoubleArrayPlainWrite implements Write<double[]> {
+public class DoubleArrayPlainWrite extends Tags implements TaggedCallerNamePair<double[]>, Write<double[]> {
     /**
      * Character used for separating the values in the array
      */
@@ -58,7 +61,8 @@ public class DoubleArrayPlainWrite implements Write<double[]> {
      * @param out The writer object
      * @throws IOException IOException
      */
-    public void write(double[] obj, Writer out) throws IOException {
+    public void write(Writer out) throws IOException {
+	double[] obj = caller();
         StringBuilder sb = new StringBuilder();
         int n = obj.length;
         if( write_dimension ){

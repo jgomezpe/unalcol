@@ -2,6 +2,7 @@ package unalcol.types.integer.array;
 import java.io.IOException;
 
 import unalcol.io.*;
+import unalcol.services.TaggedCallerNamePair;
 import unalcol.types.tag.Tags;
 import unalcol.types.integer.UsesIntRead;
 
@@ -15,7 +16,7 @@ import unalcol.types.integer.UsesIntRead;
  * @version 1.0
  */
 
-public abstract class IntArrayPlainRead extends Tags implements Read<int[]>, UsesIntRead{
+public class IntArrayPlainRead extends Tags implements TaggedCallerNamePair<int[]>, Read<int[]>, UsesIntRead{
 	protected boolean read_dimension = true;
 	protected char separator = ' ';
 	protected int n=-1;
@@ -38,9 +39,7 @@ public abstract class IntArrayPlainRead extends Tags implements Read<int[]>, Use
 		read_dimension = (n <=0 );
 	}
 	
-	public void setIntReader( Read<Integer> ri ){ this.ri = ri; }
-	
-    /**
+   /**
      * Reads an array from the input stream (the first value is the array's size and the following values are the values in the array)
      * @param reader The reader object
      * @throws IOException IOException

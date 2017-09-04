@@ -51,7 +51,7 @@ import unalcol.services.MicroService;
 * @version 1.0
 * @param <T> Type of objects to be described.
 */
-public interface Descriptors<T>  extends MicroService{	
+public interface Descriptors<T> extends MicroService<T>{	
 	/**
 	 * Obtains the descriptors of (an array of double values describing) an object.
 	 * @param obj Object to be described using double values (features).
@@ -61,10 +61,12 @@ public interface Descriptors<T>  extends MicroService{
     
 	// The MicroService methods
 
+	public default Object run( Object... args ) throws Exception{ return descriptors(); }    	
+
 	/**
 	 * The method name that can be used for describing an object
 	 */
-	public static final String name="descriptors";
+	public static final String name="descriptors";	
 	
-	public default Object run( Object... args ) throws Exception{ return descriptors(); }    	
+	public default String[] provides(){ return new String[]{name}; }		
 }

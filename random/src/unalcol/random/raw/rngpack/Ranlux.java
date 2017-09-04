@@ -95,7 +95,7 @@ import unalcol.random.raw.*;
 */
 
 
-public class Ranlux extends SeedableGenerator{
+public class Ranlux<T> extends SeedableGenerator<T>{
 
 /**
 * Maximum luxury level: <CODE>maxlev=4</CODE>
@@ -433,20 +433,15 @@ private final void rluxgo(int lux,int ins)
     kount = 0;
     mkount = 0;
 
-};
+}
 
 private void diag(String s)
 {
      if (diagOn)
      	System.err.println(s);
-};
+}
 
-    @Override
-    public RawGenerator new_instance(){
-        return new Ranlux();
-    }
-
-};
+}
 
 
 

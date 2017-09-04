@@ -6,32 +6,37 @@ import unalcol.types.collection.keymap.HTKeyMap;
 import unalcol.types.collection.keymap.KeyMap;
 
 public class ServicePool implements ServiceProvider{
-	protected KeyMap<String,KeyMap<Object,MicroService>> pool = new HTKeyMap<String,KeyMap<Object,MicroService>>();
+	protected KeyMap<String,KeyMap<Object,MicroService<?>>> pool = new HTKeyMap<String,KeyMap<Object,MicroService<?>>>();
 	
-	public void register( MicroService service, Object caller ){
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	public void register( MicroService<?> service, Object caller ){
 		for( String name:service.provides() ){
-			KeyMap<Object,MicroService> s = pool.get(name);
+			KeyMap<Object,MicroService<?>> s = pool.get(name);
 			if( s==null ){
-				s = new HTKeyMap<Object,MicroService>();
+				s = new HTKeyMap<Object,MicroService<?>>();
 				pool.put(name, s);
 			}
-			MicroService cs = s.get(caller);
-			if( cs!=null && cs instanceof ServiceSet ) ((ServiceSet)cs).add(service);
+			MicroService<?> cs = s.get(caller);
+			if(cs==null && service.multiple()){
+			    cs = new MicroServiceSet<Object>();
+			    s.put(caller, cs);
+			}
+			if( cs!=null && cs instanceof MicroServiceSet ) ((MicroServiceSet)cs).add(service);
 			else s.put(caller, service);
 		}
 	}
 	
-	protected MicroService get(KeyMap<Object,MicroService> service, Class<?> caller){
-		MicroService m = service.get(caller);
+	protected MicroService<?> get(KeyMap<Object,MicroService<?>> service, Class<?> caller){
+		MicroService<?> m = service.get(caller);
 		if(m!=null) return m; 
 		try{ return get( service, caller.getSuperclass() ); }catch(Exception e ){}
 		return null;
 	}
 	
-	public MicroService get(String service, Class<?> caller){
-		KeyMap<Object,MicroService> name = pool.get(service);
+	public MicroService<?> get(String service, Class<?> caller){
+		KeyMap<Object,MicroService<?>> name = pool.get(service);
 		if( name == null ) return null;
-		MicroService m = get(name,caller);
+		MicroService<?> m = get(name,caller);
 		if(m!=null) return m; 
 		Class<?>[] superTypes = caller.getInterfaces();
 		for( int i=0; i<superTypes.length; i++ )
@@ -39,14 +44,15 @@ public class ServicePool implements ServiceProvider{
 		return null;
 	}
 
-	public MicroService get(String service, Object caller){
-		KeyMap<Object,MicroService> name = pool.get(service);
+	@SuppressWarnings("unchecked")
+	public MicroService<?> get(String service, Object caller){
+		KeyMap<Object,MicroService<?>> name = pool.get(service);
 		if( name == null ) return null;
-		MicroService m = name.get(caller);
+		MicroService<?> m = name.get(caller);
 		if(m==null) m = get(service, caller.getClass());
 		if(m!=null){
 			m.setName(service);
-			m.setCaller(caller);			
+			((MicroService<Object>)m).setCaller(caller);			
 		}
 		return m;
 	}

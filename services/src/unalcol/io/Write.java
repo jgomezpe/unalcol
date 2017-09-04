@@ -55,14 +55,14 @@ import unalcol.services.Service;
 * (E-mail: <A HREF="mailto:jgomezpe@unal.edu.co">jgomezpe@unal.edu.co</A> )
 * @version 1.0
 */
-public interface Write<T> extends MicroService{
+public interface Write<T> extends MicroService<T>{
     /**
      * Writes an object to the given writer
      * @param obj Object to write
      * @param writer The writer object
      * @throws IOException IOException
      */
-    public void write(T obj, Writer writer) throws IOException;
+    public void write(Writer writer) throws IOException;
     
     /**
      * Gets the persistent version of an object in String version. The Class which the
@@ -83,11 +83,10 @@ public interface Write<T> extends MicroService{
     
 	public static final String name="write";
 
-	public default String name(){ return Write.name; }
-
-	@SuppressWarnings("unchecked")
-	public default Object run( Object obj, Object... args ) throws Exception{ 
-		write((T)obj, (Writer)args[0]); 
+	public default Object run( Object... args ) throws Exception{ 
+		write((Writer)args[0]); 
 		return null;
 	}
+
+	public default String[] provides(){ return new String[]{name}; }	
 }
