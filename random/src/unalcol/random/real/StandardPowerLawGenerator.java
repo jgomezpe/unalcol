@@ -12,7 +12,7 @@ package unalcol.random.real;
  *
  * @author jgomez
  */
-public class StandardPowerLawGenerator  extends InverseDoubleGenerator{
+public class StandardPowerLawGenerator  extends InverseRandDouble{
     double coarse_alpha = -1.0;
     
     public StandardPowerLawGenerator(){

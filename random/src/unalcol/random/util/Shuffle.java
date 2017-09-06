@@ -1,7 +1,8 @@
 package unalcol.random.util;
 
 import unalcol.random.integer.*;
-import unalcol.random.raw.RawGenerator;
+import unalcol.random.raw.UsesRawGenerator;
+import unalcol.types.tag.Tags;
 
 //
 // Unalcol Random generation Pack 1.0 by Jonatan Gomez-Perdomo
@@ -53,18 +54,12 @@ import unalcol.random.raw.RawGenerator;
  * @version 1.0
  * @param <T> Type of objects in the array to be shuffled
  */
-public class Shuffle<T> {
-	protected RawGenerator raw=null;
+public class Shuffle<T> extends Tags implements UsesRawGenerator<Object>{
 	/**
 	 * Creates a shuffle method using the default raw generator (Random class)
 	 */
 	public Shuffle(){}
 	
-	/**
-	 * Creates a shuffle method using the given raw generator (Random class)
-	 */
-	public Shuffle(RawGenerator raw){ this.raw = raw; }
-	    
 	/**
 	 * Generates an array with all the integers in the interval [0,n) stored in a random fashion
 	 * @param n Sup limit (the generated array has <i>n</i> elements (the integer numbers in the interval [0,n))
@@ -79,7 +74,7 @@ public class Shuffle<T> {
 	
 	protected int[] indices(int n){
 		IntUniform ig = new IntUniform(n);
-		ig.setRawGenerator(raw);
+		ig.setRawGenerator(getRawGenerator(this));
 		return ig.generate(2 * n);
 	}
 	

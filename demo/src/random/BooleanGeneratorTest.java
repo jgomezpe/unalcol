@@ -1,16 +1,19 @@
 package random;
 
+import unalcol.clone.DefaultClone;
 import unalcol.random.raw.JavaGenerator;
 import unalcol.random.util.RandBool;
 import unalcol.services.Service;
 import unalcol.services.ServicePool;
+import unalcol.tracer.ConsoleTracer;
 
 public class BooleanGeneratorTest {
 	public static void init_services(){
 		ServicePool service = new ServicePool();
-        service.register(new JavaGenerator(), Object.class);         
-//        service.register(new ConsoleTracer(), Object.class);
-        Service.set(service);
+		service.register(new DefaultClone(), Object.class);         
+		service.register(new ConsoleTracer<Object>(), Object.class);
+	        service.register(new JavaGenerator<Object>(), Object.class);         
+		Service.set(service);
 	}
 	
 	public static void main( String[] args ){

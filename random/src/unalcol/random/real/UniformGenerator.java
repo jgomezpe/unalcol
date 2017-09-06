@@ -14,7 +14,7 @@ package unalcol.random.real;
  *
  */
 
-public class UniformGenerator extends InverseDoubleGenerator {
+public class UniformGenerator extends InverseRandDouble {
 
     /**
      * The inferior range of the random number generator interval

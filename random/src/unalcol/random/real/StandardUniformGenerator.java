@@ -14,7 +14,7 @@ package unalcol.random.real;
  *
  */
 
-public class StandardUniformGenerator extends InverseDoubleGenerator {        
+public class StandardUniformGenerator extends InverseRandDouble {        
     /**
      * Returns a random double number
      * @return A random double number

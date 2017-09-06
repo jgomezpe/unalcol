@@ -1,6 +1,7 @@
 package unalcol.random.integer;
 
 import unalcol.random.InverseGenerator;
+import unalcol.types.tag.Tags;
 
 //
 // Unalcol Random generation Pack 1.0 by Jonatan Gomez-Perdomo
@@ -52,7 +53,7 @@ import unalcol.random.InverseGenerator;
  * (E-mail: <A HREF="mailto:jgomezpe@unal.edu.co">jgomezpe@unal.edu.co</A> )
  * @version 1.0
  */
-public class IntRoulette extends InverseGenerator<Integer> implements RandInt {
+public class IntRoulette extends Tags implements InverseGenerator<Integer>, RandInt{
 	/**
 	 * Probability of generating an integer number [0,length(density))
 	 */

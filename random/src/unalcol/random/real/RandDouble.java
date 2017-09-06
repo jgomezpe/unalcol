@@ -16,7 +16,7 @@ import unalcol.random.RandomGenerator;
  *
  */
 
-public interface DoubleGenerator extends RandomGenerator<Double>{
+public interface RandDouble extends RandomGenerator<Double>{
 	/**
 	 * Returns a set of random double numbers
 	 * @param v Array where random numbers will be stored

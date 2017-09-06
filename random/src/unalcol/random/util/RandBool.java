@@ -1,6 +1,7 @@
 package unalcol.random.util;
 
 import unalcol.random.InverseGenerator;
+import unalcol.types.tag.Tags;
 
 //
 // Unalcol Random generation Pack 1.0 by Jonatan Gomez-Perdomo
@@ -51,7 +52,7 @@ import unalcol.random.InverseGenerator;
  * (E-mail: <A HREF="mailto:jgomezpe@unal.edu.co">jgomezpe@unal.edu.co</A> )
  * @version 1.0
  */
-public class RandBool extends InverseGenerator<Boolean>{
+public class RandBool extends Tags implements InverseGenerator<Boolean>{
 	/**
 	 * Probability of generating a <i>false</i> value
 	 */
@@ -67,27 +68,21 @@ public class RandBool extends InverseGenerator<Boolean>{
 	 * the probability of generating a <i>true</i> value
 	 * @param falseProbability Probability of generating a <i>false</i> value
 	 */
-	public RandBool(double falseProbability) {
-		this.falseProbability = falseProbability;
-	}
+	public RandBool(double falseProbability){ this.falseProbability = falseProbability; }
 	
 	/**
 	 * Produces a boolean value according to the stored probability distribution
 	 * @return A boolean value according to the stored probability distribution
 	 */
 	@Override
-	public Boolean next(double x) {
-		return x>falseProbability;
-	}
+	public Boolean next(double x){ return x>falseProbability; }
 
 	/**
 	 * Returns a set of random boolean values
 	 * @param v Array where boolean values will be stored
 	 * @param m The total number of random boolean values
 	 */
-	public void generate(boolean[] v, int offset,  int m) {
-		for (int i = 0; i < m; i++) v[i+offset] = next();
-	}
+	public void generate(boolean[] v, int offset,  int m){ for (int i = 0; i < m; i++) v[i+offset] = next(); }
 
 	/**
 	 * Returns a set of random boolean values

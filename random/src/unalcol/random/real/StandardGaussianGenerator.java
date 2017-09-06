@@ -1,6 +1,8 @@
 package unalcol.random.real;
 
-import unalcol.random.UsesRawGenerator;
+import unalcol.random.raw.RawGenerator;
+import unalcol.random.raw.UsesRawGenerator;
+import unalcol.services.TaggedCallerNamePair;
 import unalcol.types.tag.Tags;
 
 //
@@ -16,7 +18,7 @@ import unalcol.types.tag.Tags;
  * @version 1.0
  */
 
-public class StandardGaussianGenerator extends Tags implements UsesRawGenerator<T>, DoubleGenerator{
+public class StandardGaussianGenerator extends Tags implements TaggedCallerNamePair<Object>, UsesRawGenerator<Object>, RandDouble{
     
     /**
      * Creates a standard Gaussian number generator
@@ -30,11 +32,12 @@ public class StandardGaussianGenerator extends Tags implements UsesRawGenerator<
      */
     @Override
     public Double next() {
+	RawGenerator<Object> g = getRawGenerator(caller());
         double x,y;
         double r;
         do {
-            x = 2.0 * real() - 1.0;
-            y = 2.0 * real() - 1.0;
+            x = 2.0 * g.next() - 1.0;
+            y = 2.0 * g.next() - 1.0;
             r = x * x + y * y;
         } while (r >= 1.0);
 

@@ -1,6 +1,6 @@
 package unalcol.random;
 
-import unalcol.services.ServiceProvider;
+import unalcol.services.MicroService;
 
 //
 // Unalcol Random generation Pack 1.0 by Jonatan Gomez-Perdomo
@@ -50,7 +50,7 @@ import unalcol.services.ServiceProvider;
  * (E-mail: <A HREF="mailto:jgomezpe@unal.edu.co">jgomezpe@unal.edu.co</A> )
  * @version 1.0
  */
-public interface RandomGenerator<T> extends ServiceProvider{
+public interface RandomGenerator<T> extends MicroService<Object>{
 	/**
 	 * Generates a random object of class <i>T</i>.
 	 * @return A random object of class <i>T</i>.
@@ -95,7 +95,8 @@ public interface RandomGenerator<T> extends ServiceProvider{
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public default Object run( String service, Object obj, Object... args ) throws Exception{
+	public default Object run( Object... args ) throws Exception{
+		String service = name();
 		if(service.equals(next) || service.equals(name)) return next();
 		if(service.equals(raw)){
 			if( args.length==1 ) return raw((int)args[0]);

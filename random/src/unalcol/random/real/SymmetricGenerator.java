@@ -4,7 +4,11 @@
  */
 package unalcol.random.real;
 
-import unalcol.random.util.RandBool;
+import unalcol.random.RandomGenerator;
+import unalcol.random.UsesRandomGenerator;
+import unalcol.random.raw.UsesRawGenerator;
+import unalcol.services.TaggedCallerNamePair;
+import unalcol.types.tag.Tags;
 
 //
 //Unified Random generation Pack 1.0 by Jonatan Gómez-Perdomo
@@ -14,25 +18,17 @@ import unalcol.random.util.RandBool;
  *
  * @author jgomez
  */
-public class SymmetricGenerator implements DoubleGenerator {
-    protected DoubleGenerator g;
-    protected RandBool b = new RandBool();
-    public SymmetricGenerator(DoubleGenerator _g){
-        g = _g;
-    }
-    /**
+public class SymmetricGenerator extends Tags implements TaggedCallerNamePair<Object>, UsesRawGenerator<Object>, UsesRandomGenerator<Double>, RandDouble {
+   /**
      * Returns a random double number
      * @return A random double number
      */
     @Override
     public Double next() {
-        return b.next()?g.next():-g.next();
+	Object caller = caller();
+	RandomGenerator<Double> g = getRandomGenerator(caller);
+        return getRawGenerator(caller).bool()?g.next():-g.next();
     }     
-    
-    public SymmetricGenerator( DoubleGenerator _g, RandBool _b ){
-        g = _g;
-        b = _b;
-    }
     
     /*@Override
     public DoubleGenerator new_instance(){

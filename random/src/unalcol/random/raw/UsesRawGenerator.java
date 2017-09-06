@@ -1,7 +1,5 @@
-package unalcol.random;
+package unalcol.random.raw;
 
-import unalcol.random.raw.RawGenerator;
-import unalcol.random.raw.RawGeneratorWrapper;
 import unalcol.services.Service;
 import unalcol.types.tag.AbstractTags;
 
