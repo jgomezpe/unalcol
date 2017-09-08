@@ -3,10 +3,9 @@ package unalcol.io;
 import java.io.IOException;
 
 import unalcol.services.Service;
-import unalcol.services.TaggedCallerNamePair;
-import unalcol.types.tag.Tags;
+import unalcol.services.MicroService;
 
-public class ReadWrapper<T> extends Tags implements TaggedCallerNamePair<T>, Read<T>{	
+public class ReadWrapper<T>  extends MicroService<T> implements Read<T>{	
 	@SuppressWarnings("unchecked")
 	@Override
 	public T read(ShortTermMemoryReader reader) throws IOException {

@@ -1,11 +1,10 @@
 package unalcol.types.collection.vector;
 
 import unalcol.clone.Clone;
+import unalcol.services.MicroService;
 import unalcol.services.Service;
-import unalcol.services.TaggedCallerNamePair;
-import unalcol.types.tag.Tags;
 
-public class VectorClone<T>  extends Tags implements TaggedCallerNamePair<ImmutableVector<T>>,  Clone<ImmutableVector<T>> {
+public class VectorClone<T>  extends MicroService<ImmutableVector<T>> implements Clone<ImmutableVector<T>> {
 	@SuppressWarnings("unchecked")
 	@Override
 	public ImmutableVector<T> clone(){

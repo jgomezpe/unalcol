@@ -4,6 +4,8 @@
  */
 package unalcol.random.real;
 
+import unalcol.services.MicroService;
+
 //
 //Unified Random generation Pack 1.0 by Jonatan Gómez-Perdomo
 //https://github.com/jgomezpe/unalcol/tree/master/random/
@@ -12,7 +14,7 @@ package unalcol.random.real;
  *
  * @author jgomez
  */
-public class StandardPowerLawGenerator  extends InverseRandDouble{
+public class StandardPowerLawGenerator  extends MicroService<Double> implements InverseRandDouble{
     double coarse_alpha = -1.0;
     
     public StandardPowerLawGenerator(){

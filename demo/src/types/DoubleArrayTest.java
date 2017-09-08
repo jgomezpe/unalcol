@@ -15,6 +15,9 @@ import unalcol.random.raw.RawGenerator;
 import unalcol.random.raw.rngpack.RanMT;
 import unalcol.services.Service;
 import unalcol.services.ServicePool;
+import unalcol.types.integer.IntegerPlainRead;
+import unalcol.types.real.DoubleOrder;
+import unalcol.types.real.DoublePlainRead;
 import unalcol.types.real.array.DoubleArray;
 import unalcol.types.real.array.DoubleArrayPlainRead;
 import unalcol.types.real.array.DoubleArrayPlainWrite;
@@ -27,6 +30,9 @@ public class DoubleArrayTest {
 	public static void init_services(){
 		ServicePool service = new ServicePool();
         service.register(new JavaGenerator(), Object.class);         
+    	service.register(new DoubleOrder(), double[].class);
+    	service.register(new DoublePlainRead(), Double.class);
+    	service.register(new IntegerPlainRead(), Integer.class);
     	service.register(new DoubleArrayPlainRead(), double[].class);
         service.register(new DoubleArrayPlainWrite(), double[].class);
 //        service.register(new ConsoleTracer(), Object.class);
@@ -72,6 +78,7 @@ public class DoubleArrayTest {
     }
     
     public static void main( String[] args ){
+    	init_services();
         double[] x = persistency();
         x = sort(x);
     }

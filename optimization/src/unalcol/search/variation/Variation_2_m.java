@@ -1,6 +1,6 @@
 package unalcol.search.variation;
 
-import unalcol.search.solution.Solution;
+import unalcol.Tagged;
 
 /**
  * <p>Title:ArityTwo</p>
@@ -12,21 +12,21 @@ import unalcol.search.solution.Solution;
 
 public interface Variation_2_m<T> extends Variation<T> {
 	@SuppressWarnings("unchecked")
-	public default Solution<T>[] apply( Solution<T> one, Solution<T> two ){
-    		T[] next = apply( one.object(), two.object() );    	
-    		Solution<T>[] s = new Solution[next.length];
+	public default Tagged<T>[] apply( Tagged<T> one, Tagged<T> two ){
+    		T[] next = apply( one.unwrap(), two.unwrap() );    	
+    		Tagged<T>[] s = new Tagged[next.length];
     		for( int i=0; i<s.length; i++ ){
-    			s[i] = new Solution<T>(next[i], one.tags(), false);
+    			s[i] = new Tagged<T>(next[i]);
     		}	
     		return s;
 	}   
 
 	@SuppressWarnings("unchecked")
 	public default T[] apply( T one, T two ){
-    		Solution<T>[] next = apply( new Solution<T>(one), new Solution<T>(two) );    	
+    		Tagged<T>[] next = apply( new Tagged<T>(one), new Tagged<T>(two) );    	
     		T[] s = (T[])new Object[next.length];
     		for( int i=0; i<s.length; i++ ){
-    			s[i] = next[i].object();
+    			s[i] = next[i].unwrap();
     		}	
     		return s;
 	}   

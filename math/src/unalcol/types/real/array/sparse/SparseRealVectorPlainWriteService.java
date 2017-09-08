@@ -8,13 +8,14 @@ import java.io.IOException;
 import java.io.Writer;
 import java.util.Iterator;
 import unalcol.io.Write;
+import unalcol.services.MicroService;
 import unalcol.types.collection.sparse.vector.SparseElement;
 
 /**
  *
  * @author jgomez
  */
-public class SparseRealVectorPlainWriteService  implements Write<SparseRealVector> {
+public class SparseRealVectorPlainWriteService extends MicroService<SparseRealVector> implements Write<SparseRealVector> {
     /**
      * Character used for separating the values in the array
      */
@@ -58,7 +59,8 @@ public class SparseRealVectorPlainWriteService  implements Write<SparseRealVecto
      * @throws IOException IOException
      */
     @Override
-    public void write(SparseRealVector obj, Writer out) throws IOException {
+    public void write(Writer out) throws IOException {
+    	SparseRealVector obj=caller();
         StringBuilder sb = new StringBuilder();
         int n = obj.dim();
         if( write_dimension ){

@@ -6,7 +6,7 @@ import unalcol.types.collection.Collection;
 
 public class ApplyFunctionCollection<S,T> implements Collection<T>{
 	protected Function<S,T> function;
-	protected Collection<S> collection;
+	protected Collection<S> collection=null;
     
 	protected class ApplyFunctionCollectionIterator implements Iterator<T>{
 		protected Iterator<S> iterator;

@@ -1,10 +1,11 @@
-package unalcol.types.tag;
+package unalcol;
 
 import unalcol.clone.Clone;
-import unalcol.clone.UsesClone;
-import unalcol.instance.UsesInstance;
-import unalcol.services.TaggedCallerNamePair;
-import unalcol.types.tag.TaggedObject;
+import unalcol.clone.CloneWrapper;
+import unalcol.instance.Instance;
+import unalcol.instance.InstanceWrapper;
+import unalcol.services.MicroService;
+import unalcol.Tagged;
 
 //
 //Unalcol Service structure Pack 1.0 by Jonatan Gomez-Perdomo
@@ -53,7 +54,7 @@ import unalcol.types.tag.TaggedObject;
 * (E-mail: <A HREF="mailto:jgomezpe@unal.edu.co">jgomezpe@unal.edu.co</A> )
 * @version 1.0
 */
-public class TaggedObjectClone<T> extends Tags implements Clone<TaggedObject<T>>, TaggedCallerNamePair<TaggedObject<T>>, UsesClone<T>, UsesInstance<TaggedObject<T>> {
+public class TaggedClone<T> extends MicroService<Tagged<T>> implements Clone<Tagged<T>> {
 	/**
 	 * If the object that is tagged should be copied or a shallow clone is enough
 	 */
@@ -64,28 +65,44 @@ public class TaggedObjectClone<T> extends Tags implements Clone<TaggedObject<T>>
 	 */
 	protected boolean copyAllTags;
 	
+	protected static final String cloner = "cloner";
+	protected static final String instancer = "instancer";
+	protected CloneWrapper<T> tCloner = new CloneWrapper<T>();
+	
 	/**
 	 * Creates a clone method for TaggedObjects. Clones tags, methods, and object if defined 
 	 * @param cloneObject If the object that is tagged should be copied or a shallow clone is enough
      * @param copyAllTags Defines if all tags are copied (<i>true</i>) or just the TaggedMethods (<i>false</i>)
 	 */
-	public TaggedObjectClone( boolean cloneObject, boolean copyAllTags ){
+	public TaggedClone( boolean cloneObject, boolean copyAllTags ){
 		this.cloneObject = cloneObject;
 		this.copyAllTags = copyAllTags;
+		setMicroService(cloner, new CloneWrapper<T>());
 	}
 
+	public MicroService<?> wrap(String id){
+		if( id.equals(cloner) )	return new CloneWrapper<T>();
+		if( id.equals(instancer) ) return new InstanceWrapper<Tagged<T>>();
+		return null;
+	}
+	
 	/**
 	 * Creates a clone of the TaggedObject (including just the TaggedMethods).
 	 * @param obj TaggedObject to be  non-strictly copied. 
 	 * @return A copy of the TaggedObject (including or the tags or just the TaggedMethods).
 	 */
-	public TaggedObject<T> clone(){
-		TaggedObject<T> obj = caller();
-		T tObj = obj.object();
-		if( cloneObject ) tObj = getClone(tObj).clone();
-		@SuppressWarnings("unchecked")
-		TaggedObject<T> nObj = getInstance((Class<TaggedObject<T>>)obj.getClass()).create(obj,tObj);
-		nObj.cloneTags(obj.info,copyAllTags);
+	@SuppressWarnings("unchecked")
+	public Tagged<T> clone(){
+		Tagged<T> obj = caller();
+		T tObj = obj.unwrap();
+		if( cloneObject ){
+			Clone<T> cloner = (Clone<T>)getMicroService(TaggedClone.cloner);
+			cloner.setCaller(tObj);
+			tObj = cloner.clone();
+		}
+		Instance<Tagged<T>> instance = (Instance<Tagged<T>>)getMicroService(instancer);
+		instance.setCaller((Class<Tagged<T>>)obj.getClass());
+		Tagged<T> nObj = instance.create(tObj, obj);
 		return nObj;
 	}
 }

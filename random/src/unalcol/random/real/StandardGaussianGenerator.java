@@ -1,9 +1,9 @@
 package unalcol.random.real;
 
 import unalcol.random.raw.RawGenerator;
-import unalcol.random.raw.UsesRawGenerator;
-import unalcol.services.TaggedCallerNamePair;
-import unalcol.types.tag.Tags;
+import unalcol.random.raw.RawGeneratorWrapper;
+import unalcol.services.AbstractMicroService;
+import unalcol.services.MicroService;
 
 //
 //Unified Random generation Pack 1.0 by Jonatan Gómez-Perdomo
@@ -18,12 +18,14 @@ import unalcol.types.tag.Tags;
  * @version 1.0
  */
 
-public class StandardGaussianGenerator extends Tags implements TaggedCallerNamePair<Object>, UsesRawGenerator<Object>, RandDouble{
+public class StandardGaussianGenerator extends MicroService<Double> implements RandDouble{
     
-    /**
-     * Creates a standard Gaussian number generator
-     */
-    public StandardGaussianGenerator(){}
+	public AbstractMicroService<?> wrap( String id ){
+		if(id.equals(RawGenerator.name)){ return new RawGeneratorWrapper(); }
+		
+		return null;
+	}
+	
 
     /**
      * Returns a random double number following the standard Gaussian distribution
@@ -32,7 +34,7 @@ public class StandardGaussianGenerator extends Tags implements TaggedCallerNameP
      */
     @Override
     public Double next() {
-	RawGenerator<Object> g = getRawGenerator(caller());
+    	RawGenerator g = (RawGenerator)getMicroService(RawGenerator.name);
         double x,y;
         double r;
         do {

@@ -1,6 +1,5 @@
 package unalcol.optimization.real.xover;
 
-import unalcol.clone.*;
 import unalcol.random.raw.JavaGenerator;
 import unalcol.random.raw.RawGenerator;
 
@@ -27,21 +26,17 @@ public class OneDimensionLinearXOver extends SimpleXOver {
    */
   @Override
   public double[][] apply(double[] c1, double[] c2) {
-      try {
-          double[] x = (double[]) Clone.create(c1);
-          double[] y = (double[]) Clone.create(c2);
-          int pos = pos(x.length, y.length);
+      double[] x = c1.clone();
+      double[] y = c2.clone();
+      int pos = pos(x.length, y.length);
 
-          double alpha = rg.next();
-          double alpha_1 = 1.0 - alpha;
-          double tx, ty;
-          tx = x[pos];
-          ty = y[pos];
-          x[pos] = alpha * tx + alpha_1 * ty;
-          y[pos] = alpha_1 * tx + alpha * ty;
-          return new double[][]{x, y}; 
-      } catch (Exception e) {
-      }
-      return null;
+      double alpha = rg.next();
+      double alpha_1 = 1.0 - alpha;
+      double tx, ty;
+      tx = x[pos];
+      ty = y[pos];
+      x[pos] = alpha * tx + alpha_1 * ty;
+      y[pos] = alpha_1 * tx + alpha * ty;
+      return new double[][]{x, y}; 
   }
 }

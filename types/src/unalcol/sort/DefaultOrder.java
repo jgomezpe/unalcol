@@ -1,6 +1,8 @@
 package unalcol.sort;
 import java.lang.reflect.Method;
 
+import unalcol.services.MicroService;
+
 /**
  * <p>An order wrappper method. Used for classes that already define a compareTo method</p>
  *
@@ -9,7 +11,7 @@ import java.lang.reflect.Method;
  * @author Jonatan Gomez Perdomo
  * @version 1.0
  */
-public class OrderWrapper<T> extends Order<T>{
+public class DefaultOrder<T> extends MicroService<T> implements Order<T>{
     /**
      * Creates an order wrapped method for classes with the compareTo method
      */

@@ -1,6 +1,6 @@
 package unalcol.descriptors;
 
-import unalcol.services.MicroService;
+import unalcol.services.AbstractMicroService;
 
 //
 //Unalcol Service structure Pack 1.0 by Jonatan Gomez-Perdomo
@@ -51,7 +51,7 @@ import unalcol.services.MicroService;
 * @version 1.0
 * @param <T> Type of objects to be described.
 */
-public interface Descriptors<T> extends MicroService<T>{	
+public interface Descriptors<T> extends AbstractMicroService<T>{	
 	/**
 	 * Obtains the descriptors of (an array of double values describing) an object.
 	 * @param obj Object to be described using double values (features).

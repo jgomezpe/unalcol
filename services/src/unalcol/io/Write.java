@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.io.StringWriter;
 import java.io.Writer;
 
-import unalcol.services.MicroService;
+import unalcol.services.AbstractMicroService;
 import unalcol.services.Service;
 
 //
@@ -55,7 +55,7 @@ import unalcol.services.Service;
 * (E-mail: <A HREF="mailto:jgomezpe@unal.edu.co">jgomezpe@unal.edu.co</A> )
 * @version 1.0
 */
-public interface Write<T> extends MicroService<T>{
+public interface Write<T> extends AbstractMicroService<T>{
     /**
      * Writes an object to the given writer
      * @param obj Object to write

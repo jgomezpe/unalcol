@@ -15,6 +15,6 @@ package unalcol.random.real;
 public class SimplestSymmetricPowerLawGenerator  extends SymmetricGenerator{
     public SimplestSymmetricPowerLawGenerator(){
         super();
-        setRandomGenerator(new SimplestGeneralizedPowerLawGenerator());
+        setMicroService( SymmetricGenerator.one_side, new SimplestGeneralizedPowerLawGenerator());
     }
 }

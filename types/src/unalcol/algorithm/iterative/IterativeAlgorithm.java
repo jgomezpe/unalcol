@@ -13,7 +13,7 @@ import unalcol.math.logic.Predicate;
  * @version 1.0
  */
 
-public abstract class IterativeAlgorithm<I, O> extends Algorithm<I, O> {
+public class IterativeAlgorithm<I, O> extends Algorithm<I, O> {
 
     /**
      * The continuation condition
@@ -66,7 +66,7 @@ public abstract class IterativeAlgorithm<I, O> extends Algorithm<I, O> {
      */
     @Override
     public O apply(I input) {
-        output = step.init(input);
+        O output = step.init(input);
         while (condition.evaluate(this) && continueFlag) {
             sleep();
             output = step.apply(output);

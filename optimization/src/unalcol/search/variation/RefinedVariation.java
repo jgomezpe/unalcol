@@ -1,6 +1,6 @@
 package unalcol.search.variation;
 
-import unalcol.search.solution.Solution;
+import unalcol.Tagged;
 
 public class RefinedVariation<T> implements Variation<T> {
 	protected Variation_1_1<T> refining;
@@ -19,7 +19,7 @@ public class RefinedVariation<T> implements Variation<T> {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public Solution<T>[] apply(Solution<T>... pop) {
+	public Tagged<T>[] apply(Tagged<T>... pop) {
 		return refining.apply(refined.apply(pop));
 	}
 

@@ -1,6 +1,6 @@
 package unalcol.instance;
 
-import unalcol.services.MicroService;
+import unalcol.services.AbstractMicroService;
 
 //
 //Unalcol Service structure Pack 1.0 by Jonatan Gomez-Perdomo
@@ -51,7 +51,7 @@ import unalcol.services.MicroService;
 * @version 1.0
 * @param <T> Type of objects from which instances will be generated.
 */
-public interface Instance<T> extends MicroService<Class<T>>{
+public interface Instance<T> extends AbstractMicroService<Class<T>>{
 	/**
 	 * Generates an instance belonging to the class <i>type</i> according to the parameters (it does not support VarArgs constructors).
 	 * @param type Class of instances that will be generated.

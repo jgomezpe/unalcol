@@ -2,7 +2,6 @@ package unalcol.optimization.real.xover;
 
 import unalcol.types.collection.vector.*;
 
-import unalcol.clone.*;
 import unalcol.search.space.Space;
 
 /**
@@ -28,8 +27,8 @@ public class OneDimensionSimpleXOver extends SimpleXOver {
    */
   public Vector<double[]> generates(Space<double[]> space, double[] c1, double[] c2) {
       try {
-          double[] x = (double[]) Clone.create(c1);
-          double[] y = (double[]) Clone.create(c2);
+          double[] x = c1.clone();
+          double[] y = c2.clone();
           int pos = pos(x.length, y.length);
           double t = x[pos];
           x[pos] = y[pos];

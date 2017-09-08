@@ -1,8 +1,9 @@
 package unalcol.types.llong;
 
+import unalcol.services.MicroService;
 import unalcol.sort.Order;
 
-public class LongOrder extends Order<Long> {
+public class LongOrder extends MicroService<Long> implements Order<Long> {
 
     /**
      * Determines if the first Integer is less than (in some order) the second Integer (one<two)

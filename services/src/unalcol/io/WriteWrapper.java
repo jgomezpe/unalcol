@@ -4,10 +4,9 @@ import java.io.IOException;
 import java.io.Writer;
 
 import unalcol.services.Service;
-import unalcol.services.TaggedCallerNamePair;
-import unalcol.types.tag.Tags;
+import unalcol.services.MicroService;
 
-public class WriteWrapper<T> extends Tags implements TaggedCallerNamePair<T>, Write<T>{
+public class WriteWrapper<T> extends MicroService<T> implements Write<T>{
 	@Override
 	public void write(Writer writer) throws IOException {
 		try{ Service.run(Write.name, caller(), writer ); }

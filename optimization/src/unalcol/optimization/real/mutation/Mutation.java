@@ -12,7 +12,7 @@ import unalcol.search.variation.Variation_1_1;
  *
  * @author jgomezpe
  */
-public abstract class Mutation extends Variation_1_1<double[]>{
+public abstract class Mutation implements Variation_1_1<double[]>{
     // Mutation definitions
     protected PickComponents components = null;
     protected int[] indices = new int[0];

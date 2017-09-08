@@ -1,10 +1,9 @@
 package unalcol.tracer;
 
 import unalcol.services.Service;
-import unalcol.services.TaggedCallerNamePair;
-import unalcol.types.tag.Tags;
+import unalcol.services.MicroService;
 
-public class TracerWrapper<T>  extends Tags implements TaggedCallerNamePair<T>, Tracer<T> {
+public class TracerWrapper<T> extends MicroService<T> implements Tracer<T> {
  	@Override
 	public void add(Object... obj) {
 		try{ Service.run(Tracer.name, caller(), obj); }catch(Exception e){}

@@ -36,7 +36,7 @@ public class QueenFitness extends OptimizationFunction<int[]>{
   public static void main( String[] args ){
       int[] x = IntArray.random(8, 8);
       IntArrayPlainWrite write = new IntArrayPlainWrite(',', false);
-      Write.set(int[].class, write);
+      Write.put(int[].class, write);
       System.out.print(Write.toString(x));
       QueenFitness f = new QueenFitness();
       System.out.println(":"+f.apply(x));

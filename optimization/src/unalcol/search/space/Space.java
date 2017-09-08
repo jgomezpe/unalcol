@@ -5,17 +5,16 @@
  */
 package unalcol.search.space;
 
-import unalcol.types.tag.TaggedObject;
+import unalcol.Tagged;
+import unalcol.Thing;
 
 /**
  *
  * @author jgomez
  */
-public abstract class Space<T> extends TaggedObject<T>{
+public abstract class Space<T> extends Thing{
 	public static final String FEASIBLE="feasible";
 	public static final String FEASIBILITY="feasibility";
-	
-	public Space(){ super(null); }
 	
 	public abstract boolean feasible( T x );
 	
@@ -34,12 +33,17 @@ public abstract class Space<T> extends TaggedObject<T>{
 		return v;
 	}
 
-	public T[] repair( T[] pop ){
-		@SuppressWarnings("unchecked")
+	@SuppressWarnings("unchecked")
+	public T[] repair( T... pop ){
 		T[] v = (T[])new Object[pop.length];
-		for( int i=0; i<pop.length; i++ ){
-			v[i] = repair(pop[i]);
-		}
+		for( int i=0; i<pop.length; i++ ) v[i] = repair(pop[i]);
 		return v;
-	}           
+	}
+	
+	@SuppressWarnings("unchecked")
+	public Tagged<T>[] repair( Tagged<T>... pop ){
+		Tagged<T>[] v = (Tagged<T>[])new Tagged[pop.length];
+		for( int i=0; i<pop.length; i++ ) v[i] = new Tagged<T>(repair(pop[i].unwrap()));
+		return v;
+	}           	
 }

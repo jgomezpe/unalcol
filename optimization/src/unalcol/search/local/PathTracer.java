@@ -1,37 +1,49 @@
 package unalcol.search.local;
 
-import unalcol.search.solution.Solution;
+import unalcol.Tagged;
+import unalcol.Thing;
 import unalcol.tracer.Tracer; 
 
-public class PathTracer<T> extends Tracer {
+public class PathTracer<T> extends Thing implements Tracer<Tagged<T>> {
     public static final String PARENT = "parent";
     
 	@SuppressWarnings("unchecked")
 	@Override
-	public Object add(Object caller, Object... obj){
-		// TODO Auto-generated method stub
-		Solution<T> parent = (Solution<T>)obj[0];
+	public void add(Object... obj){
+		Tagged<T> parent = (Tagged<T>)obj[0];
 		if( obj.length % 2 == 1 ){
 			int k=1;		
 			for( int i=k; i<obj.length; i+=2 ){
-			    parent.set( (String)obj[i], obj[i+1]);
+			    ((Tagged<T>)obj[i+1]).put( PARENT, parent);
 			}	
 		}
-		return null;
 	}
 
 	@Override
-	public void clean() {
-		// TODO Auto-generated method stub		
+	public void clean(){}
+
+	@Override
+	public void close(){}
+
+	@Override
+	public Object get(){ return null; }
+	
+	protected boolean isTracing=false;
+	
+	@Override
+	public boolean tracing() { return isTracing; }
+
+	@Override
+	public boolean start() {
+		boolean old = isTracing;
+		isTracing=true;
+		return old;
 	}
 
 	@Override
-	public void close() {
-	}
-
-	@Override
-	public Object get() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+	public boolean stop() {
+		boolean old = isTracing;
+		isTracing=false;
+		return old;
+	}    
 }

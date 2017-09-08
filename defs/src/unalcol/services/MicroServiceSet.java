@@ -1,10 +1,9 @@
 package unalcol.services;
 
 import unalcol.types.collection.vector.Vector;
-import unalcol.types.tag.Tags;
 
-public class MicroServiceSet<T> extends Tags implements MicroService<T>, TaggedCallerNamePair<T>{
-	protected Vector<MicroService<T>> services = new Vector<MicroService<T>>();
+public class MicroServiceSet<T> extends MicroService<T>{
+	protected Vector<AbstractMicroService<T>> services = new Vector<AbstractMicroService<T>>();
 	
 	@Override
 	public String[] provides(){	return services.get(0).provides();	}
@@ -14,7 +13,7 @@ public class MicroServiceSet<T> extends Tags implements MicroService<T>, TaggedC
 		T caller = caller();
 		String name = name();
 		Vector<Object> objs = new Vector<Object>();
-		for(MicroService<T> s:services){
+		for(AbstractMicroService<T> s:services){
 			s.setCaller(caller);
 			s.setName(name);
 			objs.add(s.run(args));
@@ -22,9 +21,9 @@ public class MicroServiceSet<T> extends Tags implements MicroService<T>, TaggedC
 		return objs;
 	}
 	
-	public void add(MicroService<T> service){ services.add(service); }
+	public void add(AbstractMicroService<T> service){ services.add(service); }
 
-	public void remove(ServiceProvider service){
+	public void remove(AbstractMicroService<T> service){
 		int i=0; 
 		while( i<services.size() && services.get(i)!=service) i++;
 		if( i<services.size() ) services.remove(i);

@@ -6,7 +6,8 @@
 package unalcol.search.local;
 
 import unalcol.math.logic.Predicate;
-import unalcol.search.solution.Solution;
+import unalcol.Tagged;
+import unalcol.Thing;
 import unalcol.search.space.Space;
 import unalcol.services.Service;
 import unalcol.tracer.Tracer;
@@ -15,31 +16,31 @@ import unalcol.tracer.Tracer;
  *
  * @author jgomez
  */
-public class IterativeLocalSearch<T,R> extends LocalSearch<T,R> {
-    protected Predicate< Solution<T> > terminationCondition;
+public class IterativeLocalSearch<T,R> extends Thing implements LocalSearch<T,R> {
+    protected Predicate< Tagged<T> > terminationCondition;
     protected LocalSearch<T,R> step;
     
     public IterativeLocalSearch( LocalSearch<T,R> step,
-                                 Predicate< Solution<T> > tC ){
+                                 Predicate< Tagged<T> > tC ){
         terminationCondition = tC;
         this.step = step;
     }
 
-    public Solution<T> step(Solution<T> x, Space<T> space){
+    public Tagged<T> step(Tagged<T> x, Space<T> space){
         return step.apply(x, space);
     }    
     
 	@Override
-	public Solution<T> apply(Solution<T> solution, Space<T> space) {
+	public Tagged<T> apply(Tagged<T> Tagged, Space<T> space) {
         terminationCondition.init();
         int i=0;
-        try{ Service.run(Tracer.name,this, i, solution); }catch(Exception e){}
-        while( terminationCondition.evaluate(solution) ){
-            solution = step(solution, space);
+        try{ Service.run(Tracer.name,this, i, Tagged); }catch(Exception e){}
+        while( terminationCondition.evaluate(Tagged) ){
+            Tagged = step(Tagged, space);
             i++;
-            try{ Service.run(Tracer.name,this, i, solution); }catch(Exception e){}
+            try{ Service.run(Tracer.name,this, i, Tagged); }catch(Exception e){}
         }
-        return solution;
+        return Tagged;
 	}
 	
 	@Override

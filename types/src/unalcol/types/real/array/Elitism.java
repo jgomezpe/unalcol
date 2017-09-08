@@ -1,6 +1,7 @@
 package unalcol.types.real.array;
 
 import unalcol.random.integer.IntRoulette;
+import unalcol.services.MicroService;
 import unalcol.sort.Order;
 import unalcol.sort.ReversedOrder;
 import unalcol.types.collection.vector.SortedVector;
@@ -36,7 +37,7 @@ public class Elitism implements Pick{
 	      }
 	  }
 	  
-	  protected class IndexQOrder extends Order<IndexQ>{
+	  protected class IndexQOrder extends MicroService<IndexQ> implements Order<IndexQ>{
 
 	        @Override
 	        public int compare(IndexQ one, IndexQ two) {

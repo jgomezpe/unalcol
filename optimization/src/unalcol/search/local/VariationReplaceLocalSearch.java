@@ -5,8 +5,9 @@
  */
 package unalcol.search.local;
 
-import unalcol.search.Goal;
-import unalcol.search.solution.Solution;
+import unalcol.Tagged;
+import unalcol.Thing;
+import unalcol.search.replacement.Replacement;
 import unalcol.search.space.Space;
 import unalcol.search.variation.Variation_1_1;
 import unalcol.services.Service;
@@ -16,7 +17,7 @@ import unalcol.tracer.Tracer;
  *
  * @author jgomez
  */
-public class VariationReplaceLocalSearch<T> extends LocalSearch<T,Double> {
+public class VariationReplaceLocalSearch<T> extends Thing implements LocalSearch<T,Double> {
     protected Variation_1_1<T> variation;
     protected Replacement<T> replace;
     
@@ -27,12 +28,10 @@ public class VariationReplaceLocalSearch<T> extends LocalSearch<T,Double> {
     }
         
     @Override
-    public Solution<T> apply(Solution<T> x, Space<T> space){
+    public Tagged<T> apply(Tagged<T> x, Space<T> space){
         // Check if non stationary
-		Solution<T> y = variation.apply(space, x);
-        y.set(Goal.class.getName(), x.data(Goal.class.getName()));
-        Solution<T> z = replace.apply(x, y);
-        try{ Service.run(Tracer.name,this, Solution.class, x, PathTracer.PARENT, z); }catch(Exception e){}
-        return z;
+		Tagged<T> y = replace.apply(x,variation.apply(space, x));
+        try{ Service.run(Tracer.name,this, Tagged.class, x, PathTracer.PARENT, y); }catch(Exception e){}
+        return y;
     }    
 }

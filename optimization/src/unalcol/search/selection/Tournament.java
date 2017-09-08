@@ -1,7 +1,7 @@
 package unalcol.search.selection;
 
 import unalcol.random.integer.IntUniform;
-import unalcol.sort.Order;
+import unalcol.search.Goal;
 
 /**
  * <p>Title: Tournament</p>
@@ -13,7 +13,7 @@ import unalcol.sort.Order;
  * @author Jonatan Gomez
  * @version 1.0
  */
-public class Tournament<R> implements QualityBasedSelection<R>{
+public class Tournament<T,R> extends GoalBasedSelection<T,R>{
 	/**
 	 * The tournament size
 	 */
@@ -22,13 +22,15 @@ public class Tournament<R> implements QualityBasedSelection<R>{
 	/**
 	 * Selection mechanism used for selecting the tournament winner
 	 */
-	protected QualityBasedSelection<R> inner = new Elitism<R>(1.0,0.0);
+	protected GoalBasedSelection<T,R> inner;
 
 	/**
 	 * Constructor: Create a tournament selection strategy with m players.
 	 * @param m The number of players in the tournament
 	 */
-	public Tournament( int m ){
+	public Tournament( Goal<T, R> goal, int m ){
+		super( goal );
+		inner = new Elitism<T,R>(goal, 1.0, 0.0);
 		this.m = m;
 	}
 
@@ -38,7 +40,8 @@ public class Tournament<R> implements QualityBasedSelection<R>{
 	 * @param m The number of players in the tournament
 	 * @param s The inner selection strategy for determining the tournament winner
 	 */
-	public Tournament( int m, QualityBasedSelection<R> s ){
+	public Tournament( GoalBasedSelection<T,R> s, int m ){
+		super(s.goal);
 		this.m = m;
 		this.inner = s;
 	}
@@ -49,7 +52,7 @@ public class Tournament<R> implements QualityBasedSelection<R>{
 	 * @param q Quality associated to each candidate solution
 	 * @return Index of the selected candidate solution
 	 */
-	protected int choose_one( IntUniform g, R[] x, Order<R> order ){
+	protected int choose_one( IntUniform g, R[] x){
 		@SuppressWarnings("unchecked")
 		R[] candidates = (R[])new Object[m];
 		int[] indices = new int[m];
@@ -57,7 +60,7 @@ public class Tournament<R> implements QualityBasedSelection<R>{
 			indices[i] = g.next();
 			candidates[i] = x[indices[i]];
 		}
-		return indices[inner.choose_one(candidates,order)];
+		return indices[inner.choose_one(candidates)];
 	}
   
 	/**
@@ -67,8 +70,8 @@ public class Tournament<R> implements QualityBasedSelection<R>{
 	 * @return Index of the selected candidate solution
 	 */
 	@Override
-	public int choose_one( R[] x, Order<R> order ){
-		return choose_one( new IntUniform(x.length), x, order );
+	public int choose_one( R[] x ){
+		return choose_one( new IntUniform(x.length), x );
 	}  
   
 	/**
@@ -78,10 +81,10 @@ public class Tournament<R> implements QualityBasedSelection<R>{
 	 * @return Indices of the selected candidate solutions
 	 */
 	@Override
-	public int[] apply( int n, R[] x, Order<R> order ){
+	public int[] apply( int n, R[] x ){
 		IntUniform g =  new IntUniform(x.length);
 		int[] sel = new int[n];
-		for (int i = 0; i<n; i++) sel[i] = choose_one(g, x, order);
+		for (int i = 0; i<n; i++) sel[i] = choose_one(g, x);
 		return sel;
 	}
 }

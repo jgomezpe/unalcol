@@ -25,6 +25,6 @@ public class PickOne implements PickComponents{
             d = DIMENSION;
             g = new IntUniform(d);
         }
-        return new int[]{g.generate()};
+        return new int[]{g.next()};
     }    
 }

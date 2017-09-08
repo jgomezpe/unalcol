@@ -3,7 +3,7 @@
  * and open the template in the editor.
  */
 package unalcol.optimization.real.mutation;
-import unalcol.clone.*;
+import unalcol.Thing;
 import unalcol.random.integer.*;
 import unalcol.search.variation.Variation_1_1;
 
@@ -11,7 +11,7 @@ import unalcol.search.variation.Variation_1_1;
  *
  * @author jgomez
  */
-public class RTransposition extends Variation_1_1<double[]>{
+public class RTransposition extends Thing implements Variation_1_1<double[]>{
 	    protected IntUniform g;
 	    protected int d = 2;
 	    public RTransposition(){
@@ -27,7 +27,7 @@ public class RTransposition extends Variation_1_1<double[]>{
 	@Override
 	public double[] apply(double[] gen) {
 		try {
-			double[] genome = (double[]) Clone.create(gen);
+			double[] genome = gen.clone();
 	        if( d != gen.length ){
 	        	d = gen.length;
 	        	g = new IntUniform(d);

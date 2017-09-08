@@ -1,5 +1,9 @@
 package unalcol.optimization;
 import unalcol.algorithm.Algorithm;
+import unalcol.search.RealValuedGoal;
+import unalcol.sort.Order;
+import unalcol.sort.ReversedOrder;
+import unalcol.types.real.DoubleOrder;
 
 /**
  * <p>Title: OptimizationFunction</p>
@@ -14,16 +18,23 @@ import unalcol.algorithm.Algorithm;
  * @author Jonatan Gomez
  * @version 1.0
  */
-public abstract class OptimizationFunction<T> extends Algorithm<T,Double>{
-    /**
-     * Determines if the fitness function is stationary or not, i.e.,
-     * if the value of the function for a given value can change in time (non-stationary) 
-     * or not (stationary)
-     * @return true if the fitness function is not stationary, false if it is stationary
-     */
-    public boolean isNonStationary() { return false; }
+public abstract class OptimizationFunction<T> extends Algorithm<T,Double> implements RealValuedGoal<T>{
+	public boolean minimize = true;
+	public Order<Double> order = null;
+	
+	public Order<Double> order(){
+		if( order == null ) order = minimizing()?new DoubleOrder():new ReversedOrder<Double>(new DoubleOrder());
+		return order;
+	}
 
-    /** Updates the optimization function if it is non stationary
+	public boolean minimizing(){ return minimize; }
+
+	public void minimize( boolean minimize ){
+		this.minimize = minimize;
+		order = null;
+	}
+	
+	/** Updates the optimization function if it is non stationary
      * @param k Current iteration of the optimizer
      */
     public void update( int k ){}

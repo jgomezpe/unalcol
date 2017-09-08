@@ -3,15 +3,15 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package unalcol.search.local;
+package unalcol.search.replacement;
 
-import unalcol.search.solution.Solution;
+import unalcol.Tagged;
 
 /**
  *
  * @author jgomez
  */
 public interface Replacement<T> {
-    public Solution<T> apply( Solution<T> current, Solution<T> next );
-    public void init();
+    public Tagged<T> apply( Tagged<T> current, Tagged<T> next );
+    public default void init(){};
 }

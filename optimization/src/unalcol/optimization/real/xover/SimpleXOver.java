@@ -1,7 +1,6 @@
 package unalcol.optimization.real.xover;
 
 import unalcol.optimization.real.xover.RealArityTwo;
-import unalcol.clone.*;
 import unalcol.random.integer.IntUniform;
 
 /**
@@ -29,7 +28,7 @@ public class SimpleXOver extends RealArityTwo{
             d = min;
             g = new IntUniform(d-1);
         }
-        return g.generate() + 1;
+        return g.next() + 1;
     }
     
     /**
@@ -41,8 +40,8 @@ public class SimpleXOver extends RealArityTwo{
     @Override
     public double[][] apply(double[] c1, double[] c2) {
         try {
-          double[] x = (double[]) Clone.create(c1);
-          double[] y = (double[]) Clone.create(c2);
+          double[] x = c1.clone();
+          double[] y = c2.clone();
           int pos = pos(x.length, y.length);
           double t;
           for (int i = 0; i < pos; i++) {

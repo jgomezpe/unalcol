@@ -5,8 +5,7 @@
  */
 package unalcol.search;
 
-import unalcol.search.solution.Solution;
-import unalcol.search.solution.SolutionManager;
+import unalcol.Tagged;
 import unalcol.search.space.Space;
 import unalcol.search.space.SpaceSampler;
 
@@ -14,15 +13,15 @@ import unalcol.search.space.SpaceSampler;
  *
  * @author jgomez
  */
-public interface Search<T,R> extends SpaceSampler<T>, SolutionManager<T>{
-	public Solution<T> solve( Space<T> space, Goal<T,R> goal );
+public interface Search<T,R> extends SpaceSampler<T>{
+	public Tagged<T> solve( Space<T> space, Goal<T,R> goal );
 	
 	@Override
 	public default T apply( Space<T> space ) {
 		@SuppressWarnings("unchecked")
-		Goal<T,R> goal = (Goal<T,R>)space.data(Goal.class.getName());
+		Goal<T,R> goal = (Goal<T,R>)space.get(Goal.class.getName());
 		if( goal != null ){
-			return unwrap(solve( space, goal ));
+			return solve( space, goal ).unwrap();
 		}	
 		return null;
 	}  

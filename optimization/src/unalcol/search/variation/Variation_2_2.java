@@ -1,7 +1,7 @@
 package unalcol.search.variation;
 
+import unalcol.Tagged;
 import unalcol.clone.Clone;
-import unalcol.search.solution.Solution;
 import unalcol.services.Service;
 
 public interface Variation_2_2<T> extends Variation_2_m<T>{
@@ -38,15 +38,15 @@ public interface Variation_2_2<T> extends Variation_2_m<T>{
 	 */
 	@Override
 	@SuppressWarnings("unchecked")
-	public default Solution<T>[] apply( Solution<T>... parents ){
-		Solution<T>[] v = new Solution[parents.length];
+	public default Tagged<T>[] apply( Tagged<T>... parents ){
+		Tagged<T>[] v = new Tagged[parents.length];
 		int n = (v.length>>1)<<1;
 		for( int i=0; i<n;i+=2){
-			Solution<T>[] p = apply( parents[i], parents[i+1] );
+			Tagged<T>[] p = apply( parents[i], parents[i+1] );
 			v[i] = p[0]; 
 			v[i+1] = p[1];
 		}
-		if( n < v.length ) try{ v[n] = (Solution<T>)Service.run(Clone.name, parents[n]); }catch(Exception e){ v[n] = parents[n]; }
+		if( n < v.length ) try{ v[n] = (Tagged<T>)Service.run(Clone.name, parents[n]); }catch(Exception e){ v[n] = parents[n]; }
 		return v;
 	}     
 }

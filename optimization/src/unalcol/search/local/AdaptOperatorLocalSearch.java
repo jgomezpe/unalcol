@@ -1,7 +1,8 @@
 package unalcol.search.local;
 
 import unalcol.search.Goal;
-import unalcol.search.solution.Solution;
+import unalcol.search.replacement.GoalBasedReplacement;
+import unalcol.Tagged;
 import unalcol.search.space.Space;
 import unalcol.search.variation.Variation_1_1;
 import unalcol.services.Service;
@@ -13,20 +14,18 @@ public class AdaptOperatorLocalSearch<T,P> extends VariationReplaceLocalSearch<T
     
     public AdaptOperatorLocalSearch( Variation_1_1<T> variation,
     								 AdaptSearchOperatorParameters<P> adapt, 
-    								 Replacement<T> replace ){
+    								 GoalBasedReplacement<T,Double> replace ){
         super( variation, replace );
         this.adapt = adapt;
     }
     
     @Override
-    public Solution<T> apply(Solution<T> x, Space<T> space){
-        // Check if non stationary
-        Double fx = (Double)x.info(Goal.class.getName());        
-		Solution<T> y = variation.apply(space, x);
-        y.set(Goal.class.getName(), x.data(Goal.class.getName()));
-        Double fy = (Double)y.info(Goal.class.getName());
-        if( adapt != null )	adapt.apply(variation, fx, fy);
-        Solution<T> z = replace.apply(x, y);
+    public Tagged<T> apply(Tagged<T> x, Space<T> space){
+    	@SuppressWarnings("unchecked")
+		Goal<T,Double> goal = ((GoalBasedReplacement<T,Double>)replace).goal();
+		Tagged<T> y = variation.apply(space, x);
+        if( adapt != null )	adapt.apply(variation, goal.apply(x), goal.apply(y));
+        Tagged<T> z = replace.apply(x, y);
         try{ Service.run(Tracer.name,this, x, z); }catch(Exception e){}
         return z;
     }    

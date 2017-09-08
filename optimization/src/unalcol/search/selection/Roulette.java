@@ -1,9 +1,11 @@
 package unalcol.search.selection;
 
 import unalcol.random.integer.IntRoulette;
+import unalcol.search.Goal;
 import unalcol.sort.Order;
 
-public class Roulette implements QualityBasedSelection<Double>{
+public class Roulette<T> extends GoalBasedSelection<T,Double>{
+	public Roulette(Goal<T,Double> goal){ super(goal); }
 	
 	protected boolean non_negative_values( Double[] x ){
 		int i=0; 
@@ -21,7 +23,8 @@ public class Roulette implements QualityBasedSelection<Double>{
 		return (order.compare(0.0, 1.0) > 0);
 	}
 	
-	protected double[] get( Double[] x, Order<Double> order ){
+	protected double[] get( Double[] x ){
+		Order<Double> order = goal.order();
 		double[] y = new double[x.length];
 		boolean reversed = reversed_order(order);
 		boolean non_negative = non_negative_values(x);
@@ -63,14 +66,14 @@ public class Roulette implements QualityBasedSelection<Double>{
 	}
 
 	@Override
-	public int[] apply(int n, Double[] x, Order<Double> order) {
-		IntRoulette roulette = new IntRoulette(get(x,order));
+	public int[] apply(int n, Double[] x) {
+		IntRoulette roulette = new IntRoulette(get(x));
 		return roulette.generate(n);
 	}
 
 	@Override
-	public int choose_one(Double[] x, Order<Double> order) {
-		IntRoulette roulette = new IntRoulette(get(x,order));
+	public int choose_one(Double[] x) {
+		IntRoulette roulette = new IntRoulette(get(x));
 		return roulette.next();
 	}
 }

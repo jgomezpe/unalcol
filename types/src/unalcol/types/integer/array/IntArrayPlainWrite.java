@@ -1,8 +1,7 @@
 package unalcol.types.integer.array;
 
 import unalcol.io.*;
-import unalcol.services.TaggedCallerNamePair;
-import unalcol.types.tag.Tags;
+import unalcol.services.MicroService;
 
 import java.io.*;
 
@@ -15,7 +14,7 @@ import java.io.*;
  * @version 1.0
  */
 
-public class IntArrayPlainWrite extends Tags implements TaggedCallerNamePair<int[]>,  Write<int[]>{
+public class IntArrayPlainWrite extends MicroService<int[]> implements Write<int[]>{
     /**
      * Character used for separating the values in the array
      */

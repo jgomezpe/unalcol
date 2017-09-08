@@ -1,6 +1,7 @@
 package unalcol.search.selection;
 
 import unalcol.random.integer.IntRoulette;
+import unalcol.search.Goal;
 import unalcol.sort.Order;
 import unalcol.types.collection.keymap.KeyValue;
 import unalcol.types.collection.keymap.ValueOrder;
@@ -18,7 +19,7 @@ import unalcol.sort.ReversedOrder;
  * @author Jonatan Gomez
  * @version 1.0
  */
-public class Elitism<R> implements QualityBasedSelection<R>{
+public class Elitism<T,R> extends GoalBasedSelection<T,R>{
 
 	/**
 	 * Elite percentage: Percentage of individuals to be included in the selection
@@ -31,13 +32,15 @@ public class Elitism<R> implements QualityBasedSelection<R>{
 	 * according to their OptimizationFunction
 	 */
 	protected double cull_percentage = 0.1;
+	
 
 	/**
 	 * Constructor: Create a Elitist selection strategy.
 	 * @param _elite_percentage Percentage of individuals to be included in the selection
 	 * @param _cull_percentage Percentage of individuals to be excluded in the selection
 	 */
-	public Elitism( double _elite_percentage, double _cull_percentage ){
+	public Elitism( Goal<T,R> goal, double _elite_percentage, double _cull_percentage ){
+		super(goal);
 		elite_percentage = _elite_percentage;
 		cull_percentage = _cull_percentage;
 	}
@@ -49,7 +52,8 @@ public class Elitism<R> implements QualityBasedSelection<R>{
 	 * @return Indices of the selected candidate solutions
 	 */
 	@Override
-	public int[] apply( int n, R[] x, Order<R> order ){
+	public int[] apply( int n, R[] x ){
+		Order<R> order = goal.order();
 		int[] sel = new int[n];
 		int s = x.length;
 		SortedVector<KeyValue<Integer,R>> indexq = new SortedVector<KeyValue<Integer,R>>( 
@@ -79,7 +83,8 @@ public class Elitism<R> implements QualityBasedSelection<R>{
 	 * @return Index of the selected candidate solution
 	 */
 	@Override
-	public int choose_one( R[] x, Order<R> order ){
+	public int choose_one( R[] x ){
+		Order<R> order = goal.order();
 		int k = 0;
 		R q = x[k];
 		for( int i=1; i<x.length; i++ ){
@@ -91,4 +96,7 @@ public class Elitism<R> implements QualityBasedSelection<R>{
 		}
 		return k;
 	}
+
+	@Override
+	public Goal<T, R> goal(){ return goal; }
 }

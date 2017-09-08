@@ -6,17 +6,17 @@ import unalcol.types.collection.keymap.HTKeyMap;
 import unalcol.types.collection.keymap.KeyMap;
 
 public class ServicePool implements ServiceProvider{
-	protected KeyMap<String,KeyMap<Object,MicroService<?>>> pool = new HTKeyMap<String,KeyMap<Object,MicroService<?>>>();
+	protected KeyMap<String,KeyMap<Object,AbstractMicroService<?>>> pool = new HTKeyMap<String,KeyMap<Object,AbstractMicroService<?>>>();
 	
 	@SuppressWarnings({ "unchecked", "rawtypes" })
-	public void register( MicroService<?> service, Object caller ){
+	public void register( AbstractMicroService<?> service, Object caller ){
 		for( String name:service.provides() ){
-			KeyMap<Object,MicroService<?>> s = pool.get(name);
+			KeyMap<Object,AbstractMicroService<?>> s = pool.get(name);
 			if( s==null ){
-				s = new HTKeyMap<Object,MicroService<?>>();
+				s = new HTKeyMap<Object,AbstractMicroService<?>>();
 				pool.put(name, s);
 			}
-			MicroService<?> cs = s.get(caller);
+			AbstractMicroService<?> cs = s.get(caller);
 			if(cs==null && service.multiple()){
 			    cs = new MicroServiceSet<Object>();
 			    s.put(caller, cs);
@@ -26,33 +26,32 @@ public class ServicePool implements ServiceProvider{
 		}
 	}
 	
-	protected MicroService<?> get(KeyMap<Object,MicroService<?>> service, Class<?> caller){
-		MicroService<?> m = service.get(caller);
-		if(m!=null) return m; 
-		try{ return get( service, caller.getSuperclass() ); }catch(Exception e ){}
-		return null;
+	protected AbstractMicroService<?> get(KeyMap<Object,AbstractMicroService<?>> service, Class<?> caller){
+		AbstractMicroService<?> m = service.get(caller);
+		if(m==null) m = get( service, caller.getSuperclass() );
+		return m;
 	}
 	
-	public MicroService<?> get(String service, Class<?> caller){
-		KeyMap<Object,MicroService<?>> name = pool.get(service);
+	public AbstractMicroService<?> get(String service, Class<?> caller){
+		KeyMap<Object,AbstractMicroService<?>> name = pool.get(service);
 		if( name == null ) return null;
-		MicroService<?> m = get(name,caller);
-		if(m!=null) return m; 
-		Class<?>[] superTypes = caller.getInterfaces();
-		for( int i=0; i<superTypes.length; i++ )
-			try{ return get( name, superTypes[i] ); }catch(Exception e){}
-		return null;
+		AbstractMicroService<?> m = get(name,caller);
+		if(m==null){ 
+			Class<?>[] superTypes = caller.getInterfaces();
+			for( int i=0; i<superTypes.length && m==null; i++ )	m=get( name, superTypes[i] );
+		}
+		return m;
 	}
 
 	@SuppressWarnings("unchecked")
-	public MicroService<?> get(String service, Object caller){
-		KeyMap<Object,MicroService<?>> name = pool.get(service);
+	public AbstractMicroService<?> get(String service, Object caller){
+		KeyMap<Object,AbstractMicroService<?>> name = pool.get(service);
 		if( name == null ) return null;
-		MicroService<?> m = name.get(caller);
+		AbstractMicroService<?> m = name.get(caller);
 		if(m==null) m = get(service, caller.getClass());
 		if(m!=null){
 			m.setName(service);
-			((MicroService<Object>)m).setCaller(caller);			
+			((AbstractMicroService<Object>)m).setCaller(caller);			
 		}
 		return m;
 	}

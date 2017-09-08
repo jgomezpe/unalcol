@@ -1,6 +1,5 @@
 package unalcol.optimization.real.xover;
 
-import unalcol.clone.*;
 import unalcol.random.raw.JavaGenerator;
 import unalcol.random.raw.RawGenerator;
 
@@ -29,24 +28,21 @@ public class LinearXOver extends RealArityTwo{
      */
     @Override
     public double[][] apply(double[] c1, double[] c2) {
-        try {
-            double[] x = (double[]) Clone.create(c1);
-            double[] y = (double[]) Clone.create(c2);
-            int min = Math.min(x.length, y.length);
-            double alpha = g.next();
-            double alpha_1 = g.next();
-            double neg_alpha = 1.0 - alpha;
-            double neg_alpha_1 = 1.0 - alpha_1;
-            double tx;
-            double ty;
-            for (int i = 0; i < min; i++) {
-                tx = x[i];
-                ty = y[i];
-                x[i] = alpha * tx + neg_alpha * ty;
-                y[i] = alpha_1 * tx + neg_alpha_1 * ty;
-            }
-            return new double[][]{x, y}; 
-        } catch (Exception e) {}
-        return null;
+        double[] x = c1.clone();
+        double[] y = c2.clone();
+        int min = Math.min(x.length, y.length);
+        double alpha = g.next();
+        double alpha_1 = g.next();
+        double neg_alpha = 1.0 - alpha;
+        double neg_alpha_1 = 1.0 - alpha_1;
+        double tx;
+        double ty;
+        for (int i = 0; i < min; i++) {
+            tx = x[i];
+            ty = y[i];
+            x[i] = alpha * tx + neg_alpha * ty;
+            y[i] = alpha_1 * tx + neg_alpha_1 * ty;
+        }
+        return new double[][]{x, y}; 
     }
 }

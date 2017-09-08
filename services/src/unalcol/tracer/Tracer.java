@@ -1,6 +1,6 @@
 package unalcol.tracer;
 
-import unalcol.services.MicroService;
+import unalcol.services.AbstractMicroService;
 
 //
 //Unalcol Service structure Pack 1.0 by Jonatan Gomez-Perdomo
@@ -50,7 +50,7 @@ import unalcol.services.MicroService;
 * (E-mail: <A HREF="mailto:jgomezpe@unal.edu.co">jgomezpe@unal.edu.co</A> )
 * @version 1.0
 */
-public interface Tracer<T> extends MicroService<T>{
+public interface Tracer<T> extends AbstractMicroService<T>{
 	
     public boolean tracing();
 

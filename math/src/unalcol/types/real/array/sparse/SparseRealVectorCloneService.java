@@ -5,6 +5,7 @@
 package unalcol.types.real.array.sparse;
 
 import unalcol.clone.Clone;
+import unalcol.services.MicroService;
 import unalcol.services.Service;
 import unalcol.types.collection.sparse.vector.SparseVector;
 
@@ -12,7 +13,7 @@ import unalcol.types.collection.sparse.vector.SparseVector;
  *
  * @author jgomez
  */
-public class SparseRealVectorCloneService implements Clone<SparseRealVector>{
+public class SparseRealVectorCloneService extends MicroService<SparseRealVector> implements Clone<SparseRealVector>{
     public SparseRealVectorCloneService() {}
 
     /**
@@ -22,9 +23,12 @@ public class SparseRealVectorCloneService implements Clone<SparseRealVector>{
      */
     @SuppressWarnings("unchecked")
 	@Override
-    public SparseRealVector clone(SparseRealVector obj) throws Exception{    
+    public SparseRealVector clone(){
+    	SparseRealVector obj = caller();
         SparseRealVector x = new SparseRealVector( obj.dim() );
-        x.values = (SparseVector<Double>)Service.run(Clone.name, obj.values);
+        try{
+        	x.values = (SparseVector<Double>)Service.run(Clone.name, obj.values);
+        }catch(Exception e){ x.values = obj.values;  }	
         return x;
     }    
 }

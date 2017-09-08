@@ -3,8 +3,7 @@ package unalcol.io;
 import java.io.IOException;
 import java.lang.reflect.Method;
 
-import unalcol.services.TaggedCallerNamePair;
-import unalcol.types.tag.Tags;
+import unalcol.services.MicroService;
 
 //
 //Unalcol Service structure Pack 1.0 by Jonatan Gomez-Perdomo
@@ -54,7 +53,7 @@ import unalcol.types.tag.Tags;
 * (E-mail: <A HREF="mailto:jgomezpe@unal.edu.co">jgomezpe@unal.edu.co</A> )
 * @version 1.0
 */
-public class DefaultRead extends Tags implements TaggedCallerNamePair<Object>, Read<Object> {
+public class DefaultRead extends MicroService<Object> implements Read<Object> {
 	/**
 	 * Reads an instance of the class associated to the service from the <i>reader</i>, if possible.
 	 * @param reader The ShortTermMemoryReader from which the instance will be read.

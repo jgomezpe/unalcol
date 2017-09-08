@@ -1,7 +1,6 @@
 package unalcol.tracer;
 
-import unalcol.services.TaggedCallerNamePair;
-import unalcol.types.tag.Tags;
+import unalcol.services.MicroService;
 
 //
 //Unalcol Service structure Pack 1.0 by Jonatan Gomez-Perdomo
@@ -51,7 +50,7 @@ import unalcol.types.tag.Tags;
 * (E-mail: <A HREF="mailto:jgomezpe@unal.edu.co">jgomezpe@unal.edu.co</A> )
 * @version 1.0
 */
-public class SingleResultTracer<T> extends Tags implements TaggedCallerNamePair<T>, Tracer<T> {
+public class SingleResultTracer<T> extends MicroService<T> implements Tracer<T> {
     /**
      * Traced information
      */

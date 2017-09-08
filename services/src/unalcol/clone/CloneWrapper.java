@@ -1,10 +1,9 @@
 package unalcol.clone;
 
-import unalcol.services.TaggedCallerNamePair;
+import unalcol.services.MicroService;
 import unalcol.services.Service;
-import unalcol.types.tag.Tags;
 
-public class CloneWrapper<T> extends Tags implements TaggedCallerNamePair<T>, Clone<T>{
+public class CloneWrapper<T> extends MicroService<T> implements Clone<T>{
 	@SuppressWarnings("unchecked")
 	@Override
 	public T clone(){

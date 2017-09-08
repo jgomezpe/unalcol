@@ -1,5 +1,6 @@
 package unalcol.types.real;
 
+import unalcol.services.MicroService;
 import unalcol.sort.*;
 
 
@@ -12,7 +13,7 @@ import unalcol.sort.*;
  * @version 1.0
  */
 
-public class DoubleOrder extends Order<Double> {
+public class DoubleOrder extends MicroService<Double> implements Order<Double> {
 
     /**
      * Determines if the first Double is less than (in some order) the second Double (one<two)

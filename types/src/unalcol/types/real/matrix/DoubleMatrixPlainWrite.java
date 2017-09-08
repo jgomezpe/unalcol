@@ -1,8 +1,7 @@
 package unalcol.types.real.matrix;
 
 import unalcol.io.*;
-import unalcol.services.TaggedCallerNamePair;
-import unalcol.types.tag.Tags;
+import unalcol.services.MicroService;
 
 import java.io.*;
 
@@ -17,7 +16,7 @@ import java.io.*;
  * @version 1.0
  */
 
-public class DoubleMatrixPlainWrite extends Tags implements TaggedCallerNamePair<double[][]>, Write<double[][]> {
+public class DoubleMatrixPlainWrite extends MicroService<double[][]> implements Write<double[][]> {
     /**
      * Character used for separating the values in the array
      */

@@ -1,7 +1,7 @@
 package unalcol.search.selection;
 
+import unalcol.Tagged;
 import unalcol.random.integer.*;
-import unalcol.search.solution.Solution;
 
 /**
  * <p>Title: Uniform</p>
@@ -36,7 +36,7 @@ public class Uniform<T> implements Selection<T>{
    * @return Index of the selected candidate solution
    */
   @Override
-  public int choose_one( Solution<T>[] x ){
+  public int choose_one( Tagged<T>[] x ){
     return choose_one(new IntUniform(x.length));
   }
 
@@ -47,7 +47,7 @@ public class Uniform<T> implements Selection<T>{
    * @return Indices of the selected candidate solutions
    */
   @Override
-  public int[] apply( int n, Solution<T>[] x){
+  public int[] apply( int n, Tagged<T>[] x){
     IntUniform g =  new IntUniform(x.length);
     return g.generate(n);
   }

@@ -5,10 +5,9 @@ import java.io.StreamTokenizer;
 
 import unalcol.io.Read;
 import unalcol.io.ShortTermMemoryReader;
-import unalcol.services.TaggedCallerNamePair;
-import unalcol.types.tag.Tags;
+import unalcol.services.MicroService;
 
-public class DoubleMatrixPlainRead extends Tags implements TaggedCallerNamePair<double[][]>, Read<double[][]> {
+public class DoubleMatrixPlainRead extends MicroService<double[][]> implements Read<double[][]> {
     /**
      * Character used for separating the values in the array
      */

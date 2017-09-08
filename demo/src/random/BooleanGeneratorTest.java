@@ -12,7 +12,7 @@ public class BooleanGeneratorTest {
 		ServicePool service = new ServicePool();
 		service.register(new DefaultClone(), Object.class);         
 		service.register(new ConsoleTracer<Object>(), Object.class);
-	        service.register(new JavaGenerator<Object>(), Object.class);         
+	    service.register(new JavaGenerator(), Object.class);         
 		Service.set(service);
 	}
 	

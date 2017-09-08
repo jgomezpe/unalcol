@@ -1,9 +1,10 @@
 package unalcol.search.multilevel;
 
+import unalcol.Thing;
 import unalcol.search.Goal;
 import unalcol.sort.Order;
 
-public class MultiLevelGoal<G,P,R> implements Goal<G,R>{
+public class MultiLevelGoal<G,P,R> extends Thing implements Goal<G,R>{
 	protected Goal<P,R> goal;
 	protected CodeDecodeMap<G, P> map; 
 	
@@ -18,9 +19,7 @@ public class MultiLevelGoal<G,P,R> implements Goal<G,R>{
 	}
 
 	@Override
-	public boolean nonStationary() {
-		return goal.nonStationary();
-	}
+	public boolean deterministic(){ return goal.deterministic(); }
 	
 	@Override
 	public Order<R> order() {

@@ -5,11 +5,13 @@
  */
 package unalcol.search.space;
 
+import unalcol.Thing;
+
 /**
  *
  * @author Jonatan
  */
-public class FixedPointSampler<T> implements SpaceSampler<T>{
+public class FixedPointSampler<T> extends Thing implements SpaceSampler<T>{
     protected T x;
     public FixedPointSampler( T x ){
         this.x = x;

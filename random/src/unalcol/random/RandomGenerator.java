@@ -1,6 +1,6 @@
 package unalcol.random;
 
-import unalcol.services.MicroService;
+import unalcol.services.AbstractMicroService;
 
 //
 // Unalcol Random generation Pack 1.0 by Jonatan Gomez-Perdomo
@@ -50,7 +50,7 @@ import unalcol.services.MicroService;
  * (E-mail: <A HREF="mailto:jgomezpe@unal.edu.co">jgomezpe@unal.edu.co</A> )
  * @version 1.0
  */
-public interface RandomGenerator<T> extends MicroService<Object>{
+public interface RandomGenerator<T> extends AbstractMicroService<T>{
 	/**
 	 * Generates a random object of class <i>T</i>.
 	 * @return A random object of class <i>T</i>.

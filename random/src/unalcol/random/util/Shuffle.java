@@ -1,8 +1,11 @@
 package unalcol.random.util;
 
+import unalcol.Thing;
 import unalcol.random.integer.*;
-import unalcol.random.raw.UsesRawGenerator;
-import unalcol.types.tag.Tags;
+import unalcol.random.raw.RawGenerator;
+import unalcol.random.raw.RawGeneratorWrapper;
+import unalcol.services.AbstractMicroService;
+import unalcol.services.MicroService;
 
 //
 // Unalcol Random generation Pack 1.0 by Jonatan Gomez-Perdomo
@@ -54,11 +57,25 @@ import unalcol.types.tag.Tags;
  * @version 1.0
  * @param <T> Type of objects in the array to be shuffled
  */
-public class Shuffle<T> extends Tags implements UsesRawGenerator<Object>{
+public class Shuffle<T> extends Thing {
 	/**
 	 * Creates a shuffle method using the default raw generator (Random class)
 	 */
 	public Shuffle(){}
+	
+	public AbstractMicroService<?> getMicroService( String id ){
+		AbstractMicroService<?> service = (AbstractMicroService<?>)get(id);
+		if(service==null){
+			service = wrap(id);
+			if( service != null ) put(id,service);
+		}
+		return service;
+	}
+	
+	public MicroService<?> wrap(String id){
+		if( id.equals(RawGenerator.name) ) return new RawGeneratorWrapper();
+		return null;
+	}
 	
 	/**
 	 * Generates an array with all the integers in the interval [0,n) stored in a random fashion
@@ -74,7 +91,7 @@ public class Shuffle<T> extends Tags implements UsesRawGenerator<Object>{
 	
 	protected int[] indices(int n){
 		IntUniform ig = new IntUniform(n);
-		ig.setRawGenerator(getRawGenerator(this));
+		ig.setMicroService(RawGenerator.name, getMicroService(RawGenerator.name));
 		return ig.generate(2 * n);
 	}
 	

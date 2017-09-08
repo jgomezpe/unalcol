@@ -1,6 +1,6 @@
 package unalcol.io;
 import java.io.IOException;
-import unalcol.services.MicroService;
+import unalcol.services.AbstractMicroService;
 
 //
 //Unalcol Service structure Pack 1.0 by Jonatan Gomez-Perdomo
@@ -51,7 +51,7 @@ import unalcol.services.MicroService;
 * @version 1.0
 * @param <T> Type of objects that will be read from the ShortTermMemoryReader.
 */
-public interface Read<T> extends MicroService<T>{
+public interface Read<T> extends AbstractMicroService<T>{
 	/**
 	 * Reads an object from the given reader
 	 * @param reader The input stream from which the object will be read

@@ -4,8 +4,7 @@ import java.io.IOException;
 import java.io.Writer;
 import java.lang.reflect.*;
 
-import unalcol.services.TaggedCallerNamePair;
-import unalcol.types.tag.Tags;
+import unalcol.services.MicroService;
 
 /**
 *
@@ -51,7 +50,7 @@ import unalcol.types.tag.Tags;
 * (E-mail: <A HREF="mailto:jgomezpe@unal.edu.co">jgomezpe@unal.edu.co</A> )
 * @version 1.0
 */
-public class DefaultWrite extends Tags implements TaggedCallerNamePair<Object>,  Write<Object> {  
+public class DefaultWrite extends MicroService<Object> implements Write<Object> {  
     /**
      * Writes an object to the given writer (The object should has a write method)
      * @param obj Object to write

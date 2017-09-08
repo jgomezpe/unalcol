@@ -1,10 +1,9 @@
 package unalcol.random;
 
+import unalcol.services.MicroService;
 import unalcol.services.Service;
-import unalcol.services.TaggedCallerNamePair;
-import unalcol.types.tag.Tags;
 
-public class RandomGeneratorWrapper<T>  extends Tags implements TaggedCallerNamePair<Object>, RandomGenerator<T>{
+public class RandomGeneratorWrapper<T> extends MicroService<T> implements RandomGenerator<T>{
     @SuppressWarnings("unchecked")
     @Override
     public T next() {

@@ -5,7 +5,7 @@
 package random;
 
 import unalcol.random.raw.JavaGenerator;
-import unalcol.random.real.DoubleGenerator;
+import unalcol.random.real.RandDouble;
 import unalcol.random.real.SimplestGeneralizedPowerLawGenerator;
 import unalcol.random.real.StandardGaussianGenerator;
 import unalcol.random.real.SymmetricGenerator;
@@ -25,32 +25,34 @@ public class DoubleGeneratorTest{
         Service.set(service);
 	}
 	
-	public static DoubleGenerator uniform(){
+	public static RandDouble uniform(){
 		System.out.println( "Uniform" );
 		return  new UniformGenerator(0.0,2.0);
 	}  
   
-	public static DoubleGenerator gaussian(){
+	public static RandDouble gaussian(){
 		System.out.println( "Gaussian" );
 		return  new StandardGaussianGenerator();
 	}  
   
-	public static DoubleGenerator power_law(){
+	public static RandDouble power_law(){
 		System.out.println( "Power Law" );
 		return new SimplestGeneralizedPowerLawGenerator();
 	}
     
-	public static DoubleGenerator symmetric_power_law(){
+	public static RandDouble symmetric_power_law(){
 	    System.out.println( "Symmetric Power Law" );
-	    return new SymmetricGenerator( new SimplestGeneralizedPowerLawGenerator() );
+	    SymmetricGenerator g = new SymmetricGenerator();
+	    g.put(SymmetricGenerator.one_side, new SimplestGeneralizedPowerLawGenerator() );
+	    return g;
 	}
       
 	public static void main( String[] args ){
 		init_services();
-		// DoubleGenerator g = uniform();
-		DoubleGenerator g = gaussian();
-		// DoubleGenerator g = power_law();
-		// DoubleGenerator g = symmetric_power_law();
+		//RandDouble g = uniform();
+		//RandDouble g = gaussian();
+		 RandDouble g = power_law();
+		// RandDouble g = symmetric_power_law();
 		int n = 10;
 		// Generating an array of ten random values
 		double[] x = g.generate(n);

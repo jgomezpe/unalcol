@@ -11,7 +11,7 @@ import unalcol.tracer.Tracer;
 public class CloneTest {
 	public static void init_services(){
 		ServicePool service = new ServicePool();
-		service.register(new DefaultClone(), Object.class);         
+		service.register(new DefaultClone(), Object.class);      
 		service.register(new ConsoleTracer<Object>(), Object.class);
 		Service.set(service);
 	}
@@ -39,6 +39,7 @@ public class CloneTest {
 		System.out.println("############Comparing the Shallow vs the Wrapper (by default) clone services############");
 		String s = "Hello World!";
 		String cs = (String)Service.run(Clone.name,s);
+		Service.run(Tracer.start, s);
 		Service.run(Tracer.name, s, "Original:", s);
 		Service.run(Tracer.name, cs, "Clone:", cs);
 		Service.run(Tracer.name, cs, "Is it a Shallow copy?"+(cs==s));        

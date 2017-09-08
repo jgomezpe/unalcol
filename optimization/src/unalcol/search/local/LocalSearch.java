@@ -5,9 +5,9 @@
  */
 package unalcol.search.local;
 
+import unalcol.Tagged;
 import unalcol.search.Goal;
 import unalcol.search.Search;
-import unalcol.search.solution.Solution;
 import unalcol.search.space.Space;
 import unalcol.services.Service;
 import unalcol.tracer.Tracer;
@@ -16,17 +16,14 @@ import unalcol.tracer.Tracer;
  *
  * @author Jonatan
  */
-public abstract class LocalSearch<T,R> implements Search<T,R> {
+public interface LocalSearch<T,R> extends Search<T,R> {
     
-    public LocalSearch(){}
-    
-    public abstract Solution<T> apply( Solution<T> x, Space<T> space );
+    public Tagged<T> apply( Tagged<T> x, Space<T> space );
     
     @Override
-    public Solution<T> solve(Space<T> space, Goal<T,R> goal){
-    	Solution<T> x = new Solution<T>(space.pick());
-    	x.set(Goal.class.getName(), goal);
-        try{ Service.run(Tracer.name,Solution.class, x); }catch(Exception e){}
+    public default Tagged<T> solve(Space<T> space, Goal<T,R> goal){
+    	Tagged<T> x = new Tagged<T>(space.pick());
+        try{ Service.run(Tracer.name,Tagged.class, x); }catch(Exception e){}
         return apply(x, space);
     }
 }

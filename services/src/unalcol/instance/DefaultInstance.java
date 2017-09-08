@@ -2,10 +2,9 @@ package unalcol.instance;
 
 import java.lang.reflect.Constructor;
 
-import unalcol.services.TaggedCallerNamePair;
-import unalcol.types.tag.Tags;
+import unalcol.services.MicroService;
 
-public class DefaultInstance<T> extends Tags implements TaggedCallerNamePair<Class<T>>, Instance<T>{
+public class DefaultInstance<T> extends MicroService<Class<T>> implements Instance<T>{
 	/**
 	 * Generates an instance belonging to the class <i>type</i> according to the parameters (it does not support VarArgs constructors).
 	 * @param type Class of instances that will be generated.

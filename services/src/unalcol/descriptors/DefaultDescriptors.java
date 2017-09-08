@@ -4,8 +4,7 @@ import java.lang.reflect.Array;
 import java.lang.reflect.Method;
 
 import unalcol.services.Service;
-import unalcol.services.TaggedCallerNamePair;
-import unalcol.types.tag.Tags;
+import unalcol.services.MicroService;
 
 //
 //Unalcol Service structure Pack 1.0 by Jonatan Gomez-Perdomo
@@ -55,7 +54,7 @@ import unalcol.types.tag.Tags;
 * (E-mail: <A HREF="mailto:jgomezpe@unal.edu.co">jgomezpe@unal.edu.co</A> )
 * @version 1.0
 */
-public class DefaultDescriptors extends Tags implements TaggedCallerNamePair<Object>, Descriptors<Object> {
+public class DefaultDescriptors extends MicroService<Object> implements Descriptors<Object> {
 	/**
      * Creates a descriptors array of a boolean, byte, short, int, long, float, or double array 
      * @param obj Array of a primitive type values to be described 

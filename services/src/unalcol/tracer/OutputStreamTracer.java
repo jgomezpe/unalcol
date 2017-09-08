@@ -1,8 +1,7 @@
 package unalcol.tracer;
 
 import unalcol.io.Write;
-import unalcol.services.TaggedCallerNamePair;
-import unalcol.types.tag.Tags;
+import unalcol.services.MicroService;
 
 //
 //Unalcol Service structure Pack 1.0 by Jonatan Gomez-Perdomo
@@ -52,7 +51,7 @@ import unalcol.types.tag.Tags;
 * (E-mail: <A HREF="mailto:jgomezpe@unal.edu.co">jgomezpe@unal.edu.co</A> )
 * @version 1.0
 */
-public abstract class OutputStreamTracer<T>  extends Tags implements TaggedCallerNamePair<T>,  Tracer<T> {	
+public abstract class OutputStreamTracer<T> extends MicroService<T> implements Tracer<T> {	
     /**
      * Determines if a new line symbol is added after tracing an object
      */
@@ -107,8 +106,7 @@ public abstract class OutputStreamTracer<T>  extends Tags implements TaggedCalle
     public void add(Object... obj) {
         if( tracing() && obj.length > 0 ){
     		write(SEPARATOR+Write.toString(obj[0]));
-        	for( int i=1; i<obj.length; i++ )
-        		write(SEPARATOR+Write.toString(obj[i]));
+        	for( int i=1; i<obj.length; i++ ) write(SEPARATOR+Write.toString(obj[i]));
         	if( addNewLine ) write("\n");
         }
     }

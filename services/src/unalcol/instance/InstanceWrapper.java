@@ -1,10 +1,9 @@
 package unalcol.instance;
 
 import unalcol.services.Service;
-import unalcol.services.TaggedCallerNamePair;
-import unalcol.types.tag.Tags;
+import unalcol.services.MicroService;
 
-public class InstanceWrapper<T> extends Tags implements TaggedCallerNamePair<Class<T>>, Instance<T>{
+public class InstanceWrapper<T>  extends MicroService<Class<T>> implements Instance<T>{
 	@SuppressWarnings("unchecked")
 	@Override
 	public T create(Object... args) {

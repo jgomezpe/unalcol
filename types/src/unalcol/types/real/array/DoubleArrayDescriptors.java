@@ -1,7 +1,6 @@
 package unalcol.types.real.array;
 import unalcol.descriptors.*;
-import unalcol.services.TaggedCallerNamePair;
-import unalcol.types.tag.Tags;
+import unalcol.services.MicroService;
 
 /**
  * <p>Descriptor Service for double arrays</p>
@@ -12,7 +11,7 @@ import unalcol.types.tag.Tags;
  * @version 1.0
  *
  */
-public class DoubleArrayDescriptors extends Tags implements TaggedCallerNamePair<double[]>,  Descriptors<double[]>{
+public class DoubleArrayDescriptors extends MicroService<double[]>  implements Descriptors<double[]>{
  
     /**
      * Gets a numeric description of the given numeric values (this method produces just a clone)

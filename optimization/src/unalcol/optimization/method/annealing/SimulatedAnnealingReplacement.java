@@ -7,7 +7,7 @@ package unalcol.optimization.method.annealing;
 
 import unalcol.optimization.method.hillclimbing.HillClimbingReplacement;
 import unalcol.search.Goal;
-import unalcol.search.solution.Solution;
+import unalcol.Tagged;
 
 /**
  *
@@ -17,22 +17,20 @@ public class SimulatedAnnealingReplacement<T> extends HillClimbingReplacement<T>
     protected SimulatedAnnealingScheme scheme;
     protected int t=0;
     
-    public SimulatedAnnealingReplacement( SimulatedAnnealingScheme scheme ){
+    public SimulatedAnnealingReplacement( Goal<T,Double> goal, SimulatedAnnealingScheme scheme ){
+    	super(goal);
         this.scheme = scheme;
     }
     
-    public SimulatedAnnealingReplacement( SimulatedAnnealingScheme scheme, boolean neutral ){
-        super( neutral );
+    public SimulatedAnnealingReplacement( Goal<T,Double> goal, SimulatedAnnealingScheme scheme, boolean neutral ){
+        super( goal, neutral );
         this.scheme = scheme;
     }
     
     @Override
-    public Solution<T> apply( Solution<T> current, Solution<T> next ) {
-        Solution<T> x = super.apply(current, next);
-    	String gName = Goal.class.getName();
-    	double qc = (Double)current.info(gName);
-    	double qn = (Double)next.info(gName);
-        if( x==next || Math.exp(-Math.abs(qn-qc)/scheme.get(t++)) > Math.random())
+    public Tagged<T> apply( Tagged<T> current, Tagged<T> next ) {
+        Tagged<T> x = super.apply(current, next);
+        if( x==next || Math.exp(-Math.abs(goal.apply(x)-goal.apply(current))/scheme.get(t++)) > Math.random())
             return next;
         else
             return current;

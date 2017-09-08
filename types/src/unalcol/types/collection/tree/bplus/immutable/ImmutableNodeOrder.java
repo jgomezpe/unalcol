@@ -4,13 +4,14 @@
  */
 package unalcol.types.collection.tree.bplus.immutable;
 
+import unalcol.services.MicroService;
 import unalcol.sort.Order;
 
 /**
  *
  * @author jgomez
  */
-public class ImmutableNodeOrder<T> extends Order<ImmutableNode<T>>{
+public class ImmutableNodeOrder<T> extends MicroService<ImmutableNode<T>> implements Order<ImmutableNode<T>>{
     protected Order<T> inner;
     public ImmutableNodeOrder( Order<T> _inner ){
         inner = _inner;

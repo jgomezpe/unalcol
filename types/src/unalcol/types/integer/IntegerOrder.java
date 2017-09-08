@@ -1,4 +1,5 @@
 package unalcol.types.integer;
+import unalcol.services.MicroService;
 import unalcol.sort.*;
 
 
@@ -12,7 +13,7 @@ import unalcol.sort.*;
  * @version 1.0
  */
 
-public class IntegerOrder extends Order<Integer> {
+public class IntegerOrder extends MicroService<Integer> implements Order<Integer> {
 
     /**
      * Determines if the first Integer is less than (in some order) the second Integer (one<two)

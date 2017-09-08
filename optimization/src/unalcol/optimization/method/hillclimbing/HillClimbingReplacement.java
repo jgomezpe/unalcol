@@ -5,37 +5,30 @@
  */
 package unalcol.optimization.method.hillclimbing;
 
+import unalcol.Tagged;
 import unalcol.search.Goal;
-import unalcol.search.RealQualityGoal;
-import unalcol.search.local.Replacement;
-import unalcol.search.solution.Solution;
-import unalcol.sort.Order;
+import unalcol.search.replacement.GoalBasedReplacement;
 
 /**
  *
  * @author jgomez
  */
-public class HillClimbingReplacement<T> implements Replacement<T> {
+public class HillClimbingReplacement<T> extends GoalBasedReplacement<T,Double> {
     protected boolean neutral = false;
     
-    public HillClimbingReplacement(){}
+    public HillClimbingReplacement( Goal<T,Double> goal ){ super(goal); }
     
-    public HillClimbingReplacement( boolean neutral ){
+    public HillClimbingReplacement(  Goal<T,Double> goal , boolean neutral ){
+    	super(goal);
         this.neutral = neutral;
     }
     
     @Override
-    public Solution<T> apply(Solution<T> current, Solution<T> next) {
-    	String gName = Goal.class.getName();
-    	double qc = (Double)current.info(gName);
-    	double qn = (Double)next.info(gName);
-		@SuppressWarnings("unchecked")
-		RealQualityGoal<T> goal = (RealQualityGoal<T>)current.data(gName);
-    	Order<Double> order = goal.order();
+    public Tagged<T> apply(Tagged<T> current, Tagged<T> next) {
         if( neutral )
-            return order.compare(qc, qn) <= 0? next : current;
+            return goal.compare(current, next) <= 0? next : current;
         else
-            return order.compare(qc, qn) < 0? next : current;
+            return goal.compare(current, next) < 0? next : current;
     }    
 
     @Override

@@ -1,8 +1,8 @@
 package unalcol.search.variation;
 
+import unalcol.Tagged;
 import unalcol.search.Goal;
 import unalcol.search.selection.Selection;
-import unalcol.search.solution.Solution;
 
 public class VariationSelection_n_1<T> implements Variation_n_1<T>{
 	protected Variation<T> variation;
@@ -15,13 +15,12 @@ public class VariationSelection_n_1<T> implements Variation_n_1<T>{
 	
 	@SuppressWarnings("unchecked")
 	@Override
-	public Solution<T> build(Solution<T>... parents ){
+	public Tagged<T> build(Tagged<T>... parents ){
 		String gName = Goal.class.getName();
-		Object goal = parents[0].data(gName);
-		Solution<T>[] children = variation.apply(parents);
-		for( Solution<T> c : children ){
-    			c.set(gName, goal);
-		}
+		Goal<T, ?> goal = (Goal<T,?>)parents[0].get(gName);
+		Tagged<T>[] children = variation.apply(parents);
+		goal.array_apply(children);
+		for( Tagged<T> c : children ){ c.put(gName, goal); }
 		int index = selection.choose_one(children);
 		return children[index];
 	}

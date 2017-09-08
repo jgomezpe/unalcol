@@ -5,14 +5,13 @@
 package unalcol.types.real.array;
 
 import unalcol.instance.Instance;
-import unalcol.services.TaggedCallerNamePair;
-import unalcol.types.tag.Tags;
+import unalcol.services.MicroService;
 
 /**
  *
  * @author jgomez
  */
-public class DoubleArrayZeroOneInstance extends Tags implements TaggedCallerNamePair<Class<double[]>>, Instance<double[]> {
+public class DoubleArrayZeroOneInstance extends MicroService<Class<double[]>> implements Instance<double[]> {
     public double[] create( int n ){  return DoubleArray.random(n); }
     
     @Override

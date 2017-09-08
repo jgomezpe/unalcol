@@ -5,8 +5,7 @@
 
 package unalcol.types.integer;
 import unalcol.io.*;
-import unalcol.services.TaggedCallerNamePair;
-import unalcol.types.tag.Tags;
+import unalcol.services.MicroService;
 
 import java.io.*;
 
@@ -14,7 +13,7 @@ import java.io.*;
  *
  * @author jgomez
  */
-public class IntegerPlainRead extends Tags implements TaggedCallerNamePair<Integer>,  Read<Integer>{
+public class IntegerPlainRead extends MicroService<Integer> implements Read<Integer>{
 
     public static void back( char c, ShortTermMemoryReader reader ){
         if( c != (char)-1 ){

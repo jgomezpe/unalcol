@@ -7,14 +7,19 @@ package unalcol.types.real.array.sparse;
 import java.io.IOException;
 
 import unalcol.io.Read;
+import unalcol.io.ReadWrapper;
 import unalcol.io.ShortTermMemoryReader;
+import unalcol.services.AbstractMicroService;
+import unalcol.services.MicroService;
 import unalcol.services.Service;
 
 /**
  *
  * @author jgomez
  */
-public class SparseRealVectorPlainReadService implements Read<SparseRealVector>{
+public class SparseRealVectorPlainReadService extends MicroService<SparseRealVector> implements Read<SparseRealVector>{
+	public static final String integer = "Read.integer";
+	public static final String real = "Read.double";
     /**
      * Character used for separating the values in the array
      */
@@ -60,6 +65,12 @@ public class SparseRealVectorPlainReadService implements Read<SparseRealVector>{
         return false;
     }
 
+	public AbstractMicroService<?> wrap(String id){
+		if( id.equals(integer) ) return new ReadWrapper<Integer>();
+		if( id.equals(real) ) return new ReadWrapper<Double>();
+		return null;
+	}
+	
     public void setIntReader( Read<Integer> ri ){ this.ri = ri; }
 	
 	protected int readInt(ShortTermMemoryReader reader) throws Exception{
@@ -75,17 +86,23 @@ public class SparseRealVectorPlainReadService implements Read<SparseRealVector>{
 	}
     
     public SparseRealVector read( ShortTermMemoryReader reader ) throws IOException{
+    	@SuppressWarnings("unchecked")
+		Read<Integer> ri = (Read<Integer>)getMicroService(integer);
+    	ri.setCaller(n);
         if( read_dimension ){
-        	n = readInt(reader);
+        	n = ri.read(reader);
             Read.readSeparator(reader, separator);        	
         }
+    	@SuppressWarnings("unchecked")
+		Read<Double> rr = (Read<Double>)getMicroService(real);
+    	rr.setCaller(0.0);
         SparseRealVector d = new SparseRealVector(n);
         int k;
         double v;
         while( hasNext(reader) ){
-            k = readInt(reader);
+            k = ri.read(reader);
             Read.readSeparator(reader, separator);
-            v = readDouble(reader);
+            v = rr.read(reader);
             Read.readSeparator(reader, separator);
             d.set(k,v);
         }

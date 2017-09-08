@@ -2,12 +2,13 @@ package unalcol.search.solution;
 
 import java.io.Writer;
 
+import unalcol.Thing;
 import unalcol.io.Write;
-import unalcol.types.tag.TaggedObject;
+import unalcol.Tagged;
 import unalcol.search.Goal;
 import unalcol.services.Service;
 
-public class SolutionWrite<T> implements Write<TaggedObject<T>> {
+public class SolutionWrite<T> extends Thing implements Write<Tagged<T>> {
 	protected boolean write_object;
 	protected Write<T> tWrite=null;
 	
@@ -23,7 +24,8 @@ public class SolutionWrite<T> implements Write<TaggedObject<T>> {
 	}
 	
 	@Override
-	public void write(TaggedObject<T> sol, Writer out) throws Exception {
+	public void write(Writer out) throws Exception {
+		Tagged<T> sol = caller();
 		Service.run(Write.name, sol.info(Goal.class.getName()), out);
 		if( write_object ){
 			out.write(' ');

@@ -1,5 +1,7 @@
 package unalcol.sort;
 
+import unalcol.services.MicroService;
+
 /**
  * <p>Reverses a given order</p>
  * <p>Copyright: Copyright (c) 2010</p>
@@ -8,7 +10,7 @@ package unalcol.sort;
  * @version 1.0
  *
  */
-public class ReversedOrder<T> extends Order<T> {
+public class ReversedOrder<T> extends MicroService<T> implements Order<T> {
     /**
      * Order to be reversed
      */

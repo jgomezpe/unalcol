@@ -1,9 +1,8 @@
-package unalcol.types.tag;
+package unalcol;
 
-import java.util.ArrayList;
-import java.util.Iterator;
 
 import unalcol.types.collection.keymap.KeyMap;
+import unalcol.types.collection.keymap.KeyValue;
 
 //
 //Unalcol Service structure Pack 1.0 by Jonatan Gomez-Perdomo
@@ -53,7 +52,7 @@ import unalcol.types.collection.keymap.KeyMap;
 * (E-mail: <A HREF="mailto:jgomezpe@unal.edu.co">jgomezpe@unal.edu.co</A> )
 * @version 1.0
 */
-public class TaggedObject<T> extends Tags{
+public class Tagged<T> extends Thing{
     /**
      * Object that is being tagged.
      */
@@ -63,7 +62,7 @@ public class TaggedObject<T> extends Tags{
      * Creates a TaggedObject from the given <i>object</i>.
      * @param object Object to be tagged.
      */
-    public TaggedObject( T object ){ this.object = object; }
+    public Tagged( T object ){ this.object = object; }
  
     /**
      * Creates a TaggedObject from the given <i>object</i>.
@@ -71,54 +70,17 @@ public class TaggedObject<T> extends Tags{
      * @param tags Set of tags from which the tags (or just the TaggedMethods) will be copied
      * @param copyAllTags Defines if all tags are copied (<i>true</i>) or just the TaggedMethods (<i>false</i>)
      */
-    public TaggedObject( T object, KeyMap<String, Object> tags, boolean copyAllTags ){
+    public Tagged( T object, KeyMap<Object, Object> tags ){
     	this.object = object;
-    	cloneTags( tags, copyAllTags);
+		for(KeyValue<Object,Object> k:tags) add(k);
     }
  
-    /**
-     * Copies the tags (only the TaggedMethods if required) from a given set of tags
-     * @param tags Set of tags from which the tags (or just the TaggedMethods) will be copied
-     * @param copyAllTags Defines if all tags are copied (<i>true</i>) or just the TaggedMethods (<i>false</i>)
-     */
-    protected void cloneTags( KeyMap<String, Object> tags, boolean copyAllTags ){
-    	info.clear();
-		Iterator<String> keys = tags.keys();
-		while(keys.hasNext()){
-			String k=keys.next();
-			Object tagObj = tags.get(k);
-		    if( copyAllTags || tagObj instanceof TaggedMethod ){
-		    	info.put(k, tagObj);
-		    }	
-		}		
-    }
-    
-    /**
-     * Removes all tag associated to this object that is not a TaggedMethod.
-     */
-    public void removeNonTaggedMethods(){
-		Iterator<String> keys = info.keys();
-		ArrayList<String> dKeys = new ArrayList<String>();
-		while(keys.hasNext()){
-			String k = keys.next();
-		    Object obj = data(k);
-		    if( !(obj instanceof TaggedMethod) ){ dKeys.add(k); }
-		}			
-		for(String k:dKeys)	info.remove(k);
-    }
-   
-    /**
-     * Gets the set of tags
-     * @return Tags associated to the object
-     */
-    public KeyMap<String, Object> tags(){ return info; }
-   
     /**
      * Sets the object that is being tagged. Removes all the non TaggedMethods associated to this object.
      * @param object Object that is being tagged.
      */
-    public void set( T object ){
-    	removeNonTaggedMethods();
+    public void wrap( T object ){
+    	clear();
     	this.object = object;
     }
 	
@@ -126,24 +88,42 @@ public class TaggedObject<T> extends Tags{
      * Gets the object that is being tagged.
      * @return tagged object.
      */
-    public T object(){ return object; }
+    public T unwrap(){ return object; }
 	
     /**
-     * Gets the information associated to a given tag. If the tag is a TaggedMethod it will be computed on this object.
-     * @param key Tag.
-     * @return The information associated to a given tag. If the tag is a TaggedMethod it will be computed on this object.
+     * Obtains the set of objects that are actually tagged.
+     * @param obj Set of TaggedObject 's.
+     * @return Actual objects (without tags).
      */
-    @SuppressWarnings({ "unchecked", "rawtypes" })
-    public Object info( String key ){
-	Object obj = info.get(key);
-	if( obj instanceof TaggedMethod ){
-	    try{
-		return ((TaggedMethod)obj).apply(this);
-	    }catch(Exception e){
-		e.printStackTrace();
-	    }
-	    return null;
-	} 
-	return obj;
-    }	
+    public T[] unwrap( @SuppressWarnings("unchecked") Tagged<T>... obj ){ 
+    	@SuppressWarnings("unchecked")
+		T[] t_obj = (T[])new Object[obj.length];
+    	for( int i=0; i<obj.length; i++ ) t_obj[i] = obj[i].unwrap();
+    	return t_obj;
+    }  
+	
+	/**
+	 * Creates a TaggedObject array from an array of (possibly non tagged) objects.
+	 * @param obj Array of (possibly non tagged) objects to be Tagged.
+	 * @return A TaggedObject array from an array of (possibly non tagged) objects.
+	 */
+	public Tagged<T>[] wrap( @SuppressWarnings("unchecked") T... obj ){
+		@SuppressWarnings("unchecked")
+		Tagged<T>[] t_obj = new Tagged[obj.length];
+		for( int i=0; i<obj.length; i++ ) t_obj[i] = new Tagged<T>(obj[i]);
+		return t_obj;
+	}
+	
+    /**
+     * Creates an array of Tagged version of each object in <i>obj</i> using the TagMethods stored by <i>tags</i>. 
+     * @param tags Tags to be used by the tagged object.
+     * @param obj Objects to be Tagged.
+     * @return A Tagged version of each object in <i>obj</i> using the TagMethods stored by <i>tags</i>.
+     */
+    public Tagged<T>[] wrap( AbstractThing tags, @SuppressWarnings("unchecked") T... obj ){
+    	@SuppressWarnings("unchecked")
+		Tagged<T>[] n_pop = new Tagged[obj.length];
+    	for( int i=0;i<obj.length; i++ ) n_pop[i] = new Tagged<T>( obj[i], tags);
+    	return n_pop;
+    }	    
 }

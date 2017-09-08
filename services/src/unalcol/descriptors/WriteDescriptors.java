@@ -5,8 +5,7 @@ import java.io.Writer;
 
 import unalcol.io.Write;
 import unalcol.services.Service;
-import unalcol.services.TaggedCallerNamePair;
-import unalcol.types.tag.Tags;
+import unalcol.services.MicroService;
 
 //
 //Unalcol Service structure Pack 1.0 by Jonatan Gomez-Perdomo
@@ -56,7 +55,7 @@ import unalcol.types.tag.Tags;
 * (E-mail: <A HREF="mailto:jgomezpe@unal.edu.co">jgomezpe@unal.edu.co</A> )
 * @version 1.0
 */
-public class WriteDescriptors<T>  extends Tags implements TaggedCallerNamePair<T>,  Write<T>{
+public class WriteDescriptors<T> extends MicroService<T> implements Write<T>{
    /**
      * Writes an object to the given <i>writer</i>.
      * @param obj Object to write

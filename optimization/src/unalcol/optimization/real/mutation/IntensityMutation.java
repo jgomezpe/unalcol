@@ -5,7 +5,7 @@
  */
 
 package unalcol.optimization.real.mutation;
-import unalcol.random.real.DoubleGenerator;
+import unalcol.random.real.RandDouble;
 import unalcol.search.variation.ParameterizedObject;
 
 /**
@@ -15,17 +15,17 @@ import unalcol.search.variation.ParameterizedObject;
 public class IntensityMutation extends Mutation implements ParameterizedObject<Double>{
     // Mutation definitions
     protected double sigma;
-    protected DoubleGenerator g;
+    protected RandDouble g;
     protected double[] delta;
     
-    public IntensityMutation( double sigma, DoubleGenerator g, 
+    public IntensityMutation( double sigma, RandDouble g, 
                               PickComponents components){
         super(components);
         this.sigma = sigma;
         this.g = g;
     }
     
-    public IntensityMutation(double sigma, DoubleGenerator g ){
+    public IntensityMutation(double sigma, RandDouble g ){
         this( sigma, g, null);
     }
     
@@ -40,14 +40,14 @@ public class IntensityMutation extends Mutation implements ParameterizedObject<D
             }
             indices = components.get(DIMENSION);
             for( int i=0; i<indices.length; i++ ){
-                   delta[indices[i]] =  sigma*g.generate();
+                   delta[indices[i]] =  sigma*g.next();
             }
         }else{
         	if( delta == null ){
         		delta = new double[DIMENSION];
         	}
             for( int i=0; i<delta.length; i++){
-                   delta[i] =  sigma*g.generate();
+                   delta[i] =  sigma*g.next();
             }
         }
         return delta;

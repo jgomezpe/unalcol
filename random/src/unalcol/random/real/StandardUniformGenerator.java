@@ -1,5 +1,7 @@
 package unalcol.random.real;
 
+import unalcol.services.MicroService;
+
 //
 //Unified Random generation Pack 1.0 by Jonatan Gómez-Perdomo
 //https://github.com/jgomezpe/unalcol/tree/master/random/
@@ -14,7 +16,7 @@ package unalcol.random.real;
  *
  */
 
-public class StandardUniformGenerator extends InverseRandDouble {        
+public class StandardUniformGenerator extends MicroService<Double> implements InverseRandDouble {        
     /**
      * Returns a random double number
      * @return A random double number

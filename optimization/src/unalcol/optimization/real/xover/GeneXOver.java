@@ -1,6 +1,5 @@
 package unalcol.optimization.real.xover;
 
-import unalcol.clone.*;
 
 /**
  * <p>Title: LinearXOverPerDimension</p>
@@ -26,20 +25,16 @@ public class GeneXOver extends LinearXOver {
    */
   @Override
   public double[][] apply( double[] c1, double[] c2) {
-      try{
-          double[] x = (double[]) Clone.create(c1);
-          double[] y = (double[]) Clone.create(c2);
-          int min = Math.min(x.length, y.length);
-          for (int i = 0; i < min; i++) {
-              if (g.bool()) {
-                  double t = x[i];
-                  x[i] = y[i];
-                  y[i] = t;
-              }
+      double[] x = c1.clone();
+      double[] y = c2.clone();
+      int min = Math.min(x.length, y.length);
+      for (int i = 0; i < min; i++) {
+          if (g.bool()) {
+              double t = x[i];
+              x[i] = y[i];
+              y[i] = t;
           }
-          return new double[][]{x, y}; 
-      }catch( Exception e ){
       }
-      return null;
+      return new double[][]{x, y}; 
   }
 }

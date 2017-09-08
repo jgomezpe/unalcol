@@ -5,10 +5,10 @@
  */
 package unalcol.search.space;
 
+import unalcol.math.function.Function;
+
 /**
  *
  * @author jgomez
  */
-public interface SpaceSampler<T> {
-	public T apply( Space<T> space );
-}
+public interface SpaceSampler<T> extends Function<Space<T>, T>{}

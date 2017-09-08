@@ -1,7 +1,7 @@
 package unalcol.random.integer;
 
 import unalcol.random.InverseGenerator;
-import unalcol.types.tag.Tags;
+import unalcol.services.MicroService;
 
 //
 // Unalcol Random generation Pack 1.0 by Jonatan Gomez-Perdomo
@@ -53,7 +53,7 @@ import unalcol.types.tag.Tags;
  * (E-mail: <A HREF="mailto:jgomezpe@unal.edu.co">jgomezpe@unal.edu.co</A> )
  * @version 1.0
  */
-public class IntUniform extends Tags implements InverseGenerator<Integer>, RandInt {
+public class IntUniform extends MicroService<Integer> implements InverseGenerator<Integer>, RandInt {
 	/**
 	 * Low Limit
 	 */

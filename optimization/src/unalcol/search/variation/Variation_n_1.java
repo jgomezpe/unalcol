@@ -1,12 +1,12 @@
 package unalcol.search.variation;
 
-import unalcol.search.solution.Solution;
+import unalcol.Tagged;
 
 public interface Variation_n_1<T> extends Variation<T> {
-	public default T build( @SuppressWarnings("unchecked") T... pop ){ return build(set(pop)).object();	}
+	public default T build( @SuppressWarnings("unchecked") T... pop ){ return build(set(pop)).unwrap();	}
 
-	public default Solution<T> build( @SuppressWarnings("unchecked") Solution<T>... pop ){
-		return new Solution<T>(build(get(pop)), pop[0].tags(), false);
+	public default Tagged<T> build( @SuppressWarnings("unchecked") Tagged<T>... pop ){
+		return new Tagged<T>(build(get(pop)));
 	}
 	
 	@SuppressWarnings("unchecked")
@@ -15,7 +15,7 @@ public interface Variation_n_1<T> extends Variation<T> {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public default Solution<T>[] apply(Solution<T>... pop){ return (Solution<T>[])new Object[]{build(pop)};	}
+	public default Tagged<T>[] apply(Tagged<T>... pop){ return (Tagged<T>[])new Tagged[]{build(pop)};	}
 
 	@Override
 	public default int range_arity(){ return 1;	}	

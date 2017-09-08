@@ -1,6 +1,6 @@
 package unalcol.clone;
 
-import unalcol.services.MicroService;
+import unalcol.services.AbstractMicroService;
 
 //
 //Unalcol Service structure Pack 1.0 by Jonatan Gomez-Perdomo
@@ -51,7 +51,7 @@ import unalcol.services.MicroService;
 * @version 1.0
 * @param <T> Type of objects to be cloned.
 */
-public interface Clone<T> extends MicroService<T>{	
+public interface Clone<T> extends AbstractMicroService<T>{	
 	/**
 	 * Creates a clone of a given object
 	 * @param toClone Object to be cloned

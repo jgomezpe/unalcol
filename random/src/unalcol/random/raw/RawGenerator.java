@@ -1,6 +1,6 @@
 package unalcol.random.raw;
 
-import unalcol.services.MicroService;
+import unalcol.services.AbstractMicroService;
 
 // Unified Random generation Pack 1.0 by Jonatan Gomez-Perdomo
 // https://github.com/jgomezpe/unalcol/tree/master/random/
@@ -51,7 +51,7 @@ import unalcol.services.MicroService;
  * (E-mail: <A HREF="mailto:jgomezpe@unal.edu.co">jgomezpe@unal.edu.co</A> )
  * @version 1.0
  */
-public interface RawGenerator<T> extends MicroService<T>{
+public interface RawGenerator extends AbstractMicroService<Object>{
 	/**
 	 * Generates a random number in the interval [0.0,1.0) following a uniform distribution x~U[0,1)
 	 * @return a random number in the interval [0.0,1.0) following a uniform distribution x~U[0,1)

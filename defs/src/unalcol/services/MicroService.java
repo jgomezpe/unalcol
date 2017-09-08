@@ -1,7 +1,5 @@
 package unalcol.services;
 
-public interface MicroService<T> extends CallerNamePair<T>{
-	public Object run( Object... args ) throws Exception;
-	public default boolean multiple(){ return false; }
-	public String[] provides();
-}
+import unalcol.Thing;
+
+public abstract class MicroService<T> extends Thing implements AbstractMicroService<T>{}

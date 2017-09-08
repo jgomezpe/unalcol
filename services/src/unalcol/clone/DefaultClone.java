@@ -3,9 +3,8 @@ package unalcol.clone;
 import java.lang.reflect.Method;
 
 import unalcol.instance.Instance;
-import unalcol.services.TaggedCallerNamePair;
+import unalcol.services.MicroService;
 import unalcol.services.Service;
-import unalcol.types.tag.Tags;
 
 import java.lang.reflect.Array;
 
@@ -56,7 +55,7 @@ import java.lang.reflect.Array;
 * (E-mail: <A HREF="mailto:jgomezpe@unal.edu.co">jgomezpe@unal.edu.co</A> )
 * @version 1.0
 */
-public class DefaultClone extends Tags implements TaggedCallerNamePair<Object>, Clone<Object> {
+public class DefaultClone extends MicroService<Object> implements Clone<Object> {
 	/**
      * Creates a clone (non shallow copy) of a Java primitive types array 
      * @param obj Array of a primitive type values to be cloned 

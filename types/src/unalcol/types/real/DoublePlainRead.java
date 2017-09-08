@@ -5,15 +5,14 @@
 
 package unalcol.types.real;
 import unalcol.io.*;
-import unalcol.services.TaggedCallerNamePair;
+import unalcol.services.MicroService;
 import unalcol.types.integer.IntegerPlainRead;
-import unalcol.types.tag.Tags;
 
 /**
  *
  * @author jgomez
  */
-public class DoublePlainRead extends Tags implements TaggedCallerNamePair<Double>, Read<Double>{
+public class DoublePlainRead extends MicroService<Double>  implements Read<Double>{
 
     @Override
     public Double read(ShortTermMemoryReader reader) throws RowColumnReaderException{
