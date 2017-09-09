@@ -24,7 +24,7 @@ public class Roulette<T> extends GoalBasedSelection<T,Double>{
 	}
 	
 	protected double[] get( Double[] x ){
-		Order<Double> order = goal.order();
+		Order<Double> order = goal().order();
 		double[] y = new double[x.length];
 		boolean reversed = reversed_order(order);
 		boolean non_negative = non_negative_values(x);

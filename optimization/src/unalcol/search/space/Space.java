@@ -6,25 +6,25 @@
 package unalcol.search.space;
 
 import unalcol.Tagged;
-import unalcol.Thing;
+import unalcol.services.AbstractMicroService;
 
 /**
  *
  * @author jgomez
  */
-public abstract class Space<T> extends Thing{
+public interface Space<T> extends AbstractMicroService<T>{
 	public static final String FEASIBLE="feasible";
 	public static final String FEASIBILITY="feasibility";
 	
-	public abstract boolean feasible( T x );
+	public boolean feasible( T x );
 	
-	public abstract double feasibility( T x );
+	public double feasibility( T x );
 
-	public abstract T repair( T x );
+	public T repair( T x );
     
-	public abstract T pick();
+	public T pick();
 
-	public T[] pick( int n ){
+	public default T[] pick( int n ){
 		@SuppressWarnings("unchecked")
 		T[] v = (T[])new Object[n];
 		for( int i=0; i<n; i++ ){
@@ -34,16 +34,39 @@ public abstract class Space<T> extends Thing{
 	}
 
 	@SuppressWarnings("unchecked")
-	public T[] repair( T... pop ){
+	public default T[] repair( T... pop ){
 		T[] v = (T[])new Object[pop.length];
 		for( int i=0; i<pop.length; i++ ) v[i] = repair(pop[i]);
 		return v;
 	}
 	
 	@SuppressWarnings("unchecked")
-	public Tagged<T>[] repair( Tagged<T>... pop ){
+	public default Tagged<T>[] repair( Tagged<T>... pop ){
 		Tagged<T>[] v = (Tagged<T>[])new Tagged[pop.length];
 		for( int i=0; i<pop.length; i++ ) v[i] = new Tagged<T>(repair(pop[i].unwrap()));
 		return v;
 	}           	
+	
+	// The MicroService methods
+	public static final String name="space";
+	public static final String pick=name+".pick";
+	public static final String repair=name+".repair";
+	public static final String feasible=name+".feasible";
+	public static final String feasibility=name+".feasibility";
+	
+	public static final String[] methods = new String[]{name,pick,repair,feasible,feasibility};
+	
+	@Override
+	public default String[] provides(){ return methods; }
+
+	@Override
+	public default Object run( Object... args ) throws Exception{
+		// @TODO Not sure how it is going to be...
+		String service = name();
+		if(service.equals(name) || service.equals(pick) ){
+		}
+		throw new Exception("Undefined service "+service);		
+	}
+	
+	
 }

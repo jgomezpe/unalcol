@@ -2,8 +2,9 @@ package unalcol.search.variation;
 
 import unalcol.Tagged;
 import unalcol.search.selection.Selection;
+import unalcol.services.MicroService;
 
-public class VariationSelection<T> implements Variation<T>{
+public class VariationSelection<T> extends MicroService<T> implements Variation<T>{
 	protected int lambda;
 	protected Variation<T> variation;
 	protected Selection<T> selection;

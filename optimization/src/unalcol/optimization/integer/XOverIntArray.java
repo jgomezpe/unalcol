@@ -5,14 +5,22 @@
 package unalcol.optimization.integer;
 
 import unalcol.random.raw.RawGenerator;
+import unalcol.random.raw.RawGeneratorWrapper;
 import unalcol.search.variation.Variation_2_2;
+import unalcol.services.AbstractMicroService;
+import unalcol.services.MicroService;
 
 /**
  *
  * @author Jonatan
  */
-public class XOverIntArray extends Variation_2_2<int[]>{
-    public XOverIntArray(){}
+public class XOverIntArray extends MicroService<int[]> implements Variation_2_2<int[]>{
+	public AbstractMicroService<?> wrap(String id){
+		if(id.equals(RawGenerator.name)) return new RawGeneratorWrapper();
+		return null;
+	}
+
+	public XOverIntArray(){}
 
     
   /**
@@ -50,7 +58,7 @@ public class XOverIntArray extends Variation_2_2<int[]>{
    */
   @Override
   public int[][] apply( int[] child1, int[] child2 ){
-    return generates(child1, child2, RawGenerator.integer(this, Math.min(child1.length, child2.length)));
+    return generates(child1, child2, ((RawGenerator)getMicroService(RawGenerator.name)).integer(Math.min(child1.length, child2.length)));
   }
 
 }

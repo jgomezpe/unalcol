@@ -17,23 +17,24 @@ public class SimulatedAnnealingReplacement<T> extends HillClimbingReplacement<T>
     protected SimulatedAnnealingScheme scheme;
     protected int t=0;
     
-    public SimulatedAnnealingReplacement( Goal<T,Double> goal, SimulatedAnnealingScheme scheme ){
-    	super(goal);
+    public SimulatedAnnealingReplacement( SimulatedAnnealingScheme scheme ){
+    	super();
         this.scheme = scheme;
     }
     
-    public SimulatedAnnealingReplacement( Goal<T,Double> goal, SimulatedAnnealingScheme scheme, boolean neutral ){
-        super( goal, neutral );
+    public SimulatedAnnealingReplacement( SimulatedAnnealingScheme scheme, boolean neutral ){
+        super( neutral );
         this.scheme = scheme;
     }
     
     @Override
     public Tagged<T> apply( Tagged<T> current, Tagged<T> next ) {
+    	Goal<T,Double> goal=goal();
         Tagged<T> x = super.apply(current, next);
-        if( x==next || Math.exp(-Math.abs(goal.apply(x)-goal.apply(current))/scheme.get(t++)) > Math.random())
-            return next;
-        else
-            return current;
+        if(x==next) return next;
+        
+       	if( Math.exp(-Math.abs(goal.apply(next)-goal.apply(current))/scheme.get(t++)) > Math.random())	return next;
+       	else return current;
     }    
 
     @Override

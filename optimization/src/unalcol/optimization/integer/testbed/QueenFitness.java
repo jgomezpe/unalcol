@@ -4,10 +4,7 @@
  */
 package unalcol.optimization.integer.testbed;
 
-import unalcol.io.Write;
 import unalcol.optimization.OptimizationFunction;
-import unalcol.types.integer.array.IntArray;
-import unalcol.types.integer.array.IntArrayPlainWrite;
 
 /**
  *
@@ -33,7 +30,7 @@ public class QueenFitness extends OptimizationFunction<int[]>{
     return f;
   }
   
-  public static void main( String[] args ){
+/*  public static void main( String[] args ){
       int[] x = IntArray.random(8, 8);
       IntArrayPlainWrite write = new IntArrayPlainWrite(',', false);
       Write.put(int[].class, write);
@@ -41,6 +38,6 @@ public class QueenFitness extends OptimizationFunction<int[]>{
       QueenFitness f = new QueenFitness();
       System.out.println(":"+f.apply(x));
   }
-
+*/
 }
 

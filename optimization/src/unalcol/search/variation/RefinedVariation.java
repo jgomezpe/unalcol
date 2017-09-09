@@ -1,8 +1,9 @@
 package unalcol.search.variation;
 
 import unalcol.Tagged;
+import unalcol.services.MicroService;
 
-public class RefinedVariation<T> implements Variation<T> {
+public class RefinedVariation<T> extends MicroService<T> implements Variation<T> {
 	protected Variation_1_1<T> refining;
 	protected Variation<T> refined;
 	

@@ -1,10 +1,13 @@
 package unalcol.optimization.binary.varlength;
 
 import unalcol.random.raw.RawGenerator;
+import unalcol.random.raw.RawGeneratorWrapper;
 import unalcol.search.space.Space;
+import unalcol.services.AbstractMicroService;
+import unalcol.services.MicroService;
 import unalcol.types.collection.bitarray.BitArray;
 
-public class VarLengthBinarySpace extends Space<BitArray> {
+public class VarLengthBinarySpace extends MicroService<BitArray> implements Space<BitArray> {
 	protected int minLength;
 	protected int maxVarGenes;
 	protected int gene_size;
@@ -44,9 +47,14 @@ public class VarLengthBinarySpace extends Space<BitArray> {
 		}
 		return x;
 	}
-
+	
+	public AbstractMicroService<?> wrap(String id){
+		if(id.equals(RawGenerator.name)) return new RawGeneratorWrapper();
+		return null;
+	}
+	
 	@Override
 	public BitArray pick() {
-		return (maxVarGenes>0)?new BitArray(minLength+RawGenerator.integer(this, maxVarGenes*gene_size), true):new BitArray(minLength, true);
+		return (maxVarGenes>0)?new BitArray(minLength+((RawGenerator)getMicroService(RawGenerator.name)).integer(maxVarGenes*gene_size), true):new BitArray(minLength, true);
 	}
 }

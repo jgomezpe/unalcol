@@ -1,15 +1,14 @@
 package unalcol.search.selection;
 
 import unalcol.Tagged;
+import unalcol.Thing;
 import unalcol.search.Goal;
+import unalcol.search.GoalBased;
 
-public abstract class GoalBasedSelection<T,R> implements Selection<T> {
-	protected Goal<T,R> goal;
+public abstract class GoalBasedSelection<T,R> extends Thing implements GoalBased<T,R>, Selection<T> {
+	public GoalBasedSelection(){}
+	public GoalBasedSelection( Goal<T,R> goal ){ setGoal(goal); }
 	
-	public GoalBasedSelection( Goal<T,R> goal ){ this.goal=goal; }
-	
-	public Goal<T,R> goal(){ return goal; };
-
 	/**
 	 * Selects a subset of candidate solutions from a set of candidates
 	 * @param n Number of candidate solutions to be selected

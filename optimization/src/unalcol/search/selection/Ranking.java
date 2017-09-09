@@ -13,7 +13,7 @@ public class Ranking<T,R> extends GoalBasedSelection<T,R> {
 	
 	@Override
 	public int[] apply(int n, R[] x) {
-		Order<R> order = goal.order();
+		Order<R> order = goal().order();
 		int s = x.length;
 		SortedVector<KeyValue<Integer,R>> indexq = new SortedVector<KeyValue<Integer,R>>( 
 				new ReversedOrder<KeyValue<Integer,R>>( new ValueOrder<Integer,R>(order) ) );

@@ -2,6 +2,7 @@ package unalcol.optimization.binary;
 
 import unalcol.random.integer.*;
 import unalcol.search.variation.Variation_1_1;
+import unalcol.services.MicroService;
 import unalcol.types.collection.bitarray.BitArray;
 
 /**
@@ -12,7 +13,7 @@ import unalcol.types.collection.bitarray.BitArray;
  * @version 1.0
  */
 
-public class Transposition implements Variation_1_1<BitArray>{
+public class Transposition extends MicroService<BitArray> implements Variation_1_1<BitArray>{
     public Transposition(){}
     
   /**

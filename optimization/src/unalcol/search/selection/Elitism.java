@@ -53,7 +53,7 @@ public class Elitism<T,R> extends GoalBasedSelection<T,R>{
 	 */
 	@Override
 	public int[] apply( int n, R[] x ){
-		Order<R> order = goal.order();
+		Order<R> order = goal().order();
 		int[] sel = new int[n];
 		int s = x.length;
 		SortedVector<KeyValue<Integer,R>> indexq = new SortedVector<KeyValue<Integer,R>>( 
@@ -84,7 +84,7 @@ public class Elitism<T,R> extends GoalBasedSelection<T,R>{
 	 */
 	@Override
 	public int choose_one( R[] x ){
-		Order<R> order = goal.order();
+		Order<R> order = goal().order();
 		int k = 0;
 		R q = x[k];
 		for( int i=1; i<x.length; i++ ){
@@ -96,7 +96,4 @@ public class Elitism<T,R> extends GoalBasedSelection<T,R>{
 		}
 		return k;
 	}
-
-	@Override
-	public Goal<T, R> goal(){ return goal; }
 }

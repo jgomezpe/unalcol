@@ -26,7 +26,9 @@ public class AdaptOperatorOptimizationFactory<T,P> {
     public LocalSearch<T,Double> 
     	hill_climbing( Goal<T,Double> goal, Variation_1_1<T> variation,	AdaptSearchOperatorParameters<P> adapt,
     					boolean neutral, int MAX_ITERS ){
-    	return hill_climbing( variation, adapt, new HillClimbingReplacement<T>(goal, neutral), new ForLoopCondition<Tagged<T>>(MAX_ITERS));
+		 HillClimbingReplacement<T> replacement = new HillClimbingReplacement<T>( neutral );
+		 replacement.setGoal(goal);
+    	return hill_climbing( variation, adapt, replacement, new ForLoopCondition<Tagged<T>>(MAX_ITERS));
     }
 
 	 public LocalSearch<T,Double> 
@@ -39,7 +41,9 @@ public class AdaptOperatorOptimizationFactory<T,P> {
 	 public LocalSearch<T,Double> 
 	 	simulated_annealing( Goal<T,Double> goal, Variation_1_1<T> variation, 
 	 						 AdaptSearchOperatorParameters<P> adapt, SimulatedAnnealingScheme scheme, int MAX_ITERS ){
-		return simulated_annealing( variation, adapt, new SimulatedAnnealingReplacement<T>(goal, scheme), 
+		 SimulatedAnnealingReplacement<T> replacement = new SimulatedAnnealingReplacement<T>(scheme);
+		 replacement.setGoal(goal);
+		return simulated_annealing( variation, adapt, replacement, 
  								new ForLoopCondition<Tagged<T>>(MAX_ITERS) );
 	 }       
 

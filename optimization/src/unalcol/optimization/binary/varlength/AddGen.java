@@ -1,9 +1,11 @@
 package unalcol.optimization.binary.varlength;
 import unalcol.types.collection.bitarray.BitArray;
-import unalcol.clone.*;
 import unalcol.random.raw.RawGenerator;
+import unalcol.random.raw.RawGeneratorWrapper;
 import unalcol.search.variation.ParameterizedObject;
 import unalcol.search.variation.Variation_1_1;
+import unalcol.services.AbstractMicroService;
+import unalcol.services.MicroService;
 
 /**
  * <p>Title: AddGen</p>
@@ -13,7 +15,11 @@ import unalcol.search.variation.Variation_1_1;
  * @version 1.0
  */
 
-public class AddGen extends Variation_1_1<BitArray> implements ParameterizedObject<int[]> {
+public class AddGen extends MicroService<BitArray> implements Variation_1_1<BitArray>, ParameterizedObject<int[]> {
+	public AbstractMicroService<?> wrap(String id){
+		if(id.equals(RawGenerator.name)) return new RawGeneratorWrapper();
+		return null;
+	}
   /**
    * If the added gene is added to the end of the genome or not (randomly added)
    */
@@ -46,14 +52,14 @@ public class AddGen extends Variation_1_1<BitArray> implements ParameterizedObje
    */
   public BitArray apply(BitArray gen) {
       try{
-          BitArray genome = (BitArray) Clone.create(gen);
+          BitArray genome = new BitArray(gen);
           if (genome.size() < max_length) {
               BitArray gene = new BitArray(gene_size, true);
               if (append) {
                   genome.add(gene);
               } else {
                   int size = (genome.size() - min_length) / gene_size;
-                  int k = RawGenerator.get(this).integer(size + 1);
+                  int k = ((RawGenerator)getMicroService(RawGenerator.name)).integer(size + 1);
                   if (k == size) {
                       genome.add(gene);
                   } else {

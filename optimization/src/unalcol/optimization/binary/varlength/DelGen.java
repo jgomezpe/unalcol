@@ -1,9 +1,11 @@
 package unalcol.optimization.binary.varlength;
 import unalcol.types.collection.bitarray.BitArray;
-import unalcol.clone.*;
 import unalcol.random.raw.RawGenerator;
+import unalcol.random.raw.RawGeneratorWrapper;
 import unalcol.search.variation.ParameterizedObject;
 import unalcol.search.variation.Variation_1_1;
+import unalcol.services.AbstractMicroService;
+import unalcol.services.MicroService;
 
 
 /**
@@ -14,7 +16,11 @@ import unalcol.search.variation.Variation_1_1;
  * @version 1.0
  */
 
-public class DelGen extends Variation_1_1<BitArray> implements ParameterizedObject<int[]> {
+public class DelGen extends MicroService<BitArray> implements Variation_1_1<BitArray>, ParameterizedObject<int[]> {
+	public AbstractMicroService<?> wrap(String id){
+		if(id.equals(RawGenerator.name)) return new RawGeneratorWrapper();
+		return null;
+	}
   /**
    * If the last gene is going to be deleted or one randomly selected
    */
@@ -52,13 +58,13 @@ public class DelGen extends Variation_1_1<BitArray> implements ParameterizedObje
    */
   public BitArray apply(BitArray gen) {
       try{
-          BitArray genome = (BitArray) Clone.create(gen);
+          BitArray genome = new BitArray(gen);
           if (genome.size() > min_length + gene_size) {
               if (del_last_gene) {
                   genome.del(gene_size);
               } else {
                   int size = (genome.size()-min_length)/gene_size;
-                  int k = RawGenerator.get(this).integer(size + 1);
+                  int k = ((RawGenerator)getMicroService(RawGenerator.name)).integer(size + 1);
                   BitArray right = genome.subBitArray(min_length + (k + 1) * gene_size);
                   genome.del((size - k) * gene_size);
                   genome.add(right);

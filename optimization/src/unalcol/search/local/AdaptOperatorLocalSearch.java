@@ -21,8 +21,8 @@ public class AdaptOperatorLocalSearch<T,P> extends VariationReplaceLocalSearch<T
     
     @Override
     public Tagged<T> apply(Tagged<T> x, Space<T> space){
-    	@SuppressWarnings("unchecked")
-		Goal<T,Double> goal = ((GoalBasedReplacement<T,Double>)replace).goal();
+		Goal<T,Double> goal = goal();
+		System.out.println(goal);
 		Tagged<T> y = variation.apply(space, x);
         if( adapt != null )	adapt.apply(variation, goal.apply(x), goal.apply(y));
         Tagged<T> z = replace.apply(x, y);

@@ -1,7 +1,9 @@
 package unalcol.optimization.binary;
-import unalcol.clone.*;
 import unalcol.random.raw.RawGenerator;
+import unalcol.random.raw.RawGeneratorWrapper;
 import unalcol.search.variation.Variation_2_2;
+import unalcol.services.AbstractMicroService;
+import unalcol.services.MicroService;
 import unalcol.types.collection.bitarray.BitArray;
 
 /**
@@ -12,7 +14,7 @@ import unalcol.types.collection.bitarray.BitArray;
  * @version 1.0
  */
 
-public class XOver implements Variation_2_2<BitArray>{
+public class XOver extends MicroService<BitArray> implements Variation_2_2<BitArray>{
     public XOver(){}
 
   /**
@@ -56,9 +58,14 @@ public class XOver implements Variation_2_2<BitArray>{
    */
     @Override
   public BitArray[] apply( BitArray child1, BitArray child2 ){
-    RawGenerator g = RawGenerator.get(this);
+    RawGenerator g = (RawGenerator)getMicroService(RawGenerator.name);
     int pos = g.integer(Math.min(child1.size(), child2.size()));
 //    System.out.println("pos-->"+pos);
     return apply(child1, child2, pos);
   }
+    
+	public AbstractMicroService<?> wrap(String id){
+		if(id.equals(RawGenerator.name)) return new RawGeneratorWrapper();
+		return null;
+	}
 }

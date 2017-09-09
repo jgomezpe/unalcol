@@ -3,8 +3,9 @@ package unalcol.search.variation;
 import unalcol.Tagged;
 import unalcol.search.Goal;
 import unalcol.search.selection.Selection;
+import unalcol.services.MicroService;
 
-public class VariationSelection_n_1<T> implements Variation_n_1<T>{
+public class VariationSelection_n_1<T> extends MicroService<T> implements Variation_n_1<T>{
 	protected Variation<T> variation;
 	protected Selection<T> selection;
 

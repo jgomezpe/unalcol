@@ -41,7 +41,7 @@ public class Tournament<T,R> extends GoalBasedSelection<T,R>{
 	 * @param s The inner selection strategy for determining the tournament winner
 	 */
 	public Tournament( GoalBasedSelection<T,R> s, int m ){
-		super(s.goal);
+		super(s.goal());
 		this.m = m;
 		this.inner = s;
 	}

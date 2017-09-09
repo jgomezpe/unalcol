@@ -1,6 +1,5 @@
 package unalcol.search.multilevel;
 
-import unalcol.search.Goal;
 import unalcol.search.Search;
 import unalcol.Tagged;
 import unalcol.Thing;
@@ -16,10 +15,11 @@ public class MultiLevelSearch<G,P,R> extends Thing implements Search<P,R> {
 	}
 	
 	@Override
-	public Tagged<P> solve(Space<P> space, Goal<P,R> goal) {
-		MultiLevelGoal<G, P, R> lowLevelGoal = new MultiLevelGoal<G,P, R>(goal, map);
+	public Tagged<P> solve(Space<P> space) {
+		MultiLevelGoal<G, P, R> lowLevelGoal = new MultiLevelGoal<G,P, R>(goal(), map);
 		MultiLevelSpace<G, P> lowLevelSpace = new MultiLevelSpace<G, P>(space, map);
-		Tagged<G> sol = lowLevelSearch.solve(lowLevelSpace, lowLevelGoal);
+		lowLevelSearch.setGoal(lowLevelGoal);
+		Tagged<G> sol = lowLevelSearch.solve(lowLevelSpace);
 		Tagged<P> h_sol = new Tagged<P>(map.decode(sol.unwrap()));
 		return h_sol;
 	}

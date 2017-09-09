@@ -1,5 +1,6 @@
 package unalcol.search.solution;
 
+import java.io.IOException;
 import java.io.Writer;
 
 import unalcol.Thing;
@@ -9,27 +10,23 @@ import unalcol.search.Goal;
 import unalcol.services.Service;
 
 public class SolutionWrite<T> extends Thing implements Write<Tagged<T>> {
+	protected Goal<T,Double> goal;
 	protected boolean write_object;
-	protected Write<T> tWrite=null;
 	
-	public SolutionWrite( boolean write_object ) {
+	public SolutionWrite( Goal<T,Double> goal, boolean write_object ) {
+		this.goal = goal;
 		this.write_object = write_object;
 	}
 	
-	public void setTWrite( Write<T> tWrite ){ this.tWrite=tWrite; }
-	
-	public void twrite( T obj, Writer out ) throws Exception{
-		if( tWrite != null ) tWrite.write(obj, out);
-		else Service.run(Write.name, obj, out);
-	}
-	
 	@Override
-	public void write(Writer out) throws Exception {
+	public void write(Writer out) throws IOException {
 		Tagged<T> sol = caller();
-		Service.run(Write.name, sol.info(Goal.class.getName()), out);
+		out.write(""+goal.apply(sol));
 		if( write_object ){
 			out.write(' ');
-			twrite(sol.object(), out);
+			try{ Service.run(Write.name, sol.unwrap(), out); }
+			catch(IOException ie){ throw ie; }
+			catch(Exception e){ throw new IOException(e.getMessage()); }
 		}
 	}
 }

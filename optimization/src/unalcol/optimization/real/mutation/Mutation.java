@@ -7,12 +7,13 @@
 package unalcol.optimization.real.mutation;
 
 import unalcol.search.variation.Variation_1_1;
+import unalcol.services.MicroService;
 
 /**
  *
  * @author jgomezpe
  */
-public abstract class Mutation implements Variation_1_1<double[]>{
+public abstract class Mutation extends MicroService<double[]> implements Variation_1_1<double[]>{
     // Mutation definitions
     protected PickComponents components = null;
     protected int[] indices = new int[0];

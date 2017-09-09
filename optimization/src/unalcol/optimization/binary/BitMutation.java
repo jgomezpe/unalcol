@@ -3,6 +3,7 @@ package unalcol.optimization.binary;
 import unalcol.random.util.*;
 import unalcol.search.variation.ParameterizedObject;
 import unalcol.search.variation.Variation_1_1;
+import unalcol.services.MicroService;
 import unalcol.types.collection.bitarray.BitArray;
 
 /**
@@ -13,7 +14,7 @@ import unalcol.types.collection.bitarray.BitArray;
  * @version 1.0
  */
 
-public class BitMutation implements Variation_1_1<BitArray>, ParameterizedObject<Double> {
+public class BitMutation extends MicroService<BitArray> implements Variation_1_1<BitArray>, ParameterizedObject<Double> {
   /**
    * Probability of mutating one single bit
    */

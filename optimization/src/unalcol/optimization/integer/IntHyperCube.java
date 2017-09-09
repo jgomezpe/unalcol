@@ -1,10 +1,13 @@
 package unalcol.optimization.integer;
 
 import unalcol.random.raw.RawGenerator;
+import unalcol.random.raw.RawGeneratorWrapper;
 import unalcol.search.space.Space;
+import unalcol.services.AbstractMicroService;
+import unalcol.services.MicroService;
 import unalcol.types.integer.array.IntArray;
 
-public class IntHyperCube extends Space<int[]>{
+public class IntHyperCube extends MicroService<int[]> implements Space<int[]>{
 	protected int[] min;
 	protected int[] max;
 	protected int[] length;
@@ -61,7 +64,7 @@ public class IntHyperCube extends Space<int[]>{
 
 	@Override
 	public int[] pick() {
-		RawGenerator g = RawGenerator.get(this);
+		RawGenerator g = (RawGenerator)getMicroService(RawGenerator.name);
 		int[] x = new int[min.length];
 		for( int i=0; i<x.length; i++){
 			x[i] = min[i] + g.integer(length[i]);
@@ -69,4 +72,9 @@ public class IntHyperCube extends Space<int[]>{
 		return x;
 	}
 
+	public AbstractMicroService<?> wrap(String id){
+		if(id.equals(RawGenerator.name)) return new RawGeneratorWrapper();
+		return null;
+	}
+	
 }

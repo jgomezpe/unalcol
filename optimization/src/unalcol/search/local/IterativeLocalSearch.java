@@ -8,6 +8,7 @@ package unalcol.search.local;
 import unalcol.math.logic.Predicate;
 import unalcol.Tagged;
 import unalcol.Thing;
+import unalcol.search.Goal;
 import unalcol.search.space.Space;
 import unalcol.services.Service;
 import unalcol.tracer.Tracer;
@@ -25,7 +26,13 @@ public class IterativeLocalSearch<T,R> extends Thing implements LocalSearch<T,R>
         terminationCondition = tC;
         this.step = step;
     }
-
+    
+	@Override
+    public void setGoal(Goal<T,R> goal){ step.setGoal(goal); }
+        
+	@Override 
+	public Goal<T,R> goal(){ return step.goal(); }
+    
     public Tagged<T> step(Tagged<T> x, Space<T> space){
         return step.apply(x, space);
     }    

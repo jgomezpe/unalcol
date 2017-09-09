@@ -19,11 +19,11 @@ import unalcol.types.real.DoubleOrder;
  * @version 1.0
  */
 public abstract class OptimizationFunction<T> extends Algorithm<T,Double> implements RealValuedGoal<T>{
-	public boolean minimize = true;
-	public Order<Double> order = null;
+	protected boolean minimize = true;
+	protected Order<Double> order = null;
 	
 	public Order<Double> order(){
-		if( order == null ) order = minimizing()?new DoubleOrder():new ReversedOrder<Double>(new DoubleOrder());
+		if( order == null ) order = minimizing()?new ReversedOrder<Double>(new DoubleOrder()):new DoubleOrder();
 		return order;
 	}
 

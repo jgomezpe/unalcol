@@ -1,9 +1,11 @@
 package unalcol.optimization.binary;
 
 import unalcol.types.collection.bitarray.BitArray;
-import unalcol.clone.*;
 import unalcol.random.raw.RawGenerator;
+import unalcol.random.raw.RawGeneratorWrapper;
 import unalcol.search.variation.Variation_1_1;
+import unalcol.services.AbstractMicroService;
+import unalcol.services.MicroService;
 
 /**
  * <p>Title: SingleBitMutation</p>
@@ -14,8 +16,11 @@ import unalcol.search.variation.Variation_1_1;
  * @version 1.0
  */
 
-public class SingleBitMutation implements Variation_1_1<BitArray> {
-
+public class SingleBitMutation extends MicroService<BitArray> implements Variation_1_1<BitArray> {
+	public AbstractMicroService<?> wrap(String id){
+		if(id.equals(RawGenerator.name)) return new RawGeneratorWrapper();
+		return null;
+	}
   /**
    * Flips a bit in the given genome
    * @param genome Genome to be modified
@@ -26,7 +31,7 @@ public class SingleBitMutation implements Variation_1_1<BitArray> {
           genome = new BitArray(genome);
           int pos = -1;
           try {
-              RawGenerator g = RawGenerator.get(this);
+              RawGenerator g = (RawGenerator)getMicroService(RawGenerator.name);
               pos = g.integer(genome.size());
               genome.not(pos);
           } catch (Exception e) {
