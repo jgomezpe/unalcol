@@ -9,12 +9,12 @@ package unalcol.types.collection;
  * @author jgomez
  */
 public interface SearchCollection<T> extends Collection<T> {
-    /**
-     * Locates the given object in the structure
-     * @param data Data object to be located
-     * @return A data iterator starting at the given object (when the next method is called),
-     * If the element is not in the data structure the get method will return an exception
-     */
+	/**
+	 * Locates the given object in the structure
+	 * @param data Data object to be located
+	 * @return A data iterator starting at the given object (when the next method is called),
+	 * If the element is not in the data structure the get method will return an exception
+	 */
 	public Location<T> find(T data);
 
 	/**

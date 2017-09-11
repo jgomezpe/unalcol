@@ -20,7 +20,7 @@ public class MicroServiceSet<T> extends MicroService<T>{
 		}
 		return objs;
 	}
-	
+
 	public void add(AbstractMicroService<T> service){ services.add(service); }
 
 	public void remove(AbstractMicroService<T> service){

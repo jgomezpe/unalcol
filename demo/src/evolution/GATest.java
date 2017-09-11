@@ -21,26 +21,26 @@ public class GATest {
 	public static void real(){
 		// Search space
 		int DIM=10;
-    	Space<double[]> space = MethodTest.real_space(DIM);    	
-    	// Optimization Function
-    	OptimizationFunction<double[]> function = MethodTest.real_f();
+		Space<double[]> space = MethodTest.real_space(DIM);    	
+		// Optimization Function
+		OptimizationFunction<double[]> function = MethodTest.real_f();
     	
-    	// Variation definition
-    	Mutation mutation = MethodTest.real_variation();
-    	RealArityTwo xover = new LinearXOver();
+		// Variation definition
+		Mutation mutation = MethodTest.real_variation();
+		RealArityTwo xover = new LinearXOver();
     	
-        // Search method
-        int POPSIZE = 100;
-        int MAXITERS = 100;
-        EAFactory<double[]> factory = new EAFactory<double[]>();
-        PopulationSearch<double[],Double> search = 
-        		factory.generational_ga(POPSIZE, new Tournament<double[],Double>(function, 4), mutation, xover, 0.6, MAXITERS );
-        search.setGoal(function);
-        // Services
-        MethodTest.real_tracing(function, search);
-        // Apply the search method
-        Tagged<double[]> Tagged = search.solve(space);        
-        System.out.println(Tagged.get(function));		
+		// Search method
+		int POPSIZE = 100;
+		int MAXITERS = 100;
+		EAFactory<double[]> factory = new EAFactory<double[]>();
+		PopulationSearch<double[],Double> search = 
+			factory.generational_ga(POPSIZE, new Tournament<double[],Double>(function, 4), mutation, xover, 0.6, MAXITERS );
+		search.setGoal(function);
+		// Services
+		MethodTest.real_tracing(function, search);
+		// Apply the search method
+		Tagged<double[]> Tagged = search.solve(space);        
+		System.out.println(Tagged.get(function));		
 	}
     
 	public static void binary(){

@@ -14,7 +14,7 @@ public interface FiniteCollection<T> extends Collection<T> {
 	 * @return Number of objects stored by the data structure
 	 */
 	public int size();
-	
+
 	@Override
 	public default boolean isEmpty(){ return size()==0; }	
 }

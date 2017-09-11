@@ -29,19 +29,19 @@ public class ImmutableVector<T> implements Array<T>, SearchCollection<T> {
 	}
 
 	public int size(){ return size; }
-	
+
 	protected ImmutableVector<T> self(){ return this; }
 
-    /**
-     * Locates the given object in the structure
-     * @param data Data object to be located
-     * @return A data iterator starting at the given object (when the next method is called),
-     * If the element is not in the data structure the hasNext method will return an exception
-     */
-    @Override
-    public Location<T> find(T data){
-        return new ArrayLocation<T>( findIndex(data), this );
-    }
+	/**
+	 * Locates the given object in the structure
+	 * @param data Data object to be located
+	 * @return A data iterator starting at the given object (when the next method is called),
+	 * If the element is not in the data structure the hasNext method will return an exception
+	 */
+	@Override
+	public Location<T> find(T data){
+		return new ArrayLocation<T>( findIndex(data), this );
+	}
 
 	/**
 	 * Determines if the given object belongs to the structure
@@ -55,15 +55,13 @@ public class ImmutableVector<T> implements Array<T>, SearchCollection<T> {
 			return true;
 		}catch( NoSuchElementException e ){ return false; }
 	}
-	
-    @SuppressWarnings("unchecked")
-	protected T[] create( int n ){
-    	return (T[])new Object[n];
-    }
-    
-    public T[] toArray(){
-    	T[] x = create(size);
-    	System.arraycopy(buffer, 0, x, 0, size);
-    	return x;
-    }
+
+	@SuppressWarnings("unchecked")
+	protected T[] create( int n ){ return (T[])new Object[n]; }
+   
+	public T[] toArray(){
+		T[] x = create(size);
+		System.arraycopy(buffer, 0, x, 0, size);
+		return x;
+	}
 }
