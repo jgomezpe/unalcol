@@ -5,8 +5,9 @@
  */
 package unalcol.search.population;
 
-import unalcol.search.Goal;
-import unalcol.search.solution.Solution;
+import unalcol.Tagged;
+import unalcol.TaggedManager;
+import unalcol.Thing;
 import unalcol.search.space.Space;
 import unalcol.search.variation.Variation;
 
@@ -14,7 +15,7 @@ import unalcol.search.variation.Variation;
  *
  * @author Jonatan
  */
-public abstract class VariationReplacePopulationSearch<T,R> implements PopulationSearch<T, R> {
+public abstract class VariationReplacePopulationSearch<T,R> extends Thing implements PopulationSearch<T, R>, TaggedManager<T> {
 	protected int mu; // Population size
     protected Variation<T> variation; 
     protected PopulationReplacement<T> replace;
@@ -26,18 +27,13 @@ public abstract class VariationReplacePopulationSearch<T,R> implements Populatio
     }
 
     @Override
-    public Population<T> apply( Population<T> pop, Space<T> space ){
-    	String gName = Goal.class.getName();
-    	Population<T> newPop =
-    			new Population<T>(variation.apply(space, pop.object()));
-    	newPop.set( gName, pop.data(gName) );
-    	return replace.apply(pop, newPop);
+    public Tagged<T>[] apply( Tagged<T>[] pop, Space<T> space ){
+    	return replace.apply(pop, variation.apply(space, pop));
     }
 
 	@Override
-	public Population<T> init(Space<T> space, Goal<T, R> goal) {
-    	Population<T> pop = new Population<T>((Solution<T>[])wrap(space.pick(mu)));
-    	pop.set( Goal.class.getName(), goal);
+	public Tagged<T>[] init(Space<T> space) {
+    	Tagged<T>[] pop = wrap(space.pick(mu));
     	return pop;
 	}
 }

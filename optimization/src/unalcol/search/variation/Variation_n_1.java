@@ -3,10 +3,10 @@ package unalcol.search.variation;
 import unalcol.Tagged;
 
 public interface Variation_n_1<T> extends Variation<T> {
-	public default T build( @SuppressWarnings("unchecked") T... pop ){ return build(set(pop)).unwrap();	}
+	public default T build( @SuppressWarnings("unchecked") T... pop ){ return build(wrap(pop)).unwrap();	}
 
 	public default Tagged<T> build( @SuppressWarnings("unchecked") Tagged<T>... pop ){
-		return new Tagged<T>(build(get(pop)));
+		return new Tagged<T>(build(unwrap(pop)));
 	}
 	
 	@SuppressWarnings("unchecked")

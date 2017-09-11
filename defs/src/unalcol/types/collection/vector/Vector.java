@@ -110,7 +110,6 @@ public class Vector<T> extends ImmutableVector<T> implements MutableCollection<T
     protected void leftShift( int index ) throws IndexOutOfBoundsException{
         size--;
         if( size < a ){
-        	System.out.println(size+":"+index);
             T[] newData = shrink();
             System.arraycopy(buffer, 0, newData, 0, index );
             if( index < size ) System.arraycopy(buffer, index+1, newData, index, size-index );

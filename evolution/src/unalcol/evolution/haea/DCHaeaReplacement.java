@@ -1,8 +1,6 @@
 package unalcol.evolution.haea;
-import unalcol.search.Goal;
 import unalcol.search.RealQualityGoal;
-import unalcol.search.population.Population;
-import unalcol.search.solution.Solution;
+import unalcol.Tagged;
 import unalcol.sort.Order;
 import unalcol.math.metric.*;
 
@@ -30,38 +28,37 @@ public class DCHaeaReplacement<T> extends HaeaReplacement<T>{
      * @param children
      */
     @SuppressWarnings("unchecked")
-	public Population<T> apply( Population<T> current, Population<T> next ){
-		String gName = Goal.class.getName();
-		RealQualityGoal<T> goal = (RealQualityGoal<T>)current.data(gName);
+	public Tagged<T>[] apply( Tagged<T>[] current, Tagged<T>[] next ){
+		RealQualityGoal<T> goal = (RealQualityGoal<T>)goal();
 		Order<Double> order = goal.order();
-        Solution<T>[] buffer = new Solution[current.size()];
+        Tagged<T>[] buffer = new Tagged[current.length];
         int k=0;
-        for( int i=0; i<current.size(); i++){
-            T parent = current.get(i).object();
+        for( int i=0; i<current.length; i++){
+            T parent = current[i].unwrap();
             int child = k;
-            double d = metric.apply(parent, next.get(child).object());
+            double d = metric.apply(parent, next[child].unwrap());
             k++;
             for(int h=1; h<operators.getSizeOffspring(i); h++){
-                double d2 = metric.apply(parent, next.get(k).object());
+                double d2 = metric.apply(parent, next[k].unwrap());
                 if( d2 < d ){
                     child = k;
                     d = d2;
                 }
                 k++;
             }
-            double qp = (Double)current.get(i).info(gName);
-            double qc = (Double)next.get(child).info(gName);
+            double qp = goal.apply(current[i]);
+            double qc = goal.apply(next[child]);
             if(order.compare(qp,qc) < 0 ){
                 operators.reward(i);
             } else {
                 operators.punish(i);
             }
             if(order.compare(qp, qc) <= 0){
-                buffer[i] = next.get(child);
+                buffer[i] = next[child];
             }else{
-                buffer[i] = current.get(i);
+                buffer[i] = current[i];
             }
         }
-        return new Population<T>(buffer);
+        return buffer;
     }    
 }

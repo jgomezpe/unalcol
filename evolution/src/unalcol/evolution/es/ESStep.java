@@ -1,7 +1,6 @@
 package unalcol.evolution.es;
 
-import unalcol.search.Goal;
-import unalcol.search.population.Population;
+import unalcol.Tagged;
 import unalcol.search.population.RealQualifyPopulationSearch;
 import unalcol.search.population.VariationReplacePopulationSearch;
 import unalcol.search.space.Space;
@@ -28,10 +27,10 @@ public class ESStep<T,P> extends VariationReplacePopulationSearch<T,Double> impl
 	}
 	
 	@Override
-	public Population<T> init(Space<T> space, Goal<T, Double> goal) {
-    	Population<T> pop = super.init(space, goal);
-    	for( int i=0; i<pop.size(); i++ ){
-    		pop.get(i).set(ESVariation.PARAMETERS_OPERATOR, s_space.pick() );
+	public Tagged<T>[] init(Space<T> space) {
+    	Tagged<T>[] pop = super.init(space);
+    	for( int i=0; i<pop.length; i++ ){
+    		pop[i].put(ESVariation.PARAMETERS_OPERATOR, s_space.pick() );
     	}
     	return pop;
 	}

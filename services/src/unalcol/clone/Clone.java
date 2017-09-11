@@ -1,6 +1,7 @@
 package unalcol.clone;
 
 import unalcol.services.AbstractMicroService;
+import unalcol.services.Service;
 
 //
 //Unalcol Service structure Pack 1.0 by Jonatan Gomez-Perdomo
@@ -69,4 +70,8 @@ public interface Clone<T> extends AbstractMicroService<T>{
 	public static final String name="clone";	
 	
 	public default String[] provides(){ return new String[]{name}; }	
+	
+	public static Object create( Object obj ){
+		try{ return Service.run(name, obj); }catch(Exception e){ return obj; }
+	}
 }

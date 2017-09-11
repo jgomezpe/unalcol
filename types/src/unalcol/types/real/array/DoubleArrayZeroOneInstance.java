@@ -12,7 +12,7 @@ import unalcol.services.MicroService;
  * @author jgomez
  */
 public class DoubleArrayZeroOneInstance extends MicroService<Class<double[]>> implements Instance<double[]> {
-    public double[] create( int n ){  return DoubleArray.random(n); }
+    public double[] create( int n ){ return DoubleArray.random(n); }
     
     @Override
     public double[] create( Object... n) { return create((int)n[0]); }

@@ -39,6 +39,16 @@ public class Elitism<T,R> extends GoalBasedSelection<T,R>{
 	 * @param _elite_percentage Percentage of individuals to be included in the selection
 	 * @param _cull_percentage Percentage of individuals to be excluded in the selection
 	 */
+	public Elitism( double _elite_percentage, double _cull_percentage ){
+		elite_percentage = _elite_percentage;
+		cull_percentage = _cull_percentage;
+	}
+  
+	/**
+	 * Constructor: Create a Elitist selection strategy.
+	 * @param _elite_percentage Percentage of individuals to be included in the selection
+	 * @param _cull_percentage Percentage of individuals to be excluded in the selection
+	 */
 	public Elitism( Goal<T,R> goal, double _elite_percentage, double _cull_percentage ){
 		super(goal);
 		elite_percentage = _elite_percentage;

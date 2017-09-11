@@ -89,4 +89,8 @@ public interface Write<T> extends AbstractMicroService<T>{
 	}
 
 	public default String[] provides(){ return new String[]{name}; }	
+
+	public static void to( Object obj, Writer writer ){
+		try{ Service.run(name, obj, writer); }catch(Exception e){}
+	}	
 }

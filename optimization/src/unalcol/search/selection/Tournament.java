@@ -22,7 +22,16 @@ public class Tournament<T,R> extends GoalBasedSelection<T,R>{
 	/**
 	 * Selection mechanism used for selecting the tournament winner
 	 */
-	protected GoalBasedSelection<T,R> inner;
+	protected GoalBasedSelection<T,R> inner=null;
+
+	/**
+	 * Constructor: Create a tournament selection strategy with m players.
+	 * @param m The number of players in the tournament
+	 */
+	public Tournament( int m ){
+		this.inner = new Elitism<T,R>(1.0, 0.0);
+		this.m = m;
+	}
 
 	/**
 	 * Constructor: Create a tournament selection strategy with m players.
@@ -30,7 +39,7 @@ public class Tournament<T,R> extends GoalBasedSelection<T,R>{
 	 */
 	public Tournament( Goal<T, R> goal, int m ){
 		super( goal );
-		inner = new Elitism<T,R>(goal, 1.0, 0.0);
+		this.inner = new Elitism<T,R>(goal, 1.0, 0.0);
 		this.m = m;
 	}
 
@@ -46,6 +55,12 @@ public class Tournament<T,R> extends GoalBasedSelection<T,R>{
 		this.inner = s;
 	}
 
+	@Override
+	public void setGoal(Goal<T,R> goal){
+		super.setGoal(goal);
+		if(inner!=null) inner.setGoal(goal);
+	}
+	
 	/**
 	 * Selects a candidate solution from a set of candidate solutions
 	 * @param g Uniform integer number generator used for picking the candidate solution

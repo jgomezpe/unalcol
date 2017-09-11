@@ -1,13 +1,14 @@
 package unalcol.evolution.haea;
 
 import unalcol.search.selection.Selection;
-import unalcol.search.solution.Solution;
+import unalcol.Tagged;
 import unalcol.search.variation.Variation;
+import unalcol.services.MicroService;
 import unalcol.types.collection.vector.Vector;
 
-public class HaeaVariation<T> extends Variation<T>{
+public class HaeaVariation<T> extends MicroService<T> implements Variation<T>{
     /**
-     * Set of genetic operators that are used by CEA for evolving the solution chromosomes
+     * Set of genetic operators that are used by CEA for evolving the Tagged chromosomes
      */
     protected HaeaOperators<T> operators = null;
 
@@ -27,7 +28,7 @@ public class HaeaVariation<T> extends Variation<T>{
      * @param population Full Population
      * @return A subpopulation that can be used for selecting a second parent
      */
-    public Vector<Integer> select( int id, Solution<T>[] population ){
+    public Vector<Integer> select( int id, Tagged<T>[] population ){
         return null;
     }
 
@@ -41,24 +42,24 @@ public class HaeaVariation<T> extends Variation<T>{
     }
     
     @SuppressWarnings("unchecked")
-	protected Solution<T>[] array_sol( int n ){
-    	return (Solution<T>[])new Solution[n];
+	protected Tagged<T>[] array_sol( int n ){
+    	return (Tagged<T>[])new Tagged[n];
     }
 
     public HaeaOperators<T> operators(){ return operators; }
     
 	@Override
-	public Solution<T>[] apply(@SuppressWarnings("unchecked") Solution<T>... population) {
+	public Tagged<T>[] apply(@SuppressWarnings("unchecked") Tagged<T>... population) {
 		int n = population.length;
     	operators.resize(n);
-		Vector<Solution<T>> buffer = new Vector<Solution<T>>();
+		Vector<Tagged<T>> buffer = new Vector<Tagged<T>>();
         for (int i = 0; i<n; i++) {
             // next line added  Feb 25, 2011
             if( available(i) ){
                 int oper = operators.select(i);
                 Variation<T> o = operators.get(i, oper);
                 Vector<Integer> subset = select(i, population);
-                Solution<T>[] pop;
+                Tagged<T>[] pop;
                 if(subset==null){
                 	pop = population;
                 }else{
@@ -70,15 +71,15 @@ public class HaeaVariation<T> extends Variation<T>{
                 	}
                 }
                 pop = selection.pick(o.arity()-1, pop);
-                Solution<T>[] parent = array_sol(o.arity());
+                Tagged<T>[] parent = array_sol(o.arity());
                 parent[0] = population[i];
                 for( int k=0; k<pop.length; k++ ){
                     parent[k+1] = pop[k];
                 }
                 //@TODO Check how to use the space???
-                Solution<T>[] offspring = o.apply(parent);
+                Tagged<T>[] offspring = o.apply(parent);
                 operators.setSizeOffspring(i, offspring.length);
-                for( Solution<T> x : offspring ){                	
+                for( Tagged<T> x : offspring ){                	
                     buffer.add(x);
                 }
             }else{

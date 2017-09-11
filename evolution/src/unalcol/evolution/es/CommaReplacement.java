@@ -4,7 +4,7 @@
  */
 package unalcol.evolution.es;
 
-import unalcol.search.population.Population;
+import unalcol.Tagged;
 import unalcol.search.selection.Selection;
 
 /**
@@ -21,7 +21,7 @@ public class CommaReplacement<T> extends ESReplacement<T> {
     }
     
     @Override
-    public Population<T> pool(Population<T> current, Population<T> next){
+    public Tagged<T>[] pool(Tagged<T>[] current, Tagged<T>[] next){
         return next;
     }
 }    

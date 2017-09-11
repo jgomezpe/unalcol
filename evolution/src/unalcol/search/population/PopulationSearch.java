@@ -5,25 +5,23 @@
  */
 package unalcol.search.population;
 
-import unalcol.search.Goal;
+import unalcol.Tagged;
 import unalcol.search.Search;
-import unalcol.search.solution.Solution;
-import unalcol.search.solution.SolutionManager;
 import unalcol.search.space.Space;
 
 /**
  *
  * @author Jonatan
  */
-public interface PopulationSearch<T,R> extends SolutionManager<T>, Search<T,R>{
+public interface PopulationSearch<T,R> extends Search<T,R>{
 
-	public Population<T> init( Space<T> space, Goal<T,R> goal );
-	public Solution<T> pick( Population<T> pop );
+	public Tagged<T>[] init( Space<T> space );
+	public Tagged<T> pick( Tagged<T>[] pop );
 	
 	@Override
-    public default Solution<T> solve( Space<T> space, Goal<T,R> goal ){
-    	return pick(apply(init(space,goal), space));
+    public default Tagged<T> solve( Space<T> space ){
+    	return pick(apply(init(space), space));
     }   
     
-    public Population<T> apply( Population<T> pop, Space<T> space );    
+    public Tagged<T>[] apply( Tagged<T>[] pop, Space<T> space );    
 }

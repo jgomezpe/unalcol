@@ -5,12 +5,13 @@
  */
 package unalcol.search.population;
 
-import unalcol.search.solution.SolutionManager;
+import unalcol.Tagged;
 
 /**
  *
  * @author Jonatan
  */
-public interface PopulationReplacement<T> extends SolutionManager<T> {
-    public Population<T> apply( Population<T> current, Population<T> next );
+public interface PopulationReplacement<T>{
+    public Tagged<T>[] apply( Tagged<T>[] current, Tagged<T>[] next );
+    public default void init(){};	
 }

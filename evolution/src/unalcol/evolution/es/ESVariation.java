@@ -1,14 +1,14 @@
 package unalcol.evolution.es;
 
+import unalcol.Tagged;
+import unalcol.Thing;
 import unalcol.random.integer.IntUniform;
-import unalcol.search.Goal;
-import unalcol.search.solution.Solution;
 import unalcol.search.variation.ParameterizedObject;
 import unalcol.search.variation.Variation;
 import unalcol.search.variation.Variation_1_1;
 import unalcol.search.variation.Variation_n_1;
 
-public class ESVariation<T,P> extends Variation<T>{ 
+public class ESVariation<T,P> extends Thing implements Variation<T>{ 
 	public static final String PARAMETERS_OPERATOR = "Parameters";
 	protected int lambda;
 	protected int ro;
@@ -52,28 +52,25 @@ public class ESVariation<T,P> extends Variation<T>{
      */
 	@SuppressWarnings("unchecked")
 	@Override
-	public Solution<T>[] apply( Solution<T>... population ){
-		String gName = Goal.class.getName();
-		Object goal = population[0].data(gName);
+	public Tagged<T>[] apply( Tagged<T>... population ){
     	int mu = population.length;
     	P new_s;
-		Solution<T>[] pop = (Solution<T>[])new Solution[ro];
+		Tagged<T>[] pop = (Tagged<T>[])new Tagged[ro];
 		P[] s_pop = (P[])new Object[ro];
-    	Solution<T>[] new_y = (Solution<T>[])new Solution[lambda];
+    	Tagged<T>[] new_y = (Tagged<T>[])new Tagged[lambda];
     	for( int k=0; k<lambda; k++ ){
     		int[] subset = select( mu );
             
         	for( int i=0; i<ro; i++ ){
         		pop[i] = population[subset[i]];
-        		s_pop[i] = (P)pop[i].info(PARAMETERS_OPERATOR);
+        		s_pop[i] = (P)pop[i].get(PARAMETERS_OPERATOR);
         	}
         	new_s = s_mutation.apply(s_recombination.apply(s_pop)[0]);
         	if( param_mutation != null ){
         		param_mutation.setParameters(new_s);
         	}
         	new_y[k] = mutation.apply(recombination.apply(pop)[0]);
-        	new_y[k].set(PARAMETERS_OPERATOR, new_s);
-        	new_y[k].set(gName, goal);
+        	new_y[k].put(PARAMETERS_OPERATOR, new_s);
     	}
     	return new_y;
 	}

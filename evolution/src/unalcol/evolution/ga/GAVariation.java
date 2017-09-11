@@ -1,10 +1,11 @@
 package unalcol.evolution.ga;
 import unalcol.random.util.*;
 import unalcol.search.selection.Selection;
-import unalcol.search.solution.Solution;
+import unalcol.Tagged;
 import unalcol.search.variation.Variation;
 import unalcol.search.variation.Variation_1_1;
 import unalcol.search.variation.Variation_2_2;
+import unalcol.services.MicroService;
 import unalcol.types.collection.vector.Vector;
 
 /**
@@ -17,7 +18,7 @@ import unalcol.types.collection.vector.Vector;
  * @author Jonatan Gomez
  * @version 1.0
  */
-public class GAVariation<T> extends Variation<T>{
+public class GAVariation<T> extends MicroService<T> implements Variation<T>{
 	protected Selection<T> selection;
     protected Variation_1_1<T> mutation;
     protected Variation_2_2<T> xover;
@@ -34,25 +35,25 @@ public class GAVariation<T> extends Variation<T>{
     
 	@SuppressWarnings("unchecked")
 	@Override
-	public Solution<T>[] apply(Solution<T>... pop) {
-		Shuffle<Solution<T>> shuffle = new Shuffle<Solution<T>>();
+	public Tagged<T>[] apply(Tagged<T>... pop) {
+		Shuffle<Tagged<T>> shuffle = new Shuffle<Tagged<T>>();
 		shuffle.apply(pop);
 		pop = selection.pick(pop.length, pop);
-        Vector<Solution<T>> buffer = new Vector<Solution<T>>();
+        Vector<Tagged<T>> buffer = new Vector<Tagged<T>>();
         int n = xover.arity();
         int m = pop.length / n;
         int k = 0;
-        Solution<T>[] parents = (Solution<T>[])new Solution[n];
+        Tagged<T>[] parents = (Tagged<T>[])new Tagged[n];
         for (int j = 0; j < m; j++) {
             for( int i=0; i<n; i++ ){
                 parents[i] = pop[k];
                 k++;
             }
-            Solution<T>[] offspring;
+            Tagged<T>[] offspring;
             if (generator.next()) {
             	offspring = mutation.apply(xover.apply(parents));
             } else {
-            	offspring = (Solution<T>[])(new Solution[n]);
+            	offspring = (Tagged<T>[])(new Tagged[n]);
             	for (int i = 0; i < n; i++) 
                     offspring[i] = parents[i];
             }
@@ -60,6 +61,9 @@ public class GAVariation<T> extends Variation<T>{
                 buffer.add(offspring[i]);
             }
         }
-        return buffer.toArray();
+        Object[] obj = buffer.toArray();
+        Tagged<T>[] b = (Tagged<T>[])new Tagged[obj.length];
+        for( int i=0; i<b.length; i++) b[i] = (Tagged<T>)obj[i];
+        return b;
 	}
 }

@@ -1,6 +1,7 @@
 package unalcol.io;
 import java.io.IOException;
 import unalcol.services.AbstractMicroService;
+import unalcol.services.Service;
 
 //
 //Unalcol Service structure Pack 1.0 by Jonatan Gomez-Perdomo
@@ -81,5 +82,9 @@ public interface Read<T> extends AbstractMicroService<T>{
 	
 	public default Object run( Object... args ) throws IOException{ return read((ShortTermMemoryReader)args[0]); }    
 	
-	public default String[] provides(){ return new String[]{name}; }		
+	public default String[] provides(){ return new String[]{name}; }	
+
+	public static Object from( Object obj, ShortTermMemoryReader reader ){
+		try{ return Service.run(name, obj, reader); }catch(Exception e){ return null; }
+	}	
 }

@@ -1,6 +1,7 @@
 package unalcol.tracer;
 
 import unalcol.services.AbstractMicroService;
+import unalcol.services.Service;
 
 //
 //Unalcol Service structure Pack 1.0 by Jonatan Gomez-Perdomo
@@ -134,4 +135,9 @@ public interface Tracer<T> extends AbstractMicroService<T>{
 
 		throw new Exception("Undefined service "+service);		
 	}
+
+	public static void trace( Object obj, Object...  args ){
+		try{ Service.run(name, obj, args); }catch(Exception e){}
+	}
+	
 }

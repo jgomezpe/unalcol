@@ -1,7 +1,6 @@
 package unalcol.evolution.haea;
+import unalcol.Tagged;
 import unalcol.ca.*;
-import unalcol.search.Goal;
-import unalcol.search.population.Population;
 import unalcol.search.selection.Selection;
 import unalcol.search.space.Space;
 import unalcol.types.collection.vector.*;
@@ -41,7 +40,7 @@ public class CellularHaeaStep<T> extends HaeaStep<T> {
      * @param population Full Population
      * @return A subpopulation that can be used for selecting a second parent
      */
-    public Vector<Integer> select( int id, Population<T> population ){
+    public Vector<Integer> select( int id, Tagged<T>[] population ){
         Vector<Integer> pop = new Vector<Integer>();
         int[][] neighboor = ca.neighborhood(id);
         int i=0;
@@ -69,19 +68,19 @@ public class CellularHaeaStep<T> extends HaeaStep<T> {
      * @param f Function to be optimized
      */
     @Override
-	public Population<T> apply( Population<T> population, Space<T> space ){
+	public Tagged<T>[] apply( Tagged<T>[] population, Space<T> space ){
         ca.simulate();
         return super.apply(population, space);
     }
 
 	@Override
-	public Population<T> init(Space<T> space, Goal<T, Double> goal) {
+	public Tagged<T>[] init(Space<T> space) {
 		// initializing the cellular automaton
         int rows = (int) Math.sqrt( mu );
         int columns = mu / rows;
         columns = (rows*columns < mu)?columns+1:columns;
         ca = new CambrianExtinctionCA(rows, columns, 0.33);
-		return super.init(space, goal);
+		return super.init(space);
 	}
     
 }

@@ -4,9 +4,8 @@
  */
 package unalcol.evolution.es;
 
-import unalcol.search.population.Population;
+import unalcol.Tagged;
 import unalcol.search.selection.Selection;
-import unalcol.search.solution.Solution;
 
 /**
  *
@@ -22,11 +21,11 @@ public class PlusReplacement<T> extends ESReplacement<T> {
     }
     
     @Override
-    public Population<T> pool(Population<T> current, Population<T> next){
+    public Tagged<T>[] pool(Tagged<T>[] current, Tagged<T>[] next){
     	@SuppressWarnings("unchecked")
-		Solution<T>[] ns = (Solution<T>[])new Solution[current.size()+next.size()];
-    	System.arraycopy(current.object(), 0, ns, 0, current.size());
-    	System.arraycopy(next.object(), current.size(), ns, current.size(), next.size());
-        return new Population<T>(ns);
+		Tagged<T>[] ns = (Tagged<T>[])new Tagged[current.length+next.length];
+    	System.arraycopy(current, 0, ns, 0, current.length);
+    	System.arraycopy(next, 0, ns, current.length, next.length);
+        return ns;
     }    
 }

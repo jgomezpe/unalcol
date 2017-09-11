@@ -16,8 +16,9 @@ public class CAHaeaStepDescriptor<T> extends HaeaStepDescriptors<T>{
      * @param tr CAHAEA Strategy object to be described
      */
 	@Override
-    public double[] descriptors(HaeaStep<T> step) {
-        double[] d = super.descriptors(step);
+    public double[] descriptors() {
+		HaeaStep<T> step = caller();
+        double[] d = super.descriptors();
         if( step instanceof CellularHaeaStep ){
         	CellularHaeaStep<T> ca_step = (CellularHaeaStep<T>)step;
             int s;

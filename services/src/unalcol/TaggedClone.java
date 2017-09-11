@@ -5,6 +5,8 @@ import unalcol.clone.CloneWrapper;
 import unalcol.instance.Instance;
 import unalcol.instance.InstanceWrapper;
 import unalcol.services.MicroService;
+import unalcol.types.collection.keymap.HTKeyMap;
+import unalcol.types.collection.keymap.KeyValue;
 import unalcol.Tagged;
 
 //
@@ -60,24 +62,28 @@ public class TaggedClone<T> extends MicroService<Tagged<T>> implements Clone<Tag
 	 */
 	protected boolean cloneObject;
 	
-	/**
-	 * If the copy must be strict or not (copying all tags or just the TaggedMethods)
-	 */
-	protected boolean copyAllTags;
-	
 	protected static final String cloner = "cloner";
 	protected static final String instancer = "instancer";
-	protected CloneWrapper<T> tCloner = new CloneWrapper<T>();
+	/**
+	 * Tags that will not be copied
+	 */	
+	protected HTKeyMap<Object,Object> noClonedTags = new HTKeyMap<Object,Object>();
 	
 	/**
 	 * Creates a clone method for TaggedObjects. Clones tags, methods, and object if defined 
 	 * @param cloneObject If the object that is tagged should be copied or a shallow clone is enough
-     * @param copyAllTags Defines if all tags are copied (<i>true</i>) or just the TaggedMethods (<i>false</i>)
 	 */
-	public TaggedClone( boolean cloneObject, boolean copyAllTags ){
+	public TaggedClone( boolean cloneObject ){
 		this.cloneObject = cloneObject;
-		this.copyAllTags = copyAllTags;
 		setMicroService(cloner, new CloneWrapper<T>());
+	}
+	
+	public void nonCloneTag( Object tag ){
+		noClonedTags.put(tag, tag);
+	}
+
+	public void cloneTag( Object tag ){
+		noClonedTags.remove(tag);
 	}
 
 	public MicroService<?> wrap(String id){
@@ -102,7 +108,8 @@ public class TaggedClone<T> extends MicroService<Tagged<T>> implements Clone<Tag
 		}
 		Instance<Tagged<T>> instance = (Instance<Tagged<T>>)getMicroService(instancer);
 		instance.setCaller((Class<Tagged<T>>)obj.getClass());
-		Tagged<T> nObj = instance.create(tObj, obj);
+		Tagged<T> nObj = instance.create(tObj);
+		for(KeyValue<Object, Object> kv:obj) if(noClonedTags.get(kv.key())==null) nObj.add(kv);
 		return nObj;
 	}
 }

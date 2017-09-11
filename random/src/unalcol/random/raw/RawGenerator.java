@@ -1,6 +1,7 @@
 package unalcol.random.raw;
 
 import unalcol.services.AbstractMicroService;
+import unalcol.services.Service;
 
 // Unified Random generation Pack 1.0 by Jonatan Gomez-Perdomo
 // https://github.com/jgomezpe/unalcol/tree/master/random/
@@ -131,5 +132,9 @@ public interface RawGenerator extends AbstractMicroService<Object>{
 		}
 		
 		throw new Exception("Undefined service "+service);		
+	}
+	
+	public static double next(Object caller){
+		try{ return (double)Service.run(name, caller); }catch(Exception e){ return Math.random(); }
 	}
 }

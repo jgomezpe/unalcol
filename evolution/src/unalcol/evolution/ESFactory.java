@@ -1,11 +1,11 @@
 package unalcol.evolution;
 
+import unalcol.Tagged;
 import unalcol.algorithm.iterative.ForLoopCondition;
 import unalcol.evolution.es.ESReplacement;
 import unalcol.evolution.es.ESStep;
 import unalcol.math.logic.Predicate;
 import unalcol.search.population.IterativePopulationSearch;
-import unalcol.search.population.Population;
 import unalcol.search.population.PopulationSearch;
 import unalcol.search.space.Space;
 import unalcol.search.variation.Variation_1_1;
@@ -14,7 +14,7 @@ import unalcol.search.variation.Variation_n_1;
 public class ESFactory<T,P> {
 	//Evolutionary Strategy factory
 	public PopulationSearch<T,Double> evolutionarystrategy( 
-			ESStep<T,P> step, Predicate<Population<T>> tC ){
+			ESStep<T,P> step, Predicate<Tagged<T>[]> tC ){
 		return new IterativePopulationSearch<T,Double>( step, tC );
 	}
 

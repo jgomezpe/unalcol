@@ -1,11 +1,11 @@
 package unalcol.evolution.ga;
 
 import unalcol.search.population.PopulationReplacement;
-import unalcol.search.solution.Solution;
 import unalcol.sort.Order;
-import unalcol.search.Goal;
+import unalcol.search.GoalBased;
 import unalcol.search.RealQualityGoal;
-import unalcol.search.population.Population;
+import unalcol.Tagged;
+import unalcol.Thing;
 import unalcol.math.metric.QuasiMetric;
 
 /**
@@ -18,7 +18,7 @@ import unalcol.math.metric.QuasiMetric;
  *
  */
 
-public class DeterministicCrowding<T> implements PopulationReplacement<T>{
+public class DeterministicCrowding<T> extends Thing implements GoalBased<T,Double>, PopulationReplacement<T>{
 	/**
 	 * Distance between individuals
 	 **/
@@ -36,31 +36,30 @@ public class DeterministicCrowding<T> implements PopulationReplacement<T>{
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public Population<T> apply(Population<T> current, Population<T> next){
-		String gName = Goal.class.getName();
-		RealQualityGoal<T> goal = (RealQualityGoal<T>)current.data(gName);
+	public Tagged<T>[] apply(Tagged<T>[] current, Tagged<T>[] next){
+		RealQualityGoal<T> goal = (RealQualityGoal<T>)goal();
 		Order<Double> order = goal.order();
-		Solution<T>[] buffer = new Solution[current.size()];
-		for( int i=0; i<current.size(); i+=2 ){
-			Solution<T> P1, P2, C1, C2;
-			P1 = current.get(i);
-			P2 = current.get(i+1);
-			C1 = next.get(i);
-			C2 = next.get(i+1);
-			if( metric.apply(P1.object(), C1.object()) + metric.apply(P2.object(), C2.object()) <=	
-				metric.apply(P1.object(), C2.object()) + metric.apply(P2.object(), C1.object())) {
-				Solution<T> t = C1;
+		Tagged<T>[] buffer = (Tagged<T>[])new Tagged[current.length];
+		for( int i=0; i<current.length; i+=2 ){
+			Tagged<T> P1, P2, C1, C2;
+			P1 = current[i];
+			P2 = current[i+1];
+			C1 = next[i];
+			C2 = next[i+1];
+			if( metric.apply(P1.unwrap(), C1.unwrap()) + metric.apply(P2.unwrap(), C2.unwrap()) <=	
+				metric.apply(P1.unwrap(), C2.unwrap()) + metric.apply(P2.unwrap(), C1.unwrap())) {
+				Tagged<T> t = C1;
 				C1 = C2;
 				C2 = t;
 			}
-			if( order.compare((Double)C1.info(gName), (Double)P1.info(gName)) < 0 )
+			if( order.compare(goal.apply(C1), goal.apply(P1)) < 0 )
 				C1 = P1;
-			if( order.compare((Double)C2.info(gName), (Double)P2.info(gName)) < 0  )
+			if( order.compare(goal.apply(C2), goal.apply(P2)) < 0  )
 				C2 = P2;
 			
 			buffer[i] = C1;
 			buffer[i+1] = C2;
 		}
-		return new Population<T>(buffer);
+		return buffer;
 	}
 }
