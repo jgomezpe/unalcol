@@ -29,15 +29,15 @@ public class IterativePopulationSearch<T,R> extends Thing implements PopulationS
 	@Override 
 	public Goal<T,R> goal(){ return step.goal(); }
         
-    @Override
-    public Tagged<T>[] apply( Tagged<T>[] pop, Space<T> space){
-    	Tracer.trace(this, pop, step);
-        while( terminationCondition.evaluate(pop) ){
-            pop = step.apply(pop, space);
-        	Tracer.trace(this, pop, step);
-        }
-        return pop;
-    }
+	@Override
+	public Tagged<T>[] apply( Tagged<T>[] pop, Space<T> space){
+		Tracer.trace(this, pop, step);
+		while( terminationCondition.evaluate(pop) ){
+			pop = step.apply(pop, space);
+        		Tracer.trace(this, pop, step);
+		}
+    		return pop;
+	}
 
 	@Override
 	public Tagged<T> pick(Tagged<T>[] pop) {

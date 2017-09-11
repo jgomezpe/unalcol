@@ -11,12 +11,19 @@ import unalcol.optimization.real.xover.LinearXOver;
 import unalcol.optimization.real.xover.RealArityTwo;
 import unalcol.search.multilevel.CodeDecodeMap;
 import unalcol.search.multilevel.MultiLevelSearch;
+import unalcol.search.population.PopulationDescriptors;
 import unalcol.search.population.PopulationSearch;
 import unalcol.search.selection.Tournament;
 import unalcol.search.space.Space;
+import unalcol.services.Service;
+import unalcol.services.ServicePool;
 import unalcol.types.collection.bitarray.BitArray;
 
 public class GATest {
+	public static void population_service(){
+		ServicePool service = (ServicePool)Service.get();
+		service.register(new PopulationDescriptors<>(), Tagged[].class);
+	}
 	
 	public static void real(){
 		// Search space
