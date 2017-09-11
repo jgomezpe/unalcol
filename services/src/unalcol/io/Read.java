@@ -79,9 +79,9 @@ public interface Read<T> extends AbstractMicroService<T>{
 	// The MicroService methods
 
 	public static final String name="read";
-	
+
 	public default Object run( Object... args ) throws IOException{ return read((ShortTermMemoryReader)args[0]); }    
-	
+
 	public default String[] provides(){ return new String[]{name}; }	
 
 	public static Object from( Object obj, ShortTermMemoryReader reader ){

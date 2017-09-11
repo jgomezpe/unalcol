@@ -59,7 +59,7 @@ public interface Descriptors<T> extends AbstractMicroService<T>{
 	 * @return An array of double values used for describing the object.
 	 */
 	public double[] descriptors();
-    
+
 	// The MicroService methods
 
 	public default Object run( Object... args ) throws Exception{ return descriptors(); }    	
@@ -68,9 +68,9 @@ public interface Descriptors<T> extends AbstractMicroService<T>{
 	 * The method name that can be used for describing an object
 	 */
 	public static final String name="descriptors";	
-	
-	public default String[] provides(){ return new String[]{name}; }		
-	
+
+	public default String[] provides(){ return new String[]{name}; }	
+
 	public static Object create( Object obj ){
 		try{ return Service.run(name, obj); }catch(Exception e){ return null; }
 	}	

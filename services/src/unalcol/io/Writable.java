@@ -56,10 +56,10 @@ import java.io.Writer;
 * @version 1.0
 */
 public interface Writable {
-    /**
-     * Writes the object to a writer (The object should has a write method)
-     * @param writer The writer object
-     * @throws IOException IOException
-     */
-    public void write(Writer writer) throws IOException;
+	/**
+	 * Writes the object to a writer (The object should has a write method)
+	 * @param writer The writer object
+	 * @throws IOException IOException
+	 */
+	public void write(Writer writer) throws IOException;
 }

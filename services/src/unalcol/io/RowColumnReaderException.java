@@ -55,41 +55,41 @@ import java.io.IOException;
 * @version 1.0
 */
 public class RowColumnReaderException extends IOException{
-    /**
-     * Serial information
-     */
-    private static final long serialVersionUID = -4896269613684585270L;
-    
-    /**
-     * Row information of the cursor when the exception was thrown.
-     */
-    protected int row = 0;
-    /**
-     * Column information of the cursor when the exception was thrown.
-     */
-    protected int column = 0;
-    
-    /**
-     * Creates an Exception with the associated message for the row and column cursor position
-     * @param row Row information of the cursor when the exception was thrown.
-     * @param column Column information of the cursor when the exception was thrown.
-     * @param message Message associated to the exception.
-     */
-    public RowColumnReaderException( int row, int column, String message ){
-	super(message);
-	this.row = row;
-	this.column = column;
-    }
+	/**
+	 * Serial information
+	 */
+	private static final long serialVersionUID = -4896269613684585270L;
 
-    /**
-     * Returns the row information of the cursor when the exception was thrown.
-     * @return the row information of the cursor when the exception was thrown.
-     */
-    public int getRow(){ return row; }
+	/**
+	 * Row information of the cursor when the exception was thrown.
+	 */
+	protected int row = 0;
+	/**
+	 * Column information of the cursor when the exception was thrown.
+	 */
+	protected int column = 0;
 
-    /**
-     * Returns the column information of the cursor when the exception was thrown.
-     * @return the column information of the cursor when the exception was thrown.
-     */    
-    public int getColumn(){ return column; }
+	/**
+	 * Creates an Exception with the associated message for the row and column cursor position
+	 * @param row Row information of the cursor when the exception was thrown.
+	 * @param column Column information of the cursor when the exception was thrown.
+	 * @param message Message associated to the exception.
+	 */
+	public RowColumnReaderException( int row, int column, String message ){
+		super(message);
+		this.row = row;
+		this.column = column;
+	}
+
+	/**
+	 * Returns the row information of the cursor when the exception was thrown.
+	 * @return the row information of the cursor when the exception was thrown.
+	 */
+	public int getRow(){ return row; }
+
+	/**
+	 * Returns the column information of the cursor when the exception was thrown.
+	 * @return the column information of the cursor when the exception was thrown.
+	 */    
+	public int getColumn(){ return column; }
 }

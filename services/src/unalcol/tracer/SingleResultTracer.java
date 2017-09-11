@@ -51,40 +51,40 @@ import unalcol.services.MicroService;
 * @version 1.0
 */
 public class SingleResultTracer<T> extends MicroService<T> implements Tracer<T> {
-    /**
-     * Traced information
-     */
-    private Object object = null;
+	/**
+	 * Traced information
+	 */
+	private Object object = null;
 
-    /**
-     * Creates a new SingleResultTracer
-     */
-    public SingleResultTracer(){}
+	/**
+	 * Creates a new SingleResultTracer
+	 */
+	public SingleResultTracer(){}
 
-    /**
-     * Replaces the traced information with a new one
-     * @param obj Traced information
-     */
-    public void add(Object... obj){ object = obj; }
+	/**
+	 * Replaces the traced information with a new one
+	 * @param obj Traced information
+	 */
+	public void add(Object... obj){ object = obj; }
 
-    /**
-     * Returns the traced information
-     * @return A single object representing the traced information
-     */
-    public Object get(){ return object; }
+	/**
+	 * Returns the traced information
+	 * @return A single object representing the traced information
+	 */
+	public Object get(){ return object; }
 
-    /**
-     * Cleans the traced information
-     */
-    public void clean(){ object = null; }
+	/**
+	 * Cleans the traced information
+	 */
+	public void clean(){ object = null; }
 
-    /**
-     * Closes the tracer (does nothing)
-     */
-    public void close() {};
-    
+	/**
+	 * Closes the tracer (does nothing)
+	 */
+	public void close() {};
+
 	protected boolean isTracing=false;
-	
+
 	@Override
 	public boolean tracing() { return isTracing; }
 

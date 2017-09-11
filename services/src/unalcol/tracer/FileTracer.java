@@ -52,81 +52,63 @@ import java.io.IOException;
 * @version 1.0
 */
 public class FileTracer<T> extends OutputStreamTracer<T> {
-    /**
-     * File that is associated to the tracer
-     */
-    protected FileWriter file;
-    /**
-     * File Name
-     */
-    protected String fileName;
+	/**
+	 * File that is associated to the tracer
+	 */
+	protected FileWriter file;
+	/**
+	 * File Name
+	 */
+	protected String fileName;
 
-    /**
-     * Creates a file tracer
-     * @param fileName File Name
-     */
-    public FileTracer(String fileName) {
-        try {
-            file = new FileWriter(fileName);
-        } catch (IOException e) {
+	/**
+	 * Creates a file tracer
+	 * @param fileName File Name
+	 */
+	public FileTracer(String fileName) {
+		try { file = new FileWriter(fileName); } catch (IOException e) {
             // @TODO I have to check the tracer architecture as plugins
             //e.printStackTrace();
-        }
-    }
+		}
+	}
 
-    /**
-     * Creates a file tracer
-     * @param fileName File Name
-     * @param SEPARATOR Character used for separating traced values.
-     */
-    public FileTracer(String fileName, char SEPARATOR) {
-    	this( fileName );
-    	this.SEPARATOR = SEPARATOR;
-    }
+	/**
+	 * Creates a file tracer
+	 * @param fileName File Name
+	 * @param SEPARATOR Character used for separating traced values.
+	 */
+	public FileTracer(String fileName, char SEPARATOR) {
+		this( fileName );
+		this.SEPARATOR = SEPARATOR;
+	}
 
-    /**
-     * Creates a file tracer
-     * @param fileName File Name
-     * @param SEPARATOR Character used for separating traced values.
-     * @param addNewline used for determining if a new line symbol is added after tracing an object or not
-     */
-    public FileTracer(String fileName, char SEPARATOR, boolean addNewline) {
-    	this( fileName, SEPARATOR );
-    	this.addNewLine = addNewline;
-    }
+	/**
+	 * Creates a file tracer
+	 * @param fileName File Name
+	 * @param SEPARATOR Character used for separating traced values.
+	 * @param addNewline used for determining if a new line symbol is added after tracing an object or not
+	 */
+	public FileTracer(String fileName, char SEPARATOR, boolean addNewline) {
+		this( fileName, SEPARATOR );
+		this.addNewLine = addNewline;
+	}
 
-    /**
-     * Shows the traced information sent by the source into the file
-     * @param str Traced information to be shown in the file
-     */
-    public void write(String str) {
-        try {
-            file.write(str);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
+	/**
+	 * Shows the traced information sent by the source into the file
+	 * @param str Traced information to be shown in the file
+	 */
+	public void write(String str) {try { file.write(str); } catch (IOException e) { e.printStackTrace(); } }
 
-    /**
-     * Closes the associated file
-     */
-    public void close() {
-        try {
-            file.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
+	/**
+	 * Closes the associated file
+	 */
+	public void close(){ try{	file.close(); } catch (IOException e) { e.printStackTrace(); } }
 
-    /**
-     * Cleans the traced information
-     */
-    public void clean() {
-        close();
-        try {
-            file = new FileWriter(fileName);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
+	/**
+	 * Cleans the traced information
+	 */
+	public void clean() {
+		close();
+		try { file = new FileWriter(fileName); } catch (IOException e) { e.printStackTrace(); }
+	}
 }

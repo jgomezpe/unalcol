@@ -51,25 +51,22 @@ import unalcol.services.MicroService;
 * @version 1.0
 */
 public class DefaultWrite extends MicroService<Object> implements Write<Object> {  
-    /**
-     * Writes an object to the given writer (The object should has a write method)
-     * @param obj Object to write
-     * @param writer The writer object
-     * @throws IOException IOException
-     */
-    @Override
-    public void write(Writer writer) throws IOException {
-	Object obj = caller();
-        try {
-           	if( obj instanceof Double || obj instanceof Long || obj instanceof Integer ||
-            	obj instanceof Character || obj instanceof String ){ 
-           		writer.write(obj.toString());
-           		return;
-           	}
-            Method m = obj.getClass().getMethod(Write.name, new Class[] {Writer.class});
-            m.invoke(obj, new Object[] {writer});
-        } catch (Exception e) {
-            throw new IOException(e.getMessage());
-        }
-    }
+	/**
+	 * Writes an object to the given writer (The object should has a write method)
+	 * @param obj Object to write
+	 * @param writer The writer object
+	 * @throws IOException IOException
+	 */
+	@Override
+	public void write(Writer writer) throws IOException {
+		Object obj = caller();
+		try {
+			if( obj instanceof Double || obj instanceof Long || obj instanceof Integer || obj instanceof Character || obj instanceof String ){ 
+				writer.write(obj.toString());
+				return;
+			}
+			Method m = obj.getClass().getMethod(Write.name, new Class[] {Writer.class});
+			m.invoke(obj, new Object[] {writer});
+		} catch (Exception e) { throw new IOException(e.getMessage()); }
+	}
 }

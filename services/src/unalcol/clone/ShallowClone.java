@@ -50,10 +50,10 @@ import unalcol.services.MicroService;
 * @version 1.0
 */
 public class ShallowClone<T> extends MicroService<T> implements Clone<T> {
-    /**
-     * Returns the same object (shallow copy)
-     * @param obj Object to be cloned (shallow)
-     * @return A Clone (the same object) of the object
-     */
+	/**
+	 * Returns the same object (shallow copy)
+	 * @param obj Object to be cloned (shallow)
+	 * @return A Clone (the same object) of the object
+	 */
 	public T clone(){ return caller(); }	
 }

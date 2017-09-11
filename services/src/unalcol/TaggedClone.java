@@ -61,14 +61,14 @@ public class TaggedClone<T> extends MicroService<Tagged<T>> implements Clone<Tag
 	 * If the object that is tagged should be copied or a shallow clone is enough
 	 */
 	protected boolean cloneObject;
-	
+
 	protected static final String cloner = "cloner";
 	protected static final String instancer = "instancer";
 	/**
 	 * Tags that will not be copied
 	 */	
 	protected HTKeyMap<Object,Object> noClonedTags = new HTKeyMap<Object,Object>();
-	
+
 	/**
 	 * Creates a clone method for TaggedObjects. Clones tags, methods, and object if defined 
 	 * @param cloneObject If the object that is tagged should be copied or a shallow clone is enough
@@ -77,7 +77,7 @@ public class TaggedClone<T> extends MicroService<Tagged<T>> implements Clone<Tag
 		this.cloneObject = cloneObject;
 		setMicroService(cloner, new CloneWrapper<T>());
 	}
-	
+
 	public void nonCloneTag( Object tag ){
 		noClonedTags.put(tag, tag);
 	}
@@ -91,7 +91,7 @@ public class TaggedClone<T> extends MicroService<Tagged<T>> implements Clone<Tag
 		if( id.equals(instancer) ) return new InstanceWrapper<Tagged<T>>();
 		return null;
 	}
-	
+
 	/**
 	 * Creates a clone of the TaggedObject (including just the TaggedMethods).
 	 * @param obj TaggedObject to be  non-strictly copied. 

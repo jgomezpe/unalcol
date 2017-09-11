@@ -57,10 +57,10 @@ import java.lang.reflect.Array;
 */
 public class DefaultClone extends MicroService<Object> implements Clone<Object> {
 	/**
-     * Creates a clone (non shallow copy) of a Java primitive types array 
-     * @param obj Array of a primitive type values to be cloned 
-     * @return A clone of the array (non shallow copy)
-     */
+	 * Creates a clone (non shallow copy) of a Java primitive types array 
+	 * @param obj Array of a primitive type values to be cloned 
+	 * @return A clone of the array (non shallow copy)
+	 */
 	protected Object clonePrimitiveArray( Object obj ){
 		if( obj instanceof int[] ) return ((int[])obj).clone();
 		if( obj instanceof double[] ) return ((double[])obj).clone();
@@ -71,13 +71,13 @@ public class DefaultClone extends MicroService<Object> implements Clone<Object> 
 		if( obj instanceof float[] ) return ((float[])obj).clone(); 
 		return ((boolean[])obj).clone();
 	}
-    
+
 	/**
-     * Creates a clone of an array. 
-     * It uses the clone service defined for each object in the array.
-     * @param obj Array to be cloned 
-     * @return A clone of the array
-     */
+	 * Creates a clone of an array. 
+	 * It uses the clone service defined for each object in the array.
+	 * @param obj Array to be cloned 
+	 * @return A clone of the array
+	 */
 	protected Object cloneArray( Object obj ){
 		Class<?> cl = obj.getClass().getComponentType();
 		if( cl.isPrimitive() ) return clonePrimitiveArray(obj);
@@ -90,24 +90,21 @@ public class DefaultClone extends MicroService<Object> implements Clone<Object> 
 		}
 		return clone;	
 	}
-    
+
 	/**
-     * Creates a clone of the given object if a clone method is provided by the object
-     * @param obj Object from which the Clone service will be retrieved
-     * @return A Clone of the object  if a clone method is provided by the object
-     * <i>null</i> otherwise
-     */
+	 * Creates a clone of the given object if a clone method is provided by the object
+	 * @param obj Object from which the Clone service will be retrieved
+	 * @return A Clone of the object  if a clone method is provided by the object
+	 * <i>null</i> otherwise
+	 */
 	@Override
 	public Object clone(){
 		Object obj = caller();
 		if( obj instanceof String ) return ""+obj;
-		
-		if( obj instanceof Double || obj instanceof Integer || 
-			 obj instanceof Character || obj instanceof Long )
-            return obj;
+
+		if( obj instanceof Double || obj instanceof Integer ||  obj instanceof Character || obj instanceof Long ) return obj;
         
 		if( obj.getClass().isArray() ) return cloneArray(obj);
-
 		
 		try{
 			Method m = obj.getClass().getMethod(Clone.name) ;

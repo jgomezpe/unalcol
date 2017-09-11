@@ -56,31 +56,31 @@ import unalcol.services.Service;
 * @version 1.0
 */
 public interface Write<T> extends AbstractMicroService<T>{
-    /**
-     * Writes an object to the given writer
-     * @param obj Object to write
-     * @param writer The writer object
-     * @throws IOException IOException
-     */
-    public void write(Writer writer) throws IOException;
+	/**
+	 * Writes an object to the given writer
+	 * @param obj Object to write
+	 * @param writer The writer object
+	 * @throws IOException IOException
+	 */
+	public void write(Writer writer) throws IOException;
     
-    /**
-     * Gets the persistent version of an object in String version. The Class which the
-     * object belongs to should have associated a ClassPersistence object in the
-     * Persistence class
-     * @param obj Object that will be stored in an string
-     * @return String containing the persistent version of the object
-     */
-    public static String toString(Object obj) {
-        try {
-            StringWriter sw = new StringWriter();
-            Service.run(Write.name, obj, sw);
-            sw.close();
-            return sw.toString();
-        } catch (Exception e) {}
-        return obj.toString();
-    }
-    
+	/**
+	 * Gets the persistent version of an object in String version. The Class which the
+	 * object belongs to should have associated a ClassPersistence object in the
+	 * Persistence class
+	 * @param obj Object that will be stored in an string
+	 * @return String containing the persistent version of the object
+	 */
+	public static String toString(Object obj) {
+		try {
+			StringWriter sw = new StringWriter();
+			Service.run(Write.name, obj, sw);
+			sw.close();
+			return sw.toString();
+		} catch (Exception e) {}
+		return obj.toString();
+	}
+
 	public static final String name="write";
 
 	public default Object run( Object... args ) throws Exception{ 

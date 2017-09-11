@@ -49,67 +49,56 @@ package unalcol.tracer;
 * @version 1.0
 */
 public class ConsoleTracer<T> extends OutputStreamTracer<T> {
-    /**
-     * Determines if a new line symbol is added after tracing an object
-     */
-    protected boolean addNewLine = true;
+	/**
+	 * Determines if a new line symbol is added after tracing an object
+	 */
+	protected boolean addNewLine = true;
 
-    /**
-     * Determines if a new line symbol is added after tracing an object
-     */
-    protected char SEPARATOR = ' ';
+	/**
+	 * Determines if a new line symbol is added after tracing an object
+	 */
+	protected char SEPARATOR = ' ';
+
+	/**
+	 * Creates a console tracer (writes a data object per line
+	 */
+	public ConsoleTracer() { super(); }
+
+	/**
+	 * Creates a console tracer
+	 * @param SEPARATOR Symbol used for separating objects
+	 */
+	public ConsoleTracer( char SEPARATOR ){ super(SEPARATOR ); }
+
+	/**
+	 * Creates a console tracer
+	 * @param addNewLine Determines if a new line symbol is added after tracing an object
+	 */
+	public ConsoleTracer( boolean addNewLine ) { super( addNewLine ); }
+
+	/**
+	 * Creates a console tracer
+	 * @param SEPARATOR Character used for separating traced values.
+	 * @param addNewLine Determines if a new line symbol is added after tracing an object
+	 */
+	public ConsoleTracer( char SEPARATOR, boolean addNewLine ) { super( SEPARATOR, addNewLine ); }
+
+	/**
+	 * Shows the traced information sent by the source into the console
+	 * @param str Traced information to be shown in the console
+	 */
+	@Override
+	public void write(String str) { System.out.print(str); }
+
+	/**
+	 * Cleans the traced information
+	 */
+	@Override
+	public void clean() {}
     
-    /**
-     * Creates a console tracer (writes a data object per line
-     */
-    public ConsoleTracer() {
-    	super();
-    }
-
-    /**
-     * Creates a console tracer
-     * @param SEPARATOR Symbol used for separating objects
-     */
-    public ConsoleTracer( char SEPARATOR ) {
-    	super(SEPARATOR );        
-    }
-
-    /**
-     * Creates a console tracer
-     * @param addNewLine Determines if a new line symbol is added after tracing an object
-     */
-    public ConsoleTracer( boolean addNewLine ) {
-    	super( addNewLine );        
-    }
-
-    /**
-     * Creates a console tracer
-     * @param SEPARATOR Character used for separating traced values.
-     * @param addNewLine Determines if a new line symbol is added after tracing an object
-     */
-    public ConsoleTracer( char SEPARATOR, boolean addNewLine ) {
-    	super( SEPARATOR, addNewLine );        
-    }
-
-    /**
-     * Shows the traced information sent by the source into the console
-    * @param str Traced information to be shown in the console
-     */
-    @Override
-    public void write(String str) {
-   		System.out.print(str);
-    }
-
-    /**
-     * Cleans the traced information
-     */
-    @Override
-    public void clean() {}
-    
-    /**
-     * Closes the console (does nothing)
-     */
-    @Override
-    public void close(){}
-
+	/**
+	 * Closes the console (does nothing)
+	 */
+	@Override
+	public void close(){}
 }

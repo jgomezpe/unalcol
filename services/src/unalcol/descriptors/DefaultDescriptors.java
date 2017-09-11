@@ -56,10 +56,10 @@ import unalcol.services.MicroService;
 */
 public class DefaultDescriptors extends MicroService<Object> implements Descriptors<Object> {
 	/**
-     * Creates a descriptors array of a boolean, byte, short, int, long, float, or double array 
-     * @param obj Array of a primitive type values to be described 
-     * @return A clone of the array (non shallow copy)
-     */
+	 * Creates a descriptors array of a boolean, byte, short, int, long, float, or double array 
+	 * @param obj Array of a primitive type values to be described 
+	 * @return A clone of the array (non shallow copy)
+	 */
 	protected double[] descriptorsPrimitiveArray( Object obj ){
 		if( obj instanceof double[] ) return ((double[])obj).clone();
 
@@ -69,42 +69,42 @@ public class DefaultDescriptors extends MicroService<Object> implements Descript
 			for( int i=0; i<d.length; i++) d[i] = x[i];
 			return d;
 		}
-		
+
 		if( obj instanceof char[] ){
 			char[] x = (char[])obj;
 			double[] d = new double[x.length];
 			for( int i=0; i<d.length; i++) d[i] = x[i];
 			return d;
 		}
-		
+	
 		if( obj instanceof byte[] ){
 			byte[] x = (byte[])obj;
 			double[] d = new double[x.length];
 			for( int i=0; i<d.length; i++) d[i] = x[i];
 			return d;
 		}
-		
+	
 		if( obj instanceof long[] ){
 			long[] x = (long[])obj;
 			double[] d = new double[x.length];
 			for( int i=0; i<d.length; i++) d[i] = x[i];
 			return d;
 		}
-        
+
 		if( obj instanceof short[] ){
 			short[] x = (short[])obj;
 			double[] d = new double[x.length];
 			for( int i=0; i<d.length; i++) d[i] = x[i];
 			return d;
 		}
-        
+
 		if( obj instanceof float[] ){
 			float[] x = (float[])obj;
 			double[] d = new double[x.length];
 			for( int i=0; i<d.length; i++) d[i] = x[i];
 			return d;
 		}
-        
+
 		if( obj instanceof boolean[] ){
 			boolean[] x = (boolean[])obj;
 			double[] d = new double[x.length];
@@ -113,7 +113,7 @@ public class DefaultDescriptors extends MicroService<Object> implements Descript
 		}
 		return null;
 	}
-    	
+
 	/**
 	 * Creates a descriptors array for an array of objects. 
 	 * @param obj Array of objects to be described.
@@ -137,7 +137,7 @@ public class DefaultDescriptors extends MicroService<Object> implements Descript
 		}
 		return d;
 	}
-    
+
 	/**
 	 * Obtains the descriptors of an object
 	 * @param obj Object to be analyzed

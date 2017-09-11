@@ -56,12 +56,12 @@ import unalcol.services.MicroService;
 * @version 1.0
 */
 public class WriteDescriptors<T> extends MicroService<T> implements Write<T>{
-   /**
-     * Writes an object to the given <i>writer</i>.
-     * @param obj Object to write
-     * @param writer The writer object
-     * @throws Exception An IOException
-     */
+	/**
+	 * Writes an object to the given <i>writer</i>.
+	 * @param obj Object to write
+	 * @param writer The writer object
+	 * @throws Exception An IOException
+	 */
 	@Override
 	public void write(Writer writer) throws IOException {
 		try{ Service.run(Write.name,Service.run(Descriptors.name,caller()), writer); }

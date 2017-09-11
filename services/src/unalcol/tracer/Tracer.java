@@ -52,42 +52,41 @@ import unalcol.services.Service;
 * @version 1.0
 */
 public interface Tracer<T> extends AbstractMicroService<T>{
-	
-    public boolean tracing();
+	public boolean tracing();
 
-    /**
-     * Starts the tracing of objects process
-     * @return <i>true</i> if the Tracer was tracing objects, <i>false</i>otherwise.
-     */
-    public boolean start();
+	/**
+	 * Starts the tracing of objects process
+	 * @return <i>true</i> if the Tracer was tracing objects, <i>false</i>otherwise.
+	 */
+	public boolean start();
 
-    /**
-     * Stops the tracing of objects process
-     * @return <i>true</i> if the Tracer was tracing objects, <i>false</i>otherwise.
-     */
-    public boolean stop();
+	/**
+	 * Stops the tracing of objects process
+	 * @return <i>true</i> if the Tracer was tracing objects, <i>false</i>otherwise.
+	 */
+	public boolean stop();
 
-    /**
-     * Adds an object sent by an object to the tracer
-     * @param obj Traced information to be added
-     */
-    public void add(Object... obj);
+	/**
+	 * Adds an object sent by an object to the tracer
+	 * @param obj Traced information to be added
+	 */
+	public void add(Object... obj);
 
-    /**
-     * Returns the traced object
-     * @return An object representing the traced information
-     */
-    public Object get();
+	/**
+	 * Returns the traced object
+	 * @return An object representing the traced information
+	 */
+	public Object get();
 
-    /**
-     * Cleans the traced information
-     */
-    public void clean();
+	/**
+	 * Cleans the traced information
+	 */
+	public void clean();
 
-    /**
-     * Closes the tracer
-     */
-    public void close();
+	/**
+	 * Closes the tracer
+	 */
+	public void close();
 
 	// The MicroService methods
 	public static final String name="trace";
@@ -97,7 +96,7 @@ public interface Tracer<T> extends AbstractMicroService<T>{
 	public static final String stop=name+".stop"; 
 	public static final String get=name+".get"; 
 	public static final String close=name+".close";
-	
+
 	public static final String[] methods = new String[]{Tracer.name,Tracer.tracing,Tracer.start,Tracer.stop,Tracer.get,Tracer.close,Tracer.clean}; 
 
 	@Override
@@ -113,21 +112,20 @@ public interface Tracer<T> extends AbstractMicroService<T>{
 			add(args);
 			return null;
 		}
-		
+
 		if(service.equals(get)){ return get(); }
 
 		if(service.equals(clean)){
 			this.clean();
 			return null;
 		}
-		
+
 		if(service.equals(tracing)){ return this.tracing(); }
-		
+
 		if(service.equals(start)){ return this.start(); }
-		
+
 		if(service.equals(stop)){ return this.stop(); } 
-		
-		
+
 		if(service.equals(close)){
 			close();
 			return null;
@@ -139,5 +137,4 @@ public interface Tracer<T> extends AbstractMicroService<T>{
 	public static void trace( Object obj, Object...  args ){
 		try{ Service.run(name, obj, args); }catch(Exception e){}
 	}
-	
 }
