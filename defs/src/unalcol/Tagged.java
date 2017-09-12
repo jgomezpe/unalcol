@@ -53,27 +53,27 @@ import unalcol.types.collection.keymap.KeyValue;
 * @version 1.0
 */
 public class Tagged<T> extends Thing{
-    /**
-     * Object that is being tagged.
-     */
-    protected T object;
-	
-    /**
-     * Creates a TaggedObject from the given <i>object</i>.
-     * @param object Object to be tagged.
-     */
-    public Tagged( T object ){ this.object = object; }
+	/**
+	 * Object that is being tagged.
+	 */
+	protected T object;
+
+	/**
+	 * Creates a TaggedObject from the given <i>object</i>.
+	 * @param object Object to be tagged.
+	 */
+	public Tagged( T object ){ this.object = object; }
  
-    /**
-     * Creates a TaggedObject from the given <i>object</i>.
-     * @param object Object to be tagged.
-     * @param tags Set of tags from which the tags (or just the TaggedMethods) will be copied
-     * @param copyAllTags Defines if all tags are copied (<i>true</i>) or just the TaggedMethods (<i>false</i>)
-     */
-    public Tagged( T object, KeyMap<Object, Object> tags ){
-    	this.object = object;
+	/**
+	 * Creates a TaggedObject from the given <i>object</i>.
+	 * @param object Object to be tagged.
+	 * @param tags Set of tags from which the tags (or just the TaggedMethods) will be copied
+	 * @param copyAllTags Defines if all tags are copied (<i>true</i>) or just the TaggedMethods (<i>false</i>)
+	 */
+	public Tagged( T object, KeyMap<Object, Object> tags ){
+		this.object = object;
 		for(KeyValue<Object,Object> k:tags) add(k);
-    }
+	}
  
 	/**
 	 * Sets the object that is being tagged. Removes all the non TaggedMethods associated to this object.
