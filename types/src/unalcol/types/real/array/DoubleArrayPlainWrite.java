@@ -54,27 +54,27 @@ public class DoubleArrayPlainWrite extends MicroService<double[]> implements Wri
     }
 
     
-    /**
-     * Writes an array to the given writer (writes the size and the values) using the associated separator char
-     * @param obj array to write
-     * @param out The writer object
-     * @throws IOException IOException
-     */
-    public void write(Writer out) throws IOException {
-    	double[] obj = caller();
-        StringBuilder sb = new StringBuilder();
-        int n = obj.length;
-        if( write_dimension ){
-            sb.append(n);
-        }
-        if( n > 0 ){
-            if( write_dimension ) sb.append(separator);
-            sb.append(obj[0]);
-        }
-        for (int i = 1; i < n; i++) {
-            sb.append(separator);
-            sb.append(obj[i]);
-        }
-        out.write(sb.toString());
-    }
+	/**
+	 * Writes an array to the given writer (writes the size and the values) using the associated separator char
+	 * @param obj array to write
+	 * @param out The writer object
+	 * @throws IOException IOException
+	 */
+	public void write(Writer out) throws IOException {
+		double[] obj = caller();
+		StringBuilder sb = new StringBuilder();
+		int n = obj.length;
+		if( write_dimension ){
+			sb.append(n);
+		}
+		if( n > 0 ){
+			if( write_dimension ) sb.append(separator);
+			sb.append(obj[0]);
+		}
+		for (int i = 1; i < n; i++) {
+			sb.append(separator);
+			sb.append(obj[i]);
+		}
+		out.write(sb.toString());
+	}
 }

@@ -2,7 +2,7 @@ package unalcol.evolution.ga;
 
 import unalcol.search.population.Generational;
 import unalcol.search.population.PopulationReplacement;
-import unalcol.search.population.RealQualifyPopulationSearch;
+import unalcol.search.population.RealBasedPopulationSearch;
 import unalcol.search.population.TotalSelectionReplacement;
 import unalcol.search.population.VariationReplacePopulationSearch;
 import unalcol.search.variation.Variation_1_1;
@@ -19,7 +19,7 @@ import unalcol.search.selection.Selection;
  * @author Jonatan Gomez
  * @version 1.0
  */
-public class GAStep<T> extends VariationReplacePopulationSearch<T,Double> implements RealQualifyPopulationSearch<T>{
+public class GAStep<T> extends VariationReplacePopulationSearch<T,Double> implements RealBasedPopulationSearch<T>{
 	protected Selection<T> selection;
 	protected GAVariation<T> variation;
 	

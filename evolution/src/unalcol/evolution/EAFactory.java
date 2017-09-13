@@ -98,6 +98,6 @@ public class EAFactory<T> {
 	}
 	
 		public PopulationSearch<T,Double> HAEA_Generational( int mu, HaeaOperators<T> operators, Selection<T> selection, int MAXITERS ){
-		return HAEA( new HaeaStep<T>(mu,selection,operators, false), MAXITERS );
+		return HAEA( new HaeaStep<T>(mu,selection, operators, false), MAXITERS );
 	}	
 }

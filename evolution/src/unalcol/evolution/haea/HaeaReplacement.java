@@ -5,7 +5,7 @@ import unalcol.Tagged;
 import unalcol.TaggedManager;
 import unalcol.Thing;
 import unalcol.search.GoalBased;
-import unalcol.search.RealQualityGoal;
+import unalcol.search.RealValuedGoal;
 
 /**
  * <p>Title: HaeaReplacement</p>
@@ -43,18 +43,18 @@ public class HaeaReplacement<T> extends Thing implements GoalBased<T,Double>, Po
     
     public HaeaOperators<T> operators(){ return operators; }
 
-    /**
-     * Adds a subpopulation of parents and associated offsprings to the replacement strategy.
-     * These method chooses between parents and offspring in order to define the individuals that
-     * will be maintained into the next generation using the HAEA mechanism
-     * @param parents Parents
-     * @param children
-     */
+	/**
+	 * Adds a subpopulation of parents and associated offsprings to the replacement strategy.
+	 * These method chooses between parents and offspring in order to define the individuals that
+	 * will be maintained into the next generation using the HAEA mechanism
+	 * @param parents Parents
+	 * @param children
+	 */
 	@Override
-    public Tagged<T>[] apply( Tagged<T>[] current, Tagged<T>[] next ){
-		RealQualityGoal<T> goal = (RealQualityGoal<T>)goal();
-    	//next.set(gName,goal);
-    	Order<Double> order = goal.order();
+	public Tagged<T>[] apply( Tagged<T>[] current, Tagged<T>[] next ){
+		RealValuedGoal<T> goal = (RealValuedGoal<T>)goal();
+		//next.set(gName,goal);
+		Order<Double> order = goal.order();
         int k=0;
 		@SuppressWarnings("unchecked")
 		Tagged<T>[] buffer = (Tagged<T>[])new Tagged[current.length];

@@ -64,7 +64,7 @@ import unalcol.random.raw.*;
  */
 
 
-public class RanMT<T> extends SeedableGenerator<T>{
+public class RanMT extends SeedableGenerator{
 
     private static final int N = 624;
     private static final int M = 397;

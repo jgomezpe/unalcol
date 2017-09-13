@@ -34,7 +34,7 @@ import unalcol.random.raw.*;
  */
 
 
-public class Ranecu<T> extends SeedableGenerator<T> {
+public class Ranecu extends SeedableGenerator {
 
     /**
      * Partial seed information

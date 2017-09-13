@@ -20,6 +20,7 @@ import unalcol.random.raw.JavaGenerator;
 import unalcol.random.real.RandDouble;
 import unalcol.random.real.SimplestSymmetricPowerLawGenerator;
 import unalcol.search.Search;
+import unalcol.search.population.PopulationDescriptors;
 import unalcol.search.solution.SolutionDescriptors;
 import unalcol.search.solution.SolutionWrite;
 import unalcol.search.space.Space;
@@ -59,7 +60,7 @@ public class MethodTest {
     	return new IntensityMutation( 0.1, random, pick );
 	}
 	
-	public static void real_tracing(OptimizationFunction<double[]> function, Search<double[], Double> search){
+	public static void real_service(OptimizationFunction<double[]> function, Search<double[], Double> search){
         // Tracking the goal evaluations
 		ServicePool service = new ServicePool();
 		service.register(new JavaGenerator(), Object.class);      
@@ -92,7 +93,7 @@ public class MethodTest {
 	}
 	
 	@SuppressWarnings("rawtypes")
-	public static void binary_tracing( OptimizationFunction<BitArray> function, 
+	public static void binary_service( OptimizationFunction<BitArray> function, 
 			Search<BitArray,Double> search){ 
         // Tracking the goal evaluations
 		ServicePool service = new ServicePool();
@@ -105,7 +106,7 @@ public class MethodTest {
 	}
 
 	@SuppressWarnings("rawtypes")
-	public static void binary2real_tracing( OptimizationFunction<double[]> function, 
+	public static void binary2real_service( OptimizationFunction<double[]> function, 
 			Search<double[],Double> search){ 
         // Tracking the goal evaluations
 		ServicePool service = new ServicePool();
@@ -140,7 +141,7 @@ public class MethodTest {
 	}
 	
 	@SuppressWarnings("rawtypes")
-	public static void queen_tracing(OptimizationFunction<int[]> function, Search<int[], Double> search){
+	public static void queen_service(OptimizationFunction<int[]> function, Search<int[], Double> search){
 		// Tracking the goal evaluations
 		ServicePool service = new ServicePool();
 		service.register(new DefaultClone(), Object.class);      
@@ -150,5 +151,13 @@ public class MethodTest {
         service.register(new WriteDescriptors(), Tagged.class);
 		Service.set(service);
 	}
+	
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	public static void population_service(OptimizationFunction function ){
+		ServicePool service = (ServicePool)Service.get();
+		PopulationDescriptors pd= new PopulationDescriptors();
+		pd.setGoal(function);
+		service.register(pd, Tagged[].class);
+		service.register(new WriteDescriptors<Tagged[]>(), Tagged[].class);
+	}	
 }
-

@@ -71,7 +71,7 @@ public interface Descriptors<T> extends AbstractMicroService<T>{
 
 	public default String[] provides(){ return new String[]{name}; }	
 
-	public static Object create( Object obj ){
-		try{ return Service.run(name, obj); }catch(Exception e){ return null; }
+	public static double[] create( Object obj ){
+		try{ return (double[])Service.run(name, obj); }catch(Exception e){ return null; }
 	}	
 }

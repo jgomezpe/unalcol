@@ -55,7 +55,7 @@ import unalcol.services.MicroService;
  * (E-mail: <A HREF="mailto:jgomezpe@unal.edu.co">jgomezpe@unal.edu.co</A> )
  * @version 1.0
  */
-public abstract class SeedableGenerator<T> extends MicroService<Object> implements RawGenerator {
+public abstract class SeedableGenerator extends MicroService<Object> implements RawGenerator {
 
     /**
      * Generators Seed

@@ -41,7 +41,7 @@ public class HillClimbingTest{
         	search = factory.hill_climbing( function, variation, neutral, MAXITERS );
         }
         // Services
-        MethodTest.real_tracing(function, search);
+        MethodTest.real_service(function, search);
         // Apply the search method
         Tagged<double[]> Tagged = search.solve(space);        
         System.out.println(Tagged.get(function));		
@@ -74,7 +74,7 @@ public class HillClimbingTest{
 
         // Apply the search method
         // Services
-        MethodTest.binary_tracing(function, search);
+        MethodTest.binary_service(function, search);
         // Apply the search method
         Tagged<BitArray> Tagged = search.solve(space);        
         System.out.println(Tagged.get(function));		
@@ -115,7 +115,7 @@ public class HillClimbingTest{
         search.setGoal(function);
         
         // Services
-        MethodTest.binary2real_tracing(function, search);
+        MethodTest.binary2real_service(function, search);
         // Apply the search method
         Tagged<double[]> Tagged = search.solve(space);        
         System.out.println(Tagged.get(function));		
@@ -148,7 +148,7 @@ public class HillClimbingTest{
         // Tracking the goal evaluations
         // Apply the search method
         // Services
-        MethodTest.queen_tracing(function, search);
+        MethodTest.queen_service(function, search);
         // Apply the search method
         Tagged<int[]> Tagged = search.solve(space);        
         System.out.println(Tagged.get(function));		

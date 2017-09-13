@@ -3,16 +3,24 @@ package optimization;
 import unalcol.io.Write;
 import unalcol.optimization.integer.MutationIntArray;
 import unalcol.optimization.integer.XOverIntArray;
+import unalcol.random.raw.JavaGenerator;
+import unalcol.services.Service;
+import unalcol.services.ServicePool;
 import unalcol.types.integer.array.IntArray;
 import unalcol.types.integer.array.IntArrayPlainWrite;
 
 public class IntArrayOperatorTest {
+	public static void init_services(){
+		ServicePool service = new ServicePool();
+		service.register(new JavaGenerator(), Object.class);         
+		service.register(new IntArrayPlainWrite(',',false), int[].class);
+//        service.register(new ConsoleTracer(), Object.class);
+		Service.set(service);
+	}
 	 /**
 	  * Testing function
 	  */
 	  public static void mutation(){
-	      IntArrayPlainWrite write = new IntArrayPlainWrite(',', false);
-	      Write.set(int[].class, write);
 
 	      System.out.println("*** Generating a genome of 21 genes randomly ***");
 	      int[] genome = IntArray.random(10, 10);
@@ -26,8 +34,6 @@ public class IntArrayOperatorTest {
 	  }
 
 	public static void xover(){
-	      IntArrayPlainWrite write = new IntArrayPlainWrite(',', false);
-	      Write.set(int[].class, write);
 	      System.out.println("*** Generating a genome of 20 genes randomly ***");
 	      int D = 1000;
 	      int MAX = 1000;
@@ -53,6 +59,7 @@ public class IntArrayOperatorTest {
 	  * Testing function
 	  */
 	  public static void main(String[] argv){
+		  init_services();
 		  mutation();
 		  xover();
 	  }

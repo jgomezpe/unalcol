@@ -95,7 +95,7 @@ import unalcol.random.raw.*;
 */
 
 
-public class Ranlux<T> extends SeedableGenerator<T>{
+public class Ranlux extends SeedableGenerator{
 
 /**
 * Maximum luxury level: <CODE>maxlev=4</CODE>

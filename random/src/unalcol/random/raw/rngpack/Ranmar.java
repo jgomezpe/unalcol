@@ -43,7 +43,7 @@ import unalcol.random.raw.*;
  */
 
 
-public class Ranmar<T> extends SeedableGenerator<T> {
+public class Ranmar extends SeedableGenerator{
 
     double c, cd, cm, u[], uvec[];
     int i97, j97;

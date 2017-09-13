@@ -14,17 +14,17 @@ import unalcol.types.real.array.DoubleArrayPlainWrite;
 public class SparseVectorTest {
 	public static void init_services(){
 		ServicePool service = new ServicePool();
-        service.register(new JavaGenerator(), Object.class);         
-    	service.register(new DoubleArrayPlainRead(), double[].class);
-        service.register(new DoubleArrayPlainWrite(), double[].class);
-        service.register(new DefaultClone(), Object.class);
-        service.register(new VectorClone<Object>(), Vector.class);
+		service.register(new JavaGenerator(), Object.class);         
+		service.register(new DoubleArrayPlainRead(), double[].class);
+		service.register(new DoubleArrayPlainWrite(), double[].class);
+		service.register(new DefaultClone(), Object.class);
+		service.register(new VectorClone<Object>(), Vector.class);
 //        service.register(new ConsoleTracer(), Object.class);
-        Service.set(service);
+		Service.set(service);
 	}
 
-    public static void main( String[] args ){
-    	init_services();
+	public static void main( String[] args ){
+		init_services();
 		Vector<Integer> indices = new Vector<Integer>();
 		// Creating a SparseVector 
 		SparseVector<Integer> vector = new SparseVector<Integer>();

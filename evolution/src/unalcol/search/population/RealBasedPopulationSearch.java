@@ -4,7 +4,7 @@ import unalcol.Tagged;
 import unalcol.search.RealValuedGoal;
 import unalcol.sort.Order;
 
-public interface RealQualifyPopulationSearch<T> extends PopulationSearch<T, Double> {
+public interface RealBasedPopulationSearch<T> extends PopulationSearch<T, Double> {
 	@Override
 	public default Tagged<T> pick(Tagged<T>[] pop) {
 		RealValuedGoal<T> goal = (RealValuedGoal<T>)goal();

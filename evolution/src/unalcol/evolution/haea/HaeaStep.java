@@ -1,6 +1,8 @@
 package unalcol.evolution.haea;
 
-import unalcol.search.population.RealQualifyPopulationSearch;
+import unalcol.search.Goal;
+import unalcol.search.GoalBased;
+import unalcol.search.population.RealBasedPopulationSearch;
 import unalcol.search.population.VariationReplacePopulationSearch;
 import unalcol.search.selection.Selection;
 
@@ -14,7 +16,7 @@ import unalcol.search.selection.Selection;
  * @version 1.0
  *
  */
-public class HaeaStep<T> extends VariationReplacePopulationSearch<T,Double> implements RealQualifyPopulationSearch<T>{
+public class HaeaStep<T> extends VariationReplacePopulationSearch<T,Double> implements RealBasedPopulationSearch<T>{
     /**
      * Constructor: Creates a Haea offspring generation strategy
      * @param operators Genetic operators used to evolve the solution
@@ -60,5 +62,16 @@ public class HaeaStep<T> extends VariationReplacePopulationSearch<T,Double> impl
 	
 	public HaeaOperators<T> operators(){
 		return ((HaeaVariation<T>)variation).operators();
-	}	
+	}
+	
+	@SuppressWarnings("unchecked")
+	public void setGoal(Goal<T,Double> goal){
+		((GoalBased<T,Double>)replace).setGoal(goal);
+	}
+
+	@SuppressWarnings("unchecked")
+	public Goal<T,Double> goal(){
+		return ((GoalBased<T,Double>)replace).goal();
+	}
+	
 }

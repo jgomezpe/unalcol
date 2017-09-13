@@ -1,13 +1,13 @@
 package unalcol.evolution.es;
 
 import unalcol.Tagged;
-import unalcol.search.population.RealQualifyPopulationSearch;
+import unalcol.search.population.RealBasedPopulationSearch;
 import unalcol.search.population.VariationReplacePopulationSearch;
 import unalcol.search.space.Space;
 import unalcol.search.variation.Variation_1_1;
 import unalcol.search.variation.Variation_n_1;
 
-public class ESStep<T,P> extends VariationReplacePopulationSearch<T,Double> implements RealQualifyPopulationSearch<T>{
+public class ESStep<T,P> extends VariationReplacePopulationSearch<T,Double> implements RealBasedPopulationSearch<T>{
 	protected Space<P> s_space;
 	public ESStep(int mu, int lambda, int ro, 
 			Variation_n_1<T> y_recombination, Variation_1_1<T> mutation, 
