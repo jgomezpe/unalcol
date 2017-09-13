@@ -5,10 +5,10 @@ import java.io.RandomAccessFile;
 import java.util.Iterator;
 
 import unalcol.instance.Load;
-import unalcol.types.collection.array.ArrayCollection;
-import unalcol.types.collection.array.ArrayCollectionIterator;
+import unalcol.types.collection.array.Array;
+import unalcol.types.collection.array.ArrayIterator;
 
-public class FileArrayCollection<T> implements ArrayCollection<T>{
+public class FileArrayCollection<T> implements Array<T>{
 	protected RandomAccessFile file = null;
 	protected Load<T> load;
 	
@@ -34,7 +34,7 @@ public class FileArrayCollection<T> implements ArrayCollection<T>{
 	
 	@Override
 	public Iterator<T> iterator() {
-        return new ArrayCollectionIterator<T>(0,this);
+        return new ArrayIterator<T>(0,this);
 	}
 	
 	protected void locate( int index ){

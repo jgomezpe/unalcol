@@ -1,8 +1,8 @@
 package unalcol.data;
 
 import java.util.Iterator;
-import unalcol.types.collection.array.ArrayCollection;
-import unalcol.types.collection.array.ArrayCollectionIterator;
+import unalcol.types.collection.array.Array;
+import unalcol.types.collection.array.ArrayIterator;
 
 
 /**
@@ -14,12 +14,12 @@ import unalcol.types.collection.array.ArrayCollectionIterator;
  * @version 1.0
  *
  */
-public class SampledArrayCollection<T> implements ArrayCollection<T>{
+public class SampledArray<T> implements Array<T>{
 
     /**
      * The source of objects to be sampled
      */
-    protected ArrayCollection<T> source = null;
+    protected Array<T> source = null;
     /**
      * The subset of objects to be sampled (marked objects).
      * The sampling only uses the marked objects for generating the sample set
@@ -33,7 +33,7 @@ public class SampledArrayCollection<T> implements ArrayCollection<T>{
      * @param source Object source to be sampled
      * @param index Objects that are marked (used for generating the sample set)
      */
-    public SampledArrayCollection(ArrayCollection<T> source, int[] index) {
+    public SampledArray(Array<T> source, int[] index) {
         this.source = source;
         if (index != null) {
             this.index = index;
@@ -51,7 +51,7 @@ public class SampledArrayCollection<T> implements ArrayCollection<T>{
         return v;
     }
     
-    public ArrayCollection<T> source(){
+    public Array<T> source(){
         return source;
     }
     
@@ -88,7 +88,6 @@ public class SampledArrayCollection<T> implements ArrayCollection<T>{
 
     @Override
     public Iterator<T> iterator(){
-        return new ArrayCollectionIterator<T>(0,this);
+        return new ArrayIterator<T>(0,this);
     }
-
 }

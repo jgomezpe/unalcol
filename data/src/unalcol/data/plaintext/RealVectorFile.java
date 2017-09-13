@@ -8,12 +8,9 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.StringReader;
-import unalcol.io.Read;
 import unalcol.io.ShortTermMemoryReader;
-import unalcol.io.Write;
 import unalcol.types.collection.vector.Vector;
 import unalcol.types.real.array.DoubleArrayPlainRead;
-import unalcol.types.real.array.DoubleArrayPlainWrite;
 
 /**
  *
@@ -56,23 +53,5 @@ public class RealVectorFile {
         }
         file.close();
         return data_points;
-    }
-    
-    public static void main(String[] args){
-        try{
-            DoubleArrayPlainRead read = new DoubleArrayPlainRead(',');
-            Read.set(double[].class, read);
-            DoubleArrayPlainWrite write = new DoubleArrayPlainWrite(',', false);
-            Write.set(double[].class, write);
-            String fileName = "/home/jgomez/Repository/data/chameleon/t7.10k.dat";
-            Vector<double[]> v = load(fileName, ' ');
-            for( int i=0; i<v.size(); i++){
-                System.out.println(Write.toString(v.get(i)));
-            }
-            System.out.println(v.size());
-        }catch(Exception e){
-            e.printStackTrace();
-        }
-    }
-    
+    }    
 }

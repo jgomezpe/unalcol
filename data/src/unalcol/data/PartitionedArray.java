@@ -1,7 +1,7 @@
 package unalcol.data;
-import unalcol.data.SampledArrayCollection;
+import unalcol.data.SampledArray;
 import unalcol.random.util.Partition;
-import unalcol.types.collection.array.ArrayCollection;
+import unalcol.types.collection.array.Array;
 import unalcol.types.integer.array.IntArray;
 
 
@@ -15,7 +15,7 @@ import unalcol.types.integer.array.IntArray;
  * @version 1.0
  *
  */
-public class PartitionedArrayCollection<T> extends SampledArrayCollection<T> {
+public class PartitionedArray<T> extends SampledArray<T> {
 
 /**
  * The partition applied to the data set
@@ -42,7 +42,7 @@ public class PartitionedArrayCollection<T> extends SampledArrayCollection<T> {
  * @param useGroup If the key group is used (the iteration is on the group only)
  * or discarded (the iteration is done over the data set without including the group)
  */
-  public PartitionedArrayCollection(ArrayCollection<T> source, Partition partition,
+  public PartitionedArray(Array<T> source, Partition partition,
                               int group, boolean useGroup) {
     super(source, getIndex(partition, group, useGroup));
     this.partition = partition;

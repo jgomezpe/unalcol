@@ -5,10 +5,10 @@ import java.io.RandomAccessFile;
 
 import unalcol.instance.Load;
 import unalcol.types.collection.Location;
-import unalcol.types.collection.array.ArrayCollectionLocation;
-import unalcol.types.collection.array.MutableArrayCollection;
+import unalcol.types.collection.array.ArrayLocation;
+import unalcol.types.collection.array.MutableArray;
 
-public class FileMutableArrayCollection<T> extends FileArrayCollection<T> implements MutableArrayCollection<T> {
+public class FileMutableArrayCollection<T> extends FileArrayCollection<T> implements MutableArray<T> {
 
 	public FileMutableArrayCollection(RandomAccessFile file, Load<T> load) {
 		super(file, load);
@@ -60,8 +60,8 @@ public class FileMutableArrayCollection<T> extends FileArrayCollection<T> implem
 
 	@Override
 	public boolean del(Location<T> loc) {
-		if( loc instanceof ArrayCollectionLocation ){
-		  return remove( ((ArrayCollectionLocation<T>)loc).getPos() );	
+		if( loc instanceof ArrayLocation ){
+		  return remove( ((ArrayLocation<T>)loc).getPos() );	
 		}
 		return false;
 	}

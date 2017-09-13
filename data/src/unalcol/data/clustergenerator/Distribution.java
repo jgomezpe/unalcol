@@ -21,7 +21,7 @@
  */
 package unalcol.data.clustergenerator;
 import unalcol.random.raw.RawGenerator;
-import unalcol.random.real.DoubleGenerator;
+import unalcol.random.real.RandDouble;
 import unalcol.random.real.GaussianGenerator;
 import unalcol.random.real.UniformGenerator;
 
@@ -72,7 +72,7 @@ public class Distribution {
     //double[] zero = new double[]{0.0,0.0};
     //double magnitude = shape.getMagnitude(zero, p);
     //double angle = shape.getAngle(zero, p);
-    DoubleGenerator g;
+    RandDouble g;
     if (gaussian) {
       g = new GaussianGenerator(0.0, 1.0);
     } else {
@@ -80,7 +80,7 @@ public class Distribution {
     }
     double[] q = (double[]) center.clone();
     double r = Math.abs(g.next());
-    if (symmetric && RawGenerator.bool(this)) {
+    if (symmetric && RawGenerator.next(this)<0.5) {
       r *= -1.0;
     }
 

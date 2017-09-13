@@ -1,8 +1,8 @@
 package unalcol.data;
 
-import unalcol.data.SampledArrayCollection;
+import unalcol.data.SampledArray;
 import unalcol.random.util.*;
-import unalcol.types.collection.array.ArrayCollection;
+import unalcol.types.collection.array.Array;
 
 /**
  * <p>Title: PermutedArrayCollection</p>
@@ -13,7 +13,7 @@ import unalcol.types.collection.array.ArrayCollection;
  * @version 1.0
  *
  */
-public class PermutedArrayCollection<T> extends SampledArrayCollection<T> {
+public class PermutedArray<T> extends SampledArray<T> {
   public static int[] getIndex( int m ){
       @SuppressWarnings("rawtypes")
       Shuffle shuffle = new Shuffle();
@@ -24,7 +24,7 @@ public class PermutedArrayCollection<T> extends SampledArrayCollection<T> {
  * Constructor: Creates a sampling object with marked data records
  * @param source Data source to be sampled
  */
-  public PermutedArrayCollection(ArrayCollection<T> source) {
+  public PermutedArray(Array<T> source) {
     super(source, getIndex(source.size()));
   }
 }
