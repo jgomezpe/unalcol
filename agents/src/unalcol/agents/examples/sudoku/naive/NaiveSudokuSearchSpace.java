@@ -1,5 +1,6 @@
 package unalcol.agents.examples.sudoku.naive;
 import unalcol.agents.search.*;
+import unalcol.services.MicroService;
 import unalcol.agents.Action;
 import unalcol.types.collection.vector.*;
 import java.io.StreamTokenizer;
@@ -16,7 +17,7 @@ import java.io.StringReader;
  * @author Jonatan Gómez
  * @version 1.0
  */
-public class NaiveSudokuSearchSpace extends GraphSpace<NaiveSudokuBoardState>{
+public class NaiveSudokuSearchSpace extends MicroService<NaiveSudokuBoardState> implements GraphSpace<NaiveSudokuBoardState>{
   public NaiveSudokuSearchSpace() {
   }
   public boolean feasible( NaiveSudokuBoardState state ){

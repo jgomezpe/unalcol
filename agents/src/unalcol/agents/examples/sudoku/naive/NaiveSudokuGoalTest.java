@@ -1,6 +1,7 @@
 package unalcol.agents.examples.sudoku.naive;
 import unalcol.agents.search.*;
-import unalcol.reflect.tag.TaggedObject;
+import unalcol.algorithm.Algorithm;
+import unalcol.sort.Order;
 
 /**
  * <p>Title: </p>
@@ -14,18 +15,17 @@ import unalcol.reflect.tag.TaggedObject;
  * @author Jonatan Gómez
  * @version 1.0
  */
-public class NaiveSudokuGoalTest implements GoalTest<NaiveSudokuBoardState>{
-  public NaiveSudokuGoalTest() {
-  }
+public class NaiveSudokuGoalTest extends Algorithm<NaiveSudokuBoardState,Boolean> implements GoalTest<NaiveSudokuBoardState>{
+	public NaiveSudokuGoalTest() {}
   
-@Override
-public Boolean apply(TaggedObject<NaiveSudokuBoardState> arg0) {
-    // TODO Auto-generated method stub
-    return null;
-}
+	@Override
+	public Boolean apply(NaiveSudokuBoardState state) {
+		return state.board.solved();
+	}
 
-@Override
-public Boolean apply(NaiveSudokuBoardState state) {
-    return state.board.solved();
-}
+	@Override
+	public Order<Boolean> order() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

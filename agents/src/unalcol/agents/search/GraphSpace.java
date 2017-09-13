@@ -16,7 +16,7 @@ import unalcol.types.collection.vector.*;
  * @author Jonatan Gómez
  * @version 1.0
  */
-public abstract class GraphSpace<T>  extends Space<T>{
-  public abstract T succesor( T state, Action action );
-  public abstract Vector<Action> succesor( T state );
+public interface GraphSpace<T>  extends Space<T>{
+	public T succesor( T state, Action action );
+	public Vector<Action> succesor( T state );
 }

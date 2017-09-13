@@ -3,7 +3,8 @@ import unalcol.types.collection.vector.*;
 import unalcol.agents.*;
 import unalcol.search.Goal;
 import unalcol.search.local.LocalSearch;
-import unalcol.search.solution.Solution;
+import unalcol.Tagged;
+import unalcol.Thing;
 import unalcol.search.space.Space;
 
 /**
@@ -18,19 +19,19 @@ import unalcol.search.space.Space;
  * @author Jonatan Gómez
  * @version 1.0
  */
-public abstract class GraphSearch<T> extends LocalSearch<T,Boolean>{
-  public abstract Vector<Action> apply( T initial, GraphSpace<T> space, Goal<T,Boolean> goal, ActionCost<T> cost  );
+public abstract class GraphSearch<T> extends Thing implements LocalSearch<T,Boolean>{
+	public abstract Vector<Action> apply( T initial, GraphSpace<T> space, Goal<T,Boolean> goal, ActionCost<T> cost  );
   
-  public Solution<T> apply( Solution<T> x, Space<T> space ){
-      @SuppressWarnings("unchecked")
-      Goal<T,Boolean> goal = (Goal<T,Boolean>)x.data(Goal.class.getName());
-      @SuppressWarnings("unchecked")
-      ActionCost<T> cost = (ActionCost<T>)space.data(ActionCost.class.getName());
-      Vector<Action> action = apply( x.object(), (GraphSpace<T>)space, goal, cost);
-      PathUtil<T> path = new PathUtil<T>();
-      T y = path.final_state(x.object(), (GraphSpace<T>)space, action);
-      Solution<T> sol = new Solution<T>(y);
-      sol.set(PathUtil.class.getName(), action);
-      return sol;
-  }
+	public Tagged<T> apply( Tagged<T> x, Space<T> space ){
+		GraphSpace<T> g_space = (GraphSpace<T>)space;
+		Goal<T,Boolean> goal = goal();
+		@SuppressWarnings("unchecked")
+		ActionCost<T> cost = (ActionCost<T>)space.get(ActionCost.class.getName());
+		Vector<Action> action = apply( x.unwrap(), g_space, goal, cost);
+		PathUtil<T> path = new PathUtil<T>();
+		T y = path.final_state(x.unwrap(), g_space, action);
+		Tagged<T> sol = new Tagged<T>(y);
+		sol.put(PathUtil.class.getName(), action);
+		return sol;
+	}
 }
