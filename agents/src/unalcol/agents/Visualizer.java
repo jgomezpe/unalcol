@@ -13,10 +13,10 @@ package unalcol.agents;
  * @version 1.0
  */
 public interface Visualizer {
-    /**
-     * Show the state of the environment from the perspective of an agent
-     * @param agent Agent that observes the environment
-     * @param percept Perception received by the agent
-     */
-    public void show( Agent agent, Percept percept );
+	/**
+	 * Show the state of the environment from the perspective of an agent
+	 * @param agent Agent that observes the environment
+	 * @param percept Perception received by the agent
+	 */
+	public void show( Agent agent, Percept percept );
 }

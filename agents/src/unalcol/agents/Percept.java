@@ -1,5 +1,6 @@
 package unalcol.agents;
-import java.util.Hashtable;
+
+import unalcol.types.collection.keymap.HTKeyMap;
 /**
  * <p>Title: Percept</p>
  *
@@ -13,12 +14,11 @@ import java.util.Hashtable;
  * @version 1.0
  */
 public class Percept {
-  Hashtable<String,Object> table = new Hashtable<String,Object>();
-  public Percept() {}
-  public Object getAttribute( String code ){
-    return table.get(code);
-  }
-  public void setAttribute( String key, Object value ){
-    table.put(key, value);
-  }
+	protected HTKeyMap<String,Object> table = new HTKeyMap<String,Object>();
+	
+	public Percept() {}
+	
+	public Object getAttribute( String code ){ return table.get(code); }
+
+	public void setAttribute( String key, Object value ){ table.put(key, value); }
 }

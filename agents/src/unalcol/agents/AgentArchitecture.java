@@ -14,9 +14,8 @@ import unalcol.types.collection.vector.*;
  * @version 1.0
  */
 public interface AgentArchitecture {
-  public Percept sense( Agent agent );
-  public boolean act( Agent agent, Action action );
-  public void init( Agent agent );
-
-  public Vector<Action> actions();
+	public Percept sense( Agent agent );
+	public boolean act( Agent agent, Action action );
+	public void init( Agent agent );
+	public Vector<Action> actions();
 }
