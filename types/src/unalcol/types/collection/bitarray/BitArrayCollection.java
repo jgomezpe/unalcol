@@ -4,13 +4,13 @@
  */
 package unalcol.types.collection.bitarray;
 
-import unalcol.types.collection.array.Array;
+import unalcol.types.collection.array.ImmutableArray;
 
 /**
  *
  * @author jgomez
  */
-public class BitArrayCollection implements Array<Boolean>{
+public class BitArrayCollection implements ImmutableArray<Boolean>{
 	protected BitArray array;
    
 	public BitArrayCollection( boolean[] bits ){ array = new BitArray(bits); }
@@ -20,4 +20,11 @@ public class BitArrayCollection implements Array<Boolean>{
 
 	@Override
 	public int size(){ return array.dimension(); }
+
+	@Override
+	public Object[] toArray(){
+		Boolean[] a = new Boolean[array.size()];
+		for( int i=0; i<a.length; i++ ) a[i] = array.get(i);
+		return a; 
+	}
 }

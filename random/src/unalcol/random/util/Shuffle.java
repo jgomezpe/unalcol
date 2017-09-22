@@ -67,7 +67,7 @@ public class Shuffle<T> extends Thing {
 		AbstractMicroService<?> service = (AbstractMicroService<?>)get(id);
 		if(service==null){
 			service = wrap(id);
-			if( service != null ) put(id,service);
+			if( service != null ) set(id,service);
 		}
 		return service;
 	}

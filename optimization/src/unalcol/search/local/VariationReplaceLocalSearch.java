@@ -34,7 +34,7 @@ public class VariationReplaceLocalSearch<T> extends Thing implements LocalSearch
     public void setGoal(Goal<T,Double> goal){
         if( replace instanceof GoalBasedReplacement )
         	((GoalBasedReplacement<T,Double>)replace).setGoal(goal);
-        else put(Goal.name,goal);
+        else set(Goal.name,goal);
     }
         
     @SuppressWarnings("unchecked")

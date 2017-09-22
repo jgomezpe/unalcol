@@ -2,6 +2,7 @@ package unalcol.types.collection.vector;
 
 
 import unalcol.sort.*;
+import unalcol.types.object.BinarySearch;
 
 /**
  * <p>Title: SortedInsert</p>
@@ -16,11 +17,13 @@ import unalcol.sort.*;
  * @version 1.0
  */
 public class SortedVectorInsert<T> {
-    protected SortedVectorSearch<T> search = new SortedVectorSearch<T>();
-    public SortedVectorInsert() {}
+    protected BinarySearch<T> search = new BinarySearch<T>(null, null);
+    public SortedVectorInsert(){}
 
     public void apply( Vector<T> set, T x, Order<T> order, boolean multiSet ){
-        int pos = search.findRight(set, x, order);
+    	search.set(set.buffer);
+    	search.set(order);
+        int pos = search.findRight(x);
         if( pos > 0 ){
           if( multiSet || order.compare( set.get(pos-1), x )!=0 ){
               if( pos == set.size() ){ set.add(x); }else{ set.add(pos, x); }

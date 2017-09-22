@@ -72,7 +72,7 @@ public class Tagged<T> extends Thing{
 	 */
 	public Tagged( T object, KeyMap<Object, Object> tags ){
 		this.object = object;
-		for(KeyValue<Object,Object> k:tags) add(k);
+		for(KeyValue<Object,Object> k:tags.pairs()) add(k);
 	}
  
 	/**

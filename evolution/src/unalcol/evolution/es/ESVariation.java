@@ -70,7 +70,7 @@ public class ESVariation<T,P> extends Thing implements Variation<T>{
         		param_mutation.setParameters(new_s);
         	}
         	new_y[k] = mutation.apply(recombination.apply(pop)[0]);
-        	new_y[k].put(PARAMETERS_OPERATOR, new_s);
+        	new_y[k].set(PARAMETERS_OPERATOR, new_s);
     	}
     	return new_y;
 	}

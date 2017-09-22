@@ -46,7 +46,7 @@ public class SparseRealVectorDemo {
         SparseRealVectorPlainReadService service = new SparseRealVectorPlainReadService(10, ',');
         try{
            x = (SparseRealVector)service.read(reader);
-           for( int i=0; i<x.dim(); i++ ){
+           for( int i=0; i<x.size(); i++ ){
                System.out.println(x.get(i));
            }
         }catch(Exception e ){
@@ -61,13 +61,13 @@ public class SparseRealVectorDemo {
        
         SparseRealVector x = new SparseRealVector(100);
         for( int i=0; i<10; i++){
-            x.set(i*10, i+1);
+            x.set(i*10, (Double)((double)(i+1)));
         }
         
         System.out.println( x.size() );
         SparseRealVector y = new SparseRealVector(100);
         for( int i=0; i<10; i++){
-            y.set(i*5, i+1);
+            y.set(i*5, (Double)((double)(i+1)));
         }
         System.out.println( y.size() );
         for( int i=0; i<100; i++ ){

@@ -6,10 +6,10 @@ package unalcol.types.real.array.sparse;
 
 import java.io.IOException;
 import java.io.Writer;
-import java.util.Iterator;
 import unalcol.io.Write;
 import unalcol.services.MicroService;
-import unalcol.types.collection.sparse.vector.SparseElement;
+import unalcol.types.collection.Collection;
+import unalcol.types.collection.keymap.KeyValue;
 
 /**
  *
@@ -62,27 +62,18 @@ public class SparseRealVectorPlainWriteService extends MicroService<SparseRealVe
     public void write(Writer out) throws IOException {
     	SparseRealVector obj=caller();
         StringBuilder sb = new StringBuilder();
-        int n = obj.dim();
+        int n = obj.size();
         if( write_dimension ){
             sb.append(n);
-        }
-        SparseElement<Double> elem;
-        Iterator<SparseElement<Double>> iter = obj.elements();
-        if( iter.hasNext() ){
-            if(write_dimension) sb.append(separator);
-            elem = iter.next();
-            sb.append(elem.index());
             sb.append(separator);
-            sb.append(elem.value());            
         }
-        
-        while(iter.hasNext()){
-            elem = iter.next();
+        Collection<KeyValue<Integer,Double>> col = obj.pairs();
+        for( KeyValue<Integer,Double> kv : col ){
+            sb.append(kv.key());
             sb.append(separator);
-            sb.append(elem.index());
+            sb.append(kv.value());            
             sb.append(separator);
-            sb.append(elem.value());            
-        }
+        }        
         out.write(sb.toString());
     }
 }

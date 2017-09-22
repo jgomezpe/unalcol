@@ -4,59 +4,45 @@
  */
 package unalcol.types.real.array.sparse;
 
-import java.util.Iterator;
-
-import unalcol.types.collection.sparse.vector.SparseElement;
-import unalcol.types.collection.sparse.vector.SparseVector;
+import unalcol.types.collection.keymap.KeyValue;
+import unalcol.types.collection.sparse.SparseArray;
 import unalcol.types.collection.vector.SortedVector;
 
 /**
  *
  * @author jgomez
  */
-public class SparseRealVector{
-    protected SparseVector<Double> values;
-    protected int n;
+public class SparseRealVector extends SparseArray<Double>{
+	protected int n;
     
-    public SparseRealVector(int n){
-        this.n = n;
-        values = new SparseVector<>();
-    }
-        
-    public int dim(){
-        return n;
-    }
+	public SparseRealVector(int n){ this.n = n; }
+     
+	@Override
+	public int size(){ return n; }
     
-    public int size(){  return values.size(); }
+	@Override
+	public boolean set(int i, Double x) throws ArrayIndexOutOfBoundsException {
+		if( i<0 || i>=n ) throw new ArrayIndexOutOfBoundsException();
+		return super.set(i, (Double)x);
+	}
     
-    public boolean set(int i, double x){
-        //if( i>=0 && i<n ){
-            values.set(i, x);
-            return true;
-        //}
-        //return false;
-    }
-    
-    public double get( int i ){
-        try{
-            return values.get(i);
-        }catch( ArrayIndexOutOfBoundsException e ){
-            return 0.0;
-        }
-    }
-    
-    public Iterator<SparseElement<Double>> elements(){
-        return values.sparse_elements();
-    }
-    
+	@Override
+	public Double get( int i ) throws ArrayIndexOutOfBoundsException {
+		if( i<0 || i>=n ) throw new ArrayIndexOutOfBoundsException();
+		Double x;
+		try{ 
+			x = super.get(i); 
+			if( x==null ) x = 0.0;
+		}catch( ArrayIndexOutOfBoundsException e ){ x=0.0; }
+		return x;
+	}
     
     public void removeZeroes( double epsilon ){
-        int n = values.size();
-        SortedVector<SparseElement<Double>> v = values.sparseVector();
-        for( int i=n-1; i>=0; i-- ){
-            if( Math.abs(v.get(i).value()) <= epsilon ){
-                v.remove(i);
-            }
-        }
+        for( int i=vector.size(); i>=0; i-- ) if( Math.abs(vector.get(i).value()) <= epsilon )  vector.remove(i);
+    }
+    
+    protected void update( SortedVector<KeyValue<Integer,Double>> vector, int n ){
+    	this.vector = vector;
+    	this.n = n;
     }
 }

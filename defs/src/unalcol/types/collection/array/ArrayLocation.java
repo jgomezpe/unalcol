@@ -14,9 +14,9 @@ import unalcol.types.collection.Location;
  */
 public class ArrayLocation<T> implements Location<T> {
 	protected int pos;
-	protected Array<T> array;
+	protected ImmutableArray<T> array;
 
-	public ArrayLocation( int pos, Array<T> array ) {
+	public ArrayLocation( int pos, ImmutableArray<T> array ) {
 		this.array = array;
 		this.pos = pos;
 	}

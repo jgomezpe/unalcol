@@ -43,7 +43,7 @@ public class DoubleGeneratorTest{
 	public static RandDouble symmetric_power_law(){
 	    System.out.println( "Symmetric Power Law" );
 	    SymmetricGenerator g = new SymmetricGenerator();
-	    g.put(SymmetricGenerator.one_side, new SimplestGeneralizedPowerLawGenerator() );
+	    g.set(SymmetricGenerator.one_side, new SimplestGeneralizedPowerLawGenerator() );
 	    return g;
 	}
       

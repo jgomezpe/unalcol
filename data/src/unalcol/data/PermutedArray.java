@@ -2,7 +2,7 @@ package unalcol.data;
 
 import unalcol.data.SampledArray;
 import unalcol.random.util.*;
-import unalcol.types.collection.array.Array;
+import unalcol.types.collection.array.ImmutableArray;
 
 /**
  * <p>Title: PermutedArrayCollection</p>
@@ -24,7 +24,7 @@ public class PermutedArray<T> extends SampledArray<T> {
  * Constructor: Creates a sampling object with marked data records
  * @param source Data source to be sampled
  */
-  public PermutedArray(Array<T> source) {
+  public PermutedArray(ImmutableArray<T> source) {
     super(source, getIndex(source.size()));
   }
 }

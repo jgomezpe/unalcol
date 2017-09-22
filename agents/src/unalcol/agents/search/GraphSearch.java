@@ -31,7 +31,7 @@ public abstract class GraphSearch<T> extends Thing implements LocalSearch<T,Bool
 		PathUtil<T> path = new PathUtil<T>();
 		T y = path.final_state(x.unwrap(), g_space, action);
 		Tagged<T> sol = new Tagged<T>(y);
-		sol.put(PathUtil.class.getName(), action);
+		sol.set(PathUtil.class.getName(), action);
 		return sol;
 	}
 }

@@ -1,7 +1,6 @@
 package unalcol.services;
 
-import java.util.Iterator;
-
+import unalcol.types.collection.Collection;
 import unalcol.types.collection.keymap.HTKeyMap;
 import unalcol.types.collection.keymap.KeyMap;
 
@@ -14,15 +13,15 @@ public class ServicePool implements ServiceProvider{
 			KeyMap<Object,AbstractMicroService<?>> s = pool.get(name);
 			if( s==null ){
 				s = new HTKeyMap<Object,AbstractMicroService<?>>();
-				pool.put(name, s);
+				pool.set(name, s);
 			}
 			AbstractMicroService<?> cs = s.get(caller);
 			if(cs==null && service.multiple()){
 			    cs = new MicroServiceSet<Object>();
-			    s.put(caller, cs);
+			    s.set(caller, cs);
 			}
 			if( cs!=null && cs instanceof MicroServiceSet ) ((MicroServiceSet)cs).add(service);
-			else s.put(caller, service);
+			else s.set(caller, service);
 		}
 	}
 
@@ -64,8 +63,8 @@ public class ServicePool implements ServiceProvider{
 		HTKeyMap<String, String> s=new HTKeyMap<String,String>();
 		String[] keys = new String[s.size()];
 		int i=0;
-		Iterator<String> k=s.keys();
-		while(k.hasNext()) keys[i++]=k.next();
+		Collection<String> k=s.keys();
+		for(String t:k) keys[i++]=t;
 		return keys;
 	}
 }

@@ -59,7 +59,7 @@ public abstract class HaeaOperators<T>{
     }
     
     public void setSizeOffspring( int indIndex, int n ){
-        size_offspring_sel_oper.set(indIndex, n);
+        size_offspring_sel_oper.set(indIndex, (Integer)n);
     }
 
     public int getSizeOffspring( int indIndex ){
@@ -72,7 +72,7 @@ public abstract class HaeaOperators<T>{
      * @return Index of the choosen operator
      */
     public int select( int indIndex ){
-        sel_oper.set(indIndex, select( rates.get(indIndex) ));
+        sel_oper.set(indIndex, (Integer)select( rates.get(indIndex) ));
         return sel_oper.get(indIndex);
     }
 
@@ -82,7 +82,7 @@ public abstract class HaeaOperators<T>{
      * @return Index of the choosen operator
      */
     public void unselect( int indIndex ){
-        sel_oper.set(indIndex, -1);
+        sel_oper.set(indIndex, (Integer)(-1));
     }
 
     /**

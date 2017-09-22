@@ -21,7 +21,7 @@ public class VariationSelection_n_1<T> extends MicroService<T> implements Variat
 		Goal<T, ?> goal = (Goal<T,?>)parents[0].get(gName);
 		Tagged<T>[] children = variation.apply(parents);
 		goal.array_apply(children);
-		for( Tagged<T> c : children ){ c.put(gName, goal); }
+		for( Tagged<T> c : children ){ c.set(gName, goal); }
 		int index = selection.choose_one(children);
 		return children[index];
 	}

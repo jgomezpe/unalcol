@@ -8,7 +8,7 @@ import java.util.Iterator;
 
 import unalcol.clone.Clone;
 import unalcol.services.Service;
-import unalcol.types.collection.array.Array;
+import unalcol.types.collection.array.ImmutableArray;
 import unalcol.types.collection.array.MutableArray;
 import unalcol.types.collection.vector.Vector;
 
@@ -21,7 +21,7 @@ public abstract class InvertableScale<T> extends Scale<T>{
     @SuppressWarnings("unchecked")
     
 	public T inverse( T x ){ try{ return fastInverse( (T)Service.run(Clone.name,x)); }catch(Exception e){ return fastInverse(x); } }
-    public Vector<T> inverse( Array<T> a ){
+    public Vector<T> inverse( ImmutableArray<T> a ){
         Vector<T> v = new Vector<T>();
         Iterator<T> iter = a.iterator();
         while( iter.hasNext() ) v.add(inverse(iter.next()));

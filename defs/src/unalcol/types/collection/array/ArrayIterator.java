@@ -13,9 +13,9 @@ import java.util.NoSuchElementException;
  */
 public class ArrayIterator<T>  implements Iterator<T> {
 	protected int pos=-1;
-	protected Array<T> array;
+	protected ImmutableArray<T> array;
 
-	public ArrayIterator( int pos, Array<T> array ) {
+	public ArrayIterator( int pos, ImmutableArray<T> array ) {
 		this.array = array;
 		this.pos = pos-1;
 	}

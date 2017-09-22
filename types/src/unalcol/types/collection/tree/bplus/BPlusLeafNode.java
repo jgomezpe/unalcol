@@ -1,6 +1,6 @@
 package unalcol.types.collection.tree.bplus;
 
-import unalcol.types.collection.array.ArrayUtil;
+import unalcol.types.object.ArrayUtil;
 import unalcol.types.collection.tree.bplus.immutable.ImmutableBPlus;
 import unalcol.types.collection.tree.bplus.immutable.ImmutableLeafNode;
 

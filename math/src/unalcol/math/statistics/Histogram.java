@@ -16,7 +16,7 @@ public class Histogram<K> {
 	
 	public void add( K key, int amount ){
 		KeyValue<K, Integer> pair = new KeyValue<K, Integer>(key, amount);
-		int index = vector.findIndex(pair);
+		int index = vector.findKey(pair);
 		if( index != -1 ){
 			pair = vector.get(index);
 			pair.setValue( pair.value()+amount );

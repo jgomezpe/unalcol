@@ -31,7 +31,7 @@ public class NumberIndex {
 
 	public int getIndex( int[] option, int n, Vector<Integer> check ){
 		if( n==option.length ) return 0;
-		int pos = check.findIndex(option[n]);
+		int pos = check.findKey(option[n]);
 		check.remove(pos);        
 		n++;
 		return pos*options[positions-n] + getIndex(option, n, check);

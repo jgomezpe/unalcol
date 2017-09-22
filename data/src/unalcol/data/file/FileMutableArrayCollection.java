@@ -135,8 +135,7 @@ public class FileMutableArrayCollection<T> extends FileArrayCollection<T> implem
 	}
 
 	@Override
-	public void setSize(int arg0) {
-	    // TODO Auto-generated method stub
-	    
+	public void resize(int data) {
+		// @TODO: How to resize a file of data uhm???
 	}
 }

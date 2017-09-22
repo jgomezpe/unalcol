@@ -2,9 +2,8 @@ package unalcol.types.collection.sparse.matrix;
 
 import java.util.Iterator;
 
-import unalcol.sort.Search;
 import unalcol.types.collection.Collection;
-import unalcol.types.collection.sparse.vector.SparseVector;
+import unalcol.types.collection.sparse.SparseArray;
 
 /**
  * <p>Title: Mesparc</p>
@@ -15,7 +14,6 @@ import unalcol.types.collection.sparse.vector.SparseVector;
  * @version 1.0
  */
 public class SparseMatrix<T> implements Collection<T>{
-	protected Search<SparseMatrix<T>> search = new Search<SparseMatrix<T>>();
 	/**
 	 * Dimension of the matrix
 	 */
@@ -24,7 +22,7 @@ public class SparseMatrix<T> implements Collection<T>{
 	/**
 	 * Array of list of non-zero elements of each dimension
 	 */
-	protected SparseVector<SparseMatrix<T>>[] dimension_data = null;
+	protected SparseArray<SparseMatrix<T>>[] dimension_data = null;
 	protected T data;
 	
 	/**
@@ -35,9 +33,9 @@ public class SparseMatrix<T> implements Collection<T>{
 	@SuppressWarnings("unchecked")
 	public SparseMatrix(int n){ 
 		this.n = n;
-		dimension_data = (SparseVector<SparseMatrix<T>>[])new SparseVector[n];
+		dimension_data = (SparseArray<SparseMatrix<T>>[])new SparseArray[n];
 		for( int k=0; k<n; k++ ){
-			dimension_data[k] = new SparseVector<SparseMatrix<T>>();
+			dimension_data[k] = new SparseArray<SparseMatrix<T>>();
 		}
 	}
 	
@@ -49,15 +47,11 @@ public class SparseMatrix<T> implements Collection<T>{
 	public void clear(){
 	    if( n > 0 ){
 			for( int k=0; k<n; k++ ){
-				SparseVector<SparseMatrix<T>> dim = dimension_data[k];
-				while( dim.size() > 0 ){
-					dim.get(0).clear();
-					dim.del(0);
-				}
+				SparseArray<SparseMatrix<T>> dim = dimension_data[k];
+				for( SparseMatrix<T> m:dim ) m.clear();
+				dim.clear();
 			}
-		}else{
-			data = null;
-		}
+		}else data = null;
 	}
 
 	public boolean isEmpty(){
@@ -80,6 +74,10 @@ public class SparseMatrix<T> implements Collection<T>{
 				SparseMatrix<T> x;
 				try{
 					x = dimension_data[k].get(pos[k]);
+					if( x==null ){
+						x = new SparseMatrix<T>( m );
+						dimension_data[k].set(pos[k], x);
+					}
 				}catch( ArrayIndexOutOfBoundsException ex ){
 					x = new SparseMatrix<T>( m );
 					dimension_data[k].set(pos[k], x);
@@ -134,9 +132,9 @@ public class SparseMatrix<T> implements Collection<T>{
 							j++;
 						}
 					}
-					flag = x.del(sub_pos);
-					if( x.isEmpty() ){
-						dimension_data[k].del(pos[k]);
+					flag = x!=null && x.del(sub_pos);
+					if( flag && x.isEmpty() ){
+						dimension_data[k].remove(pos[k]);
 					}
 				}catch( ArrayIndexOutOfBoundsException ex ){
 					flag = false;
@@ -185,7 +183,7 @@ public class SparseMatrix<T> implements Collection<T>{
 	public int[] high(){
 		int[] low = new int[n];
 		for( int k=0; k<n; k++ ){
-			low[k] = dimension_data[k].high();
+			low[k] = dimension_data[k].size();
 		}
 		return low;
 	}

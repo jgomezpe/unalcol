@@ -1,15 +1,32 @@
 package unalcol.types.collection.keymap;
 
-import java.util.Iterator;
-
-import unalcol.types.collection.FiniteCollection;
+import unalcol.types.collection.Location;
 import unalcol.types.collection.MutableCollection;
-import unalcol.types.collection.SearchCollection;
 
-public interface KeyMap<K,V> extends FiniteCollection<KeyValue<K,V>>, MutableCollection<KeyValue<K,V>>, SearchCollection<KeyValue<K,V>>{
-	public default void put( K key, V value ){ add(new KeyValue<K, V>(key, value)); }
-	public default void remove( K key ){ del(new KeyValue<K, V>(key, null)); }
-	public V get( K key );
-	public Iterator<K> keys();
-	public Iterator<V> values();
+public interface KeyMap<K,V> extends ImmutableKeyMap<K,V>, MutableCollection<V>{
+	// Mutable collection methods 
+	@Override
+	public default boolean del(Location<V> locator){
+		if( locator instanceof KeyMapLocation ){
+			@SuppressWarnings("unchecked")
+			KeyMapLocation<K, V> loc = (KeyMapLocation<K, V>)locator;
+			return remove(loc.key); 
+		}
+		return false;
+	}
+
+	@Override
+	public default boolean del(V data) {
+		K key = findKey(data);
+		if( key != null ) return remove(key);
+		return false;
+	}
+	
+	// KeyMap own methods
+	public boolean set( K key, V value );
+	public boolean remove( K key );
+	public boolean add( K key, V value);
+
+	public default boolean set( KeyValue<K,V> pair ){ return set(pair.key(), pair.value()); }
+	public default boolean add( KeyValue<K,V> pair ){ return add(pair.key(), pair.value()); }	
 }

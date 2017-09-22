@@ -1,6 +1,7 @@
 package unalcol.types.real.array;
 import unalcol.random.raw.RawGenerator;
 import unalcol.services.Service;
+import unalcol.types.object.FiboArray;
 import unalcol.types.real.*;
 
 /**
@@ -12,7 +13,91 @@ import unalcol.types.real.*;
  * @version 1.0
  *
  */
-public class DoubleArray{
+public class DoubleArray extends FiboArray{
+	protected double[] buffer;
+	protected int size;
+	
+	public DoubleArray( double[] buffer ){ this(buffer, buffer.length); }
+
+	public DoubleArray( double[] buffer, int s ){
+		this.buffer = buffer;
+		size = s;
+		find_fib(buffer.length);
+	}
+
+	public DoubleArray(){ this( new double[DEFAULT_C], 0 ); }
+
+	@Override
+	public void clear(){
+		super.clear();
+		size = 0;
+	}
+
+	/**
+	 * Inserts a data element in the structure
+	 * @param data Data element to be inserted
+	 * @return <i>true</i> if the element could be added, <i>false</i> otherwise
+	 */
+	public boolean add(double data){
+		if( buffer.length == size ) grow();
+		buffer[size]=data;
+		size++;
+		return true;
+	}
+
+	protected void leftShift( int index ) throws IndexOutOfBoundsException{
+		size--;
+		if( index < size ) System.arraycopy(buffer, index+1, buffer, index, buffer.length-index-1);
+		if( size < a ) shrink();
+	}
+
+	protected void rightShift( int index ) throws IndexOutOfBoundsException{
+		if( buffer.length == size ) grow();
+		System.arraycopy(buffer, index, buffer, index+1, buffer.length-index-1);
+		size++;
+	}
+
+	public boolean set( int index, double data ) throws IndexOutOfBoundsException{
+		if( 0 <= index && index < size ){
+			buffer[index]=data;
+			return true;
+		}else{ throw new ArrayIndexOutOfBoundsException( index ); }
+	}
+
+	public boolean add( int index, double data ) throws IndexOutOfBoundsException{
+		rightShift(index);
+		buffer[index]=data;
+		return true;
+	}
+
+	public boolean remove( int index ) throws IndexOutOfBoundsException{
+		leftShift(index);
+		return true;
+	}
+
+	public int size(){ return size; }
+
+	/**
+	 * Sets the size of the array
+	 * @param n The new size of the array
+	 */
+	public void resize(){
+		double[] new_buffer = new double[c];
+		System.arraycopy(buffer, 0, new_buffer, 0, Math.min(size,c));
+		buffer = new_buffer;		
+	}  
+
+	public double get( int index ) throws IndexOutOfBoundsException{
+		if( index >= size ) throw new IndexOutOfBoundsException();
+		return buffer[index];
+	}
+	
+	public double[] toArray(){
+		double[] new_buffer = new double[size];
+		System.arraycopy(buffer, 0, new_buffer, 0, size);
+		return new_buffer;		
+	}
+	
     /**
      * Generates a vector of doubles with two limits array.
      * @param min The inferior limit array

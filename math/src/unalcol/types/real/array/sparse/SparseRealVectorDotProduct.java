@@ -6,14 +6,14 @@ package unalcol.types.real.array.sparse;
 
 import java.util.Iterator;
 
-import unalcol.types.collection.sparse.vector.SparseElement;
+import unalcol.types.collection.keymap.KeyValue;;
 
 /**
  *
  * @author jgomez
  */
 public class SparseRealVectorDotProduct {
-    protected SparseElement<Double> element( Iterator<SparseElement<Double>> iter ){
+    protected KeyValue<Integer,Double> element( Iterator<KeyValue<Integer,Double>> iter ){
         if( iter.hasNext() ){
             return iter.next();
         }
@@ -22,15 +22,15 @@ public class SparseRealVectorDotProduct {
 
     public double apply(SparseRealVector x, SparseRealVector y){
         double prod = 0.0;
-        Iterator<SparseElement<Double>> iter_x = x.elements();
-        Iterator<SparseElement<Double>> iter_y = y.elements();
-        SparseElement<Double> elem_x = element(iter_x);
-        SparseElement<Double> elem_y = element(iter_y);
+        Iterator<KeyValue<Integer,Double>> iter_x = x.pairs().iterator();
+        Iterator<KeyValue<Integer,Double>> iter_y = y.pairs().iterator();
+        KeyValue<Integer,Double> elem_x = element(iter_x);
+        KeyValue<Integer,Double> elem_y = element(iter_y);
         while( elem_x != null && elem_y != null ){
-            if(elem_x.index() < elem_y.index() ){
+            if(elem_x.key() < elem_y.key() ){
                 elem_x = element(iter_x);                
             }else{
-                if(elem_x.index() > elem_y.index() ){
+                if(elem_x.key() > elem_y.key() ){
                     elem_y = element(iter_y);
                 }else{
                     prod += elem_y.value() * elem_x.value();
@@ -44,12 +44,7 @@ public class SparseRealVectorDotProduct {
     
     public double sqr_norm(SparseRealVector x){
         double prod = 0.0;
-        Iterator<SparseElement<Double>> iter = x.elements();
-        SparseElement<Double> elem;
-        while( iter.hasNext() ){
-            elem = iter.next();
-            prod += elem.value() * elem.value();
-        }
+        for( Double y:x) prod += y*y;
         return prod;
     }
     

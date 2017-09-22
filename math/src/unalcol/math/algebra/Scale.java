@@ -8,7 +8,7 @@ import java.util.Iterator;
 
 import unalcol.clone.Clone;
 import unalcol.services.Service;
-import unalcol.types.collection.array.Array;
+import unalcol.types.collection.array.ImmutableArray;
 import unalcol.types.collection.array.MutableArray;
 import unalcol.types.collection.vector.Vector;
 
@@ -22,7 +22,7 @@ public abstract class Scale<T> {
     @SuppressWarnings("unchecked")
 	public T apply( T x ){ try{ return apply( (T)Service.run(Clone.name,x)); }catch(Exception e){ return apply(x); } }
     
-    public Vector<T> apply( Array<T> a ){
+    public Vector<T> apply( ImmutableArray<T> a ){
         Vector<T> v = new Vector<T>();
         Iterator<T> iter = a.iterator();
         while( iter.hasNext() ){

@@ -9,54 +9,49 @@ import java.util.Iterator;
 import unalcol.clone.Clone;
 import unalcol.math.algebra.VectorSpace;
 import unalcol.services.Service;
-import unalcol.types.collection.sparse.vector.SparseElement;
-import unalcol.types.collection.sparse.vector.SparseElementOrder;
-import unalcol.types.collection.sparse.vector.SparseVector;
+import unalcol.types.collection.keymap.KeyOrder;
+import unalcol.types.collection.keymap.KeyValue;
 import unalcol.types.collection.vector.SortedVector;
 import unalcol.types.collection.vector.Vector;
+import unalcol.types.integer.IntegerOrder;
 
 /**
  *
  * @author jgomez
  */
 public class SparseRealVectorSpace implements VectorSpace<SparseRealVector> {
-    protected SparseElementOrder<Double> order = new SparseElementOrder<Double>();
-
     @Override
     public SparseRealVector identity( SparseRealVector x ){
-        return new SparseRealVector(x.dim());
+        return new SparseRealVector(x.size());
     }
 
     @Override
     public SparseRealVector fastInverse( SparseRealVector x ){
-        Iterator<SparseElement<Double>> iter = x.elements();
+        Iterator<KeyValue<Integer,Double>> iter = x.pairs().iterator();
         while( iter.hasNext() ){
-            SparseElement<Double> el = 
-                    (SparseElement<Double>)iter.next();
+            KeyValue<Integer,Double> el = iter.next();
             el.setValue(-el.value());
         }
         return x;
     }
     
-    protected SparseElement<Double> element( Iterator<SparseElement<Double>> iter ){
-        if( iter.hasNext() ){
-            return iter.next();
-        }
+    protected KeyValue<Integer,Double> element( Iterator<KeyValue<Integer,Double>> iter ){
+        if( iter.hasNext() ) return iter.next();
         return null;
     }
 
     protected int indexCounter(SparseRealVector x, SparseRealVector y) {
         int counter = 0;
-        Iterator<SparseElement<Double>> iter_x = x.elements();
-        Iterator<SparseElement<Double>> iter_y = y.elements();
-        SparseElement<Double> elem_x = element(iter_x);
-        SparseElement<Double> elem_y = element(iter_y);
+        Iterator<KeyValue<Integer,Double>> iter_x = x.pairs().iterator();
+        Iterator<KeyValue<Integer,Double>> iter_y = y.pairs().iterator();
+        KeyValue<Integer,Double> elem_x = element(iter_x);
+        KeyValue<Integer,Double> elem_y = element(iter_y);
         while( elem_x != null && elem_y != null ){
-            if(elem_x.index() < elem_y.index() ){
+            if(elem_x.key() < elem_y.key() ){
                 counter++;
                 elem_x = element(iter_x);                
             }else{
-                if(elem_x.index() > elem_y.index() ){
+                if(elem_x.key() > elem_y.key() ){
                     counter++;
                     elem_y = element(iter_y);
                 }else{
@@ -76,7 +71,7 @@ public class SparseRealVectorSpace implements VectorSpace<SparseRealVector> {
         }
         return counter;
     }
-    
+       
     /**
      * Adds the second vector to the first vector.
      * The addition process is component by component.
@@ -84,23 +79,22 @@ public class SparseRealVectorSpace implements VectorSpace<SparseRealVector> {
      * @param x The first vector
      * @param y The second vector
      */
-    @Override
+    @SuppressWarnings("unchecked")
+	@Override
     public SparseRealVector fastPlus(SparseRealVector x, SparseRealVector y) {
-        int n = Math.max(x.values.size(),y.values.size()); //  indexCounter(x, y);
-        @SuppressWarnings("unchecked")
-		SparseElement<Double>[] elements = new SparseElement[n];
-        Vector<SparseElement<Double>> v = new Vector<SparseElement<Double>>(elements,0);
-        Iterator<SparseElement<Double>> iter_x = x.elements();
-        Iterator<SparseElement<Double>> iter_y = y.elements();
-        SparseElement<Double> elem_x = element(iter_x);
-        SparseElement<Double> elem_y = element(iter_y);
+    	int n = Math.max(x.size(), y.size());
+        Vector<KeyValue<Integer,Double>> v = new Vector<KeyValue<Integer,Double>>();
+        Iterator<KeyValue<Integer,Double>> iter_x = x.pairs().iterator();
+        Iterator<KeyValue<Integer,Double>> iter_y = y.pairs().iterator();
+        KeyValue<Integer,Double> elem_x = element(iter_x);
+        KeyValue<Integer,Double> elem_y = element(iter_y);
         while( elem_x != null && elem_y != null ){
-            if(elem_x.index() < elem_y.index() ){
+            if(elem_x.key() < elem_y.key() ){
                 v.add(elem_x);
                 elem_x = element(iter_x);
             }else{
-                if(elem_x.index() > elem_y.index() ){
-                    v.add(elem_y.clone());
+                if(elem_x.key() > elem_y.key() ){
+                    v.add((KeyValue<Integer,Double>)Clone.create(elem_y));
                     elem_y = element(iter_y);
                 }else{
                     double d = elem_x.value()+elem_y.value();
@@ -118,12 +112,11 @@ public class SparseRealVectorSpace implements VectorSpace<SparseRealVector> {
             elem_x = element(iter_x);
         }
         while( elem_y != null ){
-            v.add(elem_y.clone());
+            v.add((KeyValue<Integer,Double>)Clone.create(elem_y));
             elem_y = element(iter_y);
         }
-        SortedVector<SparseElement<Double>> zv = new SortedVector<SparseElement<Double>>(v, order);
-        x.values.clear();
-        x.values = new SparseVector<Double>(zv);
+        SortedVector<KeyValue<Integer,Double>> zv = new SortedVector<KeyValue<Integer,Double>>(v, new KeyOrder<Integer,Double>( new IntegerOrder()) );
+        x.update(zv,n);
         return x;
     }
     
@@ -135,23 +128,22 @@ public class SparseRealVectorSpace implements VectorSpace<SparseRealVector> {
      * @param x The first vector
      * @param y The second vector
      */
-    @Override
+    @SuppressWarnings("unchecked")
+	@Override
     public SparseRealVector fastMinus(SparseRealVector x, SparseRealVector y) {
-        int n = Math.max(x.values.size(),y.values.size()); //  indexCounter(x, y);
-        @SuppressWarnings("unchecked")
-		SparseElement<Double>[] elements = new SparseElement[n];
-        Vector<SparseElement<Double>> v = new Vector<SparseElement<Double>>(elements,0);
-        Iterator<SparseElement<Double>> iter_x = x.elements();
-        Iterator<SparseElement<Double>> iter_y = y.elements();
-        SparseElement<Double> elem_x = element(iter_x);
-        SparseElement<Double> elem_y = element(iter_y);
+        int n = Math.max(x.size(),y.size()); //  indexCounter(x, y);
+        Vector<KeyValue<Integer,Double>> v = new Vector<KeyValue<Integer,Double>>();
+        Iterator<KeyValue<Integer,Double>> iter_x = x.pairs().iterator();
+        Iterator<KeyValue<Integer,Double>> iter_y = y.pairs().iterator();
+        KeyValue<Integer,Double> elem_x = element(iter_x);
+        KeyValue<Integer,Double> elem_y = element(iter_y);
         while( elem_x != null && elem_y != null ){
-            if(elem_x.index() < elem_y.index() ){
+            if(elem_x.key() < elem_y.key() ){
                 v.add(elem_x);
                 elem_x = element(iter_x);
             }else{
-                if(elem_x.index() > elem_y.index() ){
-                    elem_y = elem_y.clone();
+                if(elem_x.key() > elem_y.key() ){
+                    elem_y = (KeyValue<Integer,Double>)Clone.create(elem_y);
                     elem_y.setValue(-elem_y.value());
                     v.add(elem_y);                    
                     elem_y = element(iter_y);
@@ -171,14 +163,13 @@ public class SparseRealVectorSpace implements VectorSpace<SparseRealVector> {
             elem_x = element(iter_x);
         }
         while( elem_y != null ){
-            elem_y = elem_y.clone();
+            elem_y = (KeyValue<Integer,Double>)Clone.create(elem_y);
             elem_y.setValue(-elem_y.value());
             v.add(elem_y);
             elem_y = element(iter_y);
         }
-        SortedVector<SparseElement<Double>> zv = new SortedVector<SparseElement<Double>>(v, order);
-        x.values.clear();
-        x.values = new SparseVector<Double>(zv);
+        SortedVector<KeyValue<Integer,Double>> zv = new SortedVector<KeyValue<Integer,Double>>(v, new KeyOrder<Integer,Double>( new IntegerOrder()) );
+        x.update(zv,n);
         return x;
     }
     
@@ -189,10 +180,10 @@ public class SparseRealVectorSpace implements VectorSpace<SparseRealVector> {
 	 */
 	@Override
 	public SparseRealVector fastMultiply(SparseRealVector y, double x) {
-		if( x==0.0 ) y.values.clear();
+		if( x==0.0 ) y.clear();
 		else{  
-			Iterator<SparseElement<Double>> iter = y.elements();
-			SparseElement<Double> elem;
+			Iterator<KeyValue<Integer,Double>> iter = y.pairs().iterator();
+			KeyValue<Integer,Double> elem;
 			while( iter.hasNext() ){
 				elem = iter.next();
 				elem.setValue(x * elem.value());
@@ -207,15 +198,7 @@ public class SparseRealVectorSpace implements VectorSpace<SparseRealVector> {
 	 * @param x The scalar
 	 */
 	@Override
-	public SparseRealVector fastDivide(SparseRealVector y, double x) {
-		Iterator<SparseElement<Double>> iter = y.elements();
-		SparseElement<Double> elem;
-		while( iter.hasNext() ){
-			elem = iter.next();
-			elem.setValue(elem.value()/x);
-		}
-		return y;
-	}
+	public SparseRealVector fastDivide(SparseRealVector y, double x){ return fastMultiply(y, 1.0/x); }
 	
 	protected SparseRealVector create(SparseRealVector x){
 		try{ return (SparseRealVector)Service.run(Clone.name,x); } catch(Exception e){ return x; }

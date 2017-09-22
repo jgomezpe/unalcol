@@ -8,7 +8,6 @@ import java.util.Iterator;
 import java.util.NoSuchElementException;
 
 import unalcol.sort.Order;
-import unalcol.sort.Search;
 import unalcol.types.collection.IterableCollection;
 import unalcol.types.collection.Location;
 import unalcol.types.collection.SearchCollection;
@@ -16,6 +15,7 @@ import unalcol.types.collection.tree.bplus.BPlusInnerNode;
 import unalcol.types.collection.tree.bplus.BPlusIterator;
 import unalcol.types.collection.tree.bplus.BPlusLocation;
 import unalcol.types.collection.tree.bplus.memory.MemoryLeafNode;
+import unalcol.types.object.BinarySearch;
 
 /**
  *
@@ -25,8 +25,8 @@ public class ImmutableBPlus<T> implements SearchCollection<T>, IterableCollectio
     protected ImmutableInnerNode<T> root;
     protected Order<T> order;
     protected ImmutableNodeOrder<T> node_order;
-    protected Search<T> search;
-    protected Search<ImmutableNode<T>> node_search;
+    protected BinarySearch<T> search;
+    protected BinarySearch<ImmutableNode<T>> node_search;
 
     public ImmutableBPlus( Order<T> order ){
     	this( order, null );
@@ -36,12 +36,13 @@ public class ImmutableBPlus<T> implements SearchCollection<T>, IterableCollectio
         this.root = root;
         this.order = order;
         this.node_order = new ImmutableNodeOrder<>(order);
-        this.search = new Search<T>();
-        this.node_search = new Search<ImmutableNode<T>>();
+        this.search = new BinarySearch<T>(null,order);
+        this.node_search = new BinarySearch<ImmutableNode<T>>(null,node_order);
     }
 
     public int search( T[] keys, T key, int n ){
-        return search.findRight(keys, 0, n, key, order);
+    	search.set(keys);
+        return search.findRight(0, n, key);
     }
 
     public Order<T> key_order(){ return order; }
@@ -52,7 +53,8 @@ public class ImmutableBPlus<T> implements SearchCollection<T>, IterableCollectio
     public int search( ImmutableNode<T>[] keys, T key, int n ){
     	search_aux.remove();
         search_aux.add(key);
-        return node_search.findRight(keys, 0, n, search_aux, node_order);
+        node_search.set(keys);
+        return node_search.findRight(0, n, search_aux);
     }
 
     @Override

@@ -5,10 +5,10 @@ import java.io.RandomAccessFile;
 import java.util.Iterator;
 
 import unalcol.instance.Load;
-import unalcol.types.collection.array.Array;
+import unalcol.types.collection.array.ImmutableArray;
 import unalcol.types.collection.array.ArrayIterator;
 
-public class FileArrayCollection<T> implements Array<T>{
+public class FileArrayCollection<T> implements ImmutableArray<T>{
 	protected RandomAccessFile file = null;
 	protected Load<T> load;
 	

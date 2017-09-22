@@ -20,5 +20,5 @@ public class Percept {
 	
 	public Object getAttribute( String code ){ return table.get(code); }
 
-	public void setAttribute( String key, Object value ){ table.put(key, value); }
+	public void setAttribute( String key, Object value ){ table.set(key, value); }
 }

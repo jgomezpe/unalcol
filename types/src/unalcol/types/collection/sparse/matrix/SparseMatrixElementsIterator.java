@@ -3,13 +3,13 @@ package unalcol.types.collection.sparse.matrix;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
-import unalcol.types.collection.sparse.vector.SparseElement;
-import unalcol.types.collection.sparse.vector.SparseVector;
+import unalcol.types.collection.keymap.KeyValue;
+import unalcol.types.collection.sparse.SparseArray;
 
 public class SparseMatrixElementsIterator<T> implements Iterator<SparseMatrixElement<T>>{
 	protected SparseMatrix<T> matrix;
 	protected T value;
-	protected Iterator<SparseElement<SparseMatrix<T>>> iter=null;
+	protected Iterator<KeyValue<Integer,SparseMatrix<T>>> iter=null;
 	protected SparseMatrixElementsIterator<T> inner_iter = null;
 	protected int[] reduce;
 	protected int[] order;
@@ -38,8 +38,8 @@ public class SparseMatrixElementsIterator<T> implements Iterator<SparseMatrixEle
 		this.k = k;
 		this.reduce = reduce;
 		if( k<order.length ){
-			SparseVector<SparseMatrix<T>> vector = matrix.dimension_data[reduce[k]];
-			this.iter = (Iterator<SparseElement<SparseMatrix<T>>>)vector.sparse_elements();
+			SparseArray<SparseMatrix<T>> vector = matrix.dimension_data[reduce[k]];
+			this.iter = (Iterator<KeyValue<Integer,SparseMatrix<T>>>)vector.pairs().iterator();
 		}else{
 			value = matrix.data;
 		}	
@@ -51,8 +51,8 @@ public class SparseMatrixElementsIterator<T> implements Iterator<SparseMatrixEle
 		if( k+1<order.length && inner_iter != null && inner_iter.hasNext() ) return true;
 		boolean flag = false;
 		while(!flag && iter.hasNext() ){
-			SparseElement<SparseMatrix<T>> element = iter.next();
-			indices[order[k]] = element.index();
+			KeyValue<Integer,SparseMatrix<T>> element = iter.next();
+			indices[order[k]] = element.key();
 			inner_iter = new SparseMatrixElementsIterator<T>(element.value(), order, reduce, k+1, indices);
 			flag = inner_iter.hasNext();				
 		}

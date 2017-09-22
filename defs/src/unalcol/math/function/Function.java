@@ -19,8 +19,8 @@ public interface Function<S, T> extends AbstractThing, Runnable{
 	public static final String input="input"; 
 	public static final String output="output"; 
 	
-	public default void setInput(S in){ put(Function.input,in); }
-	public default void setOutput(T out){ put(Function.output,out); }
+	public default void setInput(S in){ set(Function.input,in); }
+	public default void setOutput(T out){ set(Function.output,out); }
 	@SuppressWarnings("unchecked")
 	public default S input(){ return (S)get(Function.input); }
 	@SuppressWarnings("unchecked")
@@ -82,7 +82,7 @@ public interface Function<S, T> extends AbstractThing, Runnable{
 	 */
 	@SuppressWarnings("unchecked")
 	public default T apply(Tagged<S> x){
-		if( !deterministic() || x.get(this) == null ) x.put(this, apply(x.unwrap()));
+		if( !deterministic() || x.get(this) == null ) x.set(this, apply(x.unwrap()));
 		return (T)x.get(this);
 	}
 

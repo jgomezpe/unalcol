@@ -14,7 +14,7 @@ public class PathTracer<T> extends Thing implements Tracer<Tagged<T>> {
 		if( obj.length % 2 == 1 ){
 			int k=1;		
 			for( int i=k; i<obj.length; i+=2 ){
-			    ((Tagged<T>)obj[i+1]).put( PARENT, parent);
+			    ((Tagged<T>)obj[i+1]).set( PARENT, parent);
 			}	
 		}
 	}

@@ -2,6 +2,7 @@ package unalcol.sort;
 
 import unalcol.algorithm.Algorithm;
 import unalcol.services.Service;
+import unalcol.sort.Order;
 
 /**
  * <p>Abstract Sorting algorithm for Arrays of objects</p>

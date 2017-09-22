@@ -1,8 +1,8 @@
 package unalcol.data;
 
 import java.util.Iterator;
-import unalcol.types.collection.array.Array;
 import unalcol.types.collection.array.ArrayIterator;
+import unalcol.types.collection.array.ImmutableArray;
 
 
 /**
@@ -14,12 +14,12 @@ import unalcol.types.collection.array.ArrayIterator;
  * @version 1.0
  *
  */
-public class SampledArray<T> implements Array<T>{
+public class SampledArray<T> implements ImmutableArray<T>{
 
     /**
      * The source of objects to be sampled
      */
-    protected Array<T> source = null;
+    protected ImmutableArray<T> source = null;
     /**
      * The subset of objects to be sampled (marked objects).
      * The sampling only uses the marked objects for generating the sample set
@@ -33,7 +33,7 @@ public class SampledArray<T> implements Array<T>{
      * @param source Object source to be sampled
      * @param index Objects that are marked (used for generating the sample set)
      */
-    public SampledArray(Array<T> source, int[] index) {
+    public SampledArray(ImmutableArray<T> source, int[] index) {
         this.source = source;
         if (index != null) {
             this.index = index;
@@ -51,7 +51,7 @@ public class SampledArray<T> implements Array<T>{
         return v;
     }
     
-    public Array<T> source(){
+    public ImmutableArray<T> source(){
         return source;
     }
     

@@ -5,7 +5,7 @@ import unalcol.random.raw.RawGenerator;
 import unalcol.services.Service;
 import unalcol.services.ServicePool;
 import unalcol.sort.Order;
-import unalcol.types.collection.array.ArrayUtil;
+import unalcol.types.object.ArrayUtil;
 import unalcol.types.integer.IntegerOrder;
 
 public class ArrayUtilTest {

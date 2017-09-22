@@ -30,7 +30,7 @@ public class ESStep<T,P> extends VariationReplacePopulationSearch<T,Double> impl
 	public Tagged<T>[] init(Space<T> space) {
     	Tagged<T>[] pop = super.init(space);
     	for( int i=0; i<pop.length; i++ ){
-    		pop[i].put(ESVariation.PARAMETERS_OPERATOR, s_space.pick() );
+    		pop[i].set(ESVariation.PARAMETERS_OPERATOR, s_space.pick() );
     	}
     	return pop;
 	}

@@ -104,7 +104,7 @@ public class SparseRealVectorPlainReadService extends MicroService<SparseRealVec
             Read.readSeparator(reader, separator);
             v = rr.read(reader);
             Read.readSeparator(reader, separator);
-            d.set(k,v);
+            d.set(k,(Double)v);
         }
         return d;
     }
