@@ -4,9 +4,9 @@ import java.util.Arrays;
 
 import unalcol.types.collection.Location;
 import unalcol.types.collection.array.ArrayLocation;
-import unalcol.types.collection.array.MutableArray;
+import unalcol.types.collection.array.Array;
 
-public class WrapIntArrayAsCollection implements MutableArray<Integer>{
+public class WrapIntArrayAsCollection implements Array<Integer>{
 	protected IntArray array;
 	
 	public WrapIntArrayAsCollection() { this(new IntArray()); }

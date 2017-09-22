@@ -1,11 +1,11 @@
 package unalcol.types.collection.sparse;
 
 
-import unalcol.types.collection.array.MutableArray;
+import unalcol.types.collection.array.Array;
 import unalcol.types.collection.keymap.KeyValue;
 import unalcol.types.collection.vector.SortedVector;
 
-public class SparseArray<T> extends ImmutableSparseArray<T> implements MutableArray<T> {
+public class SparseArray<T> extends ImmutableSparseArray<T> implements Array<T> {
     public SparseArray(){ super(); }
 
     public SparseArray( SortedVector<KeyValue<Integer,T>> vector ) { super(vector); }

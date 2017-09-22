@@ -9,7 +9,7 @@ import java.util.Iterator;
 import unalcol.clone.Clone;
 import unalcol.services.Service;
 import unalcol.types.collection.array.ImmutableArray;
-import unalcol.types.collection.array.MutableArray;
+import unalcol.types.collection.array.Array;
 import unalcol.types.collection.vector.Vector;
 
 /**
@@ -28,7 +28,7 @@ public abstract class InvertableScale<T> extends Scale<T>{
         return v;
     } 
     
-    public void fastInverse( MutableArray<T> a ){
+    public void fastInverse( Array<T> a ){
         for( int i=0; i<a.size(); i++ ) a.set(i, fastInverse(a.get(i)));
     }    
 }

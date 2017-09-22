@@ -2,10 +2,10 @@ package unalcol.types.collection.vector;
 
 import unalcol.types.collection.Location;
 import unalcol.types.collection.array.ArrayLocation;
-import unalcol.types.collection.array.MutableArray;
+import unalcol.types.collection.array.Array;
 import unalcol.types.object.FiboArray;
 
-public class Vector<T> extends FiboArray implements MutableArray<T>{
+public class Vector<T> extends FiboArray implements Array<T>{
 	protected T[] buffer;
 	protected int size;
 

@@ -12,7 +12,7 @@ import unalcol.types.collection.keymap.KeyMap;
  * @author Jonatan Gomez Perdomo
  * @version 1.0
  */
-public interface MutableArray<T> extends ImmutableArray<T>, KeyMap<Integer,T>{
+public interface Array<T> extends ImmutableArray<T>, KeyMap<Integer,T>{
 	/**
 	 * Adds an element to the array at the given position
 	 * @param index Position where the element will be located in the array

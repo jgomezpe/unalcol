@@ -40,8 +40,8 @@ public class ArrayIterator<T>  implements Iterator<T> {
 
 	@Override
 	public void remove() {
-		if( array instanceof MutableArray ){
-			((MutableArray<T>)array).remove(pos);
+		if( array instanceof Array ){
+			((Array<T>)array).remove(pos);
 		}
 	}    
 }
