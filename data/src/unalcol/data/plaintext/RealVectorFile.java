@@ -7,8 +7,10 @@ package unalcol.data.plaintext;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
-import java.io.StringReader;
+
+import unalcol.io.ReaderCollection;
 import unalcol.io.ShortTermMemoryReader;
+import unalcol.language.symbol.CharEncode;
 import unalcol.types.collection.vector.Vector;
 import unalcol.types.real.array.DoubleArrayPlainRead;
 
@@ -41,13 +43,11 @@ public class RealVectorFile {
         if( dimensions != null ){
         	line = file.readLine();
         }
-        DoubleArrayPlainRead service = new DoubleArrayPlainRead(separator);
+        DoubleArrayPlainRead<Character> service = new DoubleArrayPlainRead<Character>(separator);
         Vector<double[]> data_points = new Vector<double[]>();
-        StringReader r;
-        ShortTermMemoryReader reader;
+        ShortTermMemoryReader<Character> reader;
         while(line!=null){
-            r = new StringReader( line );
-            reader = new ShortTermMemoryReader(r);
+            reader = new ShortTermMemoryReader<Character>( new ReaderCollection(line), new CharEncode()	);
             data_points.add(service.read(reader));
             line = file.readLine();
         }

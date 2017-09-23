@@ -13,15 +13,15 @@ import java.io.*;
  *
  * @author jgomez
  */
-public class IntegerPlainRead extends MicroService<Integer> implements Read<Integer>{
+public class IntegerPlainRead<S> extends MicroService<Integer> implements Read<Integer,S>{
 
-    public static void back( char c, ShortTermMemoryReader reader ){
+    public static <S> void back( char c, ShortTermMemoryReader<S> reader ){
         if( c != (char)-1 ){
             reader.back();
         }
     }
 
-    public static void readDigitStar( ShortTermMemoryReader reader,
+    public static <S> void readDigitStar( ShortTermMemoryReader<S> reader,
                                   StringBuilder sb ) throws IOException{
         char c = (char)reader.read();
         while( Character.isDigit(c)){
@@ -31,7 +31,7 @@ public class IntegerPlainRead extends MicroService<Integer> implements Read<Inte
         back(c, reader);
     }
 
-    public static void removeSpaces( ShortTermMemoryReader reader ) throws IOException{
+    public static <S> void removeSpaces( ShortTermMemoryReader<S> reader ) throws IOException{
         char c = (char)reader.read();
         while( Character.isSpaceChar(c)){
             c = (char)reader.read();
@@ -40,7 +40,7 @@ public class IntegerPlainRead extends MicroService<Integer> implements Read<Inte
     }
 
     @Override
-    public Integer read(ShortTermMemoryReader reader) throws
+    public Integer read(ShortTermMemoryReader<S> reader) throws
             RowColumnReaderException{
         try{
             removeSpaces(reader);

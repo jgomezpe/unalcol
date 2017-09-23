@@ -14,7 +14,7 @@ import unalcol.services.MicroService;
  *
  * @author jgomez
  */
-public class DoubleArrayPlainRead extends MicroService<double[]> implements Read<double[]>{
+public class DoubleArrayPlainRead<S> extends MicroService<double[]> implements Read<double[],S>{
 	public static final String integer = "Read.integer";
 	public static final String real = "Read.double";
 	protected boolean read_dimension = true;
@@ -39,22 +39,22 @@ public class DoubleArrayPlainRead extends MicroService<double[]> implements Read
 	}
 
 	public AbstractMicroService<?> wrap(String id){
-		if( id.equals(integer) ) return new ReadWrapper<Integer>();
-		if( id.equals(real) ) return new ReadWrapper<Double>();
+		if( id.equals(integer) ) return new ReadWrapper<Integer,S>();
+		if( id.equals(real) ) return new ReadWrapper<Double,S>();
 		return null;
 	}
 	
     @Override
-    public double[] read( ShortTermMemoryReader reader ) throws IOException{
+    public double[] read( ShortTermMemoryReader<S> reader ) throws IOException{
         if( read_dimension ){
         	@SuppressWarnings("unchecked")
-    		Read<Integer> ri = (Read<Integer>)getMicroService(integer);
+    		Read<Integer,S> ri = (Read<Integer,S>)getMicroService(integer);
         	ri.setCaller(n);
         	n = ri.read(reader);
             Read.readSeparator(reader, separator);        	
         }
     	@SuppressWarnings("unchecked")
-		Read<Double> rr = (Read<Double>)getMicroService(real);
+		Read<Double,S> rr = (Read<Double,S>)getMicroService(real);
     	rr.setCaller(0.0);
 		double[] a = new double[n];
         for (int i = 0; i < n-1; i++) {

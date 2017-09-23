@@ -7,7 +7,7 @@ import unalcol.io.Read;
 import unalcol.io.ShortTermMemoryReader;
 import unalcol.services.MicroService;
 
-public class DoubleMatrixPlainRead extends MicroService<double[][]> implements Read<double[][]> {
+public class DoubleMatrixPlainRead<S> extends MicroService<double[][]> implements Read<double[][],S> {
     /**
      * Character used for separating the values in the array
      */
@@ -31,7 +31,7 @@ public class DoubleMatrixPlainRead extends MicroService<double[][]> implements R
      * @param reader The reader object
      * @throws IOException IOException
      */
-    public double[][] read(ShortTermMemoryReader reader) throws IOException {
+    public double[][] read(ShortTermMemoryReader<S> reader) throws IOException {
         StreamTokenizer tok = new StreamTokenizer(reader);
         tok.nextToken();
         int n = (int) tok.nval;

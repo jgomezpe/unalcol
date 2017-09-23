@@ -53,7 +53,7 @@ import unalcol.services.MicroService;
 * (E-mail: <A HREF="mailto:jgomezpe@unal.edu.co">jgomezpe@unal.edu.co</A> )
 * @version 1.0
 */
-public class DefaultRead extends MicroService<Object> implements Read<Object> {
+public class DefaultRead<S> extends MicroService<Object> implements Read<Object,S> {
 	/**
 	 * Reads an instance of the class associated to the service from the <i>reader</i>, if possible.
 	 * @param reader The ShortTermMemoryReader from which the instance will be read.
@@ -61,7 +61,7 @@ public class DefaultRead extends MicroService<Object> implements Read<Object> {
 	 * @throws IOException if an error reading the instance occurred.  
 	 */
 	@Override
-	public Object read(ShortTermMemoryReader reader) throws IOException {
+	public Object read(ShortTermMemoryReader<S> reader) throws IOException {
 		try{ 
 			Object obj = caller();
 			Class<?> type = (obj instanceof Class<?>)?(Class<?>)obj:obj.getClass();
