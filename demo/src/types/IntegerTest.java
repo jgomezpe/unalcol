@@ -1,15 +1,13 @@
 package types;
 
-import java.io.StringReader;
-
+import unalcol.io.CharReader;
 import unalcol.io.RowColumnReaderException;
 import unalcol.io.ShortTermMemoryReader;
 import unalcol.types.integer.IntegerPlainRead;
 
 public class IntegerTest {
     public static void read(){
-        StringReader r = new StringReader("    --1234,");
-        ShortTermMemoryReader reader = new ShortTermMemoryReader(r);
+        ShortTermMemoryReader reader = new CharReader("    --1234,");
         IntegerPlainRead service = new IntegerPlainRead();
         try{
            Integer i = service.read(reader);

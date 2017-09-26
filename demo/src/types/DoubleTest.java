@@ -1,7 +1,6 @@
 package types;
 
-import java.io.StringReader;
-
+import unalcol.io.CharReader;
 import unalcol.io.ShortTermMemoryReader;
 import unalcol.types.real.DoublePlainRead;
 
@@ -9,8 +8,7 @@ public class DoubleTest {
 
     public static void read(){
         // Reflection
-        StringReader r = new StringReader("    -123.44555e-123");
-        ShortTermMemoryReader reader = new ShortTermMemoryReader(r);
+        ShortTermMemoryReader reader = new CharReader("    -123.44555e-123");
         DoublePlainRead service = new DoublePlainRead();
         try{
            Double x = service.read(reader);

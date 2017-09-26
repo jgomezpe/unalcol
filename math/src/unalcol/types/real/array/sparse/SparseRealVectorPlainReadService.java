@@ -17,7 +17,7 @@ import unalcol.services.Service;
  *
  * @author jgomez
  */
-public class SparseRealVectorPlainReadService<S> extends MicroService<SparseRealVector> implements Read<SparseRealVector,S>{
+public class SparseRealVectorPlainReadService extends MicroService<SparseRealVector> implements Read<SparseRealVector>{
 	public static final String integer = "Read.integer";
 	public static final String real = "Read.double";
     /**
@@ -27,8 +27,8 @@ public class SparseRealVectorPlainReadService<S> extends MicroService<SparseReal
 
     protected boolean read_dimension = true;
     protected int n = -1;
-	protected Read<Integer,S> ri=null;
-	protected Read<Double,S> rr=null;
+	protected Read<Integer> ri=null;
+	protected Read<Double> rr=null;
 
     /**
      * Creates an integer array persistent method that uses an space for separatng the array values
@@ -54,7 +54,7 @@ public class SparseRealVectorPlainReadService<S> extends MicroService<SparseReal
         this.separator = separator;
     }
 
-    protected boolean hasNext(ShortTermMemoryReader<S> reader){
+    protected boolean hasNext(ShortTermMemoryReader reader){
         try{
             if( reader.read() != -1 ){
                 reader.back();
@@ -66,35 +66,35 @@ public class SparseRealVectorPlainReadService<S> extends MicroService<SparseReal
     }
 
 	public AbstractMicroService<?> wrap(String id){
-		if( id.equals(integer) ) return new ReadWrapper<Integer,S>();
-		if( id.equals(real) ) return new ReadWrapper<Double,S>();
+		if( id.equals(integer) ) return new ReadWrapper<Integer>();
+		if( id.equals(real) ) return new ReadWrapper<Double>();
 		return null;
 	}
 	
-    public void setIntReader( Read<Integer,S> ri ){ this.ri = ri; }
+    public void setIntReader( Read<Integer> ri ){ this.ri = ri; }
 	
-	protected int readInt(ShortTermMemoryReader<S> reader) throws Exception{
+	protected int readInt(ShortTermMemoryReader reader) throws Exception{
 		if( ri!=null ) return ri.read(reader);
 		return (int)Service.run(Read.name, Integer.class, reader);
 	}
 	
-	public void setDoubleReader( Read<Double,S> rr ){ this.rr = rr; }
+	public void setDoubleReader( Read<Double> rr ){ this.rr = rr; }
 	
-	protected double readDouble(ShortTermMemoryReader<S> reader) throws Exception{
+	protected double readDouble(ShortTermMemoryReader reader) throws Exception{
 		if( rr!=null ) return rr.read(reader);
 		return (double)Service.run(Read.name, Double.class, reader);
 	}
     
-	public SparseRealVector read( ShortTermMemoryReader<S> reader ) throws IOException{
+	public SparseRealVector read( ShortTermMemoryReader reader ) throws IOException{
     	@SuppressWarnings("unchecked")
-		Read<Integer,S> ri = (Read<Integer,S>)getMicroService(integer);
+		Read<Integer> ri = (Read<Integer>)getMicroService(integer);
     	ri.setCaller(n);
         if( read_dimension ){
         	n = ri.read(reader);
             Read.readSeparator(reader, separator);        	
         }
     	@SuppressWarnings("unchecked")
-		Read<Double,S> rr = (Read<Double,S>)getMicroService(real);
+		Read<Double> rr = (Read<Double>)getMicroService(real);
     	rr.setCaller(0.0);
         SparseRealVector d = new SparseRealVector(n);
         int k;

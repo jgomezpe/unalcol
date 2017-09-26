@@ -15,7 +15,7 @@ import unalcol.services.MicroService;
  * @version 1.0
  */
 
-public class IntArrayPlainRead<S> extends MicroService<int[]>  implements Read<int[],S>{
+public class IntArrayPlainRead extends MicroService<int[]>  implements Read<int[]>{
 	protected boolean read_dimension = true;
 	protected char separator = ' ';
 	protected int n=-1;
@@ -38,7 +38,7 @@ public class IntArrayPlainRead<S> extends MicroService<int[]>  implements Read<i
 	}
 	
 	public AbstractMicroService<?> wrap(String id){
-		if( id.equals(Read.name) ) return new ReadWrapper<Integer,S>();
+		if( id.equals(Read.name) ) return new ReadWrapper<Integer>();
 		return null;
 	}
 	
@@ -47,9 +47,9 @@ public class IntArrayPlainRead<S> extends MicroService<int[]>  implements Read<i
      * @param reader The reader object
      * @throws IOException IOException
      */
-    public int[] read(ShortTermMemoryReader<S> reader) throws IOException{
+    public int[] read(ShortTermMemoryReader reader) throws IOException{
     	@SuppressWarnings("unchecked")
-		Read<Integer,S> ri = (Read<Integer,S>)getMicroService(Read.name);
+		Read<Integer> ri = (Read<Integer>)getMicroService(Read.name);
     	ri.setCaller(n);
         if( read_dimension ){
         	n = ri.read(reader);

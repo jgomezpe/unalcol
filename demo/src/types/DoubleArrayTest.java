@@ -5,8 +5,7 @@
  */
 package types;
 
-import java.io.StringReader;
-
+import unalcol.io.CharReader;
 import unalcol.io.Read;
 import unalcol.io.ShortTermMemoryReader;
 import unalcol.io.Write;
@@ -56,8 +55,7 @@ public class DoubleArrayTest {
     public static double[] persistency(){
         // The first value is the number of real values, followed by the values
         // to be stored in the double array
-        StringReader r = new StringReader("  3  -1234.4555e-123 345.6789 23.456");
-        ShortTermMemoryReader reader = new ShortTermMemoryReader(r);
+        ShortTermMemoryReader reader = new CharReader("  3  -1234.4555e-123 345.6789 23.456");
         double[] x = new double[0];
         try{
            // Reading the array from the provided buffer (reader) 

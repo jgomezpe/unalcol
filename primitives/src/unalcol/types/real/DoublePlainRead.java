@@ -12,10 +12,10 @@ import unalcol.types.integer.IntegerPlainRead;
  *
  * @author jgomez
  */
-public class DoublePlainRead<S> extends MicroService<Double>  implements Read<Double,S>{
+public class DoublePlainRead extends MicroService<Double>  implements Read<Double>{
 
     @Override
-    public Double read(ShortTermMemoryReader<S> reader) throws RowColumnReaderException{
+    public Double read(ShortTermMemoryReader reader) throws RowColumnReaderException{
         try{
             IntegerPlainRead.removeSpaces(reader);
             char c = (char)reader.read();

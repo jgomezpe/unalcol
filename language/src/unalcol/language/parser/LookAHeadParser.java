@@ -4,7 +4,6 @@ import unalcol.types.collection.array.Array;
 import unalcol.types.collection.array.ImmutableArray;
 import unalcol.types.collection.vector.Vector;
 import unalcol.language.LanguageException;
-import unalcol.language.Parser;
 import unalcol.language.Token;
 import unalcol.language.Typed;
 

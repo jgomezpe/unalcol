@@ -1,7 +1,6 @@
 package unalcol.language.lexer;
 
 import unalcol.language.LanguageException;
-import unalcol.language.Lexer;
 import unalcol.language.Token;
 import unalcol.types.collection.array.Array;
 import unalcol.types.collection.array.ImmutableArray;

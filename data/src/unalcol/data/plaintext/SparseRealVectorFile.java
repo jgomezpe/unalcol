@@ -8,9 +8,8 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 
-import unalcol.io.ReaderCollection;
+import unalcol.io.CharReader;
 import unalcol.io.ShortTermMemoryReader;
-import unalcol.language.symbol.CharEncode;
 import unalcol.types.collection.vector.Vector;
 import unalcol.types.real.array.sparse.SparseRealVector;
 import unalcol.types.real.array.sparse.SparseRealVectorPlainReadService;
@@ -26,12 +25,12 @@ public class SparseRealVectorFile {
         String[] dimensions = line.split(""+separator);
         int n = Integer.parseInt(dimensions[0]);
         int d = Integer.parseInt(dimensions[1]);
-        SparseRealVectorPlainReadService<Character> read = new SparseRealVectorPlainReadService<Character>(d, separator);
+        SparseRealVectorPlainReadService read = new SparseRealVectorPlainReadService(d, separator);
         Vector<SparseRealVector> data_points = new Vector<SparseRealVector>();
         //System.out.println(" " + n + "," + d );
-        ShortTermMemoryReader<Character> reader;
+        ShortTermMemoryReader reader;
         for( int i=0; i<n; i++ ){
-            reader = new ShortTermMemoryReader<Character>( new ReaderCollection(file.readLine()), new CharEncode()	);
+            reader = new CharReader( file.readLine() );
             data_points.add(read.read(reader));
         }
         file.close();

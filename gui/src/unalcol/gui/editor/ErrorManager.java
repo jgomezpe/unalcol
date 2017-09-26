@@ -3,6 +3,7 @@ package unalcol.gui.editor;
 import java.io.InputStream;
 
 import unalcol.gui.I18N.I18NManager;
+import unalcol.io.Position;
 
 public class ErrorManager extends I18NManager{
 	public static final String ERROR = "error";

@@ -14,6 +14,8 @@ import javax.swing.text.StyleConstants;
 import javax.swing.text.StyleContext;
 import javax.swing.text.StyledDocument;
 
+import unalcol.language.lexer.Token;
+
 public class SyntaxEditPanel extends JTextPane implements SyntaxEditComponent{
 	protected SyntaxStyle def;
 	protected SyntaxStyle[] styles;

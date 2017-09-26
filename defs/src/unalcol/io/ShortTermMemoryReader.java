@@ -1,11 +1,6 @@
 package unalcol.io;
 
 import java.io.*;
-import java.util.Iterator;
-
-import unalcol.language.symbol.Encode;
-import unalcol.types.collection.ClosableCollection;
-import unalcol.types.collection.Collection;
 
 //
 //Unalcol Service structure Pack 1.0 by Jonatan Gomez-Perdomo
@@ -55,7 +50,7 @@ import unalcol.types.collection.Collection;
 * (E-mail: <A HREF="mailto:jgomezpe@unal.edu.co">jgomezpe@unal.edu.co</A> )
 * @version 1.0
 */
-public class ShortTermMemoryReader<T> extends Reader {
+public abstract class ShortTermMemoryReader extends Reader implements Position{
 	/**
 	 * Default number of characters that is able to maintain the reader (last read characters)
 	 */
@@ -95,13 +90,6 @@ public class ShortTermMemoryReader<T> extends Reader {
 	protected int CARRIAGERETURN = (int) '\r';
 
 	/**
-	 * Underline Reader
-	 */
-	protected Iterator<T> reader;
-	
-	protected Encode<T> encoder;
-
-	/**
 	 * Initializes the inner state of the UnalcolReader
 	 * @param n Maximum number of characters stored by the Reader
 	 */
@@ -124,56 +112,22 @@ public class ShortTermMemoryReader<T> extends Reader {
 	/**
 	 * Creates a short term memory reader that maintains at most the last <i>MEMORY_SIZE</i> read symbols
 	 * @param MEMORY_SIZE Memory size (maintains at most the last <i>MEMORY_SIZE</i> read symbols)
-	 * @param reader The underline reader
-	 */
-	public ShortTermMemoryReader(int MEMORY_SIZE, Collection<T> reader, Encode<T> encoder ) {
-		this(MEMORY_SIZE, reader.iterator(), encoder);
-	}
-
-	/**
-	 * Creates a short term memory reader that maintains at most the last <i>MEMORY_SIZE</i> read symbols
-	 * @param MEMORY_SIZE Memory size (maintains at most the last <i>MEMORY_SIZE</i> read symbols)
 	 * @param reader The underline InputStream
 	 */
-	public ShortTermMemoryReader(int MEMORY_SIZE, Iterator<T> reader, Encode<T> encoder) {
-		init(MEMORY_SIZE + 1);
-		this.reader = reader;
-		this.encoder = encoder;
-	}
+	public ShortTermMemoryReader(int MEMORY_SIZE) { init(MEMORY_SIZE + 1); }
 
 	/**
 	 * Creates a short term memory reader that maintains at most the last <i>MEMORY_SIZE</i> (default) read symbols
 	 * @param reader The underline Reader
 	 */
-	public ShortTermMemoryReader(Iterator<T> reader, Encode<T> encoder) {
-		this(MEMORY_SIZE, reader, encoder);
-	}
-
-	/**
-	 * Creates a short term memory reader that maintains at most the last <i>MEMORY_SIZE</i> (default) read symbols
-	 * @param reader The underline InputStream.
-	 */
-	public ShortTermMemoryReader(Collection<T> reader, Encode<T> encoder) {
-		this(reader.iterator(), encoder);
-	}
-
-	/**
-	 * Creates a short term memory reader using a String as InputStream
-	 * @param reader The underline InputStream
-	 */
-/*	public ShortTermMemoryReader(String reader) {
-		this(reader.length(), new StringReader(reader));
-	} */
+	public ShortTermMemoryReader() { this(MEMORY_SIZE); }
 
 	/**
 	 * Obtains a new symbol from the underline reader.
 	 * @return The next available symbol
 	 * @throws IOException If there was an exception reading a symbol
 	 */
-	protected int get() throws IOException {
-		if( reader.hasNext()) return encoder.apply(reader.next());
-		return -1;
-	}
+	protected abstract int get() throws IOException;
 
 	/**
 	 * Determines the maximum number of symbols that can "virtually" returned to the reader. (Using the memory)
@@ -274,12 +228,8 @@ public class ShortTermMemoryReader<T> extends Reader {
 	 * Closes the underline reader
 	 * @throws IOException An exception if it was not possible to close the reader.
 	 */
-	@SuppressWarnings("unchecked")
 	@Override
-	public void close() throws IOException {
-		try{ if( reader instanceof ClosableCollection ) ((ClosableCollection<T>)reader).close(); }
-		catch( Exception e ){ throw getException(e.getMessage()); }
-	}
+	public abstract void close() throws IOException;
 
 	/**
 	 * Marks the actual position as a mark for reseting the reader. The readAheadLimit is
@@ -332,11 +282,19 @@ public class ShortTermMemoryReader<T> extends Reader {
 	 * Gets the actual reading row
 	 * @return Reading row
 	 */
-	public int getRow() { return row[pos]; }
+	@Override
+	public int row() { return row[pos]; }
 
 	/**
 	 * Gets the actual reading column
 	 * @return Reading column
 	 */
-	public int getColumn() { return column[pos]; }
+	@Override
+	public int column() { return column[pos]; }
+	
+	@Override
+	public void setRow(int row){}
+
+	@Override
+	public void setColumn(int column) {}	
 }
