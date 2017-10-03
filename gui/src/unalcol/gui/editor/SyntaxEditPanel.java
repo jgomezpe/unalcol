@@ -14,13 +14,15 @@ import javax.swing.text.StyleConstants;
 import javax.swing.text.StyleContext;
 import javax.swing.text.StyledDocument;
 
-import unalcol.language.lexer.Token;
+import unalcol.language.programming.lexer.Token;
+import unalcol.types.collection.array.Array;
+import unalcol.language.programming.lexer.Lexer;
 
 public class SyntaxEditPanel extends JTextPane implements SyntaxEditComponent{
 	protected SyntaxStyle def;
 	protected SyntaxStyle[] styles;
 	protected String[] token_style=null;
-	protected Tokenizer tokenizer=null;
+	protected Lexer tokenizer=null;
 	
 	/**
 	 * 
@@ -32,7 +34,7 @@ public class SyntaxEditPanel extends JTextPane implements SyntaxEditComponent{
 		this.getDocument().addDocumentListener(new SyntaxDocumentListener(this));
 	}
 	
-	public void setTokenizer(Tokenizer tokenizer, String[] token_style){
+	public void setTokenizer(Lexer tokenizer, String[] token_style){
 		this.tokenizer = tokenizer;
 		this.token_style = token_style;
 		update();
@@ -89,7 +91,7 @@ class SyntaxDocumentListener implements DocumentListener {
 			String code = null;
 	        try{ code = doc.getText(start, length); } catch (BadLocationException e1) {}
 	        if( code != null && code.length()>0 ){
-				Token[] token = edit.tokenizer.tokens(code);
+				Array<Token> token = edit.tokenizer.apply(arg0, 0, arg2)tokens(code);
 				for( Token t:token ){
 					t.shift(start);
 					changes.add(t);
