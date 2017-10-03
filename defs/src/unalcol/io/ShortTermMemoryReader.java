@@ -50,7 +50,7 @@ import java.io.*;
 * (E-mail: <A HREF="mailto:jgomezpe@unal.edu.co">jgomezpe@unal.edu.co</A> )
 * @version 1.0
 */
-public abstract class ShortTermMemoryReader extends Reader implements Position{
+public abstract class ShortTermMemoryReader extends Reader{
 	/**
 	 * Default number of characters that is able to maintain the reader (last read characters)
 	 */
@@ -282,19 +282,13 @@ public abstract class ShortTermMemoryReader extends Reader implements Position{
 	 * Gets the actual reading row
 	 * @return Reading row
 	 */
-	@Override
 	public int row() { return row[pos]; }
 
 	/**
 	 * Gets the actual reading column
 	 * @return Reading column
 	 */
-	@Override
 	public int column() { return column[pos]; }
 	
-	@Override
-	public void setRow(int row){}
-
-	@Override
-	public void setColumn(int column) {}	
+	public Position2D position() { return new Position2D(pos, row(), column()); }	
 }

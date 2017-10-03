@@ -64,8 +64,10 @@ public interface ImmutableArray<T> extends ImmutableKeyMap<Integer,T>{
 	 * If the element is not in the data structure the hasNext method will return an exception
 	 */
 	@Override
-	public default Location<T> find(T data){
-		return new ArrayLocation<T>( findKey(data), this );
+	public default Location<T> find(T data)  throws NoSuchElementException{
+		Integer key = findKey(data);
+		if( key != null ) return new ArrayLocation<T>(key, this );
+		throw new NoSuchElementException();
 	}
 
 	/**

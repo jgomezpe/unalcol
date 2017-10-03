@@ -36,6 +36,14 @@ public class SquaresPercept extends Percept{
         String[] v = code.split(":");
         int i = Integer.parseInt(v[0]);
         int j = Integer.parseInt(v[1]);
+        if( v.length==2 ){
+            if( board.lines(i,j)==4 ){
+        		if((board.values[i][j]&Board.WHITE)==Board.WHITE)  return Squares.WHITE;
+        		return Squares.BLACK;
+            }else{  
+        		return Squares.SPACE;
+            }	
+        }
         if(v[2].equals(Squares.LEFT))
             if((board.values[i][j]&Board.LEFT)==Board.LEFT) return Squares.TRUE;
             else return Squares.FALSE;
@@ -48,12 +56,7 @@ public class SquaresPercept extends Percept{
         if(v[2].equals(Squares.BOTTOM))
             if((board.values[i][j]&Board.BOTTOM)==Board.BOTTOM) return Squares.TRUE;
             else return(Squares.FALSE); 
-        if( board.lines(i,j)==4 ){
-          if((board.values[i][j]&Board.WHITE)==Board.WHITE)  return Squares.WHITE;
-          return Squares.BLACK;
-        }else{  
-          return Squares.SPACE;
-        }
+        return null;
       }
     }     
 }
