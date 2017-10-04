@@ -50,7 +50,7 @@ public class I18N{
 
 	public static ImmutableKeyMap<String, String> load(String config){
 		HTKeyMap<String, String> table = new HTKeyMap<String,String>();
-		String[] lines = config.split("\\n");
+		String[] lines = config.split("\n");
 		for( String line:lines ){
 			String code = line.substring(0, line.indexOf(MSG_SEPARATOR));
 			String message = line.substring(line.indexOf(MSG_SEPARATOR)+1);
