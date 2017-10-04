@@ -65,6 +65,7 @@ public abstract class ShortTermMemoryReader extends Reader{
 	 */
 	protected int n;
 
+	protected int offset=0;
 	protected int start = 0;
 	protected int end = 0;
 	/**
@@ -146,6 +147,7 @@ public abstract class ShortTermMemoryReader extends Reader{
 	public boolean back(int k) {
 		boolean flag = (k <= maxBack());
 		if (flag) {
+			offset -= k;
 			pos -= k;
 			if (pos < 0) {
 				pos += n;
@@ -161,9 +163,10 @@ public abstract class ShortTermMemoryReader extends Reader{
 	public boolean back() {
 		boolean flag = (pos != start);
 		if (flag) {
-				pos--;
-				pos = (pos < 0) ? n - 1 : pos;
-        	}
+			offset--;
+			pos--;
+			pos = (pos < 0) ? n - 1 : pos;
+       	}
 		return flag;
 	}
 
@@ -290,5 +293,5 @@ public abstract class ShortTermMemoryReader extends Reader{
 	 */
 	public int column() { return column[pos]; }
 	
-	public Position2D position() { return new Position2D(pos, row(), column()); }	
+	public Position2D position() { return new Position2D(offset, row(), column()); }	
 }

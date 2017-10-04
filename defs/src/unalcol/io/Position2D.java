@@ -50,6 +50,12 @@ public class Position2D extends Position{
 	
 	public Position2D(){ this(0,0,0); }
 	
+	public Position2D( int row, int column ){
+		super(0);
+		this.row = row;
+		this.column = column;
+	}
+
 	public Position2D( int offset, int row, int column ){
 		super(offset);
 		this.row = row;

@@ -16,13 +16,14 @@ import javax.swing.text.StyledDocument;
 
 import unalcol.language.programming.lexer.Token;
 import unalcol.types.collection.array.Array;
-import unalcol.language.programming.lexer.Lexer;
+import unalcol.types.collection.keymap.ImmutableKeyMap;
+import unalcol.io.Tokenizer;
 
 public class SyntaxEditPanel extends JTextPane implements SyntaxEditComponent{
 	protected SyntaxStyle def;
-	protected SyntaxStyle[] styles;
-	protected String[] token_style=null;
-	protected Lexer tokenizer=null;
+	protected ImmutableKeyMap<String,SyntaxStyle> styles;
+	protected ImmutableKeyMap<Integer,String> token_style=null;
+	protected Tokenizer tokenizer=null;
 	
 	/**
 	 * 
@@ -31,10 +32,10 @@ public class SyntaxEditPanel extends JTextPane implements SyntaxEditComponent{
 
 	public SyntaxEditPanel(){
 		super();
-		this.getDocument().addDocumentListener(new SyntaxDocumentListener(this));
+		this.getDocument().addDocumentListener(new SyntaxDocumentListener());
 	}
 	
-	public void setTokenizer(Lexer tokenizer, String[] token_style){
+	public void setTokenizer(Tokenizer tokenizer, ImmutableKeyMap<Integer,String> token_style){
 		this.tokenizer = tokenizer;
 		this.token_style = token_style;
 		update();
@@ -64,64 +65,62 @@ public class SyntaxEditPanel extends JTextPane implements SyntaxEditComponent{
 		if( c!=null ) StyleConstants.setForeground(s, new Color(c[0],c[1],c[2],c[3]));
 	}
 	
-	public void setStyle( SyntaxStyle[] styles ){
+	public void setStyle( ImmutableKeyMap<String, SyntaxStyle> styles ){
 		String str = this.getText();
 		try { this.getStyledDocument().remove(0, this.getText().length()); }catch(BadLocationException e) {}
 		for( SyntaxStyle style:styles ) setStyle(style); 
 		if( str != null && str.length()>0 )	this.setText(str);
 	}
-}
+	
 
-class SyntaxDocumentListener implements DocumentListener {
-	protected SyntaxEditPanel edit;
-	public SyntaxDocumentListener( SyntaxEditPanel edit ){
-		this.edit = edit;
-	}
- 
-    public void syntax( int pos,int length ){
-        StyledDocument doc = edit.getStyledDocument();
-        Element root = doc.getDefaultRootElement(); 
-        Element paragraph = root.getElement(root.getElementIndex(pos));
-		int start = paragraph.getStartOffset();
-		int end = length==0?paragraph.getEndOffset():pos+length;
-		Vector<Token> changes = new Vector<Token>();
-		while(start<end){
-			Element p = root.getElement(root.getElementIndex(start));
-			length = p.getEndOffset()-start;
-			String code = null;
-	        try{ code = doc.getText(start, length); } catch (BadLocationException e1) {}
-	        if( code != null && code.length()>0 ){
-				Array<Token> token = edit.tokenizer.apply(arg0, 0, arg2)tokens(code);
-				for( Token t:token ){
-					t.shift(start);
-					changes.add(t);
-				}
-	        }
-			start = p.getEndOffset();
-		}
-		String[] t_style = edit.token_style;
-
-        Runnable doAssist = new Runnable() {
-		@Override
-			public void run() {
-				for( Token t:changes ){
-					doc.setCharacterAttributes(t.offset(),t.endOffset(),doc.getStyle(t_style[t.type()]),true);
-    			}
+	protected class SyntaxDocumentListener implements DocumentListener {
+		public SyntaxDocumentListener(){}
+	 
+	    public void syntax( int pos,int length ){
+	        StyledDocument doc = getStyledDocument();
+	        Element root = doc.getDefaultRootElement(); 
+	        Element paragraph = root.getElement(root.getElementIndex(pos));
+			int start = paragraph.getStartOffset();
+			int end = length==0?paragraph.getEndOffset():pos+length;
+			Vector<Token> changes = new Vector<Token>();
+			while(start<end){
+				Element p = root.getElement(root.getElementIndex(start));
+				length = p.getEndOffset()-start;
+				String code = null;
+		        try{ code = doc.getText(start, length); } catch (BadLocationException e1) {}
+		        if( code != null && code.length()>0 ){
+					Array<Token> token = tokenizer.apply(code);
+					for( Token t:token ){
+						t.pos().shift(start);
+						changes.add(t);
+					}
+		        }
+				start = p.getEndOffset();
 			}
-        };
-        SwingUtilities.invokeLater(doAssist);
-    }
-    
-    public void insertUpdate(DocumentEvent e) {
-    	syntax(e.getOffset(),e.getLength());
-    }
-    
-    public void removeUpdate(DocumentEvent e) {
-    	int start = e.getOffset();
-    	syntax(start,0);
-    }
-    
-    public void changedUpdate(DocumentEvent e) {
-        //Plain text components do not fire these events
-    }
+
+	        Runnable doAssist = new Runnable() {
+			@Override
+				public void run() {
+					for( Token t:changes ){
+						doc.setCharacterAttributes(t.pos().offset(),t.endOffset(),doc.getStyle(token_style.get(t.type())),true);
+	    			}
+				}
+	        };
+	        SwingUtilities.invokeLater(doAssist);
+	    }
+	    
+	    public void insertUpdate(DocumentEvent e) {
+	    	syntax(e.getOffset(),e.getLength());
+	    }
+	    
+	    public void removeUpdate(DocumentEvent e) {
+	    	int start = e.getOffset();
+	    	syntax(start,0);
+	    }
+	    
+	    public void changedUpdate(DocumentEvent e) {
+	        //Plain text components do not fire these events
+	    }
+	}
+	
 }
