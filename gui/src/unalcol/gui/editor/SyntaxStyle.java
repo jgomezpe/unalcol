@@ -2,6 +2,8 @@ package unalcol.gui.editor;
 
 import unalcol.gui.paint.Color;
 import unalcol.gui.util.ObjectParser;
+import unalcol.types.collection.keymap.HTKeyMap;
+import unalcol.types.collection.keymap.ImmutableKeyMap;
 
 public class SyntaxStyle {
 	public static final String DEF = "regular";
@@ -35,14 +37,17 @@ public class SyntaxStyle {
 	public int font_size(){ return size; }
 	public Color color(){ return color;	}
 	
-	public static SyntaxStyle[] get( String styles ){
+	public static ImmutableKeyMap<String, SyntaxStyle> get( String styles ){
 		SyntaxStyleInstance si = new SyntaxStyleInstance();
 		Object[] objs;
 		try {
 			objs = ObjectParser.parse(styles);
-			SyntaxStyle[] s = new SyntaxStyle[objs.length];
-			for( int i=0; i<s.length; i++ )	s[i] = si.load((Object[])objs[i]);
-			return s;
+			HTKeyMap<String, SyntaxStyle> km = new HTKeyMap<String,SyntaxStyle>();
+			for( Object o:objs ){
+				SyntaxStyle style = si.load((Object[])o);
+				km.set(style.tag,style);
+			}
+			return km;
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

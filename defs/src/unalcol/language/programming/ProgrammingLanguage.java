@@ -31,24 +31,4 @@ public class ProgrammingLanguage<T,S> {
 		Typed rule = parser.apply(tokens, offset);
 		return meaner.apply(rule);				
 	}
-
-	/*
-	public T process( InputStream is ) throws Exception{
-		throw new Exception("Unimplemented method..");
-	};
-	
-	public T process( String fileName ) throws Exception{
-		throw new Exception("Unimplemented method..");
-	}
-	
-	public T process( InputStream is ) throws Exception{
-		byte[] buffer = new byte[is.available()]; 
-		is.read(buffer);
-		return process(buffer);
-	}
-	
-	public T process( String fileName ) throws Exception{
-		return process( Files.readAllBytes( Paths.get(fileName)) );
-	}
-	*/	
 }
