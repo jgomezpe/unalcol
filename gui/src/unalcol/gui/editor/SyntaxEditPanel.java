@@ -77,7 +77,7 @@ public class SyntaxEditPanel extends JTextPane implements SyntaxEditComponent{
 		public SyntaxDocumentListener(){}
 	 
 	    public void syntax( int pos,int length ){
-	        StyledDocument doc = getStyledDocument();
+	    	StyledDocument doc = getStyledDocument();
 	        Element root = doc.getDefaultRootElement(); 
 	        Element paragraph = root.getElement(root.getElementIndex(pos));
 			int start = paragraph.getStartOffset();

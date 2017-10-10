@@ -70,6 +70,14 @@ public class Position2D extends Position{
 		}
 	}
 	
+    public void init( Position pos ){
+    	super.init(pos);
+		if(pos instanceof Position2D){
+			this.row =((Position2D)pos).row;
+			this.column =((Position2D)pos).column;
+		}
+    }
+    
 	public void setRow(int row){ this.row = row; }
 	public void setColumn(int column){ this.column = column; }
 	

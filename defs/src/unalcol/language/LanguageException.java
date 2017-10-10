@@ -10,7 +10,12 @@ public class LanguageException extends I18NException{
 		this.position = position;
 	}
 	
+	public LanguageException( String code, Object... args ){ 
+		this(new Position(), code, args);
+	}
+	
 	public Position position(){ return position; }
+	public void setPosition(Position position){ this.position = position; }
 	
 	private static final long serialVersionUID = -3576803732938569084L;
 }
