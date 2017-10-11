@@ -18,6 +18,7 @@ public class Board {
     protected static final int RIGHT = 4;
     protected static final int BOTTOM = 8;
     protected static final int WHITE = 16;
+    protected static final int BLACK = 32;
     
     protected int[][] values;
     
@@ -59,60 +60,69 @@ public class Board {
         return lines(i,j)==3;
     }
     
-    protected void check(int color, int i, int j ){        
-      if(closable(i,j)){
-        if( (values[i][j] & LEFT)==0 ){
-            values[i][j] |= LEFT;
-            values[i][j-1] |= RIGHT;
-            values[i][j] |= color;
-            check(color, i,j-1);
-        }
-
-        if( (values[i][j] & TOP)==0 ){
-            values[i][j] |= TOP;
-            values[i-1][j] |= BOTTOM;
-            values[i][j] |= color;
-            check(color, i-1,j);
-        }
-        
-        if( (values[i][j] & RIGHT)==0 ){
-            values[i][j] |= RIGHT;
-            values[i][j+1] |= LEFT;
-            values[i][j] |= color;
-            check(color, i,j+1);
-        }
-
-        if( (values[i][j] & BOTTOM)==0 ){
-            values[i][j] |= BOTTOM;
-            values[i+1][j] |= TOP;
-            values[i][j] |= color;
-            check(color, i+1,j);
-        }        
-      }  
+    protected boolean closed(int i, int j){
+        return lines(i,j)==4;
+    }
+    
+    protected void check(int color, int i, int j ){
+    	if( closed(i,j) ){
+    		if((values[i][j] & (BLACK+WHITE))==0) values[i][j] |= color;
+    	}else{ 
+	      if(closable(i,j)){
+	        if( (values[i][j] & LEFT)==0 ){
+	            values[i][j] |= LEFT;
+	            values[i][j-1] |= RIGHT;
+	            values[i][j] |= color;
+	            check(color, i,j-1);
+	        }
+	
+	        if( (values[i][j] & TOP)==0 ){
+	            values[i][j] |= TOP;
+	            values[i-1][j] |= BOTTOM;
+	            values[i][j] |= color;
+	            check(color, i-1,j);
+	        }
+	        
+	        if( (values[i][j] & RIGHT)==0 ){
+	            values[i][j] |= RIGHT;
+	            values[i][j+1] |= LEFT;
+	            values[i][j] |= color;
+	            check(color, i,j+1);
+	        }
+	
+	        if( (values[i][j] & BOTTOM)==0 ){
+	            values[i][j] |= BOTTOM;
+	            values[i+1][j] |= TOP;
+	            values[i][j] |= color;
+	            check(color, i+1,j);
+	        }        
+	      }
+    	}  
     }
     
     public boolean play( boolean white, int i, int j, int val ){
         if( invalid(i,j,val) ){ return false; }
+        int color = white?BLACK:WHITE;
         values[i][j] |= val; 
         switch(val){
             case LEFT:
               values[i][j-1] |= RIGHT;  
-              check(white?0:WHITE,i,j-1);
+              check(color,i,j-1);
             break;    
             case TOP:
               values[i-1][j] |= BOTTOM;  
-              check(white?0:WHITE,i-1,j);
+              check(color,i-1,j);
             break;    
             case RIGHT:
               values[i][j+1] |= LEFT;  
-              check(white?0:WHITE,i,j+1);
+              check(color,i,j+1);
             break;    
             case BOTTOM:
               values[i+1][j] |= TOP;  
-              check(white?0:WHITE,i+1,j);
+              check(color,i+1,j);
             break;    
         }
-        check( white?0:WHITE, i, j );
+        check(color, i, j );
         return true;        
     }
         
@@ -126,7 +136,8 @@ public class Board {
       for( int i=0; i<values.length; i++ ){
           for( int j=0; j<values[i].length; j++ ){
               if( (values[i][j] & LEFT)==LEFT ) sb.append('|'); else sb.append(' ');
-              if( (values[i][j] & BOTTOM)==BOTTOM ) sb.append('_'); else sb.append(' ');
+              if( closed(i,j) ) sb.append(((values[i][j]&BLACK)==BLACK)?'b':'w');
+              else if( (values[i][j] & BOTTOM)==BOTTOM ) sb.append('_'); else sb.append(' ');
           }
           if( (values[i][values[i].length-1] & RIGHT)==RIGHT ) sb.append('|'); else sb.append(' ');
           sb.append('\n');
@@ -166,7 +177,7 @@ public class Board {
                   if( (value & TOP)==TOP ) g.drawLine(cj, ci, cj+CELL_SIZE, ci);
                   if( (value & RIGHT)==RIGHT ) g.drawLine( cj+CELL_SIZE, ci, cj+CELL_SIZE, ci+CELL_SIZE);
                   if( (value & BOTTOM)==BOTTOM ) g.drawLine( cj, ci+CELL_SIZE, cj+CELL_SIZE, ci+CELL_SIZE);
-                  if(lines(i, j)==4){
+                  if(closed(i, j)){
                     if( (value&WHITE)==WHITE ){
                       g.setColor(Color.blue);
                       g.fillOval(cj+1, ci+1, CELL_SIZE-2, CELL_SIZE-2);
@@ -216,27 +227,38 @@ public class Board {
     }
     
     public static void main( String[] args ){
-        Board b = new Board(10);
+    	int N = 10;
+        Board b = new Board(N);
         System.out.println(b);
         System.out.println("************************************");
-        b.play(true,4, 6, LEFT);
+        for(int i=1; i<N-1; i++ ){
+        	b.play((i%2==1),i, 1, LEFT);
+        	System.out.println(b);
+        	System.out.println("************************************");
+        }
+        for(int i=0; i<N; i++ ){
+        	b.play((i%2==0),i, 2, LEFT);
+        	System.out.println(b);
+        	System.out.println("************************************");
+        }
+        for(int i=1; i<N-1; i++ ){
+        	b.play((i%2==1),i, 3, LEFT);
+        	System.out.println(b);
+        	System.out.println("************************************");
+        }
+        for(int i=0; i<N; i++ ){
+        	b.play((i%2==0),i, 4, LEFT);
+        	System.out.println(b);
+        	System.out.println("************************************");
+        }
+        
+        b.play(true, 3, 0, TOP);
         System.out.println(b);
         System.out.println("************************************");
-        b.play(false,2, 5, LEFT);
+        
+        b.play(false, 5, 2, BOTTOM);
         System.out.println(b);
-        System.out.println("************************************");
-        b.play(false,8, 3, LEFT);
-        System.out.println(b);
-        System.out.println("************************************");
-        b.play(false,9, 7, LEFT);
-        System.out.println(b);
-        System.out.println("************************************");
-        b.play(false,1, 0, BOTTOM);
-        System.out.println(b);
-        System.out.println("************************************");
-        b.play(true,0, 1, LEFT);
-        System.out.println(b);
-        System.out.println("************************************");
+        System.out.println("************************************");        
     }        
 }
 
