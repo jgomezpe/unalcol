@@ -22,13 +22,14 @@ public interface Function<S, T> extends AbstractThing, Runnable{
 	public default void setInput(S in){ set(Function.input,in); }
 	public default void setOutput(T out){ set(Function.output,out); }
 	@SuppressWarnings("unchecked")
-	public default S input(){ return (S)get(Function.input); }
+	public default S input(){ if( valid(Function.input) ) return (S)get(Function.input); else return null; }
 	@SuppressWarnings("unchecked")
-	public default T output(){ return (T)get(Function.output); }
+	public default T output(){ if( valid(Function.output) ) return (T)get(Function.output); else return null; }
+	
 	/**
 	 * Executes the algorithm on the given input
 	 */
-	public default void run() {
+	public default void run(){
 		start();
 		setOutput(this.apply(input()));
 	}
@@ -82,8 +83,12 @@ public interface Function<S, T> extends AbstractThing, Runnable{
 	 */
 	@SuppressWarnings("unchecked")
 	public default T apply(Tagged<S> x){
-		if( !deterministic() || x.get(this) == null ) x.set(this, apply(x.unwrap()));
-		return (T)x.get(this);
+		if( deterministic() ){
+			if( x.valid(this) ) return (T)x.get(this);
+			T y = apply(x.unwrap());
+			x.set(this, y);
+			return y;
+		}else return apply(x.unwrap());
 	}
 
 	public default T[] array_apply( Tagged<S>[] x ){

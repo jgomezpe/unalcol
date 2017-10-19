@@ -19,5 +19,9 @@ public class I18NException extends Exception{
 	public Object[] args(){ return args; }
 	
 	@Override
-	public String getMessage(){ return String.format(I18N.get(code),args); }
+	public String getMessage(){ 
+		String formated = I18N.get(code);
+		if( formated!=null ) return String.format(formated,args); 
+		else return "Invalid code "+code; 
+	} 
 }

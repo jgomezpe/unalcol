@@ -13,29 +13,33 @@ import unalcol.types.collection.vector.SortedVector;
  * @author jgomez
  */
 public class SparseRealVector extends SparseArray<Double>{
+	protected double epsilon=1e-10;
+	
 	protected int n;
     
 	public SparseRealVector(int n){ this.n = n; }
+	
+	public void setEpsilon( double epsilon ){ this.epsilon = epsilon; }
      
 	@Override
 	public int size(){ return n; }
     
 	@Override
-	public boolean set(int i, Double x) throws ArrayIndexOutOfBoundsException {
-		if( i<0 || i>=n ) throw new ArrayIndexOutOfBoundsException();
+	public boolean set(Integer i, Double x){
+		if( isZero(x) ){ return super.remove(i); }
 		return super.set(i, (Double)x);
 	}
+	
+	public boolean isZero( Double x ){ return x==null || Math.abs(x) <= epsilon; }
     
 	@Override
-	public Double get( int i ) throws ArrayIndexOutOfBoundsException {
-		if( i<0 || i>=n ) throw new ArrayIndexOutOfBoundsException();
-		Double x;
-		try{ 
-			x = super.get(i); 
-			if( x==null ) x = 0.0;
-		}catch( ArrayIndexOutOfBoundsException e ){ x=0.0; }
+	public Double get( Integer i ){
+		Double x = super.get(i); 
+		if( x==null ) x = 0.0;
 		return x;
 	}
+    
+    public void removeZeroes(){ removeZeroes(epsilon); }
     
     public void removeZeroes( double epsilon ){
         for( int i=vector.size(); i>=0; i-- ) if( Math.abs(vector.get(i).value()) <= epsilon )  vector.remove(i);

@@ -12,4 +12,4 @@ package unalcol.types.collection;
  * @author Jonatan Gomez Perdomo
  * @version 1.0
  */
-public interface MutableCollection<T> extends GrowCollection<T>, ShrinkCollection<T>{}
+public interface MutableCollection<K,T> extends GrowCollection<T>, ShrinkCollection<K,T>{}

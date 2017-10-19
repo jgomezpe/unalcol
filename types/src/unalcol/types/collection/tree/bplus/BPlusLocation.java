@@ -4,33 +4,24 @@
  */
 package unalcol.types.collection.tree.bplus;
 
-import java.util.Iterator;
-import java.util.NoSuchElementException;
-import unalcol.types.collection.Location;
 import unalcol.types.collection.tree.bplus.immutable.ImmutableLeafNode;
 
 /**
  *
  * @author jgomez
  */
-public class BPlusLocation<T> implements Location<T> {
+public class BPlusLocation<T>{
     protected int pos = -1;
     protected ImmutableLeafNode<T> node;
     
-    public BPlusLocation(int _pos, ImmutableLeafNode<T> _node){
-        pos = _pos;
-        node = _node;
-    }
+    public BPlusLocation(int pos, ImmutableLeafNode<T> node){
+        this.pos = pos;
+        this.node = node;
+    } 
     
-    @Override
-    public T get() throws NoSuchElementException {
-        try{
-            return node.key(pos);
-        }catch( Exception e ){
-            throw new NoSuchElementException("No such element");
-        }    
-    }
-
-	@Override
-	public Iterator<T> iterator(){ return new BPlusIterator<>(this); }    
+    public int pos(){ return pos; }
+    
+    public ImmutableLeafNode<T> node(){ return node; }
+    
+    public T get(){ return node.key(pos); }
 }

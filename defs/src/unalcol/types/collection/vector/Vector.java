@@ -1,7 +1,5 @@
 package unalcol.types.collection.vector;
 
-import unalcol.types.collection.Location;
-import unalcol.types.collection.array.ArrayLocation;
 import unalcol.types.collection.array.Array;
 import unalcol.types.object.FiboArray;
 
@@ -45,8 +43,8 @@ public class Vector<T> extends FiboArray implements Array<T>{
 	 * @return <i>true</i> if the element could be added, <i>false</i> otherwise
 	 */
 	public boolean del(T data) {
-		int k = findKey( data );
-		if( k != -1 ){
+		Integer k = find( data );
+		if( k != null ){
 			leftShift(k);
 			return true;
 		}
@@ -65,21 +63,19 @@ public class Vector<T> extends FiboArray implements Array<T>{
 		size++;
 	}
 
-	public boolean set( int index, T data ) throws IndexOutOfBoundsException{
-		if( 0 <= index && index < size ){
+	@Override
+	public boolean set( Integer index, T data ){
+		try{
 			buffer[index]=data;
-			return true;
-		}else{ throw new ArrayIndexOutOfBoundsException( index ); }
+			return index<size;
+		}catch(ArrayIndexOutOfBoundsException e){}
+		return false;
 	}
 
-	public boolean add( int index, T data ) throws IndexOutOfBoundsException{
+	@Override
+	public boolean add( Integer index, T data ){
 		rightShift(index);
 		buffer[index]=data;
-		return true;
-	}
-
-	public boolean remove( int index ) throws IndexOutOfBoundsException{
-		leftShift(index);
 		return true;
 	}
 
@@ -111,21 +107,16 @@ public class Vector<T> extends FiboArray implements Array<T>{
 	 * @return <i>true</i> if the element could be removed, <i>false</i> otherwise
 	 */
 	@Override
-	public boolean del( Location<T> locator ){
-		if( locator instanceof ArrayLocation ){
-			ArrayLocation<T> loc = ((ArrayLocation<T>)locator);
-			leftShift( loc.getPos() );
+	public boolean remove( Integer locator ){
+		if(0<=locator && locator<size()){
+			leftShift( locator );
 			return true;
-		}
+		}	
 		return false;
 	}
 
 	@Override
-	public T get( int index ) throws IndexOutOfBoundsException{
-		if( index >= size ) throw new IndexOutOfBoundsException();
-		return buffer[index];
-	}
-
+	public T get(Integer key){ return buffer[key]; }
 
 	@Override
 	public Object[] toArray() {

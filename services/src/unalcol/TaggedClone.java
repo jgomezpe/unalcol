@@ -109,7 +109,9 @@ public class TaggedClone<T> extends MicroService<Tagged<T>> implements Clone<Tag
 		Instance<Tagged<T>> instance = (Instance<Tagged<T>>)getMicroService(instancer);
 		instance.setCaller((Class<Tagged<T>>)obj.getClass());
 		Tagged<T> nObj = instance.create(tObj);
-		for(KeyValue<Object, Object> kv:obj.pairs()) if(noClonedTags.get(kv.key())==null) nObj.add(kv);
+		for(KeyValue<Object, Object> kv:obj.pairs())
+			if(noClonedTags.valid(kv.key()))
+				nObj.add(noClonedTags.get(kv.key()));
 		return nObj;
 	}
 }

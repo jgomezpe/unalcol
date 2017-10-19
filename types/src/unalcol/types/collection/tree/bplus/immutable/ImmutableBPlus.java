@@ -8,10 +8,9 @@ import java.util.Iterator;
 import java.util.NoSuchElementException;
 
 import unalcol.sort.Order;
-import unalcol.types.collection.IterableCollection;
-import unalcol.types.collection.Location;
+import unalcol.types.collection.Collection;
 import unalcol.types.collection.SearchCollection;
-import unalcol.types.collection.tree.bplus.BPlusInnerNode;
+import unalcol.types.collection.keymap.KeyValue;
 import unalcol.types.collection.tree.bplus.BPlusIterator;
 import unalcol.types.collection.tree.bplus.BPlusLocation;
 import unalcol.types.collection.tree.bplus.memory.MemoryLeafNode;
@@ -21,7 +20,7 @@ import unalcol.types.object.BinarySearch;
  *
  * @author jgomez
  */
-public class ImmutableBPlus<T> implements SearchCollection<T>, IterableCollection<T> {
+public class ImmutableBPlus<T> implements SearchCollection<BPlusLocation<T>,T> {
     protected ImmutableInnerNode<T> root;
     protected Order<T> order;
     protected ImmutableNodeOrder<T> node_order;
@@ -68,48 +67,47 @@ public class ImmutableBPlus<T> implements SearchCollection<T>, IterableCollectio
     }
 
     
-    @Override
-    public boolean contains(T data) {
-        try{
-        BPlusLocation<T> loc = (BPlusLocation<T>)find(data);
-            return( order.compare(loc.get(), data) == 0 );
-        }catch( NoSuchElementException e ){
-            return false;
-        }
-    }    
-    
-    protected Location<T> find( ImmutableNode<T> node, T data ){
+    protected BPlusLocation<T> find( ImmutableNode<T> node, T data ){
         if( node!=null){
-            if( node instanceof BPlusInnerNode){
+            if( node instanceof ImmutableInnerNode){
                 ImmutableInnerNode<T> inode = (ImmutableInnerNode<T>)node;
                 if(inode.n()>1){
                     int k = search(inode.next(), data, node.n())-1;
-                    if( k<0 ) return new BPlusLocation<>(-1,null);
+                    if( k<0 ) throw new NoSuchElementException();
                     return find(inode.next(k), data);
                 }else
                     return find(inode.next(0), data);
             }else{
                 ImmutableLeafNode<T> lnode = (ImmutableLeafNode<T>)node;
-                return new BPlusLocation<>(search(lnode.keys(), data, node.n())-1, lnode);
+                int k = search(lnode.keys(), data, node.n());
+                if( k<0 ) throw new NoSuchElementException();
+                return new BPlusLocation<>(k, lnode);
             }
         }    
-        return new BPlusLocation<>(-1,null);
+        throw new NoSuchElementException();
     }
 
     @Override
-    public Location<T> find(T data) {
+    public BPlusLocation<T> find(T data) {
         return find(root,data);
     }
 
-    @Override
-    public Iterator<T> iterator(Location<T> locator) {
-        return new BPlusIterator<T>((BPlusLocation<T>)locator);
-    } 
-    
     public String toString(){
     	StringBuilder sb = new StringBuilder();
     	if( root != null )
     		sb.append(root.toString(0));
     	return sb.toString();
     }
+
+	@Override
+	public T get(BPlusLocation<T> loc){ return loc.get(); }
+
+	@Override
+	public Collection<KeyValue<BPlusLocation<T>, T>> pairs() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public boolean valid(BPlusLocation<T> loc) { return loc!=null; }
 }

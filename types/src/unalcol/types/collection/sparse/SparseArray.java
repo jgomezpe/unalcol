@@ -17,12 +17,12 @@ public class SparseArray<T> extends ImmutableSparseArray<T> implements Array<T> 
 	public void clear() { vector.clear(); }
 
 	@Override
-	public boolean add(int index, T data) throws ArrayIndexOutOfBoundsException { return set(index,data); }
+	public boolean add(Integer index, T data){ return set(index,data); }
 
 	@Override
-	public boolean remove(int index) throws ArrayIndexOutOfBoundsException {
+	public boolean remove(Integer index){
 		loc.setKey(index);
-		index = vector.findKey(loc);
+		index = vector.find(loc);
 		if( index >= 0 ) return vector.remove(index);
 		return false;
 	}
@@ -37,10 +37,10 @@ public class SparseArray<T> extends ImmutableSparseArray<T> implements Array<T> 
 	}
 
 	@Override
-	public boolean set(int index, T data) throws ArrayIndexOutOfBoundsException {
+	public boolean set(Integer index, T data){
 		loc.setKey(index);
-		int i = vector.findKey(loc);
-		if( i >= 0 ){
+		Integer i = vector.find(loc);
+		if( i != null ){
 			vector.get(i).setValue(data);
 			return true;
 		}else return vector.add(new KeyValue<Integer,T>(index,data));

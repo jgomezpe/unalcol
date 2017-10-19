@@ -64,11 +64,9 @@ public class Shuffle<T> extends Thing {
 	public Shuffle(){}
 	
 	public AbstractMicroService<?> getMicroService( String id ){
-		AbstractMicroService<?> service = (AbstractMicroService<?>)get(id);
-		if(service==null){
-			service = wrap(id);
-			if( service != null ) set(id,service);
-		}
+		if( valid(id) ) return (AbstractMicroService<?>)get(id);
+		AbstractMicroService<?> service = wrap(id);
+		if( service != null ) set(id,service);
 		return service;
 	}
 	

@@ -293,5 +293,7 @@ public abstract class ShortTermMemoryReader extends Reader{
 	 */
 	public int column() { return column[pos]; }
 	
+	public int offset(){ return offset; }
+	
 	public Position2D position() { return new Position2D(offset, row(), column()); }	
 }

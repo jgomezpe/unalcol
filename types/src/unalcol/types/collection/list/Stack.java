@@ -19,21 +19,17 @@ public class Stack<T> extends Queue<T>{
     public boolean add( T data ){
         Node<T> node = new Node<T>(data);
         node.next = head;
-        if( head == null ){
-            last = node;
-        }
+        if( head == null ){ last = node; }
         head = node;
         size++;
         return true;
     }
 
-    public void push( T data ){
-        add( data );
-    }
+    public void push( T data ){ add( data ); }
 
     public T pop(){
-        T t = get();
-        del();
-        return t;
+		T t = head.data;
+		del();
+		return t;
     }
 }

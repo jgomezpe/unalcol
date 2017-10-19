@@ -16,11 +16,9 @@ public interface AbstractMicroService<T> extends AbstractThing{
 	public default AbstractMicroService<?> wrap(String id){ return null; }
 	public default void setMicroService( String id, AbstractMicroService<?> clone ){ set(id, clone); }
 	public default AbstractMicroService<?> getMicroService( String id ){
-		AbstractMicroService<?> service = (AbstractMicroService<?>)get(id);
-		if(service==null){
-			service = wrap(id);
-			if( service != null ) set(id,service);
-		}
+		if( valid(id) ) return (AbstractMicroService<?>)get(id);
+		AbstractMicroService<?> service = wrap(id);
+		if( service != null ) set(id,service);
 		return service;
 	}
 	

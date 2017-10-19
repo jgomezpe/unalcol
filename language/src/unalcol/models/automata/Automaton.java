@@ -38,7 +38,7 @@ public interface Automaton extends LanguageAcceptator{
 	 * @param input Set of symbols that will be used for simulating the automaton.
 	 * @return Number of symbols consumed by the automaton.
 	 */
-	public default LanguageConsumed simulate(ShortTermMemoryReader<?> input) throws IOException{
+	public default LanguageConsumed simulate(ShortTermMemoryReader input) throws IOException{
 		int s;
 		int c = 0;
 		s = input.read();

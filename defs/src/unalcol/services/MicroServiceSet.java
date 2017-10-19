@@ -6,7 +6,10 @@ public class MicroServiceSet<T> extends MicroService<T>{
 	protected Vector<AbstractMicroService<T>> services = new Vector<AbstractMicroService<T>>();
 	
 	@Override
-	public String[] provides(){	return services.get(0).provides();	}
+	public String[] provides(){	
+		if( services.size() > 0 ) return services.get(0).provides(); 
+		return new String[0]; 
+	}
 	
 	@Override
 	public Object run(Object... args) throws Exception {
@@ -23,9 +26,5 @@ public class MicroServiceSet<T> extends MicroService<T>{
 
 	public void add(AbstractMicroService<T> service){ services.add(service); }
 
-	public void remove(AbstractMicroService<T> service){
-		int i=0; 
-		while( i<services.size() && services.get(i)!=service) i++;
-		if( i<services.size() ) services.remove(i);
-	}
+	public void remove(AbstractMicroService<T> service){ services.del(service); }
 }

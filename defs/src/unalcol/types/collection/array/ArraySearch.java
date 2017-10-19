@@ -41,7 +41,7 @@ public class ArraySearch<T> {
      * @return The position of the given object, -1 if the given object is not in the array
      */
     public int find(T x) { return find( 0, sorted.size(), x ); }
-
+    
     /**
      * Searches for the position of the given element. The vector should be sorted
      * @param x Element to be located
@@ -78,7 +78,7 @@ public class ArraySearch<T> {
 
     /**
      * Searches for the position of the first element in the array that is bigger
-     * than the element given. The array should be sorted
+     * than the given element. The array should be sorted
      * @param x Element to be located
      * @return Position of the object that is bigger than the given element
      */

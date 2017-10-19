@@ -20,11 +20,6 @@ public class ArrayIterator<T>  implements Iterator<T> {
 		this.pos = pos-1;
 	}
 
-	public ArrayIterator( ArrayLocation<T> location ) {
-		this.array = location.array;
-		this.pos = location.pos-1;
-	}
-
 	@Override
 	public boolean hasNext(){
 		return pos+1<array.size();
@@ -43,5 +38,5 @@ public class ArrayIterator<T>  implements Iterator<T> {
 		if( array instanceof Array ){
 			((Array<T>)array).remove(pos);
 		}
-	}    
+	}
 }

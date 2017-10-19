@@ -110,9 +110,7 @@ public class DefaultClone extends MicroService<Object> implements Clone<Object> 
 			Method m = obj.getClass().getMethod(Clone.name) ;
 			return m.invoke(obj); 
 		}catch( Exception e ){}
-		try{
-			return Service.run(Instance.name,obj.getClass(), obj);
-		}catch( Exception e ){}
+		try{ return Service.run(Instance.name,obj.getClass(), obj); }catch( Exception e ){}
 		return obj;
 	}
 }

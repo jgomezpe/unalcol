@@ -22,11 +22,10 @@ public class ImmutableSparseArray<T> implements ImmutableArray<T>{
 	}
 
 	@Override
-	public T get(int index) throws ArrayIndexOutOfBoundsException {
-		if( index<0 || index>=size() ) throw new ArrayIndexOutOfBoundsException();
+	public T get(Integer index){
 		loc.setKey(index);
-		int pos = vector.findKey(loc);
-		if( pos<0 ) return null;
+		Integer pos = vector.find(loc);
+		if( pos==null ) return null;
 		else return vector.get(pos).value();
 	}
 	

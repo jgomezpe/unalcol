@@ -5,14 +5,11 @@
  */
 package types;
 
-import java.util.Iterator;
-
 import unalcol.clone.Clone;
 import unalcol.clone.DefaultClone;
 import unalcol.random.raw.JavaGenerator;
 import unalcol.services.Service;
 import unalcol.services.ServicePool;
-import unalcol.types.collection.array.ArrayLocation;
 import unalcol.types.collection.vector.Vector;
 import unalcol.types.collection.vector.VectorClone;
 import unalcol.types.real.array.DoubleArrayPlainRead;
@@ -58,11 +55,11 @@ public class VectorTest {
           System.out.println( k );          
       }
 
-      System.out.println("Using a locator approach");
+      /*System.out.println("Using a locator approach");
       ArrayLocation<Integer> loc = new ArrayLocation<Integer>(4,v);
       for(Iterator<Integer> iter = loc.iterator(); iter.hasNext(); ){
           System.out.println( iter.next() );          
-      }
+      }*/
 
             
       try{

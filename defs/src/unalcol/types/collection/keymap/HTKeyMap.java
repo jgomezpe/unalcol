@@ -12,21 +12,18 @@ public class HTKeyMap<K,V> implements KeyMap<K, V>{
 	// KeyMap methods
 	@Override
 	public boolean set( K key, V value ){
-		table.put(key, value);
-		return true;
-	}
-
-	@Override
-	public boolean add( K key, V value ){
-		table.put(key, value);
-		return true;
+		if( value!=null && key!=null ){
+			table.put(key, value);
+			return true;
+		}
+		return false;
 	}
 
 	@Override
 	public boolean remove( K key ){ return (table.remove(key)!=null); }
 
 	@Override
-	public V get(K key) { return table.get(key); }
+	public V get(K key){ return table.get(key); }
 
 	@Override
 	public Collection<K> keys(){ 
@@ -56,15 +53,15 @@ public class HTKeyMap<K,V> implements KeyMap<K, V>{
 	@Override 
 	public Iterator<V> iterator(){
 		return new Iterator<V>(){
-			protected Enumeration<V> iter=table.elements();
+			protected Enumeration<K> iter=table.keys();
 
 			@Override
 			public boolean hasNext(){ return iter.hasMoreElements(); }
 
 			@Override
-			public V next(){ return iter.nextElement();	}		
+			public V next(){ return table.get(iter.nextElement()); }
 		};
-	} 
+	}
 
 	// Finite collection 
 	@Override
@@ -76,4 +73,7 @@ public class HTKeyMap<K,V> implements KeyMap<K, V>{
 
 	@Override
 	public boolean add(V data){ return false; }
+
+	@Override
+	public boolean valid(K key){ return key!=null && table.get(key)!=null; }
 }

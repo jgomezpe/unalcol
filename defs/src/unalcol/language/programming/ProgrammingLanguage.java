@@ -1,6 +1,8 @@
 package unalcol.language.programming;
 
+import unalcol.io.CharReader;
 import unalcol.io.ShortTermMemoryReader;
+import unalcol.language.Language;
 import unalcol.language.LanguageException;
 import unalcol.language.Typed;
 import unalcol.language.programming.lexer.Lexer;
@@ -10,7 +12,7 @@ import unalcol.language.programming.parser.Parser;
 import unalcol.language.symbol.Encoder;
 import unalcol.types.collection.array.Array;
 
-public class ProgrammingLanguage<T,S> {
+public class ProgrammingLanguage<T> implements Language<T>{
 	protected Encoder symbols;
 	protected Lexer lexer;
 	protected Parser parser;
@@ -24,11 +26,35 @@ public class ProgrammingLanguage<T,S> {
 		this.meaner = meaner;
 		this.main = main;
 	}
+	
+	public Array<Token> lexer( String input ) throws LanguageException{
+		return lexer(new CharReader(input));
+	}
 
-	public T process( ShortTermMemoryReader reader ) throws LanguageException{
+	public Array<Token> lexer( ShortTermMemoryReader reader ) throws LanguageException{
+		return lexer.apply(reader, reader.offset(), symbols);
+	}
+	
+	public Typed parser(int rule, Array<Token> tokens, int offset) throws LanguageException{
+		return parser.apply(rule, tokens, offset);
+	}
+	
+	public T meaner( Typed t ) throws LanguageException{
+		return meaner.apply(t);
+	}
+	
+	public T process( ShortTermMemoryReader reader, int rule ) throws LanguageException{
 	    int offset=0;
 		Array<Token> tokens = lexer.apply(reader,offset, symbols);
-		Typed rule = parser.apply(tokens, offset);
-		return meaner.apply(rule);				
+		Typed r = parser.apply(rule, tokens, offset);
+		return meaner.apply(r);				
+	}
+
+	public T process( String reader, int rule ) throws LanguageException{
+		return process(new CharReader(reader), rule );
+	}
+
+	public T process( ShortTermMemoryReader reader ) throws LanguageException{
+	    return process(reader,main);				
 	}
 }

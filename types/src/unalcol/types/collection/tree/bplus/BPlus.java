@@ -1,12 +1,11 @@
 package unalcol.types.collection.tree.bplus;
 
 import unalcol.sort.Order;
-import unalcol.types.collection.Location;
 import unalcol.types.collection.MutableCollection;
 import unalcol.types.collection.tree.bplus.immutable.ImmutableBPlus;
 import unalcol.types.collection.tree.bplus.immutable.ImmutableNode;
 
-public abstract class BPlus<T> extends ImmutableBPlus<T> implements MutableCollection<T> {
+public abstract class BPlus<T> extends ImmutableBPlus<T> implements MutableCollection<BPlusLocation<T>,T> {
 	public static final int MIN_BRANCHING = 6;
 	protected int BRANCHING;
     public BPlus( Order<T> order ){
@@ -87,7 +86,7 @@ public abstract class BPlus<T> extends ImmutableBPlus<T> implements MutableColle
     }
 
     @Override
-    public boolean del(Location<T> locator) {
+    public boolean remove(BPlusLocation<T> locator) {
         return false; 
     }    
 }

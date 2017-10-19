@@ -7,19 +7,24 @@ public class I18N{
 	public static final char MSG_SEPARATOR='='; 
 
 	protected static HTKeyMap<String, ImmutableKeyMap<String,String>> languages = new HTKeyMap<String, ImmutableKeyMap<String,String>>();
-	protected static ImmutableKeyMap<String,String> current=null;
+	protected static ImmutableKeyMap<String,String> current=new HTKeyMap<String,String>();
 
 	public static boolean use(String language){
-		if(languages.get(language)==null) return false;
-		current = languages.get(language);
-		return true;
+		if( languages.valid(language) ){
+			current = languages.get(language);
+			return true;
+		}
+		return false;
 	}
 	
 	public static boolean remove(String language) { return languages.remove(language);	}
 	
-	public static boolean add(String language, ImmutableKeyMap<String,String> value){ return languages.add(language, value); }
+	public static boolean add(String language, ImmutableKeyMap<String,String> value){ return languages.set(language, value); }
 	
-	public static String get(String key) {	return current.get(key); }	
+	public static String get(String key){
+		if( current.valid(key) ) return current.get(key);
+		return null;
+	}	
 
 	public static String process( String message ){
 		StringBuilder sb = new StringBuilder();

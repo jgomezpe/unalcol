@@ -1,12 +1,11 @@
 package unalcol.types.collection.list;
 import java.util.Iterator;
-import java.util.NoSuchElementException;
 
+import unalcol.types.collection.Collection;
 import unalcol.types.collection.FiniteCollection;
-import unalcol.types.collection.IterableCollection;
-import unalcol.types.collection.Location;
 import unalcol.types.collection.MutableCollection;
 import unalcol.types.collection.SearchCollection;
+import unalcol.types.collection.keymap.KeyValue;
 
 /**
  * <p>Title: List</p>
@@ -20,13 +19,12 @@ import unalcol.types.collection.SearchCollection;
  * @author Jonatan Gomez Perdomo
  * @version 1.0
  */
-public class List<T> implements FiniteCollection<T>, MutableCollection<T>, IterableCollection<T>, SearchCollection<T> {
+public class List<T> implements FiniteCollection<T>, MutableCollection<Node<T>, T>, SearchCollection<Node<T>, T> {
     protected int size = 0;
     protected Node<T> head = null;
     protected Node<T> last = null;
 
-    public List() {
-    }
+    public List(){}
 
     /**
      * Removes all the objects in the data structure
@@ -63,19 +61,6 @@ public class List<T> implements FiniteCollection<T>, MutableCollection<T>, Itera
         return new ListIterator<T>( head );
     }
 
-    /**
-     * Obtains an iterator of the objects in the list starting at the given Locator
-     * @param locator Locator used for starting the iterator, the first element returned by the iterator is the one in the locator
-     * (if some one is in the locator)
-     * @return Iterator of the objects in the list starting at the given Locator
-     */
-    @Override
-    public Iterator<T> iterator( Location<T> locator ){
-        if( locator instanceof ListLocation ){
-            return new ListIterator<>( ((ListLocation<T>)locator).node );
-        }
-        return null;
-    }
 
     /**
      * Inserts a data element in the structure
@@ -118,14 +103,8 @@ public class List<T> implements FiniteCollection<T>, MutableCollection<T>, Itera
      * @param locator The location information of the object to be deleted
      * @return <i>true</i> if the element could be removed, <i>false</i> otherwise
      */
-    @SuppressWarnings("unchecked")
 	@Override
-    public boolean del( Location<T> locator ){
-        if( locator instanceof ListLocation ){
-            return del( ((ListIterator<T>)locator).node );
-        }
-        return false;
-    }
+    public boolean remove( Node<T> locator ){ return del( locator ); }
 
     /**
      * Removes a data element from the structure
@@ -141,40 +120,29 @@ public class List<T> implements FiniteCollection<T>, MutableCollection<T>, Itera
         return del( aux );
     }
 
-    /**
-     * Locates the given object in the structure
-     * @param data Data object to be located
-     * @return A data object if the object belongs to the data structure, <i>false</i> otherwise
-     */
-    @Override
-    public Location<T> find( T data ){
-        Node<T> aux = head;
-        while( aux != null && !data.equals(aux.data) ){
-            aux = aux.next;
-        }
-        return new ListLocation<T>( aux );
-    }
+	/**
+	 * Locates the given object in the structure
+	 * @param data Data object to be located
+	 * @return A data object if the object belongs to the data structure, <i>false</i> otherwise
+	 */
+	@Override
+	public Node<T> find( T data ){
+		Node<T> aux = head;
+		while( aux != null && !data.equals(aux.data) ){ aux = aux.next; }
+		return aux;
+	}
 
-    /**
-     * Determines if the given object belongs to the structure
-     * @param data Data object to be located
-     * @return <i>true</i>If the objects belongs to the structure, <i>false>otherwise</i>
-     */
-    @Override
-    public boolean contains( T data ){
-       try{
-           find(data).get();
-           return true;
-       }catch( NoSuchElementException e ){
-           return false;
-       }
-    }
+	public T get(){ return get(head); }
 
-    public T get() throws NoSuchElementException{
-        try{
-            return head.data;
-        }catch( Exception e ){
-            throw new NoSuchElementException();
-        }
-    }
+	@Override
+	public boolean valid(Node<T> key){ return (key!=null); }	
+
+	@Override
+	public T get(Node<T> key){ return key.data; }	
+
+	@Override
+	public Collection<KeyValue<Node<T>, T>> pairs() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

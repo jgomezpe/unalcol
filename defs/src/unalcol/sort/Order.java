@@ -1,6 +1,6 @@
 package unalcol.sort;
 
-import unalcol.services.AbstractMicroService;
+import unalcol.services.Service;
 
 /**
  * <p>Abstract class, determines if the object one is less, greater or equal than object two</p>
@@ -10,7 +10,7 @@ import unalcol.services.AbstractMicroService;
  * @version 1.0
  *
  */
-public interface Order<T> extends AbstractMicroService<T>{
+public interface Order<T> extends Comparator<T>{
     /**
      * Determines if one elements is less, equal or greater than other.
      * A value < 0 indicates that one is less than two, a value = 0 indicates
@@ -46,14 +46,6 @@ public interface Order<T> extends AbstractMicroService<T>{
     public default boolean eq(T one, T two){ return (compare(one, two) == 0); }
 
     /**
-     * Determines if the object one is equal to the object two
-     * @param one The first object to compare
-     * @param two The second object to compare
-     * @return (one==two)
-     */
-    public default boolean ne(T one, T two){ return (compare(one, two) != 0); }
-
-    /**
      * Determines if the object one is less than or equal to (in some order) object two
      * @param one The first object to compare
      * @param two The second object to compare
@@ -74,8 +66,6 @@ public interface Order<T> extends AbstractMicroService<T>{
 	public static final String compare=name+".compare"; 
 	public static final String lt=name+".lt"; 
 	public static final String gt=name+".gt"; 
-	public static final String eq=name+".eq"; 
-	public static final String ne=name+".ne"; 
 	public static final String le=name+".le"; 
 	public static final String ge=name+".ge"; 
 	
@@ -96,5 +86,9 @@ public interface Order<T> extends AbstractMicroService<T>{
 		if(service.equals(le)) return le((T)obj,(T)args[0]);
 		if(service.equals(ge)) return ge((T)obj,(T)args[0]);
 		throw new Exception("Undefined service "+service);
+	}
+	
+	public static int order( Object one, Object two ){
+		try{ return (Integer)Service.run(name, one, two); }catch(Exception e){ return 0; }
 	}
 }

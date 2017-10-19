@@ -49,7 +49,11 @@ public class SortedVector<T> extends Vector<T>{
     }
 
     @Override
-    public Integer findKey( T data ){ return search.find(0,size(),data);  }
+    public Integer find( T data ){
+    	int k=search.find(0,size(),data);
+    	if(k<0) return null;
+    	return k;
+    }
 
     public boolean add( T data ){
         int index = search.findRight(0,size(),data);

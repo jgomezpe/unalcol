@@ -16,7 +16,7 @@ public class BitArrayCollection implements ImmutableArray<Boolean>{
 	public BitArrayCollection( boolean[] bits ){ array = new BitArray(bits); }
 
 	@Override
-	public Boolean get(int index) throws ArrayIndexOutOfBoundsException{ return array.get(index); }
+	public Boolean get(Integer index){ return array.get(index); }
 
 	@Override
 	public int size(){ return array.dimension(); }

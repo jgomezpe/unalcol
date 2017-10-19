@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.util.Arrays;
 
 import unalcol.clone.DefaultClone;
+import unalcol.io.CharReader;
 import unalcol.io.Read;
 import unalcol.io.ShortTermMemoryReader;
 import unalcol.random.raw.JavaGenerator;
@@ -34,7 +35,7 @@ public class MLPTest {
 	@SuppressWarnings("rawtypes")
 	public static Vector[] readFile( String fileName ){
 		try{
-			ShortTermMemoryReader reader = new ShortTermMemoryReader(new FileReader(fileName));
+			ShortTermMemoryReader reader = new CharReader(new FileReader(fileName));
 			
 			Vector<double[]> inv  = new Vector<double[]>();
 			Vector<double[]> outv  = new Vector<double[]>();
@@ -48,9 +49,9 @@ public class MLPTest {
 				double[] output = Arrays.copyOfRange(array, 72, 108);
 				inv.add(input);
 				outv.add(output);
-				int row = reader.getRow();
+				int row = reader.row();
 				System.out.println(row+":"+array.length);
-				while( c != -1 && row == reader.getRow() )  c = reader.read();
+				while( c != -1 && row == reader.row() )  c = reader.read();
 				//if( c!=-1 ) reader.back();
 			}
 			reader.close();      

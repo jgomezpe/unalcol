@@ -30,7 +30,7 @@ public class LabyrinthGenerator {
 				} while(!structure.areThereWalls(start.x, start.y));
 				if(markedLocations.size() > 1)
 					marked[start.x][start.y] = false;
-				PathBuilder.build(structure, start, marked);
+				// PathBuilder.build(structure, start, marked);
 			}
 		} while(unmarkedLocations.size() > 0);
 		return structure;
