@@ -1,7 +1,6 @@
 package unalcol.language.programming;
 
 import unalcol.io.CharReader;
-import unalcol.io.ShortTermMemoryReader;
 import unalcol.language.Language;
 import unalcol.language.LanguageException;
 import unalcol.language.Typed;
@@ -10,6 +9,7 @@ import unalcol.language.programming.lexer.Token;
 import unalcol.language.programming.meaner.Meaner;
 import unalcol.language.programming.parser.Parser;
 import unalcol.language.symbol.Encoder;
+import unalcol.types.collection.Collection;
 import unalcol.types.collection.array.Array;
 
 public class ProgrammingLanguage<T> implements Language<T>{
@@ -27,15 +27,15 @@ public class ProgrammingLanguage<T> implements Language<T>{
 		this.main = main;
 	}
 	
-	public Array<Token> lexer( String input ) throws LanguageException{
+	public Array<Token<?>> lexer( String input ) throws LanguageException{
 		return lexer(new CharReader(input));
 	}
 
-	public Array<Token> lexer( ShortTermMemoryReader reader ) throws LanguageException{
-		return lexer.apply(reader, reader.offset(), symbols);
+	public Array<Token<?>> lexer( Collection<Integer> reader ) throws LanguageException{
+		return lexer.apply(reader, symbols);
 	}
 	
-	public Typed parser(int rule, Array<Token> tokens, int offset) throws LanguageException{
+	public Typed parser(int rule, Array<Token<?>> tokens, int offset) throws LanguageException{
 		return parser.apply(rule, tokens, offset);
 	}
 	
@@ -43,9 +43,9 @@ public class ProgrammingLanguage<T> implements Language<T>{
 		return meaner.apply(t);
 	}
 	
-	public T process( ShortTermMemoryReader reader, int rule ) throws LanguageException{
+	public T process( Collection<Integer> reader, int rule ) throws LanguageException{
 	    int offset=0;
-		Array<Token> tokens = lexer.apply(reader,offset, symbols);
+		Array<Token<?>> tokens = lexer.apply(reader, symbols);
 		Typed r = parser.apply(rule, tokens, offset);
 		return meaner.apply(r);				
 	}
@@ -54,7 +54,7 @@ public class ProgrammingLanguage<T> implements Language<T>{
 		return process(new CharReader(reader), rule );
 	}
 
-	public T process( ShortTermMemoryReader reader ) throws LanguageException{
+	public T process( Collection<Integer> reader ) throws LanguageException{
 	    return process(reader,main);				
 	}
 }

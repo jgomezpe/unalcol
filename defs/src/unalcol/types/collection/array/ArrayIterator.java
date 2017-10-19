@@ -4,14 +4,15 @@
  */
 package unalcol.types.collection.array;
 
-import java.util.Iterator;
 import java.util.NoSuchElementException;
+
+import unalcol.types.collection.UnalcolIterator;
 
 /**
  *
  * @author jgomez
  */
-public class ArrayIterator<T>  implements Iterator<T> {
+public class ArrayIterator<T>  implements UnalcolIterator<Integer,T> {
 	protected int pos=-1;
 	protected ImmutableArray<T> array;
 
@@ -38,5 +39,19 @@ public class ArrayIterator<T>  implements Iterator<T> {
 		if( array instanceof Array ){
 			((Array<T>)array).remove(pos);
 		}
+	}
+
+	@Override
+	public Integer key() { return pos; }
+
+	@Override
+	public int maxBack() { return pos+1; }
+
+	@Override
+	public boolean back(int k) {
+		if(0<k && k<=maxBack()){
+			pos -= k;
+		}
+		return false;
 	}
 }

@@ -3,30 +3,26 @@ package unalcol.io;
 import java.io.IOException;
 import java.io.InputStream;
 
-public class ByteReader extends ShortTermMemoryReader{
+public class ByteReader extends ReaderAsCollection{
 	protected InputStream is;
-	/**
-	 * Creates a short term memory reader that maintains at most the last <i>MEMORY_SIZE</i> read symbols
-	 * @param MEMORY_SIZE Memory size (maintains at most the last <i>MEMORY_SIZE</i> read symbols)
-	 * @param reader The underline InputStream
-	 */
-	public ByteReader(InputStream is, int MEMORY_SIZE ) {
-		super(MEMORY_SIZE);
-		this.is = is;
-	}
-
 	/**
 	 * Creates a short term memory reader that maintains at most the last <i>MEMORY_SIZE</i> (default) read symbols
 	 * @param reader The underline Reader
 	 */
-	public ByteReader(InputStream is) { this( is, MEMORY_SIZE); }
-
-
-	@Override
-	protected int get() throws IOException {
-		return is.read();
+	public ByteReader(InputStream is) {
+		this.is=is; 
+		c=get();
+		if( c==-1 ) close();
 	}
 
 	@Override
-	public void close() throws IOException { is.close(); }
+	protected int get(){ try{ return is.read(); }catch(IOException e){ return -1; } }
+
+	@Override
+	public void close(){
+		try{ 
+			closed = true;
+			is.close(); 
+		}catch(IOException e){}
+	}
 }
