@@ -6,5 +6,5 @@ import unalcol.language.programming.lexer.Token;
 import unalcol.types.collection.array.Array;
 
 public interface Parser {
-	public Typed apply( int rule, Array<Token> tokens, int offset ) throws LanguageException;
+	public Typed apply( int rule, Array<Token<?>> tokens ) throws LanguageException;
 }

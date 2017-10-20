@@ -35,8 +35,8 @@ public class ProgrammingLanguage<T> implements Language<T>{
 		return lexer.apply(reader, symbols);
 	}
 	
-	public Typed parser(int rule, Array<Token<?>> tokens, int offset) throws LanguageException{
-		return parser.apply(rule, tokens, offset);
+	public Typed parser(int rule, Array<Token<?>> tokens) throws LanguageException{
+		return parser.apply(rule, tokens);
 	}
 	
 	public T meaner( Typed t ) throws LanguageException{
@@ -44,9 +44,8 @@ public class ProgrammingLanguage<T> implements Language<T>{
 	}
 	
 	public T process( Collection<Integer> reader, int rule ) throws LanguageException{
-	    int offset=0;
 		Array<Token<?>> tokens = lexer.apply(reader, symbols);
-		Typed r = parser.apply(rule, tokens, offset);
+		Typed r = parser.apply(rule, tokens);
 		return meaner.apply(r);				
 	}
 

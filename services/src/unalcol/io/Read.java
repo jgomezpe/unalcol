@@ -59,7 +59,7 @@ public interface Read<T> extends AbstractMicroService<T>{
 	 * @return An object, of the type the read service is attending, that is read from the input stream
 	 * @throws IOException IOException
 	 */
-	public T read(ShortTermMemoryReader reader) throws IOException;
+	public T read(ReaderAsCollection reader) throws IOException;
 
 	/**
 	 * Reads space characters from a input reader up to finding the <i>separator</i> char.
@@ -67,9 +67,9 @@ public interface Read<T> extends AbstractMicroService<T>{
 	 * @param separator Character consider separator of tokens
 	 * @throws IOException An exception if it was not possible to read a separator sequence.
 	 */
-	public static void readSeparator( ShortTermMemoryReader reader, char separator ) throws IOException{
+	public static void readSeparator( ReaderAsCollection reader, char separator ) throws IOException{
 		try{
-			char c = (char)reader.read();
+			char c = (char)reader.next();
 			while( c!=separator && Character.isSpaceChar(c)) c = (char)reader.read();
 			
 			if( c != separator && c != (char)-1 ) throw new Exception("Non available separator...");

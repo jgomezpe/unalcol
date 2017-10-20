@@ -14,8 +14,8 @@ public abstract class ShortTermMemoryIterator<K,T> implements UnalcolIterator<K,
 	/**
 	 * Last read characters
 	 */
-	protected T[] data = null;
-	protected K[] extra = null;
+	protected Object[] data = null;
+	protected Object[] extra = null;
 	/**
 	 * Number of characters that is able to maintain the reader (last read characters)
 	 */
@@ -31,21 +31,22 @@ public abstract class ShortTermMemoryIterator<K,T> implements UnalcolIterator<K,
 
 	public ShortTermMemoryIterator( Iterator<T> iter ) { this( iter, MEMORY_SIZE ); }
 	
-	@SuppressWarnings("unchecked")
 	public ShortTermMemoryIterator( Iterator<T> iter , int n ){
 		this.n = n;
 		this.iter = iter;
-		data = (T[])new Object[n];
-		extra = (K[])new Object[n];
+		data = new Object[n];
+		extra = new Object[n];
 	}
 	
 	protected abstract K key(T data);
 	
-	public K key(){ return extra[pos]; }
+	@SuppressWarnings("unchecked")
+	public K key(){ return (K)extra[pos]; }
 	
 	@Override
 	public boolean hasNext() { return (pos!=end || iter.hasNext()); }
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public T next(){
 		T c;
@@ -58,7 +59,7 @@ public abstract class ShortTermMemoryIterator<K,T> implements UnalcolIterator<K,
 			if (end == start) start = (start + 1 < n) ? start + 1 : 0;
 		}else{
 			pos = (pos + 1 < n) ? pos + 1 : 0;
-			c = data[pos];
+			c = (T)data[pos];
 		}	
 		return c;
 	}
@@ -88,21 +89,7 @@ public abstract class ShortTermMemoryIterator<K,T> implements UnalcolIterator<K,
 		}
 		return flag;
 	}
-	
-	/**
-	 * Returns the last read character to the stream, if possible
-	 * @return true if it was possible to return the last read character, false otherwise
-	 */
-	/*public boolean back() {
-		boolean flag = (pos != start);
-		if (flag) {
-			offset--;
-			pos--;
-			pos = (pos < 0) ? n - 1 : pos;
-       	}
-		return flag;
-	}*/
-	
+		
 	/**
 	 * Marks the actual position as a mark for reseting the reader
 	 */

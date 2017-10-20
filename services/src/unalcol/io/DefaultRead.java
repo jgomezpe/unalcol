@@ -61,7 +61,7 @@ public class DefaultRead extends MicroService<Object> implements Read<Object> {
 	 * @throws IOException if an error reading the instance occurred.  
 	 */
 	@Override
-	public Object read(ShortTermMemoryReader reader) throws IOException {
+	public Object read(ReaderAsCollection reader) throws IOException {
 		try{ 
 			Object obj = caller();
 			Class<?> type = (obj instanceof Class<?>)?(Class<?>)obj:obj.getClass();

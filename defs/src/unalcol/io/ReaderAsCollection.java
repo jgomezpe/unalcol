@@ -33,22 +33,31 @@ public abstract class ReaderAsCollection implements ClosableCollection<Integer>{
 	 * Carriage return character
 	 */
 	protected int CARRIAGERETURN = (int) '\r';
+	
+	protected class ReaderIterator extends ShortTermMemoryIterator<Position2D, Integer>{
+		public ReaderIterator(Iterator<Integer> iter) {
+			super(iter);
+			extra[0]=new Position2D(-1,0);
+		}
+
+		@Override
+		protected Position2D key(Integer c) {
+			Position2D p = (Position2D)extra[(n+pos-1)%n];
+			if (c == CARRIAGERETURN || (c == LINEFEED && (int)data [pos] != CARRIAGERETURN)) {
+				return new Position2D(p.row() + 1, 0);
+			}else{
+				int row = p.row();
+				int col = p.column();
+				if (col != LINEFEED) col++;
+				return new Position2D(row,col);
+			}		
+		}
+		
+	}
 
 	@Override
 	public Iterator<Integer> iterator() {
-		return new ShortTermMemoryIterator<Position2D,Integer>(iter) {
-			@Override
-			protected Position2D key(Integer c) {
-				if (c == CARRIAGERETURN || (c == LINEFEED && data [pos] != CARRIAGERETURN)) {
-					return new Position2D(extra[pos].row() + 1, 0);
-				}else{
-					int row = extra[pos].row();
-					int col = extra[pos].column();
-					if (col != LINEFEED) col++;
-					return new Position2D(row,col);
-				}		
-			}
-		};
+		return new ReaderIterator(iter);
 	}
 		
 	@Override
