@@ -6,6 +6,7 @@
 package unalcol.types.integer;
 import unalcol.io.*;
 import unalcol.services.MicroService;
+import unalcol.types.collection.UnalcolIterator;
 
 import java.io.*;
 
@@ -14,47 +15,45 @@ import java.io.*;
  * @author jgomez
  */
 public class IntegerPlainRead extends MicroService<Integer> implements Read<Integer>{
+	
+	public static void readDigitStar( UnalcolIterator<?,Integer> reader, StringBuilder sb ){
+		boolean flag = true;
+		while( reader.hasNext() && flag ){
+			int c = reader.next();
+			flag = Character.isDigit(c);
+			if( flag ) sb.append((char)c);
+		}
+		if( !flag ) reader.back();
+	}
 
-    public static <S> void back( char c, ShortTermMemoryReader reader ){
-        if( c != (char)-1 ){
-            reader.back();
-        }
-    }
+	public static void removeSpaces( UnalcolIterator<?,Integer> reader ){
+		boolean flag = true;
+		while( reader.hasNext() && flag ){ flag = Character.isSpaceChar(reader.next()); }
+		if( !flag ) reader.back();
+	}
 
-    public static <S> void readDigitStar( ShortTermMemoryReader reader,
-                                  StringBuilder sb ) throws IOException{
-        char c = (char)reader.read();
-        while( Character.isDigit(c)){
-            sb.append(c);
-            c = (char)reader.read();
-        }
-        back(c, reader);
-    }
-
-    public static <S> void removeSpaces( ShortTermMemoryReader reader ) throws IOException{
-        char c = (char)reader.read();
-        while( Character.isSpaceChar(c)){
-            c = (char)reader.read();
-        }
-        back(c, reader);
-    }
-
-    @Override
-    public Integer read(ShortTermMemoryReader reader) throws
-            RowColumnReaderException{
-        try{
-            removeSpaces(reader);
-            char c = (char)reader.read();
-            if( Character.isDigit(c) || c=='-' || c=='+' ){
-                StringBuilder sb = new StringBuilder();
-                sb.append(c);
-                readDigitStar(reader, sb);
-                return Integer.parseInt(sb.toString());
-            }
-            throw new Exception("Unexpected symbol " + c);
-        }catch( Exception e ){
-            throw reader.getException("Integer Parser Error "+e.getMessage());
-        }
-
+	public static String number( UnalcolIterator<?,Integer> reader ) throws IOException{
+		if( reader.hasNext() ){
+			StringBuilder sb = new StringBuilder();
+			int c = reader.next();
+			if( c=='-' || c=='+' ){
+				sb.append((char)c);
+				if( !reader.hasNext() ) throw new IOException("Unexpected eof");
+				c = reader.next();
+			}	
+			if( Character.isDigit(c) ){ 
+				sb.append((char)c);
+				readDigitStar(reader, sb);
+				return sb.toString();
+			}
+			throw new IOException("Unexpected symbol " + (char)c);
+		}		
+		throw new IOException("Unexpected eof");
+	}
+	
+	@Override
+	public Integer read(UnalcolIterator<?,Integer> reader) throws IOException{
+		removeSpaces(reader);
+		return Integer.parseInt(number(reader));
     }
 }

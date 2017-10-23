@@ -16,8 +16,8 @@ public class M2 extends M1 {
    * @param x value used for evaluating the OptimizationFunction function
    * @return The OptimizationFunction function value for the given value
    */
-  public double apply( double x){
-    double v = super.apply(x);
+  public double compute( double x){
+    double v = super.compute(x);
     double y = (x-0.1)/0.8;
     return Math.exp(-2.0*0.69314718*y*y)*v;
   }

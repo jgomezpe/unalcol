@@ -4,6 +4,7 @@ import java.io.IOException;
 import unalcol.io.*;
 import unalcol.services.AbstractMicroService;
 import unalcol.services.MicroService;
+import unalcol.types.collection.UnalcolIterator;
 
 
 /**
@@ -47,7 +48,7 @@ public class IntArrayPlainRead extends MicroService<int[]>  implements Read<int[
      * @param reader The reader object
      * @throws IOException IOException
      */
-    public int[] read(ShortTermMemoryReader reader) throws IOException{
+    public int[] read(UnalcolIterator<?,Integer> reader) throws IOException{
     	@SuppressWarnings("unchecked")
 		Read<Integer> ri = (Read<Integer>)getMicroService(Read.name);
     	ri.setCaller(n);

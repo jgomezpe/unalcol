@@ -1,30 +1,35 @@
 package unalcol.services;
 
-import unalcol.types.collection.vector.Vector;
+import unalcol.types.collection.keymap.HTKeyMap;
 
 public class MicroServiceSet<T> extends MicroService<T>{
-	protected Vector<AbstractMicroService<T>> services = new Vector<AbstractMicroService<T>>();
+	protected HTKeyMap<AbstractMicroService<T>, Object> services = new HTKeyMap<AbstractMicroService<T>,Object>();
 	
 	@Override
 	public String[] provides(){	
-		if( services.size() > 0 ) return services.get(0).provides(); 
-		return new String[0]; 
+		if( services.isEmpty() ) return new String[0];
+		return services.keys().iterator().next().provides(); 
 	}
 	
 	@Override
 	public Object run(Object... args) throws Exception {
 		T caller = caller();
 		String name = name();
-		Vector<Object> objs = new Vector<Object>();
-		for(AbstractMicroService<T> s:services){
-			s.setCaller(caller);
-			s.setName(name);
-			objs.add(s.run(args));
+		HTKeyMap<AbstractMicroService<T>, Object> map = new HTKeyMap<AbstractMicroService<T>,Object>();
+		for(AbstractMicroService<T> service:services.keys()){
+			service.setCaller(caller);
+			service.setName(name);
+			map.set(service, service.run(args));
 		}
-		return objs;
+		return map;
 	}
 
-	public void add(AbstractMicroService<T> service){ services.add(service); }
+	@SuppressWarnings("unchecked")
+	public void register(AbstractMicroService<?> service){
+		services.set((AbstractMicroService<T>)service,0); 
+	}
 
-	public void remove(AbstractMicroService<T> service){ services.del(service); }
+	public void remove(AbstractMicroService<T> service){
+		services.remove(service);
+	}
 }

@@ -18,8 +18,8 @@ public class M8_Deceptive extends M7_Deceptive {
    * @param x Binary Array to be evaluated
    * @return the OptimizationFunction function over the binary array
    */
-  public Double apply(BitArray x) {
-    double f = super.apply(x);
+  public Double compute(BitArray x) {
+    double f = super.compute(x);
     f = 5.0*Math.pow(f/5.0,15.0);
     return f;
   }

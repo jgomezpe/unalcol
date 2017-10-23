@@ -22,7 +22,7 @@ public class Rastrigin extends OptimizationFunction<double[]> {
    * @param x the real value argument of the Rastrigin function
    * @return the Rastrigin value for the given value
    */
-  public double apply( double x ){
+  public double compute( double x ){
     return ( x*x - 10.0*Math.cos(2.0*Math.PI*x) );
   }
 
@@ -31,11 +31,11 @@ public class Rastrigin extends OptimizationFunction<double[]> {
    * @param x Real vector to be evaluated
    * @return the OptimizationFunction function over the real vector
    */
-  public Double apply( double[] x ){
+  public Double compute( double[] x ){
     int n = x.length;
     double f = 0.0;
     for( int i=0; i<n; i++ ){
-      f += apply(x[i]);
+      f += compute(x[i]);
     }
     return (10.0*n + f);
   }

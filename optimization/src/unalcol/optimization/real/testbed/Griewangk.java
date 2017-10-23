@@ -22,7 +22,7 @@ public class Griewangk extends OptimizationFunction<double[]> {
    * @param x Real vector to be evaluated
    * @return the OptimizationFunction function over the real vector
    */
-  public Double apply( double[] x ){
+  public Double compute( double[] x ){
     int n = x.length;
     double sum = 0.0;
     double prod = 1.0;

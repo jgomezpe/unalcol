@@ -7,7 +7,6 @@ import unalcol.types.collection.keymap.KeyMap;
 public class ServicePool implements ServiceProvider{
 	protected KeyMap<String,KeyMap<Object,AbstractMicroService<?>>> pool = new HTKeyMap<String,KeyMap<Object,AbstractMicroService<?>>>();
 
-	@SuppressWarnings({"rawtypes" })
 	public void register( AbstractMicroService<?> service, Object caller ){
 		for( String name:service.provides() ){
 			KeyMap<Object,AbstractMicroService<?>> s;
@@ -18,12 +17,12 @@ public class ServicePool implements ServiceProvider{
 			}
 			if( service.multiple() ){
 				MicroServiceSet<?> cs;
-				if( s.valid(caller) ){ cs = (MicroServiceSet)s.get(caller); }
+				if( s.valid(caller) ){ cs = (MicroServiceSet<?>)s.get(caller); }
 				else{
 					cs = new MicroServiceSet<Object>();
 					s.set(caller, cs);
-				}	
-				cs.add(service);
+				}
+				cs.register(service);
 			}else s.set(caller, service);			
 		}
 	}

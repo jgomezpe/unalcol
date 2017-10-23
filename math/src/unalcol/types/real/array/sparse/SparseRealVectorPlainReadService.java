@@ -8,10 +8,9 @@ import java.io.IOException;
 
 import unalcol.io.Read;
 import unalcol.io.ReadWrapper;
-import unalcol.io.ShortTermMemoryReader;
 import unalcol.services.AbstractMicroService;
 import unalcol.services.MicroService;
-import unalcol.services.Service;
+import unalcol.types.collection.UnalcolIterator;
 
 /**
  *
@@ -54,17 +53,6 @@ public class SparseRealVectorPlainReadService extends MicroService<SparseRealVec
         this.separator = separator;
     }
 
-    protected boolean hasNext(ShortTermMemoryReader reader){
-        try{
-            if( reader.read() != -1 ){
-                reader.back();
-                return true;
-            }
-        }catch(Exception e){
-        }
-        return false;
-    }
-
 	public AbstractMicroService<?> wrap(String id){
 		if( id.equals(integer) ) return new ReadWrapper<Integer>();
 		if( id.equals(real) ) return new ReadWrapper<Double>();
@@ -73,19 +61,9 @@ public class SparseRealVectorPlainReadService extends MicroService<SparseRealVec
 	
     public void setIntReader( Read<Integer> ri ){ this.ri = ri; }
 	
-	protected int readInt(ShortTermMemoryReader reader) throws Exception{
-		if( ri!=null ) return ri.read(reader);
-		return (int)Service.run(Read.name, Integer.class, reader);
-	}
-	
 	public void setDoubleReader( Read<Double> rr ){ this.rr = rr; }
 	
-	protected double readDouble(ShortTermMemoryReader reader) throws Exception{
-		if( rr!=null ) return rr.read(reader);
-		return (double)Service.run(Read.name, Double.class, reader);
-	}
-    
-	public SparseRealVector read( ShortTermMemoryReader reader ) throws IOException{
+	public SparseRealVector read( UnalcolIterator<?, Integer> reader ) throws IOException{
     	@SuppressWarnings("unchecked")
 		Read<Integer> ri = (Read<Integer>)getMicroService(integer);
     	ri.setCaller(n);
@@ -99,7 +77,7 @@ public class SparseRealVectorPlainReadService extends MicroService<SparseRealVec
         SparseRealVector d = new SparseRealVector(n);
         int k;
         double v;
-        while( hasNext(reader) ){
+        while( reader.hasNext() ){
             k = ri.read(reader);
             Read.readSeparator(reader, separator);
             v = rr.read(reader);

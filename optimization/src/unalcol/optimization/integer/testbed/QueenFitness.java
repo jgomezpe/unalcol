@@ -18,7 +18,7 @@ public class QueenFitness extends OptimizationFunction<int[]>{
    * @return the OptimizationFunction function over the binary array
    */
   @Override  
-  public Double apply( int[] x ){
+  public Double compute( int[] x ){
     double f = 0.0;
     for( int i=0; i<x.length; i++ ){
         for( int j=0; j<x.length; j++){

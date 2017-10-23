@@ -82,7 +82,7 @@ public class M9_Deceptive extends OptimizationFunction<BitArray> {
    * @param x Binary Array to be evaluated
    * @return the OptimizationFunction function over the binary array
    */
-  public Double apply( BitArray x ){
+  public Double compute( BitArray x ){
     double f=0.0;
     int n = x.size() / length;
     for( int i=0; i<n; i++ ){

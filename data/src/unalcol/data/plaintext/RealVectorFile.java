@@ -9,7 +9,6 @@ import java.io.FileReader;
 import java.io.IOException;
 
 import unalcol.io.CharReader;
-import unalcol.io.ShortTermMemoryReader;
 import unalcol.types.collection.vector.Vector;
 import unalcol.types.real.array.DoubleArrayPlainRead;
 
@@ -44,10 +43,10 @@ public class RealVectorFile {
         }
         DoubleArrayPlainRead service = new DoubleArrayPlainRead(separator);
         Vector<double[]> data_points = new Vector<double[]>();
-        ShortTermMemoryReader reader;
+        CharReader reader;
         while(line!=null){
             reader = new CharReader(line);
-            data_points.add(service.read(reader));
+            data_points.add(service.read(reader.unalcol()));
             line = file.readLine();
         }
         file.close();

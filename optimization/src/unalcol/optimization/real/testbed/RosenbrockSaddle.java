@@ -24,7 +24,7 @@ public class RosenbrockSaddle extends OptimizationFunction<double[]>{
    * @param x2 the second real value argument of the RosenbrockSaddle function
    * @return the RosenbrockSaddle value for the given values
    */
-  public double apply( double x1, double x2 ){
+  public double compute( double x1, double x2 ){
     double y = x1*x1 - x2;
     return (100.0*y*y + (1.0-x1)*(1.0-x1));
   }
@@ -34,11 +34,11 @@ public class RosenbrockSaddle extends OptimizationFunction<double[]>{
    * @param x Real vector to be evaluated
    * @return the OptimizationFunction function over the real vector
    */
-  public Double apply( double[] x ){
+  public Double compute( double[] x ){
     double f = 0.0;
     int n = x.length - 1;
     for( int i=0; i<n; i++ ){
-      f += apply( x[i], x[i+1] );
+      f += compute( x[i], x[i+1] );
     }
     return f;
   }

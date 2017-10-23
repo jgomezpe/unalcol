@@ -6,11 +6,12 @@ import java.util.Arrays;
 
 import unalcol.clone.DefaultClone;
 import unalcol.io.CharReader;
+import unalcol.io.Position2D;
 import unalcol.io.Read;
-import unalcol.io.ShortTermMemoryReader;
 import unalcol.random.raw.JavaGenerator;
 import unalcol.services.Service;
 import unalcol.services.ServicePool;
+import unalcol.types.collection.UnalcolIterator;
 import unalcol.types.collection.vector.Vector;
 import unalcol.types.collection.vector.VectorClone;
 import unalcol.types.real.DoublePlainRead;
@@ -35,26 +36,24 @@ public class MLPTest {
 	@SuppressWarnings("rawtypes")
 	public static Vector[] readFile( String fileName ){
 		try{
-			ShortTermMemoryReader reader = new CharReader(new FileReader(fileName));
-			
+			CharReader creader = new CharReader(new FileReader(fileName));
+			UnalcolIterator<?, Integer> reader = creader.unalcol();
 			Vector<double[]> inv  = new Vector<double[]>();
 			Vector<double[]> outv  = new Vector<double[]>();
 			
-			int c = reader.read();
-			reader.back();
-			while( c != -1 ){
+			while( reader.hasNext() ){
 				double[] array = (double[])Read.from(double[].class, reader);
 				//Split array				
 				double[] input = Arrays.copyOf(array, 72);
 				double[] output = Arrays.copyOfRange(array, 72, 108);
 				inv.add(input);
 				outv.add(output);
-				int row = reader.row();
+				int row = ((Position2D)reader.key()).row();
 				System.out.println(row+":"+array.length);
-				while( c != -1 && row == reader.row() )  c = reader.read();
+				while( reader.hasNext() && row == ((Position2D)reader.key()).row() )  reader.next();
 				//if( c!=-1 ) reader.back();
 			}
-			reader.close();      
+			creader.close();      
 			return new Vector[]{inv, outv}; 
 		}catch(IOException e){
 			e.printStackTrace();

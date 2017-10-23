@@ -60,13 +60,14 @@ public class DefaultWrite extends MicroService<Object> implements Write<Object> 
 	@Override
 	public void write(Writer writer) throws IOException {
 		Object obj = caller();
+		//System.out.println("Defaultwrite.."+obj);
 		try {
-			if( obj instanceof Double || obj instanceof Long || obj instanceof Integer || obj instanceof Character || obj instanceof String ){ 
-				writer.write(obj.toString());
-				return;
-			}
 			Method m = obj.getClass().getMethod(Write.name, new Class[] {Writer.class});
 			m.invoke(obj, new Object[] {writer});
-		} catch (Exception e) { throw new IOException(e.getMessage()); }
+		} catch (Exception e) {	
+			//if( e instanceof IOException ) throw (IOException)e; 
+			writer.write("####");
+			writer.write(obj.toString()); 
+		}
 	}
 }

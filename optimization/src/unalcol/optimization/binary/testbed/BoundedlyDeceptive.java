@@ -35,7 +35,7 @@ public class BoundedlyDeceptive extends OptimizationFunction<BitArray> {
    * @param x Binary Array to be evaluated
    * @return the OptimizationFunction function over the binary array
    */
-  public Double apply(BitArray x) {
+  public Double compute(BitArray x) {
     int geneSize = 4;
     double f = 0.0;
     int n = x.size() / geneSize;

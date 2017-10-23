@@ -18,7 +18,7 @@ public class Shubert_1 extends RealFitness{
    * @param x Argument for the Shubert function
    * @return The Shuberrt function evaluated on the given argument
    */
-  public double apply( double x ){
+  public double compute( double x ){
     double f = 0.0;
     for( double i=1; i<=5; i++ ){
       f += i*Math.cos((i+1)*x+i);

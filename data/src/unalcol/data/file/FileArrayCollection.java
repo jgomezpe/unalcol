@@ -4,8 +4,6 @@ import java.io.IOException;
 import java.io.RandomAccessFile;
 
 import unalcol.instance.Load;
-import unalcol.types.collection.Location;
-import unalcol.types.collection.array.ArrayLocation;
 import unalcol.types.collection.array.Array;
 
 public class FileArrayCollection<T> extends FileImmutableArrayCollection<T> implements Array<T> {
@@ -58,18 +56,10 @@ public class FileArrayCollection<T> extends FileImmutableArrayCollection<T> impl
 		return false;
 	}
 
-	@Override
-	public boolean del(Location<T> loc) {
-		if( loc instanceof ArrayLocation ){
-		  return remove( ((ArrayLocation<T>)loc).getPos() );	
-		}
-		return false;
-	}
 	protected int BUFFER_SIZE = 10000000;
 
 	@Override
-	public boolean add(int index, T obj) throws ArrayIndexOutOfBoundsException {
-		if( index<0 || index>=size() ) throw new ArrayIndexOutOfBoundsException(index);
+	public boolean add(Integer index, T obj) throws ArrayIndexOutOfBoundsException {
 		locate(index);
 		long pos;
 		try {
@@ -97,8 +87,7 @@ public class FileArrayCollection<T> extends FileImmutableArrayCollection<T> impl
 	}
 
 	@Override
-	public boolean remove(int index) throws ArrayIndexOutOfBoundsException {
-		if( index<0 || index>=size() ) throw new ArrayIndexOutOfBoundsException(index);
+	public boolean remove(Integer index){
 		locate(index);
 		try {
 			long start = file.getFilePointer()+load.size();
@@ -122,8 +111,7 @@ public class FileArrayCollection<T> extends FileImmutableArrayCollection<T> impl
 	}
 
 	@Override
-	public boolean set(int index, T obj) throws ArrayIndexOutOfBoundsException {
-		if( index<0 || index>=size() ) throw new ArrayIndexOutOfBoundsException(index);
+	public boolean set(Integer index, T obj){
 		locate(index);
 		try {
 			file.write(load.store(obj));

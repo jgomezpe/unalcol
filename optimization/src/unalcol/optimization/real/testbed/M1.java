@@ -15,7 +15,7 @@ public class M1 extends RealFitness{
    * @param x value used for evaluating the OptimizationFunction function
    * @return The OptimizationFunction function value for the given value
    */
-  public double apply( double x ){
+  public double compute( double x ){
     return Math.pow(Math.sin(5.0*Math.PI*x), 6.0 );
   }
 }

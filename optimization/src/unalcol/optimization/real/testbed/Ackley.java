@@ -22,7 +22,7 @@ public class Ackley extends OptimizationFunction<double[]> {
    * @param x Real vector to be evaluated
    * @return the OptimizationFunction function over the real vector
    */
-  public Double apply( double[] x ){
+  public Double compute( double[] x ){
     int n = x.length;
     double sum1 = 0.0;
     double sum2 = 0.0;

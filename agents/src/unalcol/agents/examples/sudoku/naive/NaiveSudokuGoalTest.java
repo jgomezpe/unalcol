@@ -19,7 +19,7 @@ public class NaiveSudokuGoalTest extends Algorithm<NaiveSudokuBoardState,Boolean
 	public NaiveSudokuGoalTest() {}
   
 	@Override
-	public Boolean apply(NaiveSudokuBoardState state) {
+	public Boolean compute(NaiveSudokuBoardState state) {
 		return state.board.solved();
 	}
 

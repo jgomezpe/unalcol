@@ -15,11 +15,11 @@ public class CentralTwoPeakTrap extends TwoPeakTrap {
    * @param x Argument for the Shubert function
    * @return The Shuberrt function evaluated on the given argument
    */
-  public double apply( double x ){
+  public double compute( double x ){
     if( x < 10.0 ){
       return(160.0*x/15.0);
     }else{
-      return(super.apply(x));
+      return(super.compute(x));
     }
   }
 }

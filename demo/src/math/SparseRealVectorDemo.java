@@ -8,7 +8,6 @@ import java.io.StringReader;
 
 import unalcol.clone.DefaultClone;
 import unalcol.io.CharReader;
-import unalcol.io.ShortTermMemoryReader;
 import unalcol.random.raw.JavaGenerator;
 import unalcol.services.Service;
 import unalcol.services.ServicePool;
@@ -42,11 +41,11 @@ public class SparseRealVectorDemo {
 	public static void persistency(){
 		init_services();
         StringReader r = new StringReader("  3, 5.0, 1, -1234.4555e-123, 6, 345.6789, 9, 23.456    ");
-        ShortTermMemoryReader reader = new CharReader(r);
+        CharReader reader = new CharReader(r);
         SparseRealVector x;
         SparseRealVectorPlainReadService service = new SparseRealVectorPlainReadService(10, ',');
         try{
-           x = (SparseRealVector)service.read(reader);
+           x = (SparseRealVector)service.read(reader.unalcol());
            for( int i=0; i<x.size(); i++ ){
                System.out.println(x.get(i));
            }

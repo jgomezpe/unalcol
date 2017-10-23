@@ -7,7 +7,6 @@ package types;
 
 import unalcol.io.CharReader;
 import unalcol.io.Read;
-import unalcol.io.ShortTermMemoryReader;
 import unalcol.io.Write;
 import unalcol.random.raw.JavaGenerator;
 import unalcol.random.raw.RawGenerator;
@@ -55,11 +54,11 @@ public class DoubleArrayTest {
     public static double[] persistency(){
         // The first value is the number of real values, followed by the values
         // to be stored in the double array
-        ShortTermMemoryReader reader = new CharReader("  3  -1234.4555e-123 345.6789 23.456");
+        CharReader reader = new CharReader("  3  -1234.4555e-123 345.6789 23.456");
         double[] x = new double[0];
         try{
            // Reading the array from the provided buffer (reader) 
-           x = (double[])Service.run(Read.name,double[].class, reader);
+           x = (double[])Service.run(Read.name,double[].class, reader.unalcol());
            // Printing the array using a regular for loop
            for( int i=0; i<x.length; i++ ){
                System.out.println(x[i]);

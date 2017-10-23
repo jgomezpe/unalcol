@@ -18,7 +18,7 @@ public class TwoPeakTrap extends RealFitness{
    * @param x Argument for the Shubert function
    * @return The Shuberrt function evaluated on the given argument
    */
-  public double apply( double x ){
+  public double compute( double x ){
     if( x < 15.0 ){
       return(160.0*(15.0-x)/15.0);
     }else{

@@ -18,8 +18,8 @@ public class M3 extends M1 {
    * @return The OptimizationFunction function value for the given value
    */
 
-  public double apply( double x) {
+  public double compute( double x) {
     x = Math.pow( x, 0.75 ) - 0.05;
-    return super.apply(x);
+    return super.compute(x);
   }
 }

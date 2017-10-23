@@ -2,8 +2,6 @@ package unalcol.types.integer.array;
 
 import java.util.Arrays;
 
-import unalcol.types.collection.Location;
-import unalcol.types.collection.array.ArrayLocation;
 import unalcol.types.collection.array.Array;
 
 public class WrapIntArrayAsCollection implements Array<Integer>{
@@ -14,7 +12,7 @@ public class WrapIntArrayAsCollection implements Array<Integer>{
 	public WrapIntArrayAsCollection( IntArray array ) { this.array = array;	}
 	
 	@Override
-	public Integer get(int index) throws ArrayIndexOutOfBoundsException{ return array.get(index); }
+	public Integer get(Integer index){ return array.get(index); }
 
 	@Override
 	public Object[] toArray(){ return Arrays.stream( array.toArray() ).boxed().toArray( Integer[]::new ); }
@@ -29,33 +27,14 @@ public class WrapIntArrayAsCollection implements Array<Integer>{
 	public void clear() { array.clear(); }
 
 	@Override
-	public boolean del(Integer data) {
-		int k = findKey(data);
-		if( k>=0 ){ 
-			array.remove(k); 
-			return true;
-		} 
-		return false;
-	}
+	public boolean add(Integer index, Integer data){ return array.add(index, data); }
 
 	@Override
-	public boolean del(Location<Integer> locator) {
-		if( locator instanceof ArrayLocation ){
-			ArrayLocation<Integer> loc = ((ArrayLocation<Integer>)locator);
-			return array.remove(loc.getPos());
-		}	
-		return false;
-	}
-
-	@Override
-	public boolean add(int index, Integer data) throws ArrayIndexOutOfBoundsException { return array.add(index, data); }
-
-	@Override
-	public boolean remove(int index) throws ArrayIndexOutOfBoundsException { return array.remove(index); }
+	public boolean remove(Integer index){ return array.remove(index); }
 
 	@Override
 	public void resize(int n){ array.resize(n);	}
 
 	@Override
-	public boolean set(int index, Integer data) throws ArrayIndexOutOfBoundsException { return array.set(index, data); }
+	public boolean set(Integer index, Integer data){ return array.set(index, data); }
 }

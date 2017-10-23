@@ -21,7 +21,7 @@ public class AbstractTokenizer<S> {
 	}
 			
 	public Array<Token<?>> apply(Collection<S> reader){
-		UnalcolIterator<?, S> iter = reader.unalcol_iterator();
+		UnalcolIterator<?, S> iter = reader.unalcol();
 		Vector<Token<?>> tokens = new Vector<Token<?>>();
 		boolean flag = false;
 		while(!flag){

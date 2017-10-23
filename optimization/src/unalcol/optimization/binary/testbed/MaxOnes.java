@@ -20,7 +20,7 @@ public class MaxOnes extends OptimizationFunction<BitArray>{
    * @param x Binary Array to be evaluated
    * @return the OptimizationFunction function over the binary array
    */
-  public Double apply( BitArray x ){
+  public Double compute( BitArray x ){
     double f = 0.0;
     for( int i=0; i<x.size(); i++ ){
       if( x.get(i) ){ f++; }

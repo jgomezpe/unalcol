@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.lang.reflect.Method;
 
 import unalcol.services.MicroService;
+import unalcol.types.collection.UnalcolIterator;
 
 //
 //Unalcol Service structure Pack 1.0 by Jonatan Gomez-Perdomo
@@ -61,7 +62,7 @@ public class DefaultRead extends MicroService<Object> implements Read<Object> {
 	 * @throws IOException if an error reading the instance occurred.  
 	 */
 	@Override
-	public Object read(ReaderAsCollection reader) throws IOException {
+	public Object read(UnalcolIterator<?,Integer> reader) throws IOException {
 		try{ 
 			Object obj = caller();
 			Class<?> type = (obj instanceof Class<?>)?(Class<?>)obj:obj.getClass();

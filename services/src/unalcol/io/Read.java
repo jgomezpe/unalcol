@@ -1,7 +1,10 @@
 package unalcol.io;
 import java.io.IOException;
+import java.util.Iterator;
+
 import unalcol.services.AbstractMicroService;
 import unalcol.services.Service;
+import unalcol.types.collection.UnalcolIterator;
 
 //
 //Unalcol Service structure Pack 1.0 by Jonatan Gomez-Perdomo
@@ -59,7 +62,7 @@ public interface Read<T> extends AbstractMicroService<T>{
 	 * @return An object, of the type the read service is attending, that is read from the input stream
 	 * @throws IOException IOException
 	 */
-	public T read(ReaderAsCollection reader) throws IOException;
+	public T read(UnalcolIterator<?,Integer> reader) throws IOException;
 
 	/**
 	 * Reads space characters from a input reader up to finding the <i>separator</i> char.
@@ -67,24 +70,25 @@ public interface Read<T> extends AbstractMicroService<T>{
 	 * @param separator Character consider separator of tokens
 	 * @throws IOException An exception if it was not possible to read a separator sequence.
 	 */
-	public static void readSeparator( ReaderAsCollection reader, char separator ) throws IOException{
-		try{
-			char c = (char)reader.next();
-			while( c!=separator && Character.isSpaceChar(c)) c = (char)reader.read();
-			
-			if( c != separator && c != (char)-1 ) throw new Exception("Non available separator...");
-		}catch( Exception e ){ throw reader.getException("ReadService Parser Error "+e.getMessage()); }
+	public static void readSeparator( UnalcolIterator<?,Integer> reader, char separator ) throws IOException{
+		if( reader.hasNext() ){
+			int c = reader.next();
+			while(reader.hasNext() && c!=separator && Character.isSpaceChar(c)){ c=reader.next(); }
+			if( c==separator ) return;
+		}
+		throw new IOException("Non available separator...");
 	}	
 	
 	// The MicroService methods
 
 	public static final String name="read";
 
-	public default Object run( Object... args ) throws IOException{ return read((ShortTermMemoryReader)args[0]); }    
+	@SuppressWarnings("unchecked")
+	public default Object run( Object... args ) throws IOException{ return read((UnalcolIterator<?,Integer>)args[0]); }    
 
 	public default String[] provides(){ return new String[]{name}; }	
 
-	public static Object from( Object obj, ShortTermMemoryReader reader ){
+	public static Object from( Object obj, Iterator<Integer> reader ){
 		try{ return Service.run(name, obj, reader); }catch(Exception e){ return null; }
 	}	
 }

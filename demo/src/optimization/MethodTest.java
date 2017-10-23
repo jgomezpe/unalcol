@@ -3,6 +3,7 @@ package optimization;
 import unalcol.Tagged;
 import unalcol.clone.DefaultClone;
 import unalcol.descriptors.WriteDescriptors;
+import unalcol.io.DefaultWrite;
 import unalcol.optimization.OptimizationFunction;
 import unalcol.optimization.binary.BinarySpace;
 import unalcol.optimization.binary.BitMutation;
@@ -28,6 +29,7 @@ import unalcol.services.Service;
 import unalcol.services.ServicePool;
 import unalcol.tracer.ConsoleTracer;
 import unalcol.tracer.Tracer;
+import unalcol.tracer.VectorTracer;
 import unalcol.types.collection.bitarray.BitArray;
 import unalcol.types.integer.array.IntArray;
 import unalcol.types.integer.array.IntArrayPlainWrite;
@@ -35,6 +37,23 @@ import unalcol.types.real.array.DoubleArray;
 import unalcol.types.real.array.DoubleArrayPlainWrite;
 
 public class MethodTest {
+	// ******* any ******** //
+	public static ServicePool service(OptimizationFunction<?> function, Search<?, Double> search){
+        // Tracking the goal evaluations
+		ServicePool service = new ServicePool();
+		service.register(new JavaGenerator(), Object.class);      
+		service.register(new DefaultClone(), Object.class);
+		service.register(new DefaultWrite(), Object.class);
+		Tracer<Object> t = new ConsoleTracer<Object>();
+		t.start();
+		service.register(t, search);
+		t = new VectorTracer<Object>();
+		t.start();
+		service.register(t, function);
+		Service.set(service);
+		return service;
+	}
+	
 	// ******* Real space problem ******** //
 	public static double[] min( int DIM ){ return DoubleArray.create(DIM, -5.12); }
 	
@@ -60,18 +79,12 @@ public class MethodTest {
     	return new IntensityMutation( 0.1, random, pick );
 	}
 	
-	public static void real_service(OptimizationFunction<double[]> function, Search<double[], Double> search){
-        // Tracking the goal evaluations
-		ServicePool service = new ServicePool();
-		service.register(new JavaGenerator(), Object.class);      
-		service.register(new DefaultClone(), Object.class);
-		Tracer<Object> t = new ConsoleTracer<Object>();
-		t.start();
-		service.register(t, search);
+	public static ServicePool real_service(OptimizationFunction<double[]> function, Search<double[], Double> search){
+		ServicePool service = service(function,search);
         service.register(new SolutionDescriptors<double[]>(function), Tagged.class);
         service.register(new DoubleArrayPlainWrite(',',false), double[].class);
         service.register(new SolutionWrite<double[]>(function,true), Tagged.class);
-		Service.set(service);
+        return service;
 	}
         
 	// ******* Binary space problem ******** //
@@ -92,30 +105,23 @@ public class MethodTest {
         return new BitMutation();
 	}
 	
-	@SuppressWarnings("rawtypes")
-	public static void binary_service( OptimizationFunction<BitArray> function, 
+	public static ServicePool binary_service( OptimizationFunction<BitArray> function, 
 			Search<BitArray,Double> search){ 
-        // Tracking the goal evaluations
-		ServicePool service = new ServicePool();
-		service.register(new DefaultClone(), Object.class);      
-		service.register(new ConsoleTracer<Object>(), Object.class);
+		ServicePool service = service(function,search);
+        service.register(new DoubleArrayPlainWrite(',',false), double[].class);
         service.register(new SolutionDescriptors<BitArray>(function), Tagged.class);
-        service.register(new IntArrayPlainWrite(',',false), BitArray.class);
-        service.register(new WriteDescriptors(), Tagged.class);
-		Service.set(service);
+        service.register(new SolutionWrite<BitArray>(function,true), Tagged.class);
+		return service;
 	}
 
 	@SuppressWarnings("rawtypes")
-	public static void binary2real_service( OptimizationFunction<double[]> function, 
+	public static ServicePool binary2real_service( OptimizationFunction<double[]> function, 
 			Search<double[],Double> search){ 
         // Tracking the goal evaluations
-		ServicePool service = new ServicePool();
-		service.register(new DefaultClone(), Object.class);      
-		service.register(new ConsoleTracer<Object>(), Object.class);
+		ServicePool service = service(function,search);
         service.register(new SolutionDescriptors<double[]>(function), Tagged.class);
-        service.register(new IntArrayPlainWrite(',',false), BitArray.class);
         service.register(new WriteDescriptors(), Tagged.class);
-		Service.set(service);
+		return service;
 	}
 	
 	
@@ -143,9 +149,7 @@ public class MethodTest {
 	@SuppressWarnings("rawtypes")
 	public static void queen_service(OptimizationFunction<int[]> function, Search<int[], Double> search){
 		// Tracking the goal evaluations
-		ServicePool service = new ServicePool();
-		service.register(new DefaultClone(), Object.class);      
-		service.register(new ConsoleTracer<Object>(), Object.class);
+		ServicePool service = service(function,search);
         service.register(new SolutionDescriptors<int[]>(function), Tagged.class);
         service.register(new IntArrayPlainWrite(',',false), int[].class);
         service.register(new WriteDescriptors(), Tagged.class);
@@ -153,11 +157,12 @@ public class MethodTest {
 	}
 	
 	@SuppressWarnings({ "rawtypes", "unchecked" })
-	public static void population_service(OptimizationFunction function ){
+	public static ServicePool population_service(OptimizationFunction<?> function ){
 		ServicePool service = (ServicePool)Service.get();
 		PopulationDescriptors pd= new PopulationDescriptors();
 		pd.setGoal(function);
 		service.register(pd, Tagged[].class);
 		service.register(new WriteDescriptors<Tagged[]>(), Tagged[].class);
+		return service;
 	}	
 }

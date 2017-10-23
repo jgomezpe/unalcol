@@ -48,7 +48,7 @@ public class Bohachevsky extends OptimizationFunction<double[]> {
    * @param x Real vector to be evaluated
    * @return the OptimizationFunction function over the real vector
    */
-  public Double apply( double[] x ){
+  public Double compute( double[] x ){
     double f = 0.0;
     int n = x.length - 1;
     if( one ){

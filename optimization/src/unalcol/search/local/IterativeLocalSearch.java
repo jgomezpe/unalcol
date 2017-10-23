@@ -38,16 +38,16 @@ public class IterativeLocalSearch<T,R> extends Thing implements LocalSearch<T,R>
     }    
     
 	@Override
-	public Tagged<T> apply(Tagged<T> Tagged, Space<T> space) {
+	public Tagged<T> apply(Tagged<T> x, Space<T> space) {
         terminationCondition.init();
         int i=0;
-        try{ Service.run(Tracer.name,this, i, Tagged); }catch(Exception e){}
-        while( terminationCondition.evaluate(Tagged) ){
-            Tagged = step(Tagged, space);
+        try{ Service.run(Tracer.name,this, i, x); }catch(Exception e){}
+        while( terminationCondition.evaluate(x) ){
+            x = step(x, space);
             i++;
-            try{ Service.run(Tracer.name,this, i, Tagged); }catch(Exception e){}
+            try{ Service.run(Tracer.name,this, i, x); }catch(Exception e){}
         }
-        return Tagged;
+        return x;
 	}
 	
 	@Override

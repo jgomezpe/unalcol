@@ -18,8 +18,8 @@ public class M4 extends M3 {
    * @return The OptimizationFunction function value for the given value
    */
 
-  public double apply( double x) {
-    double v = super.apply(x);
+  public double compute( double x) {
+    double v = super.compute(x);
     double y = (x-0.08)/0.854;
     return Math.exp(-2.0*0.69314718*y*y)*v;
   }

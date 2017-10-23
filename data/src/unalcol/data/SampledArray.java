@@ -61,7 +61,7 @@ public class SampledArray<T> implements ImmutableArray<T>{
      * @return The object at the given position, null if there is not object at that position
      */
     @Override
-    public T get(int i) {
+    public T get(Integer i) {
         T d = null;
         try {
             d = source.get(index[i]);

@@ -9,6 +9,7 @@ import java.io.IOException;
 import unalcol.io.*;
 import unalcol.services.AbstractMicroService;
 import unalcol.services.MicroService;
+import unalcol.types.collection.UnalcolIterator;
 
 /**
  *
@@ -45,7 +46,7 @@ public class DoubleArrayPlainRead extends MicroService<double[]> implements Read
 	}
 	
     @Override
-    public double[] read( ShortTermMemoryReader reader ) throws IOException{
+    public double[] read( UnalcolIterator<?,Integer> reader ) throws IOException{
         if( read_dimension ){
         	@SuppressWarnings("unchecked")
     		Read<Integer> ri = (Read<Integer>)getMicroService(integer);

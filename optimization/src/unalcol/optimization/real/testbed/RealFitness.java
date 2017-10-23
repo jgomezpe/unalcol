@@ -18,14 +18,14 @@ public abstract class RealFitness extends OptimizationFunction<Double>{
    * @param x value used for evaluating the OptimizationFunction function
    * @return The OptimizationFunction function value for the given value
    */
-  public abstract double apply(double x);
+  public abstract double compute(double x);
 
   /**
    * Evaluates the OptimizationFunction funtion in the first component of the RealVector
    * @param x RealVector used for sending the real value to be evaluated
    * @return The OptimizationFunction function value for the given value (first component of the RealVector)
    */
-  public Double apply(Double x) {
-    return this.apply( x.doubleValue() );
+  public Double compute(Double x) {
+    return this.compute( x.doubleValue() );
   }
 }

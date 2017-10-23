@@ -8,7 +8,7 @@ public class GlovitoFitness extends OptimizationFunction<BitArray>{
 	   * @param x Binary Array to be evaluated
 	   * @return the OptimizationFunction function over the binary array
 	   */
-	  public Double apply( BitArray a ){
+	  public Double compute( BitArray a ){
 			int[] input = new int[]{1,1,0,1,1,0,0,0,1,1,0};
 			Glovito g = new Glovito(a);
 			int[] x = g.simulate(input);

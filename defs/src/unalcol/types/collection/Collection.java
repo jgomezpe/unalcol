@@ -22,7 +22,7 @@ public interface Collection<T> extends Iterable<T> {
 	public boolean isEmpty();      
 	
 	@SuppressWarnings("unchecked")
-	public default UnalcolIterator<?, T> unalcol_iterator(){
+	public default UnalcolIterator<?, T> unalcol(){
 		Iterator<T> iter = iterator();
 		UnalcolIterator<?, T> riter;
 		if( iter instanceof UnalcolIterator) riter = (UnalcolIterator<?, T>)iter;

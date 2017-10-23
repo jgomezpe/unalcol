@@ -5,12 +5,15 @@ import unalcol.agents.simulate.util.*;
 import unalcol.clone.DefaultClone;
 import unalcol.services.Service;
 import unalcol.services.ServicePool;
+import unalcol.types.collection.vector.VectorClone;
+import unalcol.types.collection.vector.Vector;
 import unalcol.agents.examples.sudoku.naive.*;
 
 public class SudokuMain {
 	public static void init_services(){
 		ServicePool service = new ServicePool();
 		service.register(new DefaultClone(), Object.class);      
+		service.register(new VectorClone<>(), Vector.class);      
 		Service.set(service);
 	}
 	

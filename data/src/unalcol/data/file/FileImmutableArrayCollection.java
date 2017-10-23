@@ -44,8 +44,7 @@ public class FileImmutableArrayCollection<T> implements ImmutableArray<T>{
 	}
 	
 	@Override
-	public T get(int index) throws ArrayIndexOutOfBoundsException {
-		if( index<0 || index>=size() ) throw new ArrayIndexOutOfBoundsException(index);
+	public T get(Integer index){
 		try {
 			locate(index);
 			byte[] b = new byte[load.size()];

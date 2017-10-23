@@ -28,7 +28,7 @@ public class HillClimbingTest{
     	// Variation
     	Mutation variation = MethodTest.real_variation();
         // Search method
-        int MAXITERS = 100;
+        int MAXITERS = 150;
         boolean neutral = true; // Accepts movements when having same function value
         boolean adapt_operator = false; // Set to true if you want adaptation in operator
         LocalSearch<double[],Double> search;
@@ -43,8 +43,8 @@ public class HillClimbingTest{
         // Services
         MethodTest.real_service(function, search);
         // Apply the search method
-        Tagged<double[]> Tagged = search.solve(space);        
-        System.out.println(Tagged.get(function));		
+        Tagged<double[]> sol = search.solve(space);        
+        System.out.println(sol.get(function));		
 	}
     
 	// ******* Binary space problem ******** //
@@ -59,7 +59,7 @@ public class HillClimbingTest{
     	BitMutation variation = MethodTest.binary_mutation();
         
         // Search method
-        int MAXITERS = 10000;
+        int MAXITERS = 150;
         boolean neutral = true; // Accepts movements when having same function value
         boolean adapt_operator = true; //
         LocalSearch<BitArray,Double> search;
@@ -76,8 +76,8 @@ public class HillClimbingTest{
         // Services
         MethodTest.binary_service(function, search);
         // Apply the search method
-        Tagged<BitArray> Tagged = search.solve(space);        
-        System.out.println(Tagged.get(function));		
+        Tagged<BitArray> sol = search.solve(space);        
+        System.out.println(sol.get(function));		
 	}
 	
 	public static void binary2real(){
@@ -117,8 +117,8 @@ public class HillClimbingTest{
         // Services
         MethodTest.binary2real_service(function, search);
         // Apply the search method
-        Tagged<double[]> Tagged = search.solve(space);        
-        System.out.println(Tagged.get(function));		
+        Tagged<double[]> sol = search.solve(space);        
+        System.out.println(sol.get(function));		
 	}
 	
 	public static void queen(){
@@ -150,13 +150,13 @@ public class HillClimbingTest{
         // Services
         MethodTest.queen_service(function, search);
         // Apply the search method
-        Tagged<int[]> Tagged = search.solve(space);        
-        System.out.println(Tagged.get(function));		
+        Tagged<int[]> sol = search.solve(space);        
+        System.out.println(sol.get(function));		
 	}
     
     public static void main(String[] args){
-    	real(); // Uncomment if testing real valued functions
-    	//binary(); // Uncomment if testing binary valued functions
+    	//real(); // Uncomment if testing real valued functions
+    	binary(); // Uncomment if testing binary valued functions
     	//binary2real(); // Uncomment if you want to try the multi-level search method
     	//queen(); // Uncomment if testing queens (integer) value functions
     }

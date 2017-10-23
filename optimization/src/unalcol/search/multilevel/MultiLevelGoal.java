@@ -14,9 +14,12 @@ public class MultiLevelGoal<G,P,R> extends Thing implements Goal<G,R>{
 	}
 
 	@Override
-	public R apply(G x) {
+	public R compute(G x) {
 		return goal.apply(map.decode(x));
 	}
+
+	@Override
+	public R apply(G x) { return compute(x); }
 
 	@Override
 	public boolean deterministic(){ return goal.deterministic(); }
