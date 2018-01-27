@@ -4,40 +4,28 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Set;
 
-public class PlugInManager {
+public class PlugInManager extends PlugInLoader{
 	protected String plugin_path;
-	protected PlugInLoader loader;
 
 	public void loadPluginsForFolder(final File folder) {
 	    for (final File fileEntry : folder.listFiles()) {
-	        if (fileEntry.isDirectory()) {
-	            loadPluginsForFolder(fileEntry);
-	        } else {
-	        	try {
-					loader.add(fileEntry.getAbsolutePath(), PlugInManager.class.getClassLoader());
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
+	        if (fileEntry.isDirectory()) loadPluginsForFolder(fileEntry);
+	        else{
+	        	try{ add(fileEntry.toURI().toURL(), PlugInManager.class.getClassLoader()); }
+	        	catch (IOException e){ e.printStackTrace(); }
 	        }
 	    }
 	}
 	
 	public PlugInManager( String path ){
-		plugin_path = path;
-		loader = new PlugInLoader();
+		try{ plugin_path = new URL(path).getPath(); } catch (MalformedURLException e) { plugin_path = path; }
 		loadPluginsForFolder(new File(plugin_path));
 	}
 	
-	public Set<String> plugins(){ return loader.plugins(); }
-	
-	public String info(String className, String attribute){	return loader.info(className, attribute); }
-	
-	public Object newInstance(String className) throws ClassNotFoundException, InstantiationException, IllegalAccessException{
-		return loader.newInstance(className);
-	}
 	
 	public void install( String url ) throws IOException{
 		install( new URL(url) );
@@ -48,7 +36,7 @@ public class PlugInManager {
 		if( path.endsWith("/") ){
 			// https://stackoverflow.com/questions/1281229/how-to-use-jaroutputstream-to-create-a-jar-file
 		}else{
-			String container = path.substring(path.lastIndexOf('/'), path.length()); 
+			String container = path.substring(path.lastIndexOf('/')+1, path.length()); 
 			InputStream is = url.openStream();
 			FileOutputStream os = new FileOutputStream(plugin_path+container);
 			byte[] buffer = new byte[100000];
@@ -59,7 +47,7 @@ public class PlugInManager {
 			}
 			os.close();
 			is.close();
-			loader.add(plugin_path+container, PlugInManager.class.getClassLoader());
+			add(new File(plugin_path+container).toURI().toURL(), PlugInManager.class.getClassLoader());
 		}
 	}
 
