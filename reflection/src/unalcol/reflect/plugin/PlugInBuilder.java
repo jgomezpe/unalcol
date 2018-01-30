@@ -37,11 +37,13 @@ public abstract class PlugInBuilder{
 		Set<String> plugins = manager.plugins();
 		for( String s:plugins ) tags.put(manager.info(s, tag), s);
 		this.init_primitives();
-		this.init_zeroes();
+		this.init_containers();
 	}
 	
+	public void addContainer( String tag ){ zeroes.put(tag, tag); }
+	
 	protected abstract void init_primitives();
-	protected abstract void init_zeroes();
+	protected abstract void init_containers();
 	protected abstract String main();
 	
 	public void install( String url ) throws IOException{ install( new URL(url) ); }
@@ -80,7 +82,7 @@ public abstract class PlugInBuilder{
 		return item;
 	}
 	
-	protected PlugIn zero(Element element){
+	protected PlugIn container(Element element){
 		int m=0;
 		NodeList list = element.getChildNodes();
 		while(m<list.getLength() && PlugIn.element(list.item(m))==null) m++;
@@ -119,7 +121,7 @@ public abstract class PlugInBuilder{
 
 	public PlugIn build(Element element){
 		String t = element.getTagName();
-		if( zeroes.get(t) != null ) return zero(element);
+		if( zeroes.get(t) != null ) return container(element);
 		Class<?> primitive = primitives.get(t);
 		if( primitive != null ) return primitive(primitive,element);
 		String plugin = reflected_class(t);
