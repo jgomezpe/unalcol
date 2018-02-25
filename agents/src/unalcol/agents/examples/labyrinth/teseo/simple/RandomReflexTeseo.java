@@ -21,7 +21,6 @@ public class RandomReflexTeseo  extends SimpleTeseoAgentProgram {
     
     @Override
     public int accion(boolean PF, boolean PD, boolean PA, boolean PI, boolean MT, boolean FAIL) {
-    	System.out.println( FAIL );
         if (MT) return -1;
         boolean flag = true;
         int k=0;

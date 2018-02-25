@@ -7,7 +7,7 @@ import unalcol.agents.simulate.util.*;
 
 public class TeseoMain {
   private static SimpleLanguage getLanguage(){
-    return  new SimpleLanguage( new String[]{"front", "right", "back", "left", "exit", "fail",
+    return  new SimpleLanguage( new String[]{"front", "right", "back", "left", "treasure", "fail",
         "afront", "aright", "aback", "aleft"},
                                    new String[]{"no_op", "die", "advance", "rotate"}
                                    );
