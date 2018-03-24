@@ -1,4 +1,5 @@
-package unalcol.vc;
+import unalcol.vc.Controller;
+import unalcol.vc.View;
 
 public class JavaApp implements Controller{
 	protected View vc; 
@@ -9,7 +10,7 @@ public class JavaApp implements Controller{
 	}
 	
 	public void home_button(){
-		vc.execute("vcl_home_button()");
+		vc.execute("unalcol_home_button()");
 	}
 	
 	public void trash_button(){
@@ -18,7 +19,7 @@ public class JavaApp implements Controller{
 	}
 
 	@Override
-	public String[] id(){ return new String[]{"vcl_contentBar","javafx_app"}; }
+	public String[] id(){ return new String[]{"unalcol_contentBar","unalcol_xml"}; }
 
 	@Override
 	public void set(View view) {
