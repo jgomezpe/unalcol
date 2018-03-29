@@ -1,4 +1,4 @@
-package unalcol.fx;
+package unalcol.vc.fx;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
@@ -8,6 +8,7 @@ import javax.swing.JPanel;
 
 import com.sun.javafx.application.PlatformImpl;
 
+import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.concurrent.Worker.State;
@@ -20,7 +21,9 @@ import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
 import javafx.stage.Stage;
 import netscape.javascript.JSObject;
+import unalcol.reflect.plugin.PlugInManager;
 import unalcol.vc.Controller;
+import unalcol.vc.PlugInController;
 import unalcol.vc.View;
 
 public class FXView extends JPanel implements View{
@@ -35,13 +38,17 @@ public class FXView extends JPanel implements View{
 	protected JFXPanel jfxPanel;  
 	protected WebEngine webEngine;
 	protected String index;
+	protected String url;
+	protected PlugInManager manager;
 
-	public FXView( String index ){
+	public FXView( String url ){
 		super();
 		this.setMinimumSize(new Dimension());
 		this.setPreferredSize(new Dimension());
-		this.index = index;
+		manager = new PlugInManager(url+"plugins/");
+		this.index = url+"fx.html";
 		initComponents();
+		register( new PlugInController(manager) );
 	}
 	
 	protected void initComponents(){  
@@ -62,13 +69,21 @@ public class FXView extends JPanel implements View{
 				new ChangeListener<State>() {
 		            public void changed(@SuppressWarnings("rawtypes") ObservableValue ov, State oldState, State newState) {
 						canRegisterControllers = (newState == State.SUCCEEDED);
+						if( canRegisterControllers ){
+							execute("function delTimer(id, delay){};");
+							register();
+						}
 		            }
 		        });
 		webEngine.load(index); 
 	}
 	
 	public Object execute( String js_command ){
-		return webEngine.executeScript(js_command);
+		try{ return webEngine.executeScript(js_command); }catch( IllegalStateException e ){}
+		FXDeamon deamon = new FXDeamon(this, js_command);
+		Platform.runLater( deamon );
+		while( !deamon.done() ){ try { Thread.sleep(10); } catch (InterruptedException e) { e.printStackTrace(); }}
+		return deamon.data();
 	}
 	
 	/** 
@@ -83,7 +98,7 @@ public class FXView extends JPanel implements View{
 			@Override
 			public void run() {   
 				stage = new Stage();  
-				stage.setTitle("Java FX Web View Panel");  
+				stage.setTitle("Unalcol Interface");  
 				stage.setResizable(true);  
    
 				Group root = new Group();  
@@ -114,20 +129,21 @@ public class FXView extends JPanel implements View{
 			}
 		});  
 	}
+	
+	public void register(){
+		JSObject win = (JSObject)webEngine.executeScript("window");
+		for( int i=registered; i<toRegister.size(); i++ ){
+			Controller x = toRegister.get(i);
+			if( x.view() != this ) x.set(this);
+			for( String s:x.id() )	win.setMember(s, x);
+		}
+		registered = toRegister.size();
+	}
 
 	@Override
 	public boolean register(Controller c) {
-		System.out.println("registering...");
 		toRegister.add(c);
-		if( canRegisterControllers ){
-			JSObject win = (JSObject)webEngine.executeScript("window");
-			for( int i=registered; i<toRegister.size(); i++ ){
-				Controller x = toRegister.get(i);
-				c.set(this);
-				for( String s:x.id() )	win.setMember(s, x);
-			}
-			registered = toRegister.size();
-		}
+		if( canRegisterControllers ) register();
 		return true;
 	}	
 }

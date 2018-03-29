@@ -1,4 +1,4 @@
-package unalcol.fx;
+package unalcol.vc.fx;
 
 import java.awt.Image;
 import java.io.BufferedReader;

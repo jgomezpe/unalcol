@@ -11,17 +11,17 @@ import java.util.Set;
 import org.w3c.dom.Element;
 
 public class PlugInManager extends PlugInLoader{
-	protected String plugin_path;
-	public static final String jar="jar";
-	
+	protected String plugin_path = null;
 	protected String repository_url;
 	
-	public PlugInManager( String plugin_path ){ this(plugin_path, ""); }
+	public PlugInManager( String repository_url ){ this(repository_url, null); }
 	
-	public PlugInManager( String plugin_path, String repository_url ){
+	public PlugInManager( String repository_url, String plugin_path ){
 		this.repository_url = repository_url;
-		try{ this.plugin_path = new URL(plugin_path).getPath(); } catch (MalformedURLException e) { this.plugin_path = plugin_path; }
-		loadPluginsForFolder(new File(plugin_path));
+		if( plugin_path != null ){
+			try{ this.plugin_path = new URL(plugin_path).getPath(); } catch (MalformedURLException e) { this.plugin_path = plugin_path; }
+			loadPluginsForFolder(new File(plugin_path));
+		}	
 	}
 	
 	protected boolean download( String plugin ){
@@ -29,7 +29,7 @@ public class PlugInManager extends PlugInLoader{
 			PlugInManifest manifest = new PlugInManifest(repository_url);
 			Set<String> plugins = manifest.plugins();
 			for( String pl : plugins ){
-				String jarFileURL = repository_url+manifest.info(pl,jar);
+				String jarFileURL = repository_url+pl;
 				PlugInManifest jarManifest = new PlugInManifest(jarFileURL);
 				if(jarManifest.contains(plugin)){
 					install(jarFileURL);
@@ -70,24 +70,28 @@ public class PlugInManager extends PlugInLoader{
 		if( path.endsWith("/") ){
 			// https://stackoverflow.com/questions/1281229/how-to-use-jaroutputstream-to-create-a-jar-file
 		}else{
-			String container = path.substring(path.lastIndexOf('/')+1, path.length()); 
-			InputStream is = url.openStream();
-			FileOutputStream os = new FileOutputStream(plugin_path+container);
-			byte[] buffer = new byte[100000];
-			int k = is.read(buffer);
-			while(k>0){
-				os.write(buffer,0,k);
-				k = is.read(buffer);
-			}
-			os.close();
-			is.close();
-			add(new File(plugin_path+container).toURI().toURL(), PlugInManager.class.getClassLoader());
+			if( plugin_path != null ){
+				InputStream is = url.openStream();
+				String container = path.substring(path.lastIndexOf('/')+1, path.length()); 
+				FileOutputStream os = new FileOutputStream(plugin_path+container);
+				byte[] buffer = new byte[100000];
+				int k = is.read(buffer);
+				while(k>0){
+					os.write(buffer,0,k);
+					k = is.read(buffer);
+				}
+				os.close();
+				is.close();
+				add(new File(plugin_path+container).toURI().toURL(), PlugInManager.class.getClassLoader());
+			}else{ add(url, PlugInManager.class.getClassLoader()); }	
 		}
 	}
 
 	public static void main(String[] args){
-		PlugInManager manager = new PlugInManager("plugins");
+		PlugInManager manager = new PlugInManager("http://localhost/unalcol/plugins/");
 		try {
+			manager.load("PlugInDemoA");
+			manager.load("PlugInDemoB");
 			Set<String> plugins = manager.plugins();
 			for( String s:plugins ){
 				Object c = manager.load(s);
