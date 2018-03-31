@@ -6,7 +6,7 @@ import unalcol.reflect.plugin.PlugInManager;
 import unalcol.reflect.plugin.XMLUtil;
 
 public class PlugInController extends SimpleController{
-	public static final String ID="unalcol_xml";
+	public static final String ID="_xml";
 	
 	protected PlugInManager manager;
 	

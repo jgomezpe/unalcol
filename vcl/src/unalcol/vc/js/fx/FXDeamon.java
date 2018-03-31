@@ -1,4 +1,4 @@
-package unalcol.vc.fx;
+package unalcol.vc.js.fx;
 
 import unalcol.vc.View;
 

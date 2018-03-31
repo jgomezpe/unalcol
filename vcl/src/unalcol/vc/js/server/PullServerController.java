@@ -1,4 +1,4 @@
-package unalcol.vc.server;
+package unalcol.vc.js.server;
 import unalcol.vc.SimpleController;
 
 public class PullServerController extends SimpleController{

@@ -37,7 +37,7 @@ public class SimpleController implements Controller{
 				try{
 					c = (Controller)manager.load(e);
 				}catch(Exception ex){
-					c = new SimpleController("unalcox_"+e.getTagName());
+					c = new SimpleController("noname_"+e.getTagName());
 					c.init(e, manager);
 				}
 				c.set(view);

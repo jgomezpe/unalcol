@@ -7,33 +7,40 @@ import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Set;
+import java.util.Vector;
 
 import org.w3c.dom.Element;
 
 public class PlugInManager extends PlugInLoader{
 	protected String plugin_path = null;
-	protected String repository_url;
+	protected Vector<String> repository_url = new Vector<String>();
+	
+	public PlugInManager(){}
 	
 	public PlugInManager( String repository_url ){ this(repository_url, null); }
 	
 	public PlugInManager( String repository_url, String plugin_path ){
-		this.repository_url = repository_url;
+		addRepository(repository_url);
 		if( plugin_path != null ){
 			try{ this.plugin_path = new URL(plugin_path).getPath(); } catch (MalformedURLException e) { this.plugin_path = plugin_path; }
 			loadPluginsForFolder(new File(plugin_path));
 		}	
 	}
 	
+	public void addRepository( String repository_url ){ this.repository_url.add(repository_url); }
+	
 	protected boolean download( String plugin ){
 		try{
-			PlugInManifest manifest = new PlugInManifest(repository_url);
-			Set<String> plugins = manifest.plugins();
-			for( String pl : plugins ){
-				String jarFileURL = repository_url+pl;
-				PlugInManifest jarManifest = new PlugInManifest(jarFileURL);
-				if(jarManifest.contains(plugin)){
-					install(jarFileURL);
-					return true;
+			for( String url:repository_url ){
+				PlugInManifest manifest = new PlugInManifest(url);
+				Set<String> plugins = manifest.plugins();
+				for( String pl : plugins ){
+					String jarFileURL = url+pl;
+					PlugInManifest jarManifest = new PlugInManifest(jarFileURL);
+					if(jarManifest.contains(plugin)){
+						install(jarFileURL);
+						return true;
+					}
 				}
 			}
 		}catch(IOException e){}	

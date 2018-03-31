@@ -27,7 +27,7 @@ public class PlugInLoader extends PlugInSet{
 	}
 
 	public String info(String plugin, String attribute){
-		Element e = element.get(plugin);
+		PlugInElement e = element.get(plugin);
 		if( e==null ) return null;
 		return e.getAttribute(attribute);
 	}

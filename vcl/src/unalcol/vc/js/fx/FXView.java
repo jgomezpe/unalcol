@@ -1,4 +1,4 @@
-package unalcol.vc.fx;
+package unalcol.vc.js.fx;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
@@ -24,9 +24,9 @@ import netscape.javascript.JSObject;
 import unalcol.reflect.plugin.PlugInManager;
 import unalcol.vc.Controller;
 import unalcol.vc.PlugInController;
-import unalcol.vc.View;
+import unalcol.vc.js.JSView;
 
-public class FXView extends JPanel implements View{
+public class FXView extends JPanel implements JSView{
 
 	/**
 	 * 
@@ -38,16 +38,15 @@ public class FXView extends JPanel implements View{
 	protected JFXPanel jfxPanel;  
 	protected WebEngine webEngine;
 	protected String index;
-	protected String url;
-	protected PlugInManager manager;
 
 	public FXView( String url ){
 		super();
 		this.setMinimumSize(new Dimension());
 		this.setPreferredSize(new Dimension());
-		manager = new PlugInManager(url+"plugins/");
 		this.index = url+"fx.html";
 		initComponents();
+		PlugInManager manager = new PlugInManager(url+"plugins/");
+		manager.addRepository(JSView.unalcol_url+"plugins/");
 		register( new PlugInController(manager) );
 	}
 	
@@ -135,7 +134,9 @@ public class FXView extends JPanel implements View{
 		for( int i=registered; i<toRegister.size(); i++ ){
 			Controller x = toRegister.get(i);
 			if( x.view() != this ) x.set(this);
-			for( String s:x.id() )	win.setMember(s, x);
+			for( String s:x.id() ){
+				win.setMember(s, x);
+			}
 		}
 		registered = toRegister.size();
 	}
@@ -145,5 +146,5 @@ public class FXView extends JPanel implements View{
 		toRegister.add(c);
 		if( canRegisterControllers ) register();
 		return true;
-	}	
+	}
 }

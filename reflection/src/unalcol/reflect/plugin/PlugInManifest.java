@@ -32,7 +32,7 @@ public class PlugInManifest extends PlugInSet{
 		int n = list.getLength();
 		for(int i=0; i<n; i++){
 			Element e = XMLUtil.element(list.item(i)); 
-			if(e!=null)  add(e);
+			if(e!=null)  add(new PlugInXMLElement(e));
 		}	
 	}	
 	

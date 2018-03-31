@@ -1,4 +1,4 @@
-package unalcol.vc.server;
+package unalcol.vc.js.server;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
@@ -9,17 +9,19 @@ import java.util.Vector;
 import unalcol.reflect.plugin.PlugInManager;
 import unalcol.vc.Controller;
 import unalcol.vc.PlugInController;
-import unalcol.vc.View;
+import unalcol.vc.js.JSView;
 
-public class ServerView implements View {
+public class ServerView implements JSView {
 	public static final String pull="pull_server";
 	
 	protected Vector<String> commands_queue = new Vector<String>();
 	protected HashMap<String, Controller> controllers = new HashMap<String,Controller>();
 	
 	public ServerView( String url ){
-		register( new PullServerController() ); 
-		register( new PlugInController(new PlugInManager(url+"plugins/")) ); 
+		register( new PullServerController() );
+		PlugInManager manager = new PlugInManager(url+"plugins/");
+		manager.addRepository(JSView.unalcol_url+"plugins/");
+		register( new PlugInController(manager) ); 
 	}
 	
 	@Override
@@ -86,5 +88,5 @@ public class ServerView implements View {
 			e.printStackTrace();
 		}	
 		return null;
-	}
+	}	
 }
