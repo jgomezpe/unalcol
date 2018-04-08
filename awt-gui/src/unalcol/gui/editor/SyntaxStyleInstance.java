@@ -4,7 +4,7 @@ import java.util.Vector;
 
 import unalcol.gui.paint.Color;
 import unalcol.gui.paint.ColorInstance;
-import unalcol.gui.util.Instance;
+import unalcol.util.Instance;
 
 public class SyntaxStyleInstance implements Instance<SyntaxStyle>{
 	public static final String STYLE = "style";

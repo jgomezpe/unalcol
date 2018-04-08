@@ -1,4 +1,4 @@
-package unalcol.gui.util;
+package unalcol.util;
 
 import java.util.Vector;
 

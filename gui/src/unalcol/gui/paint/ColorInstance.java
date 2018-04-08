@@ -1,6 +1,6 @@
 package unalcol.gui.paint;
 
-import unalcol.gui.util.Instance;
+import unalcol.util.Instance;
 
 public class ColorInstance implements Instance<Color>{
 	public static final String COLOR="color";

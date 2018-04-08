@@ -1,4 +1,4 @@
-package unalcol.gui.util;
+package unalcol.util;
 
 public interface Instance<T> {
 	public T load( Object[] args );

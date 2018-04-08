@@ -1,9 +1,9 @@
 package unalcol.gui.editor;
 
 import unalcol.gui.paint.Color;
-import unalcol.gui.util.ObjectParser;
 import unalcol.types.collection.keymap.HTKeyMap;
 import unalcol.types.collection.keymap.ImmutableKeyMap;
+import unalcol.util.ObjectParser;
 
 public class SyntaxStyle {
 	public static final String DEF = "regular";
