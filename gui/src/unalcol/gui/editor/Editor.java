@@ -1,6 +1,8 @@
-package unalcol.gui;
+package unalcol.gui.editor;
 
-public interface Editor {
+import unalcol.gui.GUIComponent;
+
+public interface Editor extends GUIComponent{
 	public String getText();
 	public void setText( String text );
 	public void highlight( int row );

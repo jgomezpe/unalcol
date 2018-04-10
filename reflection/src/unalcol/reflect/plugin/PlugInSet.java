@@ -4,20 +4,20 @@ import java.util.HashMap;
 import java.util.Set;
 
 public class PlugInSet {
-	protected HashMap<String,PlugInElement>  element = new HashMap<String,PlugInElement>();
+	protected HashMap<String,PlugInDescriptor>  element = new HashMap<String,PlugInDescriptor>();
 
 	public String info(String plugin, String attribute){
-		PlugInElement e = element.get(plugin);
+		PlugInDescriptor e = element.get(plugin);
 		if( e==null ) return null;
 		return e.getAttribute(attribute);
 	}
 		
 	public Set<String> plugins(){ return element.keySet(); } 	
-	public PlugInElement get(String plugin){ return element.get(plugin); }
+	public PlugInDescriptor get(String plugin){ return element.get(plugin); }
 	
 	public boolean contains(String plugin){ return get(plugin)!=null; }
 		
-	protected void add(PlugInElement element){
+	protected void add(PlugInDescriptor element){
 		String id = element.getAttribute(PlugIn.nickName);
 		if( id==null || id.length()==0) id = element.getAttribute(PlugIn.className); 
 		this.element.put(id, element);

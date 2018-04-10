@@ -1,14 +1,14 @@
 package unalcol.vc.js.fx;
 
-import unalcol.vc.View;
+import unalcol.vc.js.JSView;
 
 public class FXDeamon extends Thread{
-	protected View view;
+	protected JSView view;
 	protected boolean done=false;
 	protected Object data;
 	protected String command;
 	
-	public FXDeamon( View view, String command ){
+	public FXDeamon( JSView view, String command ){
 		this.view = view;
 		this.command = command;
 	}

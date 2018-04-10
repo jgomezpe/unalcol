@@ -9,8 +9,6 @@ import java.net.URL;
 import java.util.Set;
 import java.util.Vector;
 
-import org.w3c.dom.Element;
-
 public class PlugInManager extends PlugInLoader{
 	protected String plugin_path = null;
 	protected Vector<String> repository_url = new Vector<String>();
@@ -48,12 +46,13 @@ public class PlugInManager extends PlugInLoader{
 	}
 	
  	public Object load(String plugin) throws PlugInException{
-		if( loader.get(plugin) == null ){ download(plugin); }
+		if( element.get(plugin) == null ){ download(plugin); }
 		return super.load(plugin); 
  	}
 
- 	public PlugIn load(Element plugin) throws PlugInException{
-		if( loader.get(plugin.getTagName()) == null ){ download(plugin.getTagName()); }
+ 	public PlugIn load(PlugInDescriptor plugin) throws PlugInException{
+ 		String id = plugin.nick();
+		if( element.get(id) == null ){ download(id); }
 		return super.load(plugin); 
  	} 	
 

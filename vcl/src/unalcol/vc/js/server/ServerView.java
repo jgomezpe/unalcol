@@ -6,40 +6,38 @@ import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Vector;
 
-import unalcol.reflect.plugin.PlugInManager;
-import unalcol.vc.Controller;
-import unalcol.vc.PlugInController;
+import unalcol.gui.Controller;
 import unalcol.vc.js.JSView;
 
-public class ServerView implements JSView {
+public class ServerView extends JSView {
 	public static final String pull="pull_server";
-	
+
+	protected HashMap<String, Controller> extraControllers = new HashMap<String,Controller>();
+
 	protected Vector<String> commands_queue = new Vector<String>();
-	protected HashMap<String, Controller> controllers = new HashMap<String,Controller>();
 	
-	public ServerView( String url ){
-		register( new PullServerController() );
-		PlugInManager manager = new PlugInManager(url+"plugins/");
-		manager.addRepository(JSView.unalcol_url+"plugins/");
-		register( new PlugInController(manager) ); 
+	public ServerView( String unalcol_url, String url ){
+		super(unalcol_url, url);
+		this.ready(); 
+		this.register(new PullServerController());
 	}
 	
+	public void register(){
+		for( int i=registered; i<toRegister.size(); i++ ){
+			Controller x = toRegister.get(i);
+			if( x != null ){
+				if( x.view() != this ) x.set(this);
+				for( String s:x.id() ) extraControllers.put(s, x);
+			}
+		}
+		super.register();
+	}
+		
 	@Override
 	public Object execute(String command) {
 		commands_queue.add(command);
 		return null;
 	}
-
-	@Override
-	public boolean register(Controller c) {
-		if( c.view() != this ) c.set(this);
-		for( String id:c.id()){
-			controllers.put(id, c);
-		}
-		return true;
-	}
-	
-	protected int counter=0;
 	
 	public String queue(){
 		if( commands_queue.size() == 0 ) return "";
@@ -66,7 +64,7 @@ public class ServerView implements JSView {
 		int i=command.indexOf('.'); 
 		String id = command.substring(0,i);
 		command = command.substring(i+1);
-		Controller c = controllers.get(id);
+		Controller c = controller(id);
 		if( c== null ) return null;
 		
 		i=command.indexOf('(');
@@ -88,5 +86,13 @@ public class ServerView implements JSView {
 			e.printStackTrace();
 		}	
 		return null;
+	}
+
+	@Override
+	public Controller controller(String id) {
+		Controller c = null;
+		if(controller!=null) c = (Controller)controller.get(id);
+		if(c==null)	c = extraControllers.get(id);
+		return c;
 	}	
 }
