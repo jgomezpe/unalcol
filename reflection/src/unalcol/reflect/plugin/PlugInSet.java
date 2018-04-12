@@ -19,7 +19,7 @@ public class PlugInSet {
 		
 	protected void add(PlugInDescriptor element){
 		String id = element.getAttribute(PlugIn.nickName);
-		if( id==null || id.length()==0) id = element.getAttribute(PlugIn.className); 
-		this.element.put(id, element);
+		String[] ids = id.split(",");
+		for( String s:ids )	this.element.put(s, element);
 	}    
 }

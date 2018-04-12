@@ -15,9 +15,10 @@ public class PlugInManager extends PlugInLoader{
 	
 	public PlugInManager(){}
 	
-	public PlugInManager( String repository_url ){ this(repository_url, null); }
+	public PlugInManager( String[] types, String repository_url ){ this(types, repository_url, null); }
 	
-	public PlugInManager( String repository_url, String plugin_path ){
+	public PlugInManager( String[] types, String repository_url, String plugin_path ){
+		super( types );
 		addRepository(repository_url);
 		if( plugin_path != null ){
 			try{ this.plugin_path = new URL(plugin_path).getPath(); } catch (MalformedURLException e) { this.plugin_path = plugin_path; }
@@ -33,7 +34,8 @@ public class PlugInManager extends PlugInLoader{
 				PlugInManifest manifest = new PlugInManifest(url);
 				Set<String> plugins = manifest.plugins();
 				for( String pl : plugins ){
-					String jarFileURL = url+pl;
+					String src = manifest.get(pl).getAttribute(PlugIn.src);
+					String jarFileURL = url+src;
 					PlugInManifest jarManifest = new PlugInManifest(jarFileURL);
 					if(jarManifest.contains(plugin)){
 						install(jarFileURL);
@@ -45,15 +47,19 @@ public class PlugInManager extends PlugInLoader{
 		return false;
 	}
 	
- 	public Object load(String plugin) throws PlugInException{
-		if( element.get(plugin) == null ){ download(plugin); }
-		return super.load(plugin); 
+ 	public Object load(String plugin, String className) throws PlugInException{
+ 		PlugInSet set = plugins.get(className);
+ 		if( set==null ) throw undefined(plugin);
+		if( set.get(plugin) == null ){ download(plugin); }
+		return super.load(plugin, className); 
  	}
 
- 	public PlugIn load(PlugInDescriptor plugin) throws PlugInException{
+ 	public PlugIn load(PlugInDescriptor plugin, String className) throws PlugInException{
  		String id = plugin.nick();
-		if( element.get(id) == null ){ download(id); }
-		return super.load(plugin); 
+ 		PlugInSet set = plugins.get(className);
+ 		if( set==null ) throw undefined(id);
+		if( set.get(id) == null ){ download(id); }
+		return super.load(plugin, className); 
  	} 	
 
 	
@@ -94,13 +100,14 @@ public class PlugInManager extends PlugInLoader{
 	}
 
 	public static void main(String[] args){
-		PlugInManager manager = new PlugInManager("http://localhost/unalcol/plugins/");
-		try {
-			manager.load("PlugInDemoA");
-			manager.load("PlugInDemoB");
-			Set<String> plugins = manager.plugins();
+		String cl = PlugIn.className;
+		PlugInManager manager = new PlugInManager(new String[]{cl}, "http://localhost/unalcol/plugins/");
+		try{
+			manager.load("A", cl);
+			manager.load("B", cl);
+			Set<String> plugins = manager.plugins(cl);
 			for( String s:plugins ){
-				Object c = manager.load(s);
+				Object c = manager.load(s,cl);
 				System.out.println(c);
 			}	
 		} catch (PlugInException e) {

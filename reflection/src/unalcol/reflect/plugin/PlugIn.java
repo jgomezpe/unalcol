@@ -4,6 +4,7 @@ public interface PlugIn{
 	public static final String plugin = "plugin";
 	public static final String className = "class";
 	public static final String nickName = "nick";
+	public static final String src = "src";
 	public static final String id = "id";
 
 	public void init(PlugInDescriptor element, PlugInLoader builder);

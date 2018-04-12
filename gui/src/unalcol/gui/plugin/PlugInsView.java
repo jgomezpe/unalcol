@@ -15,19 +15,19 @@ import unalcol.reflect.plugin.XMLUtil;
 
 public class PlugInsView implements View, Controller{
 	public static final String ID="_xml";
+	public static final String CONTROLLER="controller";
+	public static final String GUI="gui";
 
 	protected boolean canRegisterControllers = false;
 	protected int registered = 0;
 	protected Vector<Controller> toRegister = new Vector<Controller>();
 	protected VCElementTree controller=null;
 	protected VCElementTree gui=null;
-	protected PlugInManager controllerManager;
-	protected PlugInManager guiManager ;
-
-	public PlugInsView( PlugInManager controllerManager, PlugInManager guiManager ){ 
+	protected PlugInManager manager;
+	
+	public PlugInsView( String repository_url ){ 
 		toRegister.add(this);
-		this.controllerManager = controllerManager;
-		this.guiManager = guiManager;
+		this.manager = new PlugInManager(new String[]{CONTROLLER,GUI}, repository_url);
 	}
 	
 	public void ready(){ canRegisterControllers=true; }
@@ -35,11 +35,11 @@ public class PlugInsView implements View, Controller{
 	public void load(String txt){
 		Document doc = XMLUtil.load(txt);
 		PlugInXMLElement e = new PlugInXMLElement(XMLUtil.element(doc.getElementsByTagName("vcl").item(0)));
-		controller = new VCElementTree();
-		gui = new VCElementTree();
-		controller.init(e, controllerManager);
+		controller = new VCElementTree(CONTROLLER);
+		gui = new VCElementTree(GUI);
+		controller.init(e, manager);
 		controller.set(this);
-		gui.init(e, guiManager);
+		gui.init(e, manager);
 		gui.set(this);
 	}		
 	

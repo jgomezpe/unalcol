@@ -1,4 +1,4 @@
-package unalcol.vc.js.server;
+package unalcol.gui.js.mode.server;
 
 import unalcol.gui.Controller;
 import unalcol.gui.View;

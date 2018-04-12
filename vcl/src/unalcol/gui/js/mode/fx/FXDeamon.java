@@ -1,11 +1,10 @@
-package unalcol.vc.js.fx;
+package unalcol.gui.js.mode.fx;
 
-import unalcol.vc.js.JSView;
+import unalcol.gui.js.JSView;
 
 public class FXDeamon extends Thread{
 	protected JSView view;
 	protected boolean done=false;
-	protected Object data;
 	protected String command;
 	
 	public FXDeamon( JSView view, String command ){
@@ -14,11 +13,9 @@ public class FXDeamon extends Thread{
 	}
 	
 	public void run(){
-		data = view.execute(command);
+		view.execute(command);
 		done = true;
 	}
-	
-	public Object data(){ return data; }
 	
 	public boolean done(){ return done; }
 }

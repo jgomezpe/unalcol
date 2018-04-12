@@ -1,4 +1,4 @@
-package unalcol.vc.js.server;
+package unalcol.gui.js.mode.server;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
@@ -7,7 +7,7 @@ import java.util.HashMap;
 import java.util.Vector;
 
 import unalcol.gui.Controller;
-import unalcol.vc.js.JSView;
+import unalcol.gui.js.JSView;
 
 public class ServerView extends JSView {
 	public static final String pull="pull_server";
@@ -34,10 +34,7 @@ public class ServerView extends JSView {
 	}
 		
 	@Override
-	public Object execute(String command) {
-		commands_queue.add(command);
-		return null;
-	}
+	public void execute(String command){ commands_queue.add(command); }
 	
 	public String queue(){
 		if( commands_queue.size() == 0 ) return "";

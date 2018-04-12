@@ -1,4 +1,4 @@
-package unalcol.vc.js.fx;
+package unalcol.gui.js.mode.fx;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;

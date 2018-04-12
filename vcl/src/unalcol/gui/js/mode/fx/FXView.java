@@ -1,10 +1,10 @@
-package unalcol.vc.js.fx;
+package unalcol.gui.js.mode.fx;
 
 import javafx.application.Platform;
 import javafx.scene.web.WebEngine;
 import netscape.javascript.JSObject;
 import unalcol.gui.Controller;
-import unalcol.vc.js.JSView;
+import unalcol.gui.js.JSView;
 
 public class FXView extends JSView{
 	protected WebEngine webEngine;
@@ -16,12 +16,12 @@ public class FXView extends JSView{
 	}
 	
 
-	public Object execute( String js_command ){
-		try{ return webEngine.executeScript(js_command); }catch( IllegalStateException e ){}
-		FXDeamon deamon = new FXDeamon(this, js_command);
-		Platform.runLater( deamon );
-		while( !deamon.done() ){ try { Thread.sleep(10); } catch (InterruptedException e) { e.printStackTrace(); }}
-		return deamon.data();
+	public void execute( String js_command ){
+		try{ webEngine.executeScript(js_command); }
+		catch( IllegalStateException e ){
+			FXDeamon deamon = new FXDeamon(this, js_command);
+			Platform.runLater( deamon );
+		}
 	}
 		
 	public void register(){

@@ -1,0 +1,4 @@
+<?xml version="1.0"?>
+<set>
+	<plugin nick='toolbar' controller="unalcol.gui.js.JSController"/>
+</set>

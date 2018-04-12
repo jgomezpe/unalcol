@@ -8,7 +8,11 @@ import unalcol.reflect.plugin.PlugInTree;
 public class VCElementTree extends PlugInTree implements VCElement{
 	protected View view=null;
 
-	public PlugIn instance(){ return new VCElementTree(); }
+	public VCElementTree( String className ){
+		super( className );
+	}
+	
+	public PlugIn instance(){ return new VCElementTree(cl); }
 	
 	public void set(View view){
 		if( this.view != view ){ 

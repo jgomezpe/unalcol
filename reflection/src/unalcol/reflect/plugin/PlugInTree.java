@@ -3,8 +3,13 @@ package unalcol.reflect.plugin;
 public class PlugInTree implements PlugIn{
 	protected Object[] children = new Object[0];
 	protected String[] id=new String[0];
+	protected String cl;
 	
-	public PlugIn instance(){ return new PlugInTree(); }
+	public PlugInTree( String className ){
+		this.cl = className;
+	}
+	
+	public PlugIn instance(){ return new PlugInTree(cl); }
 	
 	@Override
 	public void init(PlugInDescriptor element, PlugInLoader builder){
@@ -13,7 +18,7 @@ public class PlugInTree implements PlugIn{
 		children = new Object[n];
 		for(int i=0; i<n; i++){
 			try{
-				children[i] = builder.load(element.child(i));
+				children[i] = builder.load(element.child(i),cl);
 			}catch(Exception ex){
 				PlugIn c = instance();
 				c.init(element.child(i), builder);

@@ -1,27 +1,17 @@
-package unalcol.vc.js;
+package unalcol.gui.js;
 
 import unalcol.gui.Controller;
 import unalcol.gui.plugin.PlugInsView;
-import unalcol.reflect.plugin.PlugInManager;
 
 public class JSView extends PlugInsView{
 	protected String unalcol_url;
 
-	public Object execute( String command ){ return null; }
+	public void execute( String command ){}
 	
-	protected static PlugInManager controlManager( String unalcol_url, String url ){
-		PlugInManager manager = new PlugInManager(url+"plugins/");
+	public JSView( String unalcol_url, String url ){ 
+		super(url+"plugins/");
 		manager.addRepository(unalcol_url+"plugins/");
-		return manager;
-	}
-	
-	protected static PlugInManager guiManager( String unalcol_url, String url ){
-		PlugInManager manager = new PlugInManager(url+"plugins/js/");
-		manager.addRepository(unalcol_url+"plugins/js/");
-		return manager;
-	}
-	
-	public JSView( String unalcol_url, String url ){ super( controlManager(unalcol_url, url), guiManager(unalcol_url, url) );	} 
+	} 
 	
 	public String addTimer( Controller c, int delay ){
 		StringBuilder sb = new StringBuilder();
