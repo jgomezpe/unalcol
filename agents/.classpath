@@ -8,5 +8,6 @@
 	<classpathentry kind="lib" path="/home/jgomez/git/unalcol/libs/random.jar"/>
 	<classpathentry kind="lib" path="/home/jgomez/git/unalcol/libs/gui.jar"/>
 	<classpathentry kind="lib" path="/home/jgomez/git/unalcol/libs/defs.jar"/>
+	<classpathentry kind="lib" path="/home/jgomez/git/unalcol/libs/awtgui.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
