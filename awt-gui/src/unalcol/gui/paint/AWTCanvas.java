@@ -6,6 +6,7 @@ import java.awt.Image;
 import java.awt.geom.AffineTransform;
 
 import unalcol.gui.paint.Color;
+import unalcol.vc.VCManager;
 //
 //Quilt Sewer Machine 1.0 by Jonatan Gomez-Perdomo
 //https://github.com/jgomezpe/quilt/tree/master/quilt/
@@ -123,5 +124,29 @@ public class AWTCanvas extends ScaledCanvas{
 	@Override
 	public void drawFillArc(int x, int y, int width, int height, int startAngle, int arcAngle) {
 		g.fillArc(scale(x), scale(y), scale(width), scale(height), startAngle, arcAngle);
+	}
+
+	@Override
+	public VCManager manager() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void set(VCManager arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public String id() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void setId(String arg0) {
+		// TODO Auto-generated method stub
+		
 	}
 }

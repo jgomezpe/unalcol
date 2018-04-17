@@ -1,9 +1,9 @@
 package unalcol.gui.paint;
 
-import unalcol.gui.GUIComponent;
 import unalcol.gui.paint.Color;
+import unalcol.vc.View;
 
-public interface Canvas extends GUIComponent{
+public interface Canvas extends View{
 	public final static int SCALE=100;
 	
 	public Color setColor( Color color );
