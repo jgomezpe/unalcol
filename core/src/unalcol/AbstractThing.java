@@ -3,7 +3,7 @@ package unalcol;
 import unalcol.types.collection.keymap.KeyMap;
 //
 //Unalcol definitions Pack 1.0 by Jonatan Gomez-Perdomo
-//https://github.com/jgomezpe/unalcol/tree/master/defs/
+//https://github.com/jgomezpe/unalcol/tree/master/core/
 //
 /**
 *
