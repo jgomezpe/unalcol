@@ -31,4 +31,6 @@ public class XMLDocument extends XMLElementWrap{
 		super( XMLUtil.load(is).getDocumentElement() );
 		is.close();
 	}
+	
+	public XMLDocument(String xmlStr){ super( XMLUtil.load(xmlStr).getDocumentElement() ); }	
 }

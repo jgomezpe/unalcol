@@ -1,13 +1,14 @@
 package unalcol.util;
 
+import unalcol.reflect.xml.XMLDocument;
+import unalcol.reflect.xml.XMLManifest;
 import unalcol.types.collection.keymap.HTKeyMap;
-import unalcol.types.collection.keymap.ImmutableKeyMap;
 
 public class I18N{
-	public static final char MSG_SEPARATOR='='; 
-
-	protected static HTKeyMap<String, ImmutableKeyMap<String,String>> languages = new HTKeyMap<String, ImmutableKeyMap<String,String>>();
-	protected static ImmutableKeyMap<String,String> current=new HTKeyMap<String,String>();
+	public static final String MSG = "msg";
+	public static final String i18n = "i18n";
+	protected static HTKeyMap<String, XMLManifest> languages = new HTKeyMap<String, XMLManifest>();
+	protected static XMLManifest current=null;
 
 	public static boolean use(String language){
 		if( languages.valid(language) ){
@@ -19,10 +20,10 @@ public class I18N{
 	
 	public static boolean remove(String language) { return languages.remove(language);	}
 	
-	public static boolean add(String language, ImmutableKeyMap<String,String> value){ return languages.set(language, value); }
+	public static boolean add(String language, XMLManifest value){ return languages.set(language, value); }
 	
 	public static String get(String key){
-		if( current.valid(key) ) return current.get(key);
+		if( current!= null && current.valid(key) ) return process((String)current.get(key).getAttribute(MSG));
 		return null;
 	}	
 
@@ -53,14 +54,5 @@ public class I18N{
 		return sb.toString();
 	}
 
-	public static ImmutableKeyMap<String, String> load(String config){
-		HTKeyMap<String, String> table = new HTKeyMap<String,String>();
-		String[] lines = config.split("\n");
-		for( String line:lines ){
-			String code = line.substring(0, line.indexOf(MSG_SEPARATOR));
-			String message = line.substring(line.indexOf(MSG_SEPARATOR)+1);
-			table.set(code,process(message));
-		}
-		return table;
-	}
+	public static XMLManifest load(String xmlStr){ return new XMLManifest(i18n, new XMLDocument(xmlStr)); }
 }
