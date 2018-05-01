@@ -3,10 +3,8 @@ package unalcol.types.collection.keymap;
 import java.util.Iterator;
 
 import unalcol.types.collection.Collection;
-import unalcol.types.collection.GrowCollection;
-import unalcol.types.collection.SearchCollection;
 
-public class MultiIdCollection<T>  implements SearchCollection<String, T>, GrowCollection<T>{
+public class MultiIdCollection<T>  implements KeyMap<String, T>{
 	protected Key<String,T> key;
 	protected HTKeyMap<String, String> metaId = new HTKeyMap<String,String>();
 	protected HTKeyMap<String,T> elements = new HTKeyMap<String,T>();
@@ -68,5 +66,36 @@ public class MultiIdCollection<T>  implements SearchCollection<String, T>, GrowC
 			public boolean isEmpty(){ return elements.isEmpty(); }
 			
 		};
+	}
+
+	@Override
+	public void clear() {
+		metaId.clear();
+		elements.clear();
+	}
+
+	@Override
+	public int size() {
+		return 0;
+	}
+
+	@Override
+	public boolean remove(String key) {
+		String id = metaId.get(key);
+		if( id == null ) return false;
+		String[] k = id.split(",");
+		for( String s:k ) metaId.remove(s);
+		return elements.remove(id);
+	}
+
+	@Override
+	public boolean set(String key, T value) {
+		String id = metaId.get(key);
+		if( id == null ){
+			id = key;
+			metaId.set(key,key);
+		}
+		elements.set(id,value);
+		return true;
 	}
 }

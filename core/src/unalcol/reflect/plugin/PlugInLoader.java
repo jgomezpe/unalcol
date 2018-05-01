@@ -16,6 +16,10 @@ public class PlugInLoader{
 	protected HTKeyMap<String, XMLManifest> modules = new HTKeyMap<String,XMLManifest>();
 	
 	public PlugInLoader(){}
+
+	public PlugInLoader( String url ){ this(new String[]{url}); }
+	
+	public PlugInLoader( String[] urls ){ try{ for(String url:urls) this.addRepository(url); }catch(Exception e){} }
 	
 	public void addPackage( String url ) throws IOException{
 		URLClassLoader loader =  new URLClassLoader(new URL[]{new URL(url)}, PlugInLoader.class.getClassLoader());

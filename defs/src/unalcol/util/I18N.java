@@ -22,6 +22,8 @@ public class I18N{
 	
 	public static boolean add(String language, XMLManifest value){ return languages.set(language, value); }
 	
+	public static boolean add(String language, String xmlStr){ return languages.set(language, new XMLManifest(i18n, new XMLDocument(xmlStr))); }
+	
 	public static String get(String key){
 		if( current!= null && current.valid(key) ) return process((String)current.get(key).getAttribute(MSG));
 		return null;

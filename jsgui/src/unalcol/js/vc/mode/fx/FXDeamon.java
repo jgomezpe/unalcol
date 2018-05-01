@@ -1,13 +1,13 @@
 package unalcol.js.vc.mode.fx;
 
-import unalcol.js.vc.JSVCManager;
+import unalcol.js.vc.JSFrontEnd;
 
 public class FXDeamon extends Thread{
-	protected JSVCManager view;
+	protected JSFrontEnd view;
 	protected boolean done=false;
 	protected String command;
 	
-	public FXDeamon( JSVCManager view, String command ){
+	public FXDeamon( JSFrontEnd view, String command ){
 		this.view = view;
 		this.command = command;
 	}

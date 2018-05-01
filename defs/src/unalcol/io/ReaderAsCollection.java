@@ -37,7 +37,7 @@ public abstract class ReaderAsCollection implements ClosableCollection<Integer>{
 	protected class ReaderIterator extends ShortTermMemoryIterator<Position2D, Integer>{
 		public ReaderIterator(Iterator<Integer> iter) {
 			super(iter);
-			extra[0]=new Position2D(-1,0);
+			extra[0]=new Position2D(0,0);
 		}
 
 		@Override

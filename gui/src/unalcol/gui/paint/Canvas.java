@@ -1,7 +1,7 @@
 package unalcol.gui.paint;
 
 import unalcol.gui.paint.Color;
-import unalcol.vc.View;
+import unalcol.vc.frontend.View;
 
 public interface Canvas extends View{
 	public final static int SCALE=100;

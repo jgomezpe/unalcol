@@ -1,22 +1,26 @@
 package unalcol.js.vc.mode.fx;
 
+
 import javafx.application.Platform;
 import javafx.scene.web.WebEngine;
 import netscape.javascript.JSObject;
-import unalcol.js.vc.JSVCManager;
-import unalcol.vc.Controller;
-import unalcol.vc.VCElement;
-import unalcol.vc.controller.ControllerTree;
+import unalcol.js.vc.JSFrontEnd;
+import unalcol.types.collection.keymap.KeyMap;
+import unalcol.types.collection.vector.Vector;
+import unalcol.vc.SimpleVCEnd;
+import unalcol.vc.backend.Controller;
+import unalcol.vc.backend.ControllerTree;
+import unalcol.vc.frontend.View;
 
-public class FXManager extends JSVCManager{
+public class FXManager extends SimpleVCEnd<View, Controller> implements JSFrontEnd{
 	protected WebEngine webEngine;
 
+	protected boolean ready = false;
+	protected Vector<Controller> toRegister = new Vector<Controller>();
 
-	public FXManager( WebEngine webEngine, String unalcol_url, String url ){
-		super(unalcol_url, url);
-		this.webEngine = webEngine;
-	}
+	public FXManager( KeyMap<String, View> views ){ super(views); }
 	
+	public void setEngine( WebEngine webEngine ){ this.webEngine = webEngine; }
 
 	public void execute( String js_command ){
 		try{ webEngine.executeScript(js_command); }
@@ -25,22 +29,27 @@ public class FXManager extends JSVCManager{
 			Platform.runLater( deamon );
 		}
 	}
-		
-	public void register(){
+	
+	public void ready(){
+		this.ready = true;
 		JSObject win = (JSObject)webEngine.executeScript("window");
-		for( int i=registered; i<toRegister.size(); i++ ){
-			VCElement toR = toRegister.get(i);
-			if( toR != null && toR instanceof Controller && !(toR instanceof ControllerTree) ){
+		while( toRegister.size() > 0 ){
+			int k = toRegister.size();
+			Controller toR = toRegister.get(k-1);
+			if( toR != null && !(toR instanceof ControllerTree) ){
 				Controller x = (Controller)toR;
-				if( x.manager() != this ) x.set(this);
+				if( x.frontend() != this ) x.setFrontend(this);
 				String[] ids = x.id().split(",");
-				for( String s:ids ){
-					System.out.print(CONNECTOR+s+" ");
-					win.setMember(CONNECTOR+s, x);
-				}
-				System.out.println();
+				for( String s:ids ) win.setMember(s, x);
 			}
+			toRegister.remove(k-1);
 		}
-		super.register();
+	}
+
+	@Override 
+	public boolean link( Controller controller ){
+		toRegister.add(controller);
+		if( ready ) ready();
+		return ready;
 	}
 }

@@ -10,7 +10,7 @@ public class XMLDocument extends XMLElementWrap{
 	
 	protected static InputStream is(String url, String xmlFile ) throws IOException{
 		InputStream is;
-		xmlFile += ".xml";
+		if( !xmlFile.endsWith(".xml") )  xmlFile += ".xml";
 		if( url.endsWith("/") ) is = new URL(url+xmlFile).openStream();
 		else{
 			URL _url = new URL(url);

@@ -1,6 +1,6 @@
 package unalcol.js.vc.view;
 
-import unalcol.js.vc.JSVCElement;
-import unalcol.vc.view.SimpleView;
+import unalcol.js.vc.JSView;
+import unalcol.vc.frontend.SimpleView;
 
-public class JSSimpleView extends SimpleView implements JSVCElement{}
+public class JSSimpleView extends SimpleView implements JSView{}

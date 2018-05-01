@@ -1,11 +1,6 @@
 package unalcol.types.collection;
 
-public interface ShrinkCollection<K,T> extends SearchCollection<K,T>{
-	/**
-	 * Removes all the objects in the data structure
-	 */
-	public void clear();
-
+public interface ShrinkCollection<K,T> extends SearchCollection<K,T>, CleanableCollection{
 	/**
 	 * Removes a data element from the structure
 	 * @param data Data element to be removed

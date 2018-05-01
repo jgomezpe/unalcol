@@ -1,7 +1,7 @@
 package unalcol.js.vc.view;
 
 import unalcol.reflect.plugin.PlugInInstance;
-import unalcol.vc.View;
+import unalcol.vc.frontend.View;
 
 public class JSViewInstance implements PlugInInstance<View>{
 	@Override

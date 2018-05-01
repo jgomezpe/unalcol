@@ -3,39 +3,30 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.util.HashMap;
-import java.util.Vector;
 
-import unalcol.js.vc.JSVCManager;
-import unalcol.vc.Controller;
-import unalcol.vc.VCElement;
+import unalcol.js.vc.JSFrontEnd;
+import unalcol.types.collection.keymap.KeyMap;
+import unalcol.types.collection.vector.Vector;
+import unalcol.vc.backend.BackEnd;
+import unalcol.vc.backend.Controller;
+import unalcol.vc.SimpleVCEnd;
+import unalcol.vc.VCEnd;
+import unalcol.vc.frontend.View;
 
-public class JSServerManager extends JSVCManager {
+public class JSServerManager extends SimpleVCEnd<View, Controller> implements JSFrontEnd {
 	public static final String pull="pull_server";
 
-	protected HashMap<String, Controller> extraControllers = new HashMap<String,Controller>();
-
+	protected PullServerController serverc = new PullServerController(); 
 	protected Vector<String> commands_queue = new Vector<String>();
 	
-	public JSServerManager( String unalcol_url, String url ){
-		super(unalcol_url, url);
-		this.ready(); 
-		this.register(new PullServerController());
+	public JSServerManager( KeyMap<String, View> views ){ super(views); }
+	
+	@Override
+	public void set( VCEnd<Controller,View> backend ){
+		super.set(backend);
+		serverc.setBackend((BackEnd)backend);
 	}
 	
-	public void register(){
-		for( int i=registered; i<toRegister.size(); i++ ){
-			VCElement toR = toRegister.get(i);
-			if( toR != null && toR instanceof Controller ){
-				Controller x = (Controller)toR;
-				if( x.manager() != this ) x.set(this);
-				String[] ids = x.id().split(",");
-				for( String s:ids ) extraControllers.put(s, x);
-			}
-		}
-		super.register();
-	}
-		
 	@Override
 	public void execute(String command){ commands_queue.add(command); }
 	
@@ -58,28 +49,72 @@ public class JSServerManager extends JSVCManager {
 			  line = reader.readLine();
 		  };
 		  return javacall(sb.toString());		
-	}	
+	}
+	
+	public Object[] args( String arg ){
+		StringBuilder sb;
+		Vector<Object> parse = new Vector<Object>();
+		int i=0;
+		while( i<arg.length() ){
+			switch( arg.charAt(i) ){
+				case ',': case ' ': i++; break;
+				case '"':
+					sb = new StringBuilder();
+					i++;
+					while( arg.charAt(i) != '"' ){
+						if( arg.charAt(i) == '\\' )	i++;
+						sb.append(arg.charAt(i));
+						i++;
+					}
+					parse.add( sb.toString() );
+					i++;
+				break;
+				case '\'':
+					i++;
+					if( arg.charAt(i) == '\\' )	i++;
+					parse.add(arg.charAt(i));
+					i+=2;
+				break;
+				default:
+					sb = new StringBuilder();
+					while(i<arg.length() && arg.charAt(i)!=' ' && arg.charAt(i)!=',' ){ 
+						sb.append(arg.charAt(i));
+						i++; 
+					}
+					String number = sb.toString();
+					try{ parse.add(Integer.parseInt(number)); }
+					catch( NumberFormatException e ){ parse.add(Double.parseDouble(number)); }
+			}
+		}
+		Object[] args = new Object[parse.size()];
+		for( int k=0; k<args.length; k++ ){
+			args[k] = parse.get(k);
+			System.out.println("JSServerManager.."+args[k]);
+		}
+		return args;
+	}
 	
 	public String javacall( String command ){
+		System.out.println("JSServerManager.."+command);
 		int i=command.indexOf('.'); 
-		String id = command.substring(1,i);
+		String id = command.substring(0,i);
+		if( id.equals(serverc.id())) return serverc.pull();
 		command = command.substring(i+1);
-		Controller c = controller(id);
+		Controller c = get().get(id);
 		if( c== null ) return null;
 		
 		i=command.indexOf('(');
 		String method = command.substring(0,i);
 		String arg = command.substring(i+1,command.length()-1);
+		Object[] args = args(arg);
+		@SuppressWarnings("rawtypes")
+		Class[] types = new Class[args.length];
+		for( int k=0; k<types.length; k++ ) types[k] = args[k].getClass();
 		try{
 			Object obj;
 			Method m ;
-			if( arg.length() > 0 ){
-				m = c.getClass().getMethod(method, new Class[]{String.class});
-				obj = m.invoke(c, new Object[]{arg});
-			}else{
-				m  = c.getClass().getMethod(method, new Class[]{});
-				obj = m.invoke(c, new Object[]{});
-			}
+			m = c.getClass().getMethod(method, types);
+			obj = m.invoke(c, args);
 			if( obj == null ) return "";
 			return obj.toString();	
 		}catch(NoSuchMethodException | SecurityException | IllegalAccessException | IllegalArgumentException | InvocationTargetException e){
@@ -88,15 +123,7 @@ public class JSServerManager extends JSVCManager {
 		return null;
 	}
 
-	@Override
-	public Controller controller(String id) {
-		Controller c = null;
-		if(controller!=null) c = (Controller)controller.get(id);
-		if(c==null)	c = extraControllers.get(id);
-		return c;
-	}	
-	
-	public String timer( VCElement e, String type, int delay ){
+	public String timer( Controller e, String type, int delay ){
 		StringBuilder sb = new StringBuilder();
 		sb.append(type);
 		sb.append("Timer('");
@@ -108,10 +135,10 @@ public class JSServerManager extends JSVCManager {
 	} 
 	
 	@Override
-	public String addTimer( VCElement c, int delay ){ return timer(c, "add", delay); }
+	public String addTimer( Controller c, int delay ){ return timer(c, "add", delay); }
 	
 	@Override
-	public String delTimer( VCElement c, int delay ){ 
+	public String delTimer( Controller c, int delay ){ 
 		String cmd = timer(c, "del", delay);
 		execute(cmd);
 		return cmd;

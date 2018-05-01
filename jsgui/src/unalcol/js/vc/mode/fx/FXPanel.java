@@ -17,6 +17,9 @@ import javafx.scene.Scene;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
 import javafx.stage.Stage;
+import unalcol.types.collection.keymap.KeyMap;
+import unalcol.vc.frontend.FrontEnd;
+import unalcol.vc.frontend.View;
 
 public class FXPanel extends JPanel{
 	/**
@@ -24,23 +27,20 @@ public class FXPanel extends JPanel{
 	 */
 	private static final long serialVersionUID = -8961808032259120585L;
 
-	protected String unalcol_url;
-	protected String url;
 	protected Stage stage;  
 	protected WebView browser;  
 	protected JFXPanel jfxPanel;  
 	protected WebEngine webEngine;
 	protected String index;
 	protected FXManager manager;
-
-	public FXPanel( String unalcol_url, String url ){
+	
+	public FXPanel( String url, KeyMap<String, View> views ){
 		super();
 		this.setMinimumSize(new Dimension());
 		this.setPreferredSize(new Dimension());
 		this.index = url+"fx.html";
+		this.manager = new FXManager(views);
 		initComponents();
-		this.url = url;
-		this.unalcol_url = unalcol_url;
 	}
 	
 	protected void initComponents(){  
@@ -49,18 +49,17 @@ public class FXPanel extends JPanel{
 		add(jfxPanel, BorderLayout.CENTER);           
 		createScene();   
 	}     
+	
+	public FrontEnd frontend(){ return manager; }
    
 //	public void load(){ webEngine.loadContent(html_code); }
 	public void load(){ 
-		manager = new FXManager(webEngine, unalcol_url, url);
+		manager.setEngine(webEngine);
 		// process page loading
 		webEngine.getLoadWorker().stateProperty().addListener(
 				new ChangeListener<State>() {
 		            public void changed(@SuppressWarnings("rawtypes") ObservableValue ov, State oldState, State newState) {
-						if( newState == State.SUCCEEDED ){
-							manager.ready();
-							manager.register();
-						}
+						if( newState == State.SUCCEEDED ) manager.ready();
 		            }
 		        });
 		webEngine.load(index); 
