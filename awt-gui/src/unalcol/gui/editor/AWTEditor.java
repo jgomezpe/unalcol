@@ -1,12 +1,8 @@
 package unalcol.gui.editor;
 
-import javax.swing.JComponent;
+import unalcol.vc.frontend.SimpleView;
 
-import unalcol.gui.AWTSimpleView;
-import unalcol.reflect.plugin.PlugInSet;
-import unalcol.reflect.xml.XMLElement;
-
-public class AWTEditor extends AWTSimpleView implements EditorView{
+public class AWTEditor extends SimpleView implements EditorView{
 	protected SyntaxEditPanel edit_area;
 	
 	@Override
@@ -29,13 +25,8 @@ public class AWTEditor extends AWTSimpleView implements EditorView{
 	@Override
 	public void setText(String txt){ edit_area.setText(txt); }
 
-	@Override
-	public JComponent awt(){ return edit_area; }
-	
-	@Override
-	public void init(XMLElement element, PlugInSet<?> builder){
-		super.init(element, builder);
-	}
+//	@Override
+//	public JComponent awt(){ return edit_area; }
 	
 	public String getText(){ return edit_area.getText(); }
 	

@@ -1,8 +1,8 @@
-package unalcol.gui;
+package unalcol.gui.plugin;
 
 import javax.swing.JComponent;
 
-import unalcol.vc.View;
+import unalcol.vc.frontend.View;
 
 public interface AWTView extends View{
 	public JComponent awt();

@@ -1,10 +1,10 @@
-package unalcol.gui;
+package unalcol.gui.plugin;
 
 import java.awt.Dimension;
 
 import javax.swing.JPanel;
 
-import unalcol.vc.controller.ControllerInstance;
+import unalcol.vc.backend.ControllerInstance;
 
 public class AWTMainPanel  extends JPanel{
 
@@ -19,7 +19,7 @@ public class AWTMainPanel  extends JPanel{
 		super();
 		this.setMinimumSize(new Dimension());
 		this.setPreferredSize(new Dimension());
-		manager = new AWTManager(new String[]{ url, unalcol_url}, new ControllerInstance());
+//		manager = new AWTManager(new String[]{ url, unalcol_url}, new ControllerInstance());
 	}
 	
 }

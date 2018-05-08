@@ -87,15 +87,11 @@ public class JSServerManager extends SimpleVCEnd<View, Controller> implements JS
 			}
 		}
 		Object[] args = new Object[parse.size()];
-		for( int k=0; k<args.length; k++ ){
-			args[k] = parse.get(k);
-			System.out.println("JSServerManager.."+args[k]);
-		}
+		for( int k=0; k<args.length; k++ ) args[k] = parse.get(k); 
 		return args;
 	}
 	
 	public String javacall( String command ){
-		System.out.println("JSServerManager.."+command);
 		int i=command.indexOf('.'); 
 		String id = command.substring(0,i);
 		if( id.equals(serverc.id())) return serverc.pull();

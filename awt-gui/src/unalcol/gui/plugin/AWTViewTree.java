@@ -1,4 +1,4 @@
-package unalcol.gui;
+package unalcol.gui.plugin;
 
 import java.awt.Color;
 
@@ -7,7 +7,7 @@ import javax.swing.JComponent;
 
 import unalcol.reflect.plugin.PlugInSet;
 import unalcol.reflect.xml.XMLElement;
-import unalcol.vc.view.ViewTree;
+import unalcol.vc.frontend.ViewTree;
 
 public class AWTViewTree extends ViewTree implements AWTView{
 	public static String WIDTHS="widths";

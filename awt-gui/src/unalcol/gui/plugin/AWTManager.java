@@ -1,14 +1,14 @@
-package unalcol.gui;
+package unalcol.gui.plugin;
 
 import java.io.IOException;
 
 import unalcol.reflect.plugin.PlugInInstance;
 import unalcol.reflect.xml.XMLDocument;
-import unalcol.vc.Controller;
-import unalcol.vc.plugin.PlugInsVCManager;
-import unalcol.vc.plugin.XMLController;
+import unalcol.vc.backend.Controller;
+//import unalcol.vc.plugin.PlugInsVCManager;
+//import unalcol.vc.plugin.XMLController;
 
-public class AWTManager extends PlugInsVCManager{
+public class AWTManager{ /* extends PlugInsVCManager{
 
 	public AWTManager(String url, PlugInInstance<Controller> defaultController) {
 		super(url, defaultController, new AWTViewInstance());
@@ -27,5 +27,5 @@ public class AWTManager extends PlugInsVCManager{
 		XMLDocument doc = new XMLDocument(url, xml);
 		XMLController xmlc = (XMLController)this.controller("xml");
 		xmlc.init(doc, view);
-	}
+	}*/
 }

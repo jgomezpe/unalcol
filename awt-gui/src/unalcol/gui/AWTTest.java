@@ -7,6 +7,8 @@ import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 
+import unalcol.gui.plugin.AWTMainPanel;
+
 public class AWTTest {
 	public static void main(String[] args){
 		JComponent panel = new AWTMainPanel("http://localhost/unalcol/", "http://localhost/demo/");
