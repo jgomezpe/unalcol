@@ -3,10 +3,13 @@ package unalcol.types.real.matrix;
 import java.io.IOException;
 
 import unalcol.io.Read;
-import unalcol.services.MicroService;
 import unalcol.types.collection.UnalcolIterator;
+import unalcol.types.integer.IntegerPlainRead;
+import unalcol.types.integer.IntegerRead;
+import unalcol.types.real.DoublePlainRead;
+import unalcol.types.real.DoubleRead;
 
-public class DoubleMatrixPlainRead extends MicroService<double[][]> implements Read<double[][]> {
+public class DoubleMatrixPlainRead implements DoubleMatrixRead{
 	public static final String integer = "Read.integer";
 	public static final String real = "Read.double";
 
@@ -14,6 +17,9 @@ public class DoubleMatrixPlainRead extends MicroService<double[][]> implements R
 	
 	protected int n;
 	protected int m;
+
+	protected IntegerRead ri = new IntegerPlainRead();
+	protected DoubleRead rr = new DoublePlainRead();
 	
 	/**
 	 * Character used for separating the values in the array
@@ -48,6 +54,9 @@ public class DoubleMatrixPlainRead extends MicroService<double[][]> implements R
 		this.m=m;
 	}
 
+	public void setReadInt( IntegerRead ri ){ this.ri = ri; }
+	public void setReadDouble( DoubleRead rr ){ this.rr = rr; }
+	
 	/**
 	 * Reads an array from the input stream (the first value is the array's size and the following values are the values in the array)
 	 * @param reader The reader object
@@ -55,21 +64,18 @@ public class DoubleMatrixPlainRead extends MicroService<double[][]> implements R
 	 */
 	public double[][] read(UnalcolIterator<?,Integer> reader) throws IOException {
 		if( read_dimension ){
-			@SuppressWarnings("unchecked")
-			Read<Integer> ri = (Read<Integer>)getMicroService(integer);
-			ri.setCaller(n);
 			n = ri.read(reader);
 			Read.readSeparator(reader, separator);
 			m = ri.read(reader);
 			Read.readSeparator(reader, separator);            
 		}
-		@SuppressWarnings("unchecked")
-		Read<Double> rr = (Read<Double>)getMicroService(real);
-		rr.setCaller(0.0);
 		double[][] a = new double[n][m];
 		for (int i = 0; i < n; i++)
 			for (int j = 0; j < m; j++)
 				a[i][j] = rr.read(reader);
 		return a;
 	}
+	
+	@Override
+	public String toString(){ return "DoubleMatrixPlainRead"; }	
 }

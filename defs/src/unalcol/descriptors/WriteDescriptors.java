@@ -3,8 +3,8 @@ package unalcol.descriptors;
 import java.io.IOException;
 import java.io.Writer;
 
+import unalcol.io.Writable;
 import unalcol.io.Write;
-import unalcol.services.MicroService;
 
 //
 //Unalcol Service structure Pack 1.0 by Jonatan Gomez-Perdomo
@@ -54,7 +54,7 @@ import unalcol.services.MicroService;
 * (E-mail: <A HREF="mailto:jgomezpe@unal.edu.co">jgomezpe@unal.edu.co</A> )
 * @version 1.0
 */
-public class WriteDescriptors<T> extends MicroService<T> implements Write<T>{
+public class WriteDescriptors implements Write{
 	/**
 	 * Writes an object to the given <i>writer</i>.
 	 * @param obj Object to write
@@ -62,7 +62,13 @@ public class WriteDescriptors<T> extends MicroService<T> implements Write<T>{
 	 * @throws Exception An IOException
 	 */
 	@Override
-	public void write(Writer writer) throws IOException {
-		Write.to( Descriptors.create(caller()),writer); 
+	public void write(Object obj, Writer writer) throws IOException {
+		Describable desc = Describable.cast(obj);
+		if( desc!=null ){
+			Writable w = Writable.cast(desc.descriptors());
+			if( w!=null) w.write(writer); 
+		}
 	}
+	
+	public String toString(){ return "WriteDescriptors"; }
 }

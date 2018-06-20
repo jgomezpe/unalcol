@@ -3,7 +3,6 @@
  * and open the template in the editor.
  */
 package unalcol.optimization.real.mutation;
-import unalcol.Thing;
 import unalcol.random.integer.*;
 import unalcol.search.variation.Variation_1_1;
 
@@ -11,7 +10,7 @@ import unalcol.search.variation.Variation_1_1;
  *
  * @author jgomez
  */
-public class RTransposition extends Thing implements Variation_1_1<double[]>{
+public class RTransposition implements Variation_1_1<double[]>{
 	    protected IntUniform g;
 	    protected int d = 2;
 	    public RTransposition(){

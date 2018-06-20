@@ -5,17 +5,13 @@ import unalcol.optimization.integer.MutationIntArray;
 import unalcol.optimization.integer.XOverIntArray;
 import unalcol.random.raw.JavaGenerator;
 import unalcol.services.Service;
-import unalcol.services.ServicePool;
 import unalcol.types.integer.array.IntArray;
 import unalcol.types.integer.array.IntArrayPlainWrite;
 
 public class IntArrayOperatorTest {
 	public static void init_services(){
-		ServicePool service = new ServicePool();
-		service.register(new JavaGenerator(), Object.class);         
-		service.register(new IntArrayPlainWrite(',',false), int[].class);
-//        service.register(new ConsoleTracer(), Object.class);
-		Service.set(service);
+		Service.register(new JavaGenerator(), Object.class);         
+		Service.register(new IntArrayPlainWrite(',',false), int[].class);
 	}
 	 /**
 	  * Testing function

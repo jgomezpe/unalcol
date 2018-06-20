@@ -1,11 +1,11 @@
 package unalcol.search.selection;
 
-import unalcol.Tagged;
-import unalcol.Thing;
+import unalcol.search.BasicGoalBased;
 import unalcol.search.Goal;
-import unalcol.search.GoalBased;
+import unalcol.types.object.tagged.Tagged;
 
-public abstract class GoalBasedSelection<T,R> extends Thing implements GoalBased<T,R>, Selection<T> {
+public abstract class GoalBasedSelection<T,R> extends BasicGoalBased<T,R> implements Selection<T> {
+	
 	public GoalBasedSelection(){}
 	public GoalBasedSelection( Goal<T,R> goal ){ setGoal(goal); }
 	
@@ -24,7 +24,7 @@ public abstract class GoalBasedSelection<T,R> extends Thing implements GoalBased
 	*/
 	public abstract int choose_one( R[] x );
 	
-	public R[] quality( Tagged<T>[] x ){ return goal().array_apply(x);	}
+	public R[] quality( Tagged<T>[] x ){ return goal().set_apply(x);	}
 	
 	/**
 	 * Selects a subset of candidate solutions from a set of candidates

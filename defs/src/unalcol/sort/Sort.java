@@ -1,7 +1,6 @@
 package unalcol.sort;
 
 import unalcol.algorithm.Algorithm;
-import unalcol.services.Service;
 import unalcol.sort.Order;
 
 /**
@@ -16,7 +15,7 @@ public abstract class Sort<T> extends Algorithm<T[], T[]>{
     /**
      * Order used for sorting the objects
      */
-    protected Order<T> order = null;
+    protected Order order = null;
 
     /**
      * Indicates if the sorting algorithm uses the same array for returning the sorted objects
@@ -34,7 +33,7 @@ public abstract class Sort<T> extends Algorithm<T[], T[]>{
      * Crates a sorting algorithm with the given order
      * @param order Order used for sorting the objects
      */
-    public Sort(Order<T> order) {
+    public Sort(Order order) {
         this.order = order;
     }
 
@@ -43,9 +42,9 @@ public abstract class Sort<T> extends Algorithm<T[], T[]>{
      * @param order Order used for sorting the objects
      * @param overwrite If the array should be overwritten or not
      */
-    public Sort(Order<T> order, boolean overwrite) {
+    public Sort(Order order, boolean overwrite) {
+    	this( order );
         this.overwrite = overwrite;
-        this.order = order;
     }
 
     /**
@@ -53,7 +52,7 @@ public abstract class Sort<T> extends Algorithm<T[], T[]>{
      * @param a Array of objects to be sorted
      * @param order Order used for sorting the objects
      */
-    public void apply(T[] a, Order<T> order){
+    public void apply(T[] a, Order order){
         this.order = order;
         apply( a, 0, a.length );
     }
@@ -63,7 +62,7 @@ public abstract class Sort<T> extends Algorithm<T[], T[]>{
      * @param a Array of objects to be sorted
      * @param order Order used for sorting the objects
      */
-    public void apply(T[] a, int start, int end, Order<T> order){
+    public void apply(T[] a, int start, int end, Order order){
         this.order = order;
         apply( a, start, end );
     }
@@ -89,10 +88,7 @@ public abstract class Sort<T> extends Algorithm<T[], T[]>{
         return input;
     }
 
-	public int compare( T a, T b ){
-        if( order != null ) return order.compare(a, b);
-        try{ return (int)Service.run(Order.compare, a, b); }catch(Exception e){ return 0; }
-    }
+	public int compare( T a, T b ){ return order().compare(a, b); }
 	
-	public Order<T> getOrder(){ return order; }
+	public Order order(){ return order; }
 }

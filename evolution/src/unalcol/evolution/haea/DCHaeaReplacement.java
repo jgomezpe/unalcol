@@ -1,7 +1,7 @@
 package unalcol.evolution.haea;
 import unalcol.search.RealValuedGoal;
-import unalcol.Tagged;
 import unalcol.sort.Order;
+import unalcol.types.object.tagged.Tagged;
 import unalcol.math.metric.*;
 
 /**
@@ -30,7 +30,7 @@ public class DCHaeaReplacement<T> extends HaeaReplacement<T>{
     @SuppressWarnings("unchecked")
 	public Tagged<T>[] apply( Tagged<T>[] current, Tagged<T>[] next ){
 		RealValuedGoal<T> goal = (RealValuedGoal<T>)goal();
-		Order<Double> order = goal.order();
+		Order order = goal.order();
         Tagged<T>[] buffer = new Tagged[current.length];
         int k=0;
         for( int i=0; i<current.length; i++){

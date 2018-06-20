@@ -1,9 +1,7 @@
 package unalcol.random.real;
 
 import unalcol.random.raw.RawGenerator;
-import unalcol.random.raw.RawGeneratorWrapper;
-import unalcol.services.AbstractMicroService;
-import unalcol.services.MicroService;
+import unalcol.random.raw.UsesRawGenerator;
 
 //
 //Unified Random generation Pack 1.0 by Jonatan Gómez-Perdomo
@@ -18,15 +16,11 @@ import unalcol.services.MicroService;
  * @version 1.0
  */
 
-public class StandardGaussianGenerator extends MicroService<Double> implements RandDouble{
-    
-	public AbstractMicroService<?> wrap( String id ){
-		if(id.equals(RawGenerator.name)){ return new RawGeneratorWrapper(); }
-		
-		return null;
-	}
-	
+public class StandardGaussianGenerator extends UsesRawGenerator implements RandDouble{
+	public StandardGaussianGenerator() { super(); }
 
+	public StandardGaussianGenerator( RawGenerator raw_g ){ super( raw_g ); }
+    
     /**
      * Returns a random double number following the standard Gaussian distribution
      * @param x Inverse value (cumulative probability)
@@ -34,24 +28,15 @@ public class StandardGaussianGenerator extends MicroService<Double> implements R
      */
     @Override
     public Double next() {
-    	RawGenerator g = (RawGenerator)getMicroService(RawGenerator.name);
         double x,y;
         double r;
         do {
-            x = 2.0 * g.next() - 1.0;
-            y = 2.0 * g.next() - 1.0;
+            x = 2.0 * raw().next() - 1.0;
+            y = 2.0 * raw().next() - 1.0;
             r = x * x + y * y;
         } while (r >= 1.0);
 
         double z = Math.sqrt( -2.0 * Math.log(r) / r);
         return (y * z);
     }
-
-    /*@Override
-    public DoubleGenerator new_instance(){
-        RawGenerator g = RawGenerator.get(this);
-        DoubleGenerator dg = new StandardGaussianGenerator();
-        RawGenerator.set(dg, g.new_instance());
-        return dg;
-    }*/
 }

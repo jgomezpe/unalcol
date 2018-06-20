@@ -5,8 +5,9 @@
  */
 package unalcol.search.variation;
 
-import unalcol.Tagged;
+import unalcol.instance.Instanteable;
 import unalcol.search.space.Space;
+import unalcol.types.object.tagged.Tagged;
 
 /**
  *
@@ -21,9 +22,10 @@ public interface Variation_1_1<T> extends Variation_n_1<T>{
 		return space.repair(apply(x))[0];
 	}
     
-	public default T apply( T x ){ return apply( new Tagged<T>(x) ).unwrap(); }   
+	public default T apply( T x ){ return apply( wrap(x) ).unwrap(); }   
     
-	public default Tagged<T> apply( Tagged<T> x ){ return new Tagged<T>(apply(x.unwrap())); }   
+	@SuppressWarnings("unchecked")
+	public default Tagged<T> apply( Tagged<T> x ){ return (Tagged<T>)Instanteable.cast(x).create(apply(x.unwrap())); }   
 
 	@SuppressWarnings("unchecked")
 	@Override

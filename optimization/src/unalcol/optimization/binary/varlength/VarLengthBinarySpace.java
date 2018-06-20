@@ -1,16 +1,15 @@
 package unalcol.optimization.binary.varlength;
 
+import unalcol.random.raw.JavaGenerator;
 import unalcol.random.raw.RawGenerator;
-import unalcol.random.raw.RawGeneratorWrapper;
 import unalcol.search.space.Space;
-import unalcol.services.AbstractMicroService;
-import unalcol.services.MicroService;
 import unalcol.types.collection.bitarray.BitArray;
 
-public class VarLengthBinarySpace extends MicroService<BitArray> implements Space<BitArray> {
+public class VarLengthBinarySpace implements Space<BitArray> {
 	protected int minLength;
 	protected int maxVarGenes;
 	protected int gene_size;
+	protected RawGenerator raw_g = new JavaGenerator();
 	
 	public VarLengthBinarySpace( int minLength, int maxLength ){
 		this.minLength = minLength;
@@ -23,6 +22,8 @@ public class VarLengthBinarySpace extends MicroService<BitArray> implements Spac
 		this.gene_size = gene_size;
 		this.maxVarGenes = (maxLength-minLength)/gene_size;		
 	}
+	
+	public void setRaw( RawGenerator raw_g ){ this.raw_g = raw_g; }
 
 	@Override
 	public boolean feasible(BitArray x) {
@@ -48,13 +49,10 @@ public class VarLengthBinarySpace extends MicroService<BitArray> implements Spac
 		return x;
 	}
 	
-	public AbstractMicroService<?> wrap(String id){
-		if(id.equals(RawGenerator.name)) return new RawGeneratorWrapper();
-		return null;
-	}
+	public void setraw(RawGenerator raw){ this.raw_g = raw; }
 	
 	@Override
 	public BitArray pick() {
-		return (maxVarGenes>0)?new BitArray(minLength+((RawGenerator)getMicroService(RawGenerator.name)).integer(maxVarGenes*gene_size), true):new BitArray(minLength, true);
+		return (maxVarGenes>0)?new BitArray(minLength+raw_g.integer(maxVarGenes*gene_size), true):new BitArray(minLength, true);
 	}
 }

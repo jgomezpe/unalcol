@@ -10,7 +10,7 @@ import unalcol.types.collection.vector.SortedVector;
 public class Histogram<K> {
 	protected SortedVector<KeyValue<K, Integer>> vector;
 		
-	public Histogram( Order<K> order ){
+	public Histogram( Order order ){
 		vector = new SortedVector<KeyValue<K, Integer>>(new KeyOrder<K,Integer>(order));
 	}
 	

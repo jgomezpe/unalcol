@@ -1,6 +1,5 @@
 package unalcol.evolution;
 
-import unalcol.Tagged;
 import unalcol.algorithm.iterative.ForLoopCondition;
 import unalcol.evolution.es.ESReplacement;
 import unalcol.evolution.es.ESStep;
@@ -10,6 +9,7 @@ import unalcol.search.population.PopulationSearch;
 import unalcol.search.space.Space;
 import unalcol.search.variation.Variation_1_1;
 import unalcol.search.variation.Variation_n_1;
+import unalcol.types.object.tagged.Tagged;
 
 public class ESFactory<T,P> {
 	//Evolutionary Strategy factory

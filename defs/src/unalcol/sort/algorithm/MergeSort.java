@@ -26,7 +26,7 @@ public class MergeSort<T> extends Sort<T> {
      * Creates a merge sort algorithm using the given order
      * @param order Order used for sorting the objects
      */
-    public MergeSort(Order<T> order) {
+    public MergeSort(Order order) {
         super(order);
     }
 
@@ -35,7 +35,7 @@ public class MergeSort<T> extends Sort<T> {
      * @param order Order used for sorting the objects
      * @param overwrite If the array should be overwrited or not
      */
-    public MergeSort(Order<T> order, boolean overwrite) {
+    public MergeSort(Order order, boolean overwrite) {
         super(order, overwrite);
     }
 

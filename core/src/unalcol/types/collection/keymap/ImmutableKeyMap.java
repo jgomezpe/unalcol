@@ -5,8 +5,19 @@ import unalcol.types.collection.Collection;
 import unalcol.types.collection.FiniteCollection;
 import unalcol.types.collection.SearchCollection;
 import unalcol.sort.Comparator;
+import unalcol.sort.Comparable;
 
 public interface ImmutableKeyMap<K,V> extends FiniteCollection<V>, SearchCollection<K,V>{
+	default Comparator value_comparator( V value ){ return Comparable.service(value); }
+/*
+  	import java.lang.reflect.ParameterizedType;
+	default Class<?> returnedClass( int i ) {
+	     ParameterizedType parameterizedType = (ParameterizedType)getClass()
+	                                                 .getGenericSuperclass();
+	     return (Class<?>) parameterizedType.getActualTypeArguments()[i];
+	}
+*/
+	
 	// Search collection methods 
 	/**
 	 * Locates the given object in the structure
@@ -16,8 +27,8 @@ public interface ImmutableKeyMap<K,V> extends FiniteCollection<V>, SearchCollect
 	 */
 	@Override
 	public default K find( V value ){
-		Collection<K> keys = keys();
-		for( K key:keys ) if( Comparator.equals( get(key), value ) ) return key;
+		Comparator comp = value_comparator(value);
+		for( K key:keys() ) if( comp.eq( get(key), value ) ) return key;
 		return null;
 	}
 

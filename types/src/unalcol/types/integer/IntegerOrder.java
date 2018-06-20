@@ -1,5 +1,4 @@
 package unalcol.types.integer;
-import unalcol.services.MicroService;
 import unalcol.sort.*;
 
 
@@ -13,7 +12,14 @@ import unalcol.sort.*;
  * @version 1.0
  */
 
-public class IntegerOrder extends MicroService<Integer> implements Order<Integer> {
+public class IntegerOrder implements Order {
+    /**
+     * Determines if the first Double is less than (in some order) the second Double (one<two)
+     * @param one First Double
+     * @param two Second Double
+     * @return (one<two)
+     */
+    public int compare(int one, int two){ return (one-two); }
 
     /**
      * Determines if the first Integer is less than (in some order) the second Integer (one<two)
@@ -21,7 +27,11 @@ public class IntegerOrder extends MicroService<Integer> implements Order<Integer
      * @param two Second Integer
      * @return (one<two)
      */
-    public int compare(Integer one, Integer two) {
-        return one.compareTo(two);
-    }
+    public int compare(Integer one, Integer two){ return one.compareTo(two); }
+
+	@Override
+	public int compare(Object one, Object two) { return compare((Integer)one, (Integer)two); }
+	
+	@Override
+	public String toString(){ return "IntegerOrder"; }	
 }

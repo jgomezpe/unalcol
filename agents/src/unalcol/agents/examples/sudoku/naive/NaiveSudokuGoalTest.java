@@ -24,7 +24,7 @@ public class NaiveSudokuGoalTest extends Algorithm<NaiveSudokuBoardState,Boolean
 	}
 
 	@Override
-	public Order<Boolean> order() {
+	public Order order() {
 		// TODO Auto-generated method stub
 		return null;
 	}

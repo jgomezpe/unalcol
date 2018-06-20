@@ -20,5 +20,4 @@ public class BreadthFirstSearch<T> extends ClassicSearch<T> {
   public void add( ClassicSearchNode<T> child ){
     list.add(child);
   }
-
 }

@@ -5,7 +5,6 @@
 
 package unalcol.optimization.real.xover;
 
-import unalcol.Thing;
 import unalcol.search.variation.Variation_2_2;
 
 /**
@@ -15,5 +14,5 @@ import unalcol.search.variation.Variation_2_2;
  * @author Jonatan Gomez
  * @version 1.0
  */
-public abstract class RealArityTwo extends Thing implements Variation_2_2<double[]>{
+public abstract class RealArityTwo implements Variation_2_2<double[]>{
 }

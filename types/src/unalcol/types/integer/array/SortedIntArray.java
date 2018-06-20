@@ -1,19 +1,19 @@
 package unalcol.types.integer.array;
 
-import unalcol.sort.Order;
+import unalcol.types.integer.IntegerOrder;
 
 public class SortedIntArray extends IntArray {
 	
     protected IntSearch search;
-    protected Order<Integer> order;
+    protected IntegerOrder order;
 
-    public SortedIntArray( int[] buffer, int n, Order<Integer> order ){
+    public SortedIntArray( int[] buffer, int n, IntegerOrder order ){
         super( buffer, n );
         this.order = order;
         search = new IntSearch(this.buffer, order);
     }
 
-    public SortedIntArray( int[] buffer, Order<Integer> order ){
+    public SortedIntArray( int[] buffer, IntegerOrder order ){
         super( buffer );
         this.order = order;
         search = new IntSearch(this.buffer, order);

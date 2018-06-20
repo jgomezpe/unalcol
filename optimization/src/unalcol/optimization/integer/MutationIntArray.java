@@ -4,7 +4,6 @@ import unalcol.random.integer.IntUniform;
 import unalcol.random.util.*;
 import unalcol.search.variation.ParameterizedObject;
 import unalcol.search.variation.Variation_1_1;
-import unalcol.services.MicroService;
 
 /**
  * <p>Title: Mutation</p>
@@ -14,7 +13,7 @@ import unalcol.services.MicroService;
  * @version 1.0
  */
 
-public class MutationIntArray extends MicroService<int[]> implements Variation_1_1<int[]>, ParameterizedObject<Double> {
+public class MutationIntArray implements Variation_1_1<int[]>, ParameterizedObject<Double> {
     
     protected IntUniform g;
   /**

@@ -7,25 +7,15 @@ import java.lang.reflect.Method;
 import unalcol.js.vc.JSFrontEnd;
 import unalcol.types.collection.keymap.KeyMap;
 import unalcol.types.collection.vector.Vector;
-import unalcol.vc.backend.BackEnd;
-import unalcol.vc.backend.Controller;
-import unalcol.vc.SimpleVCEnd;
-import unalcol.vc.VCEnd;
-import unalcol.vc.frontend.View;
+import unalcol.vc.Component;
+import unalcol.vc.Controller;
 
-public class JSServerManager extends SimpleVCEnd<View, Controller> implements JSFrontEnd {
+public class JSServerManager extends JSFrontEnd {
 	public static final String pull="pull_server";
-
-	protected PullServerController serverc = new PullServerController(); 
+	protected PullServerController serverc = null; 
 	protected Vector<String> commands_queue = new Vector<String>();
 	
-	public JSServerManager( KeyMap<String, View> views ){ super(views); }
-	
-	@Override
-	public void set( VCEnd<Controller,View> backend ){
-		super.set(backend);
-		serverc.setBackend((BackEnd)backend);
-	}
+	public JSServerManager( String url, KeyMap<String, Component> views ){ super(url, views); }
 	
 	@Override
 	public void execute(String command){ commands_queue.add(command); }
@@ -92,11 +82,12 @@ public class JSServerManager extends SimpleVCEnd<View, Controller> implements JS
 	}
 	
 	public String javacall( String command ){
+		if( serverc==null ) serverc = new PullServerController(backend());
 		int i=command.indexOf('.'); 
 		String id = command.substring(0,i);
 		if( id.equals(serverc.id())) return serverc.pull();
 		command = command.substring(i+1);
-		Controller c = get().get(id);
+		Controller c = backend().controller(id);
 		if( c== null ) return null;
 		
 		i=command.indexOf('(');

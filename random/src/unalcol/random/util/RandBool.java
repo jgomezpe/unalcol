@@ -1,7 +1,6 @@
 package unalcol.random.util;
 
 import unalcol.random.InverseGenerator;
-import unalcol.services.MicroService;
 
 //
 // Unalcol Random generation Pack 1.0 by Jonatan Gomez-Perdomo
@@ -52,7 +51,7 @@ import unalcol.services.MicroService;
  * (E-mail: <A HREF="mailto:jgomezpe@unal.edu.co">jgomezpe@unal.edu.co</A> )
  * @version 1.0
  */
-public class RandBool extends MicroService<Boolean> implements InverseGenerator<Boolean>{
+public class RandBool extends InverseGenerator<Boolean>{
 	/**
 	 * Probability of generating a <i>false</i> value
 	 */

@@ -1,7 +1,5 @@
 package unalcol.clone;
 
-import unalcol.services.MicroService;
-
 //
 //Unalcol Service structure Pack 1.0 by Jonatan Gomez-Perdomo
 //https://github.com/jgomezpe/unalcol/tree/master/services/
@@ -49,11 +47,13 @@ import unalcol.services.MicroService;
 * (E-mail: <A HREF="mailto:jgomezpe@unal.edu.co">jgomezpe@unal.edu.co</A> )
 * @version 1.0
 */
-public class ShallowClone<T> extends MicroService<T> implements Clone<T> {
+public class ShallowClone implements Clone {
 	/**
 	 * Returns the same object (shallow copy)
 	 * @param obj Object to be cloned (shallow)
 	 * @return A Clone (the same object) of the object
 	 */
-	public T clone(){ return caller(); }	
+	public Object clone( Object obj ){ return obj; }	
+	
+	public String toString(){ return "ShallowClone"; }
 }

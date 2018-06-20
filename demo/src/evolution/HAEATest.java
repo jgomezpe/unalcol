@@ -2,7 +2,6 @@ package evolution;
 
 
 import optimization.MethodTest;
-import unalcol.Tagged;
 import unalcol.descriptors.WriteDescriptors;
 import unalcol.evolution.EAFactory;
 import unalcol.evolution.haea.HaeaOperators;
@@ -25,44 +24,35 @@ import unalcol.search.population.PopulationSearch;
 import unalcol.search.selection.Tournament;
 import unalcol.search.space.Space;
 import unalcol.search.variation.Variation_1_1;
-import unalcol.services.AbstractMicroService;
+import unalcol.services.ProvidersSet;
 import unalcol.services.Service;
-import unalcol.services.ServicePool;
 import unalcol.tracer.Tracer;
-import unalcol.tracer.VectorTracer;
 import unalcol.types.collection.bitarray.BitArray;
-import unalcol.types.collection.keymap.ImmutableKeyMap;
 import unalcol.types.collection.vector.Vector;
 
 public class HAEATest {
 	
 	@SuppressWarnings("rawtypes")
 	public static void haea_service(OptimizationFunction<?> function){
-		ServicePool service = MethodTest.population_service(function);
-        service.register( new WriteHaeaStep(), HaeaStep.class);
+        Service.register( new WriteHaeaStep(), HaeaStep.class);
+        Service.register( new SimpleHaeaOperatorsDescriptor(), HaeaOperators.class);
+        Service.register( new WriteDescriptors(), HaeaOperators.class);
+		MethodTest.population_service(function);
 	}
 	
 	public static void print_function(OptimizationFunction<?> function){
 		try{
-			ServicePool service = (ServicePool)Service.get();
-			AbstractMicroService<?> s = service.get(Tracer.get, function);
-			System.out.println(s);
+			ProvidersSet tracers = Service.providers(Tracer.class, function);
+			Tracer s = (Tracer)tracers.get("VectorTracer");
 			@SuppressWarnings("unchecked")
-			ImmutableKeyMap<AbstractMicroService<?>,Object> objs = (ImmutableKeyMap<AbstractMicroService<?>,Object>)s.run();
-			System.out.println(objs);
-			// Since we have just one tracer object associated to the function we pick the first set of results
-			// provided by the tracer	
-			s = null;
-			for(AbstractMicroService<?> k:objs.keys()) if(k instanceof VectorTracer) s=k; 
-			@SuppressWarnings("unchecked")
-			Vector<Object[]> v = (Vector<Object[]>)objs.get(s);
+			Vector<Object[]> v = (Vector<Object[]>)s.get();
 			Object[] f = (Object[])v.get(0);
 			// The fitness value is located as the second element in the array (the first one is the object)
 			double bf = (Double)(f[1]);
 			for( int i=0; i<v.size(); i++ ){
 				f = (Object[])v.get(i);
 				double cf = (Double)(f[1]);
-				if( function.order().lt(bf, cf) ) bf = cf;
+				if( function.order().compare(bf, cf) < 0 ) bf = cf;
 				System.out.println(i+" "+bf);
 			}
 		}catch(Exception e){ e.printStackTrace(); }
@@ -74,6 +64,7 @@ public class HAEATest {
 		Space<double[]> space = MethodTest.real_space(DIM);    	
 		// Optimization Function
 		OptimizationFunction<double[]> function = MethodTest.real_f();
+		haea_service(function);
     	
 		// Variation definition
 		Mutation mutation = MethodTest.real_variation();
@@ -81,8 +72,8 @@ public class HAEATest {
 		HaeaOperators<double[]> operators = new SimpleHaeaOperators<double[]>(mutation, xover);
     	
 		// Search method
-		int POPSIZE = 100;
-		int MAXITERS = 2;
+		int POPSIZE = 10;
+		int MAXITERS = 3;
 		EAFactory<double[]> factory = new EAFactory<double[]>();
 		PopulationSearch<double[],Double> search = 
         		factory.HAEA(POPSIZE, operators, new Tournament<double[],Double>(function,4), MAXITERS );
@@ -90,13 +81,11 @@ public class HAEATest {
 		search.setGoal(function);
 		
 		// Services
-		ServicePool service = MethodTest.real_service(function, search);
-        service.register( new SimpleHaeaOperatorsDescriptor<double[]>(),HaeaOperators.class);
-        service.register( new WriteDescriptors<double[]>(),HaeaOperators.class);
-		haea_service(function);
+		MethodTest.real_service(function, search);
 		
 		// Apply the search method
-		Tagged<double[]> sol = search.solve(space);
+		//Tagged<double[]> sol = 
+		search.solve(space);
 		print_function(function);		
 	}
     
@@ -124,13 +113,12 @@ public class HAEATest {
 
 		// Apply the search method
 		// Services
-		ServicePool service = MethodTest.binary_service(function, search);
-        service.register( new SimpleHaeaOperatorsDescriptor<BitArray>(),HaeaOperators.class);
-        service.register( new WriteDescriptors<BitArray>(),HaeaOperators.class);
+		MethodTest.binary_service(function, search);
 		haea_service(function);
 		
 		// Apply the search method
-		Tagged<BitArray> sol = search.solve(space);
+		// Tagged<BitArray> sol = 
+		search.solve(space);
 		print_function(function);		
 	}
 	
@@ -170,7 +158,8 @@ public class HAEATest {
 		haea_service(function);
 		
 		// Apply the search method
-		Tagged<double[]> sol = search.solve(space);
+		// Tagged<double[]> sol = 
+		search.solve(space);
 		print_function(function);		
 	}
 	

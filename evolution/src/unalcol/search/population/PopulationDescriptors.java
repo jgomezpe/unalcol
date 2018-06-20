@@ -1,19 +1,31 @@
 package unalcol.search.population;
 
-import unalcol.Tagged;
 import unalcol.descriptors.Descriptors;
+import unalcol.search.BasicGoalBased;
 import unalcol.search.Goal;
-import unalcol.search.GoalBased;
-import unalcol.services.MicroService;
+import unalcol.types.object.tagged.Tagged;
 import unalcol.types.real.array.DoubleArray;
 
-public class PopulationDescriptors<T> extends MicroService<Tagged<T>[]> implements GoalBased<T,Double>, Descriptors<Tagged<T>[]> {
-	@Override
-	public double[] descriptors() {
+public class PopulationDescriptors<T> extends BasicGoalBased<T,Double> implements Descriptors{
+	public double[] descriptors( T[] pop ) {
 		Goal<T,Double> goal = goal();
-		Tagged<T>[] pop = caller();
 		double[] quality = new double[pop.length];
 		for(int i=0; i<quality.length; i++ ) quality[i] = goal.apply(pop[i]);
 		return DoubleArray.statistics_with_median(quality).get();		
+	}
+
+	public double[] descriptors(Tagged<T>[] pop) {
+		Goal<T,Double> goal = goal();
+		double[] quality = new double[pop.length];
+		for(int i=0; i<quality.length; i++ ) quality[i] = goal.apply(pop[i]);
+		return DoubleArray.statistics_with_median(quality).get();		
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public double[] descriptors(Object obj) {
+		Class<?> cl = obj.getClass().getComponentType();
+		if( Tagged.class.isAssignableFrom(cl)) return descriptors((Tagged<T>[])obj); 
+		return descriptors((T[])obj); 
 	}
 }

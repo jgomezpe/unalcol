@@ -3,18 +3,8 @@ package random;
 import unalcol.random.integer.IntRoulette;
 import unalcol.random.integer.IntUniform;
 import unalcol.random.integer.RandInt;
-import unalcol.random.raw.JavaGenerator;
-import unalcol.services.Service;
-import unalcol.services.ServicePool;
 
 public class IntGeneratorTest {
-	public static void init_services(){
-		ServicePool service = new ServicePool();
-        service.register(new JavaGenerator(), Object.class);         
-//        service.register(new ConsoleTracer(), Object.class);
-        Service.set(service);
-	}
-	
 	public static RandInt roulette(){
 		System.out.println("Roulette");
 		// 0  is generated with probability 0.4
@@ -31,7 +21,6 @@ public class IntGeneratorTest {
 	}
 	
 	public static void main( String[] args ){
-		init_services();
 		RandInt g = roulette();
 		// RandInt g = uniform();
 		int n = 10;

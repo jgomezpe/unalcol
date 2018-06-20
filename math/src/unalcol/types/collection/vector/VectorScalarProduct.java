@@ -1,7 +1,5 @@
 package unalcol.types.collection.vector;
-import unalcol.clone.Clone;
 import unalcol.math.algebra.ScalarProduct;
-import unalcol.services.Service;
 
 /**
  * <p>Title: </p>
@@ -38,7 +36,7 @@ public class VectorScalarProduct<T> implements ScalarProduct<Vector<T>> {
     }
 
     /**
-     * Substract the object two from the object one
+     * Substract the object two from the object oClone.name,ne
      * @param one The first Object
      * @param two The second Object
      */
@@ -51,16 +49,4 @@ public class VectorScalarProduct<T> implements ScalarProduct<Vector<T>> {
         }
         return one;
     }
-
-    @SuppressWarnings("unchecked")
-	@Override
-    public Vector<T> divide(Vector<T> one, double x) {
-        try{ return fastDivide((Vector<T>)Service.run(Clone.name,one), x); }catch(Exception e){ return null; }
-    }
-
-    @SuppressWarnings("unchecked")
-	@Override
-    public Vector<T> multiply(Vector<T> one, double x) {
-        try{ return fastMultiply((Vector<T>)Service.run(Clone.name,one), x); }catch(Exception e){ return null; }
-    }    
 }

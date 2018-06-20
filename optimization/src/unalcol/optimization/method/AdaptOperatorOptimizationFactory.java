@@ -1,6 +1,5 @@
 package unalcol.optimization.method;
 
-import unalcol.Tagged;
 import unalcol.algorithm.iterative.ForLoopCondition;
 import unalcol.math.logic.Predicate;
 import unalcol.optimization.method.annealing.SimpleSimulatedAnnealingScheme;
@@ -13,6 +12,7 @@ import unalcol.search.local.AdaptSearchOperatorParameters;
 import unalcol.search.local.IterativeLocalSearch;
 import unalcol.search.local.LocalSearch;
 import unalcol.search.variation.Variation_1_1;
+import unalcol.types.object.tagged.Tagged;
 
 public class AdaptOperatorOptimizationFactory<T,P> {
 	// Adapt parameters - Hill Climbing

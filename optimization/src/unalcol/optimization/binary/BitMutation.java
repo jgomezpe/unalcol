@@ -3,7 +3,6 @@ package unalcol.optimization.binary;
 import unalcol.random.util.*;
 import unalcol.search.variation.ParameterizedObject;
 import unalcol.search.variation.Variation_1_1;
-import unalcol.services.MicroService;
 import unalcol.types.collection.bitarray.BitArray;
 
 /**
@@ -14,7 +13,7 @@ import unalcol.types.collection.bitarray.BitArray;
  * @version 1.0
  */
 
-public class BitMutation extends MicroService<BitArray> implements Variation_1_1<BitArray>, ParameterizedObject<Double> {
+public class BitMutation implements Variation_1_1<BitArray>, ParameterizedObject<Double> {
   /**
    * Probability of mutating one single bit
    */
@@ -44,25 +43,15 @@ public class BitMutation extends MicroService<BitArray> implements Variation_1_1
       BitArray genome = new BitArray(gen);
       double rate = 1.0 - ((bit_mutation_rate == 0.0)?1.0/genome.size():bit_mutation_rate);
       RandBool g = new RandBool(rate);
-      for (int i = 0; i < genome.size(); i++) {
-        if (g.next()) {
-          genome.not(i);
-        }
-      }
+      for (int i = 0; i < genome.size(); i++) if (g.next()) genome.not(i);
       return genome;
-    }catch( Exception e ){ 
-        e.printStackTrace();
-        System.err.println("[Mutation]"+e.getMessage()); }
+    }catch( Exception e ){ System.err.println("[Mutation]" + e.getMessage()); }
     return null;
   }
 
   @Override
-  public void setParameters(Double parameters) {
-	bit_mutation_rate = parameters;
-  }
+  public void setParameters(Double parameters){ bit_mutation_rate = parameters; }
 
   @Override
-  public Double getParameters() {
-	return bit_mutation_rate;
-  }
+  public Double getParameters(){ return bit_mutation_rate; }
 }

@@ -4,7 +4,7 @@
  */
 package unalcol.random.real;
 
-import unalcol.services.MicroService;
+import unalcol.random.InverseGenerator;
 
 //
 //Unified Random generation Pack 1.0 by Jonatan Gómez-Perdomo
@@ -14,27 +14,15 @@ import unalcol.services.MicroService;
  *
  * @author jgomez
  */
-public class StandardPowerLawGenerator  extends MicroService<Double> implements InverseRandDouble{
+public class StandardPowerLawGenerator  extends InverseGenerator<Double> implements RandDouble{
     double coarse_alpha = -1.0;
     
-    public StandardPowerLawGenerator(){
-        super();
-    }
+    public StandardPowerLawGenerator(){ super(); }
     
-    public StandardPowerLawGenerator( double alpha ){
-        coarse_alpha = 1.0/(1.0-alpha);
-    }
+    public StandardPowerLawGenerator( double alpha ){ coarse_alpha = 1.0/(1.0-alpha); }
         
     @Override
     public Double next(double x){
         return Math.pow(1.0-x, coarse_alpha);
-    }
-    
-    /*@Override
-    public DoubleGenerator new_instance(){
-        RawGenerator g = RawGenerator.get(this);
-        DoubleGenerator dg = new StandardPowerLawGenerator(1.0-1.0/coarse_alpha);
-        RawGenerator.set(dg, g.new_instance());
-        return dg;
-    }*/        
+    }    
 }

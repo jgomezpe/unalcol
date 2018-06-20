@@ -6,13 +6,11 @@
 package types;
 
 import unalcol.io.CharReader;
-import unalcol.io.Read;
+import unalcol.io.Readable;
 import unalcol.io.Write;
-import unalcol.random.raw.JavaGenerator;
 import unalcol.random.raw.RawGenerator;
 import unalcol.random.raw.rngpack.RanMT;
 import unalcol.services.Service;
-import unalcol.services.ServicePool;
 import unalcol.types.integer.IntegerPlainRead;
 import unalcol.types.real.DoubleOrder;
 import unalcol.types.real.DoublePlainRead;
@@ -26,15 +24,12 @@ import unalcol.types.real.array.DoubleArrayPlainWrite;
  */
 public class DoubleArrayTest {
 	public static void init_services(){
-		ServicePool service = new ServicePool();
-        service.register(new JavaGenerator(), Object.class);         
-    	service.register(new DoubleOrder(), double[].class);
-    	service.register(new DoublePlainRead(), Double.class);
-    	service.register(new IntegerPlainRead(), Integer.class);
-    	service.register(new DoubleArrayPlainRead(), double[].class);
-        service.register(new DoubleArrayPlainWrite(), double[].class);
-//        service.register(new ConsoleTracer(), Object.class);
-        Service.set(service);
+    	Service.register(new DoubleOrder(), Double.class);
+    	Service.register(new DoublePlainRead(), Double.class);
+    	Service.register(new IntegerPlainRead(), Integer.class);
+    	Service.register(new DoubleArrayPlainRead(), double[].class);
+        Service.register(new DoubleArrayPlainWrite(), double[].class);
+//      service.register(new ConsoleTracer(), Object.class);
 	}
 
 	public static double[] sort(){
@@ -56,9 +51,10 @@ public class DoubleArrayTest {
         // to be stored in the double array
         CharReader reader = new CharReader("  3  -1234.4555e-123 345.6789 23.456");
         double[] x = new double[0];
+        Readable r = Readable.cast(x);
         try{
            // Reading the array from the provided buffer (reader) 
-           x = (double[])Service.run(Read.name,double[].class, reader.unalcol());
+           x = (double[])r.read(reader.unalcol());
            // Printing the array using a regular for loop
            for( int i=0; i<x.length; i++ ){
                System.out.println(x[i]);

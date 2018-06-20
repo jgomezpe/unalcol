@@ -3,9 +3,8 @@ package unalcol.agents.search.classic;
 import unalcol.types.collection.vector.*;
 import unalcol.agents.Action;
 import unalcol.agents.search.*;
-import unalcol.clone.Clone;
+import unalcol.clone.Cloneable;
 import unalcol.search.Goal;
-import unalcol.services.Service;
 
 /**
  * <p>Title: </p>
@@ -50,7 +49,7 @@ public abstract class ClassicSearch<T> extends GraphSearch<T> {
            if( space.feasible(child_state) ){
              double path_cost = evaluate(state, action, node.cost, cost);
              Vector<Action> path;
-             try{ path = (Vector<Action>)Service.run(Clone.name,node.path); }catch(Exception e){ path=node.path; }
+             path = (Vector<Action>)Cloneable.cast(node.path).clone();
              path.add(action);
              ClassicSearchNode<T> child_node = new ClassicSearchNode<T>( path, path_cost);
              add(child_node);

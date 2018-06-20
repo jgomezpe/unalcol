@@ -6,18 +6,15 @@ package math;
 
 import java.io.StringReader;
 
-import unalcol.clone.DefaultClone;
 import unalcol.io.CharReader;
-import unalcol.random.raw.JavaGenerator;
 import unalcol.services.Service;
-import unalcol.services.ServicePool;
 import unalcol.types.collection.vector.Vector;
 import unalcol.types.collection.vector.VectorClone;
 import unalcol.types.real.array.DoubleArrayPlainRead;
 import unalcol.types.real.array.DoubleArrayPlainWrite;
 import unalcol.types.real.array.sparse.SparseRealVector;
 import unalcol.types.real.array.sparse.SparseRealVectorDotProduct;
-import unalcol.types.real.array.sparse.SparseRealVectorPlainReadService;
+import unalcol.types.real.array.sparse.SparseRealVectorPlainRead;
 import unalcol.types.real.array.sparse.SparseRealVectorSpace;
 import unalcol.types.real.array.sparse.SparseRealVectorSphereNormalization;
 
@@ -27,15 +24,11 @@ import unalcol.types.real.array.sparse.SparseRealVectorSphereNormalization;
  */
 public class SparseRealVectorDemo {
 	public static void init_services(){
-		ServicePool service = new ServicePool();
-        service.register(new JavaGenerator(), Object.class);         
-    	service.register(new DoubleArrayPlainRead(), double[].class);
-        service.register(new DoubleArrayPlainWrite(), double[].class);
-        service.register(new DefaultClone(), Object.class);
-        service.register(new VectorClone<Object>(), Vector.class);
+    	Service.register(new DoubleArrayPlainRead(), double[].class);
+        Service.register(new DoubleArrayPlainWrite(), double[].class);
+        Service.register(new VectorClone<Object>(), Vector.class);
 //        service.register(new ConsoleTracer(), Object.class);
-        service.register(new DoubleArrayPlainWrite(','),double[].class);
-        Service.set(service);
+        Service.register(new DoubleArrayPlainWrite(','),double[].class);
 	}
 	
 	public static void persistency(){
@@ -43,7 +36,7 @@ public class SparseRealVectorDemo {
         StringReader r = new StringReader("  3, 5.0, 1, -1234.4555e-123, 6, 345.6789, 9, 23.456    ");
         CharReader reader = new CharReader(r);
         SparseRealVector x;
-        SparseRealVectorPlainReadService service = new SparseRealVectorPlainReadService(10, ',');
+        SparseRealVectorPlainRead service = new SparseRealVectorPlainRead(10, ',');
         try{
            x = (SparseRealVector)service.read(reader.unalcol());
            for( int i=0; i<x.size(); i++ ){

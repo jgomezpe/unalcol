@@ -1,5 +1,4 @@
 package unalcol.agents.search.classic;
-import unalcol.services.MicroService;
 import unalcol.sort.*;
 
 /**
@@ -14,15 +13,16 @@ import unalcol.sort.*;
  * @author Jonatan Gómez
  * @version 1.0
  */
-public class ClassicSearchNodeOrder<T> extends MicroService<ClassicSearchNode<T>> implements Order<ClassicSearchNode<T>>{
-  public String getCanonicalName(){
-    return ClassicSearchNode.class.getCanonicalName();
-  }
+public class ClassicSearchNodeOrder<T> implements Order{
+	public String getCanonicalName(){
+		return ClassicSearchNode.class.getCanonicalName();
+	}
 
-  public ClassicSearchNodeOrder() {
-  }
+	public ClassicSearchNodeOrder() {}
 
-  public int compare( ClassicSearchNode<T> one, ClassicSearchNode<T> two ){
-    return (int)(one.cost - two.cost);
-  }
+	public int compare( ClassicSearchNode<T> one, ClassicSearchNode<T> two ){ return (int)(one.cost - two.cost); }
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public int compare(Object one, Object two){ return compare((ClassicSearchNode<T>)one, (ClassicSearchNode<T>)two); }
 }

@@ -1,11 +1,17 @@
 package unalcol.js.vc.mode.server;
 
-import unalcol.vc.backend.SimpleController;
+import unalcol.vc.BackEnd;
+import unalcol.vc.Controller;
+import unalcol.vc.DefaultComponent;
 
-public class PullServerController extends SimpleController{
+public class PullServerController extends DefaultComponent implements Controller{
+	protected BackEnd backend; 
 	public static final String SERVER = "unalcol_servlet";
 
-	public PullServerController(){ id=PullServerController.SERVER; }
+	public PullServerController( BackEnd backend ){
+		super( SERVER ); 
+		this.backend = backend; 
+	}
 
-	public String pull(){ return ((JSServerManager)frontend()).queue(); }
+	public String pull(){ return ((JSServerManager)front()).queue(); }	
 }

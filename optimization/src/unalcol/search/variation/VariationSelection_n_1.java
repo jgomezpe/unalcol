@@ -1,11 +1,10 @@
 package unalcol.search.variation;
 
-import unalcol.Tagged;
 import unalcol.search.Goal;
 import unalcol.search.selection.Selection;
-import unalcol.services.MicroService;
+import unalcol.types.object.tagged.Tagged;
 
-public class VariationSelection_n_1<T> extends MicroService<T> implements Variation_n_1<T>{
+public class VariationSelection_n_1<T> implements Variation_n_1<T>{
 	protected Variation<T> variation;
 	protected Selection<T> selection;
 
@@ -18,10 +17,10 @@ public class VariationSelection_n_1<T> extends MicroService<T> implements Variat
 	@Override
 	public Tagged<T> build(Tagged<T>... parents ){
 		String gName = Goal.class.getName();
-		Goal<T, ?> goal = (Goal<T,?>)parents[0].get(gName);
+		Goal<T, ?> goal = (Goal<T,?>)parents[0].getTag(gName);
 		Tagged<T>[] children = variation.apply(parents);
-		goal.array_apply(children);
-		for( Tagged<T> c : children ){ c.set(gName, goal); }
+		goal.set_apply(children);
+		for( Tagged<T> c : children ){ c.setTag(gName, goal); }
 		int index = selection.choose_one(children);
 		return children[index];
 	}

@@ -2,7 +2,7 @@ package unalcol.types.real;
 
 import unalcol.math.algebra.InvertableScale;
 
-public class ToZeroOneLinealScale extends InvertableScale<Double>{
+public class ToZeroOneLinealScale implements InvertableScale<Double>{
     protected double min;
     protected double length;
     

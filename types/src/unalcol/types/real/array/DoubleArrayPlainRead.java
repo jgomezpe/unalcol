@@ -7,20 +7,22 @@ package unalcol.types.real.array;
 import java.io.IOException;
 
 import unalcol.io.*;
-import unalcol.services.AbstractMicroService;
-import unalcol.services.MicroService;
 import unalcol.types.collection.UnalcolIterator;
+import unalcol.types.integer.IntegerPlainRead;
+import unalcol.types.integer.IntegerRead;
+import unalcol.types.real.DoublePlainRead;
+import unalcol.types.real.DoubleRead;
 
 /**
  *
  * @author jgomez
  */
-public class DoubleArrayPlainRead extends MicroService<double[]> implements Read<double[]>{
-	public static final String integer = "Read.integer";
-	public static final String real = "Read.double";
+public class DoubleArrayPlainRead implements DoubleArrayRead{
 	protected boolean read_dimension = true;
 	protected char separator = ' ';
 	protected int n=-1;
+	protected IntegerRead ri = new IntegerPlainRead();
+	protected DoubleRead rr = new DoublePlainRead();
 	
 	public DoubleArrayPlainRead(){}
 	
@@ -39,24 +41,15 @@ public class DoubleArrayPlainRead extends MicroService<double[]> implements Read
 		read_dimension = (n <=0 );
 	}
 
-	public AbstractMicroService<?> wrap(String id){
-		if( id.equals(integer) ) return new ReadWrapper<Integer>();
-		if( id.equals(real) ) return new ReadWrapper<Double>();
-		return null;
-	}
+	public void setReadInt( IntegerRead ri ){ this.ri = ri; }
+	public void setReadDouble( DoubleRead rr ){ this.rr = rr; }
 	
     @Override
     public double[] read( UnalcolIterator<?,Integer> reader ) throws IOException{
         if( read_dimension ){
-        	@SuppressWarnings("unchecked")
-    		Read<Integer> ri = (Read<Integer>)getMicroService(integer);
-        	ri.setCaller(n);
         	n = ri.read(reader);
             Read.readSeparator(reader, separator);        	
         }
-    	@SuppressWarnings("unchecked")
-		Read<Double> rr = (Read<Double>)getMicroService(real);
-    	rr.setCaller(0.0);
 		double[] a = new double[n];
         for (int i = 0; i < n-1; i++) {
             a[i] = rr.read(reader);
@@ -65,4 +58,7 @@ public class DoubleArrayPlainRead extends MicroService<double[]> implements Read
         if( n-1 >= 0 ) a[n-1] = rr.read(reader);
         return a;
     }
+    
+	@Override
+	public String toString(){ return "DoubleArrayPlainRead"; }    
 }

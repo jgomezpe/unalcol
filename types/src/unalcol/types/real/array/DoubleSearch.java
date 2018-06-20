@@ -1,10 +1,9 @@
 package unalcol.types.real.array;
 
-import unalcol.sort.Order;
 import unalcol.types.real.DoubleOrder;
 
 public class DoubleSearch {
-	protected Order<Double> order;
+	protected DoubleOrder order;
 	protected double[] sorted;
 	
     /**
@@ -18,7 +17,7 @@ public class DoubleSearch {
      * @param sorted Array of elements (should be sorted)
      * @param order Order used for locating the object
      */
-	public DoubleSearch(double[] sorted, Order<Double> order){
+	public DoubleSearch(double[] sorted, DoubleOrder order){
 		this.order = order;
 		this.sorted = sorted;
 	}

@@ -4,13 +4,10 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.Arrays;
 
-import unalcol.clone.DefaultClone;
 import unalcol.io.CharReader;
 import unalcol.io.Position2D;
-import unalcol.io.Read;
-import unalcol.random.raw.JavaGenerator;
+import unalcol.io.Readable;
 import unalcol.services.Service;
-import unalcol.services.ServicePool;
 import unalcol.types.collection.UnalcolIterator;
 import unalcol.types.collection.vector.Vector;
 import unalcol.types.collection.vector.VectorClone;
@@ -21,15 +18,11 @@ import unalcol.types.real.array.DoubleArrayPlainWrite;
 public class MLPTest {
 	
 	public static void init_services(){
-		ServicePool service = new ServicePool();
-		service.register(new JavaGenerator(), Object.class);         
-		service.register(new DoublePlainRead(), Double.class);
-		service.register(new DoubleArrayPlainRead(108,','), double[].class);
-		service.register(new DoubleArrayPlainWrite(), double[].class);
-		service.register(new DefaultClone(), Object.class);
-		service.register(new VectorClone<Object>(), Vector.class);
+		Service.register(new DoublePlainRead(), Double.class);
+		Service.register(new DoubleArrayPlainRead(108,','), double[].class);
+		Service.register(new DoubleArrayPlainWrite(), double[].class);
+		Service.register(new VectorClone<Object>(), Vector.class);
 //        service.register(new ConsoleTracer(), Object.class);
-		Service.set(service);
 	}
 
 	
@@ -42,7 +35,7 @@ public class MLPTest {
 			Vector<double[]> outv  = new Vector<double[]>();
 			
 			while( reader.hasNext() ){
-				double[] array = (double[])Read.from(double[].class, reader);
+				double[] array = (double[])Readable.cast(double[].class).read(reader);
 				//Split array				
 				double[] input = Arrays.copyOf(array, 72);
 				double[] output = Arrays.copyOfRange(array, 72, 108);

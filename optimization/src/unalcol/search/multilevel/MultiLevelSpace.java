@@ -1,9 +1,8 @@
 package unalcol.search.multilevel;
 
 import unalcol.search.space.Space;
-import unalcol.services.MicroService;
 
-public class MultiLevelSpace<G,P> extends MicroService<G> implements Space<G> {
+public class MultiLevelSpace<G,P> implements Space<G> {
 	protected Space<P> space;
 	protected CodeDecodeMap<G, P> map;
 
@@ -31,6 +30,4 @@ public class MultiLevelSpace<G,P> extends MicroService<G> implements Space<G> {
 	public G repair(G x) {
 		return map.code(space.repair(map.decode(x)));
 	}
-
-
 }

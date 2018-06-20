@@ -1,7 +1,5 @@
 package unalcol.instance;
 
-import unalcol.services.AbstractMicroService;
-
 //
 //Unalcol Service structure Pack 1.0 by Jonatan Gomez-Perdomo
 //https://github.com/jgomezpe/unalcol/tree/master/services/
@@ -51,23 +49,12 @@ import unalcol.services.AbstractMicroService;
 * @version 1.0
 * @param <T> Type of objects from which instances will be generated.
 */
-public interface Instance<T> extends AbstractMicroService<Class<T>>{
+public interface Instance{
 	/**
 	 * Generates an instance belonging to the class <i>type</i> according to the parameters (it does not support VarArgs constructors).
 	 * @param type Class of instances that will be generated.
 	 * @param args Arguments for creating an instance.
 	 * @return An instance belonging to the class <i>type</i> using the parameters.
 	 */
-	public T create( Object... args );
-
-	// The MicroService methods
-
-	public static final String name="instance";
-
-	@Override
-	public default Object run(Object... args) throws Exception{
-		return create(args); 
-	}    	
-
-	public default String[] provides(){ return new String[]{name}; }		
+	public Object create( Object obj, Object... args );
 }

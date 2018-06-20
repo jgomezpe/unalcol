@@ -1,12 +1,11 @@
 package unalcol.evolution.haea;
 
 import unalcol.search.selection.Selection;
-import unalcol.Tagged;
 import unalcol.search.variation.Variation;
-import unalcol.services.MicroService;
 import unalcol.types.collection.vector.Vector;
+import unalcol.types.object.tagged.Tagged;
 
-public class HaeaVariation<T> extends MicroService<T> implements Variation<T>{
+public class HaeaVariation<T> implements Variation<T>{
 	/**
 	 * Set of genetic operators that are used by CEA for evolving the Tagged chromosomes
 	 */

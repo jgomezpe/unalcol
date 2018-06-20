@@ -1,15 +1,15 @@
 package unalcol.types.collection.keymap;
-import unalcol.services.MicroService;
+
 import unalcol.sort.Order;
 
-public class KeyOrder<K,V> extends MicroService<KeyValue<K,V>> implements Order<KeyValue<K,V>>{
-	protected Order<K> order;
-	public KeyOrder( Order<K> keys_order ){
-		this.order = keys_order;
-	}
+public class KeyOrder<K,V>  implements Order{
+	protected Order order;
 	
+	public KeyOrder( Order keys_order ){ this.order = keys_order; }
+	
+	public int compare(KeyValue<K,V> x, KeyValue<K,V> y){ return order.compare(x.key, y.key); }
+
+	@SuppressWarnings("unchecked")
 	@Override
-	public int compare(KeyValue<K,V> x, KeyValue<K,V> y) {
-		return order.compare(x.key, y.key);
-	}
+	public int compare(Object x, Object y){ return compare((KeyValue<K,V>)x, (KeyValue<K,V>)y); }
 }

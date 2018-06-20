@@ -1,6 +1,7 @@
 package unalcol.random.util;
 
-import unalcol.random.integer.*;
+import unalcol.random.integer.IntUniform;
+import unalcol.random.integer.RandInt;
 
 //
 // Unalcol Random generation Pack 1.0 by Jonatan Gomez-Perdomo

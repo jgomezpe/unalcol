@@ -1,5 +1,6 @@
 package unalcol.evolution.ga;
 
+import unalcol.search.Goal;
 import unalcol.search.population.Generational;
 import unalcol.search.population.PopulationReplacement;
 import unalcol.search.population.RealBasedPopulationSearch;
@@ -22,6 +23,7 @@ import unalcol.search.selection.Selection;
 public class GAStep<T> extends VariationReplacePopulationSearch<T,Double> implements RealBasedPopulationSearch<T>{
 	protected Selection<T> selection;
 	protected GAVariation<T> variation;
+	protected Goal<T, Double> goal;
 	
     public GAStep( int mu, Selection<T> selection,
     		Variation_1_1<T> mutation, Variation_2_2<T> xover,
@@ -34,5 +36,11 @@ public class GAStep<T> extends VariationReplacePopulationSearch<T,Double> implem
             double probability, boolean generational ) {
     	super( 	mu, new GAVariation<T>(selection, mutation, xover, probability), 
     			generational?new Generational<T>():new TotalSelectionReplacement<T>());
-    } 
+    }
+
+	@Override
+	public Goal<T, Double> goal(){ return goal; }
+
+	@Override
+	public void setGoal(Goal<T, Double> goal) { this.goal = goal; }
 }

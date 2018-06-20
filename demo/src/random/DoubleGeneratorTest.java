@@ -4,27 +4,17 @@
  */
 package random;
 
-import unalcol.random.raw.JavaGenerator;
 import unalcol.random.real.RandDouble;
 import unalcol.random.real.SimplestGeneralizedPowerLawGenerator;
 import unalcol.random.real.StandardGaussianGenerator;
 import unalcol.random.real.SymmetricGenerator;
 import unalcol.random.real.UniformGenerator;
-import unalcol.services.Service;
-import unalcol.services.ServicePool;
 
 /**
  *
  * @author jgomez
  */
 public class DoubleGeneratorTest{
-	public static void init_services(){
-		ServicePool service = new ServicePool();
-        service.register(new JavaGenerator(), Object.class);         
-//        service.register(new ConsoleTracer(), Object.class);
-        Service.set(service);
-	}
-	
 	public static RandDouble uniform(){
 		System.out.println( "Uniform" );
 		return  new UniformGenerator(0.0,2.0);
@@ -42,13 +32,11 @@ public class DoubleGeneratorTest{
     
 	public static RandDouble symmetric_power_law(){
 	    System.out.println( "Symmetric Power Law" );
-	    SymmetricGenerator g = new SymmetricGenerator();
-	    g.set(SymmetricGenerator.one_side, new SimplestGeneralizedPowerLawGenerator() );
+	    SymmetricGenerator g = new SymmetricGenerator(new SimplestGeneralizedPowerLawGenerator());
 	    return g;
 	}
       
 	public static void main( String[] args ){
-		init_services();
 		//RandDouble g = uniform();
 		//RandDouble g = gaussian();
 		 RandDouble g = power_law();

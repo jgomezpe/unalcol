@@ -1,7 +1,5 @@
 package unalcol.types.real.array;
-import unalcol.random.raw.RawGenerator;
-import unalcol.services.Service;
-import unalcol.types.object.FiboArray;
+import unalcol.types.object.array.FiboArray;
 import unalcol.types.real.*;
 
 /**
@@ -98,30 +96,6 @@ public class DoubleArray extends FiboArray{
 		return new_buffer;		
 	}
 	
-    /**
-     * Generates a vector of doubles with two limits array.
-     * @param min The inferior limit array
-     * @param max The superior limit array
-     * @return A vector of doubles
-     */
-    public static double[] random(double[] min, double[] max) {
-        int n = min.length;
-        double[] x = random(n);
-        for (int i = 0; i < n; i++) {
-            x[i] = min[i] + x[i] * (max[i] - min[i]);
-        }
-        return x;
-    }
-
-    /**
-     * Generates a vector of doubles with size n.
-     * @param n Size of the vector
-     * @return A vector of doubles
-     */
-    public static double[] random(int n) {
-    	try{ return (double[])Service.run(RawGenerator.raw, Object.class, n); }catch(Exception e){ return null; }
-    }
-
     /**
      * Creates a double array of size <i>n</i> with the same value in each compoment
      * @param n Size of the array to be created

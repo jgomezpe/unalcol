@@ -1,10 +1,8 @@
 package unalcol.evolution.haea;
 import unalcol.search.population.PopulationReplacement;
 import unalcol.sort.Order;
-import unalcol.Tagged;
-import unalcol.TaggedManager;
-import unalcol.Thing;
-import unalcol.search.GoalBased;
+import unalcol.types.object.tagged.Tagged;
+import unalcol.search.BasicGoalBased;
 import unalcol.search.RealValuedGoal;
 
 /**
@@ -17,7 +15,7 @@ import unalcol.search.RealValuedGoal;
  * @author Jonatan Gomez
  * @version 1.0
  */
-public class HaeaReplacement<T> extends Thing implements GoalBased<T,Double>, PopulationReplacement<T>, TaggedManager<T>{
+public class HaeaReplacement<T> extends BasicGoalBased<T,Double> implements PopulationReplacement<T>{
     /**
      * Set of genetic operators that are used by CEA for evolving the Tagged chromosomes
      */
@@ -54,7 +52,7 @@ public class HaeaReplacement<T> extends Thing implements GoalBased<T,Double>, Po
 	public Tagged<T>[] apply( Tagged<T>[] current, Tagged<T>[] next ){
 		RealValuedGoal<T> goal = (RealValuedGoal<T>)goal();
 		//next.set(gName,goal);
-		Order<Double> order = goal.order();
+		Order order = goal.order();
         int k=0;
 		@SuppressWarnings("unchecked")
 		Tagged<T>[] buffer = (Tagged<T>[])new Tagged[current.length];

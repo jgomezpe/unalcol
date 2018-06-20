@@ -1,19 +1,19 @@
 package unalcol.types.real.array;
 
-import unalcol.sort.Order;
+import unalcol.types.real.DoubleOrder;
 
 public class SortedDoubleArray extends DoubleArray {
 	
     protected DoubleSearch search;
-    protected Order<Double> order;
+    protected DoubleOrder order;
 
-    public SortedDoubleArray( double[] buffer, int n, Order<Double> order ){
+    public SortedDoubleArray( double[] buffer, int n, DoubleOrder order ){
         super( buffer, n );
         this.order = order;
         search = new DoubleSearch(this.buffer, order);
     }
 
-    public SortedDoubleArray( double[] buffer, Order<Double> order ){
+    public SortedDoubleArray( double[] buffer, DoubleOrder order ){
         super( buffer );
         this.order = order;
         search = new DoubleSearch(this.buffer, order);

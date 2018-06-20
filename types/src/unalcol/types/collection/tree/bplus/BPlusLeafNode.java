@@ -1,8 +1,8 @@
 package unalcol.types.collection.tree.bplus;
 
-import unalcol.types.object.ArrayUtil;
 import unalcol.types.collection.tree.bplus.immutable.ImmutableBPlus;
 import unalcol.types.collection.tree.bplus.immutable.ImmutableLeafNode;
+import unalcol.types.object.array.ArrayUtil;
 
 public interface BPlusLeafNode<T> extends ImmutableLeafNode<T>, BPlusNode<T>{
     public void setKeys( T[] keys );

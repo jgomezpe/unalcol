@@ -1,6 +1,6 @@
 package unalcol.gui.editor;
 
-import unalcol.vc.frontend.View;
+import unalcol.vc.View;
 
 public interface EditorView extends View{
 	public void setText( String text );

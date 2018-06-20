@@ -1,13 +1,44 @@
 package unalcol.services;
 
-import unalcol.types.collection.Collection;
 
-public class Service {
-	public static final String USES="uses.";
-	// Defining the infra-structure
-	private static ServiceProvider pool=null;
-	public static ServiceProvider get(){ return pool; }
-	public static void set(ServiceProvider pool){ Service.pool=pool; }		
-	public static Object run( String service, Object caller, Object... args ) throws Exception{ return pool.run(service, caller, args); }
-	public static Collection<String> provides(){ return pool.provides(); }
+import unalcol.types.collection.keymap.HTKeyMap;
+import unalcol.types.collection.keymap.KeyMap;
+
+public class Service{
+	protected static KeyMap<Class<?>, ServicePool> services = new HTKeyMap<Class<?>,ServicePool>();
+	
+	protected static void register( Class<?> service, Object provider, Object caller ){
+		ServicePool sp = services.get(service);
+		if( sp==null ){
+			sp = new ServicePool();
+			services.set(service, sp);
+		}
+		sp.register(provider, caller);
+		if( service.getSuperclass() != null ) register( service.getSuperclass(), provider, caller );
+		Class<?>[] superTypes = service.getInterfaces();
+		for( Class<?> c:superTypes ) register( c, provider, caller );
+	}
+	
+	public static void register( Object provider, Object caller ){
+		register( provider.getClass(), provider, caller );
+	}
+	
+	public static ProvidersSet providers( Class<?> service, Object caller ) throws NoSuchMethodException{
+		ServicePool sp = services.get(service);
+		if( sp != null ) return sp.get(caller);
+		throw new NoSuchMethodException();
+	}
+	
+	public static Object provider( Class<?> service, Object caller ) throws NoSuchMethodException{
+		return providers(service, caller).current();
+	}		
 }
+
+/* 
+ * import java.lang.reflect.ParameterizedType;
+ *     default void register(){
+    	ParameterizedType parameterizedType = (ParameterizedType)getClass().getGenericSuperclass();
+    	Class<?> cl = (Class<?>)parameterizedType.getActualTypeArguments()[0];	
+    	Service.register(this, cl);
+    }
+*/    

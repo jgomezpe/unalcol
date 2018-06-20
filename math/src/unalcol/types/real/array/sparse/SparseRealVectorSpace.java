@@ -6,9 +6,8 @@ package unalcol.types.real.array.sparse;
 
 import java.util.Iterator;
 
-import unalcol.clone.Clone;
+import unalcol.clone.Cloneable;
 import unalcol.math.algebra.VectorSpace;
-import unalcol.services.Service;
 import unalcol.types.collection.keymap.KeyOrder;
 import unalcol.types.collection.keymap.KeyValue;
 import unalcol.types.collection.vector.SortedVector;
@@ -94,7 +93,7 @@ public class SparseRealVectorSpace implements VectorSpace<SparseRealVector> {
                 elem_x = element(iter_x);
             }else{
                 if(elem_x.key() > elem_y.key() ){
-                    v.add((KeyValue<Integer,Double>)Clone.create(elem_y));
+                    v.add((KeyValue<Integer,Double>)Cloneable.cast(elem_y).clone());
                     elem_y = element(iter_y);
                 }else{
                     double d = elem_x.value()+elem_y.value();
@@ -112,7 +111,7 @@ public class SparseRealVectorSpace implements VectorSpace<SparseRealVector> {
             elem_x = element(iter_x);
         }
         while( elem_y != null ){
-            v.add((KeyValue<Integer,Double>)Clone.create(elem_y));
+            v.add((KeyValue<Integer,Double>)Cloneable.cast(elem_y).clone());
             elem_y = element(iter_y);
         }
         SortedVector<KeyValue<Integer,Double>> zv = new SortedVector<KeyValue<Integer,Double>>(v, new KeyOrder<Integer,Double>( new IntegerOrder()) );
@@ -143,7 +142,7 @@ public class SparseRealVectorSpace implements VectorSpace<SparseRealVector> {
                 elem_x = element(iter_x);
             }else{
                 if(elem_x.key() > elem_y.key() ){
-                    elem_y = (KeyValue<Integer,Double>)Clone.create(elem_y);
+                    elem_y = (KeyValue<Integer,Double>)Cloneable.cast(elem_y).clone();
                     elem_y.setValue(-elem_y.value());
                     v.add(elem_y);                    
                     elem_y = element(iter_y);
@@ -163,7 +162,7 @@ public class SparseRealVectorSpace implements VectorSpace<SparseRealVector> {
             elem_x = element(iter_x);
         }
         while( elem_y != null ){
-            elem_y = (KeyValue<Integer,Double>)Clone.create(elem_y);
+            elem_y = (KeyValue<Integer,Double>)Cloneable.cast(elem_y).clone();
             elem_y.setValue(-elem_y.value());
             v.add(elem_y);
             elem_y = element(iter_y);
@@ -200,9 +199,7 @@ public class SparseRealVectorSpace implements VectorSpace<SparseRealVector> {
 	@Override
 	public SparseRealVector fastDivide(SparseRealVector y, double x){ return fastMultiply(y, 1.0/x); }
 	
-	protected SparseRealVector create(SparseRealVector x){
-		try{ return (SparseRealVector)Service.run(Clone.name,x); } catch(Exception e){ return x; }
-	}
+	protected SparseRealVector create(SparseRealVector x){ return (SparseRealVector)Cloneable.cast(x).clone(); }
 
     @Override
     public SparseRealVector inverse(SparseRealVector x) {

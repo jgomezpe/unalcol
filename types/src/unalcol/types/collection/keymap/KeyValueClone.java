@@ -1,12 +1,11 @@
 package unalcol.types.collection.keymap;
 
 import unalcol.clone.Clone;
-import unalcol.services.MicroService;
 
-public class KeyValueClone<K,V> extends MicroService<KeyValue<K,V>> implements Clone<KeyValue<K,V>> {
+public class KeyValueClone<K,V> implements Clone {
+	public KeyValue<K,V> clone( KeyValue<K,V> kv ){ return new KeyValue<K, V>(kv.key(), kv.value());	}
+
+	@SuppressWarnings("unchecked")
 	@Override
-	public KeyValue<K,V> clone(){
-		KeyValue<K,V> kv = caller(); 
-		return new KeyValue<K, V>(kv.key(), kv.value());
-	}
+	public Object clone(Object obj){ return clone((KeyValue<K,V>)obj); }
 }

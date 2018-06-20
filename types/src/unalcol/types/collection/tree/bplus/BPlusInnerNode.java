@@ -1,9 +1,9 @@
 package unalcol.types.collection.tree.bplus;
 
-import unalcol.types.object.ArrayUtil;
 import unalcol.types.collection.tree.bplus.immutable.ImmutableBPlus;
 import unalcol.types.collection.tree.bplus.immutable.ImmutableInnerNode;
 import unalcol.types.collection.tree.bplus.immutable.ImmutableNode;
+import unalcol.types.object.array.ArrayUtil;
 
 public interface BPlusInnerNode<T> extends ImmutableInnerNode<T>, BPlusNode<T>{
 

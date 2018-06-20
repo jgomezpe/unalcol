@@ -1,14 +1,13 @@
 package unalcol.evolution.es;
 
-import unalcol.Tagged;
-import unalcol.Thing;
 import unalcol.random.integer.IntUniform;
 import unalcol.search.variation.ParameterizedObject;
 import unalcol.search.variation.Variation;
 import unalcol.search.variation.Variation_1_1;
 import unalcol.search.variation.Variation_n_1;
+import unalcol.types.object.tagged.Tagged;
 
-public class ESVariation<T,P> extends Thing implements Variation<T>{ 
+public class ESVariation<T,P> implements Variation<T>{ 
 	public static final String PARAMETERS_OPERATOR = "Parameters";
 	protected int lambda;
 	protected int ro;
@@ -63,14 +62,14 @@ public class ESVariation<T,P> extends Thing implements Variation<T>{
             
         	for( int i=0; i<ro; i++ ){
         		pop[i] = population[subset[i]];
-        		s_pop[i] = (P)pop[i].get(PARAMETERS_OPERATOR);
+        		s_pop[i] = (P)pop[i].getTag(PARAMETERS_OPERATOR);
         	}
         	new_s = s_mutation.apply(s_recombination.apply(s_pop)[0]);
         	if( param_mutation != null ){
         		param_mutation.setParameters(new_s);
         	}
         	new_y[k] = mutation.apply(recombination.apply(pop)[0]);
-        	new_y[k].set(PARAMETERS_OPERATOR, new_s);
+        	new_y[k].setTag(PARAMETERS_OPERATOR, new_s);
     	}
     	return new_y;
 	}

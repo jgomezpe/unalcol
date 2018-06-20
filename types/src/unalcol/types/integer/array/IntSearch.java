@@ -1,10 +1,9 @@
 package unalcol.types.integer.array;
 
-import unalcol.sort.Order;
 import unalcol.types.integer.IntegerOrder;
 
 public class IntSearch {
-	protected Order<Integer> order;
+	protected IntegerOrder order;
 	protected int[] sorted;
 	
     /**
@@ -18,7 +17,7 @@ public class IntSearch {
      * @param sorted Array of elements (should be sorted)
      * @param order Order used for locating the object
      */
-	public IntSearch(int[] sorted, Order<Integer> order){
+	public IntSearch(int[] sorted, IntegerOrder order){
 		this.order = order;
 		this.sorted = sorted;
 	}

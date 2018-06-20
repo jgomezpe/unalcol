@@ -1,9 +1,6 @@
 package optimization;
 
-import unalcol.Tagged;
-import unalcol.clone.DefaultClone;
 import unalcol.descriptors.WriteDescriptors;
-import unalcol.io.DefaultWrite;
 import unalcol.optimization.OptimizationFunction;
 import unalcol.optimization.binary.BinarySpace;
 import unalcol.optimization.binary.BitMutation;
@@ -17,7 +14,6 @@ import unalcol.optimization.real.mutation.Mutation;
 import unalcol.optimization.real.mutation.PermutationPick;
 import unalcol.optimization.real.mutation.PickComponents;
 import unalcol.optimization.real.testbed.Rastrigin;
-import unalcol.random.raw.JavaGenerator;
 import unalcol.random.real.RandDouble;
 import unalcol.random.real.SimplestSymmetricPowerLawGenerator;
 import unalcol.search.Search;
@@ -26,32 +22,26 @@ import unalcol.search.solution.SolutionDescriptors;
 import unalcol.search.solution.SolutionWrite;
 import unalcol.search.space.Space;
 import unalcol.services.Service;
-import unalcol.services.ServicePool;
 import unalcol.tracer.ConsoleTracer;
 import unalcol.tracer.Tracer;
 import unalcol.tracer.VectorTracer;
 import unalcol.types.collection.bitarray.BitArray;
 import unalcol.types.integer.array.IntArray;
 import unalcol.types.integer.array.IntArrayPlainWrite;
+import unalcol.types.object.tagged.Tagged;
 import unalcol.types.real.array.DoubleArray;
 import unalcol.types.real.array.DoubleArrayPlainWrite;
 
 public class MethodTest {
 	// ******* any ******** //
-	public static ServicePool service(OptimizationFunction<?> function, Search<?, Double> search){
+	public static void service(OptimizationFunction<?> function, Search<?, Double> search){
         // Tracking the goal evaluations
-		ServicePool service = new ServicePool();
-		service.register(new JavaGenerator(), Object.class);      
-		service.register(new DefaultClone(), Object.class);
-		service.register(new DefaultWrite(), Object.class);
-		Tracer<Object> t = new ConsoleTracer<Object>();
+		Tracer t = new ConsoleTracer();
 		t.start();
-		service.register(t, search);
-		t = new VectorTracer<Object>();
+		Service.register(t, search);
+		t = new VectorTracer();
 		t.start();
-		service.register(t, function);
-		Service.set(service);
-		return service;
+		Service.register(t, function);
 	}
 	
 	// ******* Real space problem ******** //
@@ -79,12 +69,11 @@ public class MethodTest {
     	return new IntensityMutation( 0.1, random, pick );
 	}
 	
-	public static ServicePool real_service(OptimizationFunction<double[]> function, Search<double[], Double> search){
-		ServicePool service = service(function,search);
-        service.register(new SolutionDescriptors<double[]>(function), Tagged.class);
-        service.register(new DoubleArrayPlainWrite(',',false), double[].class);
-        service.register(new SolutionWrite<double[]>(function,true), Tagged.class);
-        return service;
+	public static void real_service(OptimizationFunction<double[]> function, Search<double[], Double> search){
+		service( function, search );
+        Service.register(new SolutionDescriptors<double[]>(function), Tagged.class);
+        Service.register(new DoubleArrayPlainWrite(',',false), double[].class);
+        Service.register(new SolutionWrite<double[]>(function,true), Tagged.class);
 	}
         
 	// ******* Binary space problem ******** //
@@ -105,23 +94,20 @@ public class MethodTest {
         return new BitMutation();
 	}
 	
-	public static ServicePool binary_service( OptimizationFunction<BitArray> function, 
+	public static void binary_service( OptimizationFunction<BitArray> function, 
 			Search<BitArray,Double> search){ 
-		ServicePool service = service(function,search);
-        service.register(new DoubleArrayPlainWrite(',',false), double[].class);
-        service.register(new SolutionDescriptors<BitArray>(function), Tagged.class);
-        service.register(new SolutionWrite<BitArray>(function,true), Tagged.class);
-		return service;
+		service( function, search );
+        Service.register(new DoubleArrayPlainWrite(',',false), double[].class);
+        Service.register(new SolutionDescriptors<BitArray>(function), Tagged.class);
+        Service.register(new SolutionWrite<BitArray>(function,true), Tagged.class);
 	}
 
-	@SuppressWarnings("rawtypes")
-	public static ServicePool binary2real_service( OptimizationFunction<double[]> function, 
+	public static void binary2real_service( OptimizationFunction<double[]> function, 
 			Search<double[],Double> search){ 
         // Tracking the goal evaluations
-		ServicePool service = service(function,search);
-        service.register(new SolutionDescriptors<double[]>(function), Tagged.class);
-        service.register(new WriteDescriptors(), Tagged.class);
-		return service;
+		service( function, search );
+        Service.register(new SolutionDescriptors<double[]>(function), Tagged.class);
+        Service.register(new WriteDescriptors(), Tagged.class);
 	}
 	
 	
@@ -146,23 +132,18 @@ public class MethodTest {
     	return new MutationIntArray(DIM);
 	}
 	
-	@SuppressWarnings("rawtypes")
 	public static void queen_service(OptimizationFunction<int[]> function, Search<int[], Double> search){
 		// Tracking the goal evaluations
-		ServicePool service = service(function,search);
-        service.register(new SolutionDescriptors<int[]>(function), Tagged.class);
-        service.register(new IntArrayPlainWrite(',',false), int[].class);
-        service.register(new WriteDescriptors(), Tagged.class);
-		Service.set(service);
+        Service.register(new SolutionDescriptors<int[]>(function), Tagged.class);
+        Service.register(new IntArrayPlainWrite(',',false), int[].class);
+        Service.register(new WriteDescriptors(), Tagged.class);
 	}
 	
-	@SuppressWarnings({ "rawtypes", "unchecked" })
-	public static ServicePool population_service(OptimizationFunction<?> function ){
-		ServicePool service = (ServicePool)Service.get();
+	public static void population_service(OptimizationFunction<?> function ){
+		@SuppressWarnings("rawtypes")
 		PopulationDescriptors pd= new PopulationDescriptors();
-		pd.setGoal(function);
-		service.register(pd, Tagged[].class);
-		service.register(new WriteDescriptors<Tagged[]>(), Tagged[].class);
-		return service;
+		//pd.setGoal(function);
+		Service.register(pd, Tagged[].class);
+		Service.register(new WriteDescriptors(), Tagged[].class);
 	}	
 }

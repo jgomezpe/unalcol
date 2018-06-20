@@ -6,18 +6,15 @@
 package unalcol.search.local;
 
 import unalcol.math.logic.Predicate;
-import unalcol.Tagged;
-import unalcol.Thing;
 import unalcol.search.Goal;
 import unalcol.search.space.Space;
-import unalcol.services.Service;
-import unalcol.tracer.Tracer;
+import unalcol.types.object.tagged.Tagged;
 
 /**
  *
  * @author jgomez
  */
-public class IterativeLocalSearch<T,R> extends Thing implements LocalSearch<T,R> {
+public class IterativeLocalSearch<T,R> implements LocalSearch<T,R> {
     protected Predicate< Tagged<T> > terminationCondition;
     protected LocalSearch<T,R> step;
     
@@ -41,11 +38,11 @@ public class IterativeLocalSearch<T,R> extends Thing implements LocalSearch<T,R>
 	public Tagged<T> apply(Tagged<T> x, Space<T> space) {
         terminationCondition.init();
         int i=0;
-        try{ Service.run(Tracer.name,this, i, x); }catch(Exception e){}
+        trace(i, x);
         while( terminationCondition.evaluate(x) ){
             x = step(x, space);
             i++;
-            try{ Service.run(Tracer.name,this, i, x); }catch(Exception e){}
+            trace(i, x);
         }
         return x;
 	}

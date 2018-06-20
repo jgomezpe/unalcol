@@ -1,19 +1,16 @@
 package services;
 
+import unalcol.clone.Cloneable;
 import unalcol.clone.Clone;
-import unalcol.clone.DefaultClone;
 import unalcol.clone.ShallowClone;
 import unalcol.services.Service;
-import unalcol.services.ServicePool;
+import unalcol.services.ProvidersSet;
 import unalcol.tracer.ConsoleTracer;
-import unalcol.tracer.Tracer;
+import unalcol.tracer.Traceable;
 
 public class CloneTest {
 	public static void init_services(){
-		ServicePool service = new ServicePool();
-		service.register(new DefaultClone(), Object.class);      
-		service.register(new ConsoleTracer<Object>(), Object.class);
-		Service.set(service);
+		Service.register(new ConsoleTracer(), Object.class );
 	}
 	
 	/**
@@ -23,12 +20,11 @@ public class CloneTest {
 		System.out.println("############Testing the default clone service############");
 		String s = "Hello world!";
 		// We can use the Service class method (it is general)
-		String cs = (String)Service.run(Clone.name,s);       
+		Cloneable c = Cloneable.cast(s);
+		String cs = (String)c.clone();       
 		System.out.println("Original: "+s);
 		System.out.println("Clone: "+cs);
 		// or we can use the specialized method in Clone (it is specific for Clone)
-		cs = (String)Service.run(Clone.name, s);
-		System.out.println("Clone: "+cs);
 		System.out.println("Is it a shallow copy?"+(cs==s));        		
 	}
 	
@@ -36,21 +32,29 @@ public class CloneTest {
 	 * Comparing the shallow vs the wrapper clone services
 	 */
 	public static void shallow_wrapper() throws Exception{
-		System.out.println("############Comparing the Shallow vs the Wrapper (by default) clone services############");
-		String s = "Hello World!";
-		String cs = (String)Service.run(Clone.name,s);
-		Service.run(Tracer.start, s);
-		Service.run(Tracer.name, s, "Original:", s);
-		Service.run(Tracer.name, cs, "Clone:", cs);
-		Service.run(Tracer.name, cs, "Is it a Shallow copy?"+(cs==s));        
-		Clone<Object> shallow = new ShallowClone<Object>();
-		ServicePool service = (ServicePool)Service.get();
-		service.register(shallow, String.class);
-		System.out.println("Now we are using shallow copy method.. Careful it will be the clone method from now on");
-		cs = (String)Service.run(Clone.name, s);
-		service.run(Tracer.name, cs, "Clone:"+cs);
-		service.run(Tracer.name, cs, "Is it a shallow copy?"+(cs==s)); 
-		Service.run(Tracer.close, Object.class);
+		System.out.println("############Comparing the Shallow vs by default clone services############");
+		int[] a = new int[]{1,2,3,4};
+		Cloneable ca = Cloneable.cast(a);
+		int[] b = (int[])ca.clone();
+		Traceable ta = Traceable.cast(a);
+		Traceable tb = Traceable.cast(b);
+		ta.start_trace();
+		ta.trace("Original:", a);
+		tb.trace("Clone:", b);
+		ta.trace("Is it a Shallow copy?"+(a==b));        
+		Clone shallow = new ShallowClone();
+		Service.register(shallow, Object.class);
+		ProvidersSet set = Service.providers(Clone.class, Object.class);
+		for( String opt:set.options() ) System.out.println(opt);
+		set.current(shallow.toString());
+		System.out.println("Now we are using "+ set.current_id()+" copy method.. Careful it will be the clone method from now on");
+		//ca = Cloneable.cast(a);
+		b = (int[])ca.clone();
+		ta.trace("Original:", a);
+		tb = Traceable.cast(b);
+		tb.trace("Clone:", b);
+		ta.trace("Is it a Shallow copy?"+(a==b));        
+		ta.close_trace();
 	}
 	
 	/**
@@ -59,7 +63,8 @@ public class CloneTest {
 	public static void cloneArray() throws Exception{
 		System.out.println("############Testing the clone service on arrays############");
 		int[] a = new int[]{1,2,3,4};
-		int[] b = (int[])Service.run(Clone.name,a);
+		Clone c = Cloneable.service(a);
+		int[] b = (int[])c.clone(a);
 		System.out.print("Original:");
 		for(int i=0; i<a.length; i++ ){
 			System.out.print(" "+a[i]);
@@ -70,6 +75,7 @@ public class CloneTest {
 			System.out.print(" "+b[i]);
 		}
 		System.out.println();
+		System.out.println("Is it a shallow copy?"+(a==b));        		
 	}
 	
 	/**

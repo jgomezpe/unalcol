@@ -5,7 +5,7 @@
  */
 package unalcol.search.population;
 
-import unalcol.Tagged;
+import unalcol.types.object.tagged.Tagged;
 
 /**
  *

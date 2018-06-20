@@ -1,8 +1,5 @@
 package unalcol.clone;
 
-import unalcol.services.AbstractMicroService;
-import unalcol.services.Service;
-
 //
 //Unalcol Service structure Pack 1.0 by Jonatan Gomez-Perdomo
 //https://github.com/jgomezpe/unalcol/tree/master/services/
@@ -52,26 +49,11 @@ import unalcol.services.Service;
 * @version 1.0
 * @param <T> Type of objects to be cloned.
 */
-public interface Clone<T> extends AbstractMicroService<T>{	
+public interface Clone{	
 	/**
 	 * Creates a clone of a given object
 	 * @param toClone Object to be cloned
 	 * @return A clone of the object
 	 */
-	public T clone();
-
-	// The MicroService methods
-
-	public default Object run( Object... args ) throws Exception { return clone(); }		
-
-	/**
-	 * The method name that can be used for describing an object
-	 */
-	public static final String name="clone";	
-
-	public default String[] provides(){ return new String[]{name}; }	
-
-	public static Object create( Object obj ){
-		try{ return Service.run(name, obj); }catch(Exception e){ return obj; }
-	}
+	public Object clone( Object obj );	
 }

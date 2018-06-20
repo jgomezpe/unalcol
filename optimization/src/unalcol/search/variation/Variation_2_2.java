@@ -1,8 +1,7 @@
 package unalcol.search.variation;
 
-import unalcol.Tagged;
-import unalcol.clone.Clone;
-import unalcol.services.Service;
+import unalcol.types.object.tagged.Tagged;
+import unalcol.clone.Cloneable;
 
 public interface Variation_2_2<T> extends Variation_2_m<T>{
 	@Override
@@ -25,7 +24,7 @@ public interface Variation_2_2<T> extends Variation_2_m<T>{
 			v[i] = p[0]; 
 			v[i+1] = p[1];
 		}
-		if( n < v.length ) try{ v[n] = (T)Service.run(Clone.name, parents[n]); }catch(Exception e){ v[n] = parents[n]; }
+		if( n < v.length ) v[n] = (T)Cloneable.cast(parents[n]).clone();
 		return v;
 	}    
     
@@ -46,7 +45,7 @@ public interface Variation_2_2<T> extends Variation_2_m<T>{
 			v[i] = p[0]; 
 			v[i+1] = p[1];
 		}
-		if( n < v.length ) try{ v[n] = (Tagged<T>)Service.run(Clone.name, parents[n]); }catch(Exception e){ v[n] = parents[n]; }
+		if( n < v.length ) v[n]=(Tagged<T>)Cloneable.cast(parents[n]).clone();
 		return v;
 	}     
 }

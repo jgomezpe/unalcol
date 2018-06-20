@@ -1,10 +1,9 @@
 package unalcol.math.metric;
 
-import unalcol.services.MicroService;
 import unalcol.sort.Order;
 import unalcol.types.real.DoubleOrder;
 
-public class DistanceOrder<T> extends MicroService<T> implements Order<T> {
+public class DistanceOrder<T> implements Order{
 	protected Distance<T> distance;
 	protected T point;
 	protected DoubleOrder order;
@@ -15,8 +14,7 @@ public class DistanceOrder<T> extends MicroService<T> implements Order<T> {
 		this.order = new DoubleOrder();
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
-	public int compare(T x, T y) {
-		return ((Double)distance.apply(x,point)).compareTo(distance.apply(y,point));
-	}
+	public int compare(Object x, Object y){ return ((Double)distance.apply((T)x,point)).compareTo(distance.apply((T)y,point)); }
 }

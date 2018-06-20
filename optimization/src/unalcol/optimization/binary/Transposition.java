@@ -2,7 +2,6 @@ package unalcol.optimization.binary;
 
 import unalcol.random.integer.*;
 import unalcol.search.variation.Variation_1_1;
-import unalcol.services.MicroService;
 import unalcol.types.collection.bitarray.BitArray;
 
 /**
@@ -13,8 +12,10 @@ import unalcol.types.collection.bitarray.BitArray;
  * @version 1.0
  */
 
-public class Transposition extends MicroService<BitArray> implements Variation_1_1<BitArray>{
-    public Transposition(){}
+public class Transposition implements Variation_1_1<BitArray>{
+	protected IntUniform g = new IntUniform(0);
+
+	public Transposition(){}
     
   /**
    * Interchange the bits between two positions randomly chosen
@@ -27,9 +28,9 @@ public class Transposition extends MicroService<BitArray> implements Variation_1
       try{
           BitArray genome = new BitArray(_genome);
 
-          IntUniform gen = new IntUniform(genome.size());
-          int start = gen.next();
-          int end = gen.next();
+          g.set(genome.size());
+          int start = g.next();
+          int end = g.next();
 
           if (start > end) {
               int t = start;

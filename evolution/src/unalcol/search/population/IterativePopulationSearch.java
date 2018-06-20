@@ -1,14 +1,12 @@
 package unalcol.search.population;
 
-import unalcol.Tagged;
-import unalcol.Thing;
 import unalcol.math.logic.Predicate;
 import unalcol.search.Goal;
 import unalcol.search.space.Space;
-import unalcol.tracer.Tracer;
+import unalcol.types.object.tagged.Tagged;
 
-public class IterativePopulationSearch<T,R> extends Thing implements PopulationSearch<T,R> {
-    protected Predicate< Tagged<T>[] > terminationCondition;
+public class IterativePopulationSearch<T,R> implements PopulationSearch<T,R> {
+    protected Predicate<Tagged<T>[] > terminationCondition;
     protected PopulationSearch<T,R> step;
     
     public IterativePopulationSearch( PopulationSearch<T,R> step,
@@ -31,10 +29,10 @@ public class IterativePopulationSearch<T,R> extends Thing implements PopulationS
         
 	@Override
 	public Tagged<T>[] apply( Tagged<T>[] pop, Space<T> space){
-		Tracer.trace(this, pop, step);
+		trace(pop, step);
 		while( terminationCondition.evaluate(pop) ){
 			pop = step.apply(pop, space);
-        		Tracer.trace(this, pop, step);
+        	trace(pop, step);
 		}
     		return pop;
 	}

@@ -1,11 +1,8 @@
 package unalcol.optimization.binary.varlength;
 import unalcol.types.collection.bitarray.BitArray;
-import unalcol.random.raw.RawGenerator;
-import unalcol.random.raw.RawGeneratorWrapper;
+import unalcol.random.integer.IntUniform;
 import unalcol.search.variation.ParameterizedObject;
 import unalcol.search.variation.Variation_1_1;
-import unalcol.services.AbstractMicroService;
-import unalcol.services.MicroService;
 
 /**
  * <p>Title: AddGen</p>
@@ -15,11 +12,7 @@ import unalcol.services.MicroService;
  * @version 1.0
  */
 
-public class AddGen extends MicroService<BitArray> implements Variation_1_1<BitArray>, ParameterizedObject<int[]> {
-	public AbstractMicroService<?> wrap(String id){
-		if(id.equals(RawGenerator.name)) return new RawGeneratorWrapper();
-		return null;
-	}
+public class AddGen implements Variation_1_1<BitArray>, ParameterizedObject<int[]> {
   /**
    * If the added gene is added to the end of the genome or not (randomly added)
    */
@@ -28,6 +21,8 @@ public class AddGen extends MicroService<BitArray> implements Variation_1_1<BitA
   protected int gene_size;
   protected int min_length;
   protected int max_length;
+  
+  protected IntUniform g = new IntUniform(0);
 
   public AddGen(int gene_size, int min_length, int max_length) {
       this.gene_size = gene_size;
@@ -44,7 +39,7 @@ public class AddGen extends MicroService<BitArray> implements Variation_1_1<BitA
       this(gene_size, min_length, max_length);
       this.append = append;
   }
-
+  
   /**
    * Add to the end of the given genome a new gene
    * @param gen Genome to be modified
@@ -55,16 +50,14 @@ public class AddGen extends MicroService<BitArray> implements Variation_1_1<BitA
           BitArray genome = new BitArray(gen);
           if (genome.size() < max_length) {
               BitArray gene = new BitArray(gene_size, true);
-              if (append) {
-                  genome.add(gene);
-              } else {
+              if (append) genome.add(gene);
+              else{
                   int size = (genome.size() - min_length) / gene_size;
-                  int k = ((RawGenerator)getMicroService(RawGenerator.name)).integer(size + 1);
-                  if (k == size) {
-                      genome.add(gene);
-                  } else {
-                      BitArray right = genome.subBitArray(min_length +
-                              k * gene_size);
+                  g.set(size+1);
+                  int k = g.next();
+                  if (k == size) genome.add(gene);
+                  else{
+                      BitArray right = genome.subBitArray(min_length + k * gene_size);
                       genome.del((size - k) * gene_size);
                       genome.add(gene);
                       genome.add(right);

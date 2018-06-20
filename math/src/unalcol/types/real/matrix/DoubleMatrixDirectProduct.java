@@ -1,7 +1,6 @@
 package unalcol.types.real.matrix;
-import unalcol.clone.Clone;
+import unalcol.clone.Cloneable;
 import unalcol.math.algebra.*;
-import unalcol.services.Service;
 
 /**
  * <p>Title: MatrixDirectProduct</p>
@@ -82,9 +81,7 @@ public class DoubleMatrixDirectProduct implements Group<double[][]> {
         return x;
     }
     
-    protected double[][] create(double[][] x){
-    	try{ return (double[][])Service.run(Clone.name,x); }catch(Exception e){ return x; }
-    }
+    protected double[][] create(double[][] x){ return (double[][])Cloneable.cast(x).clone(); }
     
     @Override
     public double[][] minus(double[][] one, double[][] two) {

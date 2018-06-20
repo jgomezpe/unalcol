@@ -1,8 +1,5 @@
 package unalcol.descriptors;
 
-import unalcol.services.AbstractMicroService;
-import unalcol.services.Service;
-
 //
 //Unalcol Service structure Pack 1.0 by Jonatan Gomez-Perdomo
 //https://github.com/jgomezpe/unalcol/tree/master/services/
@@ -52,26 +49,12 @@ import unalcol.services.Service;
 * @version 1.0
 * @param <T> Type of objects to be described.
 */
-public interface Descriptors<T> extends AbstractMicroService<T>{	
+public interface Descriptors{	
 	/**
 	 * Obtains the descriptors of (an array of double values describing) an object.
 	 * @param obj Object to be described using double values (features).
 	 * @return An array of double values used for describing the object.
 	 */
-	public double[] descriptors();
+	public double[] descriptors(Object obj);
 
-	// The MicroService methods
-
-	public default Object run( Object... args ) throws Exception{ return descriptors(); }    	
-
-	/**
-	 * The method name that can be used for describing an object
-	 */
-	public static final String name="descriptors";	
-
-	public default String[] provides(){ return new String[]{name}; }	
-
-	public static double[] create( Object obj ){
-		try{ return (double[])Service.run(name, obj); }catch(Exception e){ return null; }
-	}	
 }

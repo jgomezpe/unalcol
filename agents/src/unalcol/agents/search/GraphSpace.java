@@ -19,4 +19,5 @@ import unalcol.types.collection.vector.*;
 public interface GraphSpace<T>  extends Space<T>{
 	public T succesor( T state, Action action );
 	public Vector<Action> succesor( T state );
+	public ActionCost<T> cost();
 }

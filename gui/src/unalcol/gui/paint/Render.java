@@ -1,9 +1,9 @@
 package unalcol.gui.paint;
 
 import unalcol.types.collection.vector.Vector;
-import unalcol.vc.frontend.SimpleView;
+import unalcol.vc.View;
 
-public abstract class Render extends SimpleView{
+public abstract class Render implements View{
 	protected Vector<RenderInstruction> instruction = new Vector<RenderInstruction>();
 	
 	public void init(){ instruction.clear(); }

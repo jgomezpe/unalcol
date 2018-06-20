@@ -1,14 +1,14 @@
 package unalcol.search.population;
 
-import unalcol.Tagged;
 import unalcol.search.RealValuedGoal;
 import unalcol.sort.Order;
+import unalcol.types.object.tagged.Tagged;
 
 public interface RealBasedPopulationSearch<T> extends PopulationSearch<T, Double> {
 	@Override
 	public default Tagged<T> pick(Tagged<T>[] pop) {
 		RealValuedGoal<T> goal = (RealValuedGoal<T>)goal();
-		Order<Double> order = goal.order();
+		Order order = goal.order();
 		int k=0;
 		double q = goal.apply(pop[0]);
 		for( int i=1; i<pop.length; i++ ){

@@ -1,6 +1,6 @@
 package unalcol.gui.editor;
 
-import unalcol.vc.backend.Controller;
+import unalcol.vc.Controller;
 
 public interface EditorController extends Controller{
 // Methods called by the View	

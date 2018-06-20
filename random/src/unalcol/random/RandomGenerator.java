@@ -1,7 +1,5 @@
 package unalcol.random;
 
-import unalcol.services.AbstractMicroService;
-
 //
 // Unalcol Random generation Pack 1.0 by Jonatan Gomez-Perdomo
 // https://github.com/jgomezpe/unalcol/tree/master/random/
@@ -50,7 +48,7 @@ import unalcol.services.AbstractMicroService;
  * (E-mail: <A HREF="mailto:jgomezpe@unal.edu.co">jgomezpe@unal.edu.co</A> )
  * @version 1.0
  */
-public interface RandomGenerator<T> extends AbstractMicroService<T>{
+public interface RandomGenerator<T>{
 	/**
 	 * Generates a random object of class <i>T</i>.
 	 * @return A random object of class <i>T</i>.
@@ -81,27 +79,5 @@ public interface RandomGenerator<T> extends AbstractMicroService<T>{
 			raw(v, 0, m);
 		}
 		return v;
-	}    
-
-	// The MicroService methods
-	public static String name="random";
-	public static String next=name+".next";
-	public static final String raw=name+".raw"; 
-	
-	public static final String[] methods = new String[]{name,next,raw};
-	
-	@Override
-	public default String[] provides(){ return new String[]{name,next,raw}; }
-
-	@SuppressWarnings("unchecked")
-	@Override
-	public default Object run( Object... args ) throws Exception{
-		String service = name();
-		if(service.equals(next) || service.equals(name)) return next();
-		if(service.equals(raw)){
-			if( args.length==1 ) return raw((int)args[0]);
-			else return raw((T[])args[0],(int)args[1], (int)args[2]);
-		}				
-		throw new Exception("Undefined service "+service);		
 	}
 }

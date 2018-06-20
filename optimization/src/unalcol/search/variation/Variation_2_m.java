@@ -1,6 +1,6 @@
 package unalcol.search.variation;
 
-import unalcol.Tagged;
+import unalcol.types.object.tagged.Tagged;
 
 /**
  * <p>Title:ArityTwo</p>
@@ -16,14 +16,14 @@ public interface Variation_2_m<T> extends Variation<T> {
     		T[] next = apply( one.unwrap(), two.unwrap() );    	
     		Tagged<T>[] s = new Tagged[next.length];
     		for( int i=0; i<s.length; i++ ){
-    			s[i] = new Tagged<T>(next[i]);
+    			s[i] = wrap(next[i]);
     		}	
     		return s;
 	}   
 
 	@SuppressWarnings("unchecked")
 	public default T[] apply( T one, T two ){
-    		Tagged<T>[] next = apply( new Tagged<T>(one), new Tagged<T>(two) );    	
+    		Tagged<T>[] next = apply( wrap(one), wrap(two) );    	
     		T[] s = (T[])new Object[next.length];
     		for( int i=0; i<s.length; i++ ){
     			s[i] = next[i].unwrap();

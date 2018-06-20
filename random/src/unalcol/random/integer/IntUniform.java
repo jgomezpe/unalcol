@@ -1,9 +1,7 @@
 package unalcol.random.integer;
 
 import unalcol.random.InverseGenerator;
-import unalcol.services.MicroService;
 
-//
 // Unalcol Random generation Pack 1.0 by Jonatan Gomez-Perdomo
 // https://github.com/jgomezpe/unalcol/tree/master/random/
 //
@@ -53,7 +51,7 @@ import unalcol.services.MicroService;
  * (E-mail: <A HREF="mailto:jgomezpe@unal.edu.co">jgomezpe@unal.edu.co</A> )
  * @version 1.0
  */
-public class IntUniform extends MicroService<Integer> implements InverseGenerator<Integer>, RandInt {
+public class IntUniform extends InverseGenerator<Integer> implements RandInt{
 	/**
 	 * Low Limit
 	 */
@@ -83,12 +81,22 @@ public class IntUniform extends MicroService<Integer> implements InverseGenerato
 		this.length = max - min;
 	}
 	
+	public void set( int max ){ set( 0, max ); }
+
+	public void set( int min, int max ){
+		if( min>max ){
+			int temp = min;
+			min=max;
+			max=temp;
+		}
+		this.min = min;
+		this.length = max-min; 
+	}
+	
 	/**
 	 * Generates a uniform integer number in the interval [min,max)
 	 * @return A uniform integer number in the interval [min,max)
 	 */
 	@Override
-	public Integer next(double x) {
-		return (min + (int)(length*x));
-	}
+	public Integer next(double x) {	return (min + (int)(length*x));	}
 }

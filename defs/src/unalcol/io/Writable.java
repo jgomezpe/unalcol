@@ -7,6 +7,8 @@ package unalcol.io;
 import java.io.IOException;
 import java.io.Writer;
 
+import unalcol.services.Service;
+
 //
 //Unalcol Service structure Pack 1.0 by Jonatan Gomez-Perdomo
 //https://github.com/jgomezpe/unalcol/tree/master/services/
@@ -61,5 +63,32 @@ public interface Writable {
 	 * @param writer The writer object
 	 * @throws IOException IOException
 	 */
-	public void write(Writer writer) throws IOException;
+	default void write(Writer writer) throws IOException{ service().write(this, writer); }
+	
+	default Write service(){ return Writable.service(this); }
+	
+	public static Write service(Object caller ){
+		Write w;
+		try{
+			w = (Write)Service.provider(Write.class, caller);
+		}catch(NoSuchMethodException e){
+			w = new Write(){
+				@Override
+				public void write(Object obj, Writer writer) throws IOException { writer.write(obj.toString()); }
+
+				@Override
+				public String toString(){ return "Write"; }
+	    	};
+	    	Service.register(w, Object.class);
+		}
+		return w;
+	}
+	
+	public static Writable cast( Object obj ){
+		if( obj instanceof Writable ) return (Writable)obj;
+		return new Writable(){
+			public Write service(){ return Writable.service(obj); } 
+			public void write(Writer writer) throws IOException{ service().write(obj, writer); }
+		};
+	}
 }

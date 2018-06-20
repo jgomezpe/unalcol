@@ -1,12 +1,11 @@
 package unalcol.evolution.ga;
 import unalcol.random.util.*;
 import unalcol.search.selection.Selection;
-import unalcol.Tagged;
 import unalcol.search.variation.Variation;
 import unalcol.search.variation.Variation_1_1;
 import unalcol.search.variation.Variation_2_2;
-import unalcol.services.MicroService;
 import unalcol.types.collection.vector.Vector;
+import unalcol.types.object.tagged.Tagged;
 
 /**
  * <p>Title: ClassicStrategy</p>
@@ -18,7 +17,7 @@ import unalcol.types.collection.vector.Vector;
  * @author Jonatan Gomez
  * @version 1.0
  */
-public class GAVariation<T> extends MicroService<T> implements Variation<T>{
+public class GAVariation<T> implements Variation<T>{
 	protected Selection<T> selection;
     protected Variation_1_1<T> mutation;
     protected Variation_2_2<T> xover;

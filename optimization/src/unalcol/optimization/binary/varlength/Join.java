@@ -1,10 +1,6 @@
 package unalcol.optimization.binary.varlength;
 import unalcol.types.collection.bitarray.BitArray;
-import unalcol.random.raw.RawGenerator;
-import unalcol.random.raw.RawGeneratorWrapper;
 import unalcol.search.variation.Variation_2_2;
-import unalcol.services.AbstractMicroService;
-import unalcol.services.MicroService;
 
 /**
  * <p>Title: Join</p>
@@ -14,12 +10,7 @@ import unalcol.services.MicroService;
  * @version 1.0
  */
 
-public class Join extends MicroService<BitArray> implements Variation_2_2<BitArray>{
-	public AbstractMicroService<?> wrap(String id){
-		if(id.equals(RawGenerator.name)) return new RawGeneratorWrapper();
-		return null;
-	}
-
+public class Join implements Variation_2_2<BitArray>{
   /**
    * Apply the simple point crossover operation over the given genomes
    * @param c1 The first parent

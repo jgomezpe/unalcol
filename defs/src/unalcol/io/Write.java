@@ -4,9 +4,6 @@ import java.io.IOException;
 import java.io.StringWriter;
 import java.io.Writer;
 
-import unalcol.services.AbstractMicroService;
-import unalcol.services.Service;
-
 //
 //Unalcol Service structure Pack 1.0 by Jonatan Gomez-Perdomo
 //https://github.com/jgomezpe/unalcol/tree/master/services/
@@ -55,14 +52,14 @@ import unalcol.services.Service;
 * (E-mail: <A HREF="mailto:jgomezpe@unal.edu.co">jgomezpe@unal.edu.co</A> )
 * @version 1.0
 */
-public interface Write<T> extends AbstractMicroService<T>{
+public interface Write{
 	/**
 	 * Writes an object to the given writer
 	 * @param obj Object to write
 	 * @param writer The writer object
 	 * @throws IOException IOException
 	 */
-	public void write(Writer writer) throws IOException;
+	public void write(Object obj, Writer writer) throws IOException;
     
 	/**
 	 * Gets the persistent version of an object in String version. The Class which the
@@ -72,25 +69,17 @@ public interface Write<T> extends AbstractMicroService<T>{
 	 * @return String containing the persistent version of the object
 	 */
 	public static String toString(Object obj) {
+		StringWriter sw = new StringWriter();
 		try {
-			StringWriter sw = new StringWriter();
-			Service.run(Write.name, obj, sw);
+			if( obj instanceof Writable ) ((Writable)obj).write(sw);
+			else{
+				Writable w = Writable.cast(obj);
+				if( w != null ) w.write(sw);
+				else sw.write(obj.toString());
+			}
 			sw.close();
 			return sw.toString();
 		} catch (Exception e) {}
 		return obj.toString();
 	}
-
-	public static final String name="write";
-
-	public default Object run( Object... args ) throws Exception{ 
-		write((Writer)args[0]); 
-		return null;
-	}
-
-	public default String[] provides(){ return new String[]{name}; }	
-
-	public static void to( Object obj, Writer writer ){
-		try{ Service.run(name, obj, writer); }catch(Exception e){}
-	}	
 }

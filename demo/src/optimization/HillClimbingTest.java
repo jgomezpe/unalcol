@@ -16,7 +16,7 @@ import unalcol.search.multilevel.CodeDecodeMap;
 import unalcol.search.multilevel.MultiLevelSearch;
 import unalcol.search.space.Space;
 import unalcol.types.collection.bitarray.BitArray;
-import unalcol.Tagged;
+import unalcol.types.object.tagged.Tagged;
 
 public class HillClimbingTest{
 	public static void real(){
@@ -28,7 +28,7 @@ public class HillClimbingTest{
     	// Variation
     	Mutation variation = MethodTest.real_variation();
         // Search method
-        int MAXITERS = 150;
+        int MAXITERS = 1500;
         boolean neutral = true; // Accepts movements when having same function value
         boolean adapt_operator = false; // Set to true if you want adaptation in operator
         LocalSearch<double[],Double> search;
@@ -44,7 +44,7 @@ public class HillClimbingTest{
         MethodTest.real_service(function, search);
         // Apply the search method
         Tagged<double[]> sol = search.solve(space);        
-        System.out.println(sol.get(function));		
+        System.out.println(sol.getTag(function));		
 	}
     
 	// ******* Binary space problem ******** //
@@ -77,7 +77,7 @@ public class HillClimbingTest{
         MethodTest.binary_service(function, search);
         // Apply the search method
         Tagged<BitArray> sol = search.solve(space);        
-        System.out.println(sol.get(function));		
+        System.out.println(sol.getTag(function));		
 	}
 	
 	public static void binary2real(){
@@ -118,7 +118,7 @@ public class HillClimbingTest{
         MethodTest.binary2real_service(function, search);
         // Apply the search method
         Tagged<double[]> sol = search.solve(space);        
-        System.out.println(sol.get(function));		
+        System.out.println(sol.getTag(function));		
 	}
 	
 	public static void queen(){
@@ -151,12 +151,12 @@ public class HillClimbingTest{
         MethodTest.queen_service(function, search);
         // Apply the search method
         Tagged<int[]> sol = search.solve(space);        
-        System.out.println(sol.get(function));		
+        System.out.println(sol.getTag(function));		
 	}
     
     public static void main(String[] args){
-    	//real(); // Uncomment if testing real valued functions
-    	binary(); // Uncomment if testing binary valued functions
+    	real(); // Uncomment if testing real valued functions
+    	//binary(); // Uncomment if testing binary valued functions
     	//binary2real(); // Uncomment if you want to try the multi-level search method
     	//queen(); // Uncomment if testing queens (integer) value functions
     }

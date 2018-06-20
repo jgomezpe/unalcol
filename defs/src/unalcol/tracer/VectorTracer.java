@@ -1,9 +1,8 @@
 package unalcol.tracer;
 
-import unalcol.services.MicroService;
 import unalcol.types.collection.vector.Vector;
 
-public class VectorTracer<T> extends MicroService<T> implements Tracer<T> {
+public class VectorTracer extends BasicTracer {
 	/**
 	 * Traced information
 	 */
@@ -18,7 +17,7 @@ public class VectorTracer<T> extends MicroService<T> implements Tracer<T> {
 	 * Replaces the traced information with a new one
 	 * @param obj Traced information
 	 */
-	public void add(Object... obj){ object.add(obj); }
+	public void add(Object caller, Object... obj){ object.add(obj); }
 
 	/**
 	 * Returns the traced information
@@ -35,23 +34,7 @@ public class VectorTracer<T> extends MicroService<T> implements Tracer<T> {
 	 * Closes the tracer (does nothing)
 	 */
 	public void close() {};
-
-	protected boolean isTracing=false;
-
+	
 	@Override
-	public boolean tracing() { return isTracing; }
-
-	@Override
-	public boolean start() {
-		boolean old = isTracing;
-		isTracing=true;
-		return old;
-	}
-
-	@Override
-	public boolean stop() {
-		boolean old = isTracing;
-		isTracing=false;
-		return old;
-	}    
+	public String toString(){ return "VectorTracer"; }	
 }

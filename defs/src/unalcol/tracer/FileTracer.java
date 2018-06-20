@@ -51,7 +51,7 @@ import java.io.IOException;
 * (E-mail: <A HREF="mailto:jgomezpe@unal.edu.co">jgomezpe@unal.edu.co</A> )
 * @version 1.0
 */
-public class FileTracer<T> extends OutputStreamTracer<T> {
+public class FileTracer extends OutputStreamTracer{
 	/**
 	 * File that is associated to the tracer
 	 */
@@ -111,4 +111,7 @@ public class FileTracer<T> extends OutputStreamTracer<T> {
 		close();
 		try { file = new FileWriter(fileName); } catch (IOException e) { e.printStackTrace(); }
 	}
+	
+	@Override
+	public String toString(){ return "FileTracer"; }	
 }

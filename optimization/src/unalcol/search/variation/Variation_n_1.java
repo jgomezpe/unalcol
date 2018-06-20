@@ -1,13 +1,13 @@
 package unalcol.search.variation;
 
-import unalcol.Tagged;
+import unalcol.instance.Instanteable;
+import unalcol.types.object.tagged.Tagged;
 
 public interface Variation_n_1<T> extends Variation<T> {
 	public default T build( @SuppressWarnings("unchecked") T... pop ){ return build(wrap(pop)).unwrap();	}
 
-	public default Tagged<T> build( @SuppressWarnings("unchecked") Tagged<T>... pop ){
-		return new Tagged<T>(build(unwrap(pop)));
-	}
+	@SuppressWarnings("unchecked")
+	public default Tagged<T> build( Tagged<T>... pop ){ return (Tagged<T>)Instanteable.cast(pop[0]).create(build(unwrap(pop))); }
 	
 	@SuppressWarnings("unchecked")
 	@Override

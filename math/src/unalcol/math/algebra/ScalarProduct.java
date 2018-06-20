@@ -1,5 +1,5 @@
 package unalcol.math.algebra;
-
+import unalcol.clone.Cloneable;
 
 /**
  * <p>Title: ScalarProduct</p>
@@ -32,7 +32,8 @@ public interface ScalarProduct<T> {
      * @param x The scalar
      * @return The result
      */
-    public T multiply(T one, double x);
+    @SuppressWarnings("unchecked")
+	default T multiply(T one, double x){ return fastMultiply((T)Cloneable.cast(one), x); }
 
     /**
      * Divide object one clone by the scalar x
@@ -40,5 +41,6 @@ public interface ScalarProduct<T> {
      * @param x The scalar
      * @return The result
      */
-    public T divide(T one, double x);
+    @SuppressWarnings("unchecked")
+	default T divide(T one, double x){ return fastDivide((T)Cloneable.cast(one), x); }
 }

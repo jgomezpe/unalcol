@@ -10,7 +10,7 @@ import unalcol.math.algebra.Scale;
  *
  * @author jgomez
  */
-public class RealVectorSphereNormalization extends Scale<double[]>{
+public class RealVectorSphereNormalization implements Scale<double[]>{
     protected DoubleArrayDotProduct dot = new DoubleArrayDotProduct();
     protected RealVectorSpace scale = new RealVectorSpace();
   /**

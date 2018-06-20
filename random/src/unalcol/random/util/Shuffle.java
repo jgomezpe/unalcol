@@ -1,11 +1,6 @@
 package unalcol.random.util;
 
-import unalcol.Thing;
 import unalcol.random.integer.*;
-import unalcol.random.raw.RawGenerator;
-import unalcol.random.raw.RawGeneratorWrapper;
-import unalcol.services.AbstractMicroService;
-import unalcol.services.MicroService;
 
 //
 // Unalcol Random generation Pack 1.0 by Jonatan Gomez-Perdomo
@@ -57,23 +52,18 @@ import unalcol.services.MicroService;
  * @version 1.0
  * @param <T> Type of objects in the array to be shuffled
  */
-public class Shuffle<T> extends Thing {
+public class Shuffle<T>{
+	protected IntUniform ig;
+	
 	/**
 	 * Creates a shuffle method using the default raw generator (Random class)
 	 */
-	public Shuffle(){}
+	public Shuffle(){ this(new IntUniform(0)); }
 	
-	public AbstractMicroService<?> getMicroService( String id ){
-		if( valid(id) ) return (AbstractMicroService<?>)get(id);
-		AbstractMicroService<?> service = wrap(id);
-		if( service != null ) set(id,service);
-		return service;
-	}
-	
-	public MicroService<?> wrap(String id){
-		if( id.equals(RawGenerator.name) ) return new RawGeneratorWrapper();
-		return null;
-	}
+	/**
+	 * Creates a shuffle method using the default raw generator (Random class)
+	 */
+	public Shuffle(IntUniform ig ){ this.ig = ig; }
 	
 	/**
 	 * Generates an array with all the integers in the interval [0,n) stored in a random fashion
@@ -88,8 +78,7 @@ public class Shuffle<T> extends Thing {
 	}
 	
 	protected int[] indices(int n){
-		IntUniform ig = new IntUniform(n);
-		ig.setMicroService(RawGenerator.name, getMicroService(RawGenerator.name));
+		ig.set(n);
 		return ig.generate(2 * n);
 	}
 	
@@ -98,16 +87,12 @@ public class Shuffle<T> extends Thing {
 	 * @param set Array of integers to be shuffled
 	 */
 	public void apply(int[] set) {
-		int m = 0;
 		int j, k;
 		int temp;
-		int n = set.length;
-		int[] indices = indices(n);
-		for (int i = 0; i < n; i++) {
-			j = indices[m];
-			m++;
-			k = indices[m];
-			m++;
+		int[] indices = indices(set.length);
+		for (int i = 0; i<indices.length; i+=2) {
+			j = indices[i];
+			k = indices[i+1];
 			temp = set[j];
 			set[j] = set[k];
 			set[k] = temp;
@@ -119,16 +104,12 @@ public class Shuffle<T> extends Thing {
 	 * @param set Array of doubles to be shuffled
 	 */
 	public void apply(double[] set) {
-		int m = 0;
 		int j, k;
 		double temp;
-		int n = set.length;
-		int[] indices = indices(n);
-		for (int i = 0; i < n; i++) {
-			j = indices[m];
-			m++;
-			k = indices[m];
-			m++;
+		int[] indices = indices(set.length);
+		for (int i = 0; i<indices.length; i+=2) {
+			j = indices[i];
+			k = indices[i+1];
 			temp = set[j];
 			set[j] = set[k];
 			set[k] = temp;
@@ -140,16 +121,12 @@ public class Shuffle<T> extends Thing {
 	 * @param set Array of integers to be shuffled
 	 */
 	public void apply(long[] set) {
-		int m = 0;
 		int j, k;
 		long temp;
-		int n = set.length;
-		int[] indices = indices(n);
-		for (int i = 0; i < n; i++) {
-			j = indices[m];
-			m++;
-			k = indices[m];
-			m++;
+		int[] indices = indices(set.length);
+		for (int i = 0; i<indices.length; i+=2) {
+			j = indices[i];
+			k = indices[i+1];
 			temp = set[j];
 			set[j] = set[k];
 			set[k] = temp;
@@ -161,16 +138,12 @@ public class Shuffle<T> extends Thing {
 	 * @param set Array of doubles to be shuffled
 	 */
 	public void apply(char[] set) {
-		int m = 0;
 		int j, k;
 		char temp;
-		int n = set.length;
-		int[] indices = indices(n);
-		for (int i = 0; i < n; i++) {
-			j = indices[m];
-			m++;
-			k = indices[m];
-			m++;
+		int[] indices = indices(set.length);
+		for (int i = 0; i<indices.length; i+=2) {
+			j = indices[i];
+			k = indices[i+1];
 			temp = set[j];
 			set[j] = set[k];
 			set[k] = temp;
@@ -182,16 +155,12 @@ public class Shuffle<T> extends Thing {
 	 * @param set Array of objects to be shuffled
 	 */
 	public void apply(T[] set) {
-		int m = 0;
 		int j, k;
 		T temp;
-		int n = set.length;
-		int[] indices = indices(n);
-		for (int i = 0; i < n; i++) {
-			j = indices[m];
-			m++;
-			k = indices[m];
-			m++;
+		int[] indices = indices(set.length);
+		for (int i = 0; i<indices.length; i+=2) {
+			j = indices[i];
+			k = indices[i+1];
 			temp = set[j];
 			set[j] = set[k];
 			set[k] = temp;

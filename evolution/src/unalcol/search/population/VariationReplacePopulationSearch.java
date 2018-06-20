@@ -5,17 +5,15 @@
  */
 package unalcol.search.population;
 
-import unalcol.Tagged;
-import unalcol.TaggedManager;
-import unalcol.Thing;
 import unalcol.search.space.Space;
 import unalcol.search.variation.Variation;
+import unalcol.types.object.tagged.Tagged;
 
 /**
  *
  * @author Jonatan
  */
-public abstract class VariationReplacePopulationSearch<T,R> extends Thing implements PopulationSearch<T, R>, TaggedManager<T> {
+public abstract class VariationReplacePopulationSearch<T,R> implements PopulationSearch<T, R>{
 	protected int mu; // Population size
     protected Variation<T> variation; 
     protected PopulationReplacement<T> replace;
@@ -32,8 +30,11 @@ public abstract class VariationReplacePopulationSearch<T,R> extends Thing implem
     }
 
 	@Override
-	public Tagged<T>[] init(Space<T> space) {
-    	Tagged<T>[] pop = wrap(space.pick(mu));
+	public Tagged<T>[] init(Space<T> space){
+		T[] sol = space.pick(mu);
+    	@SuppressWarnings("unchecked")
+		Tagged<T>[] pop = new Tagged[sol.length];
+    	for( int i=0; i<pop.length; i++ ) pop[i] = new Tagged<T>(sol[i]);
     	return pop;
 	}
 }

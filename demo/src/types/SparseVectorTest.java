@@ -1,9 +1,7 @@
 package types;
 
-import unalcol.clone.DefaultClone;
 import unalcol.random.raw.JavaGenerator;
 import unalcol.services.Service;
-import unalcol.services.ServicePool;
 import unalcol.types.collection.Collection;
 import unalcol.types.collection.sparse.SparseArray;
 import unalcol.types.collection.vector.Vector;
@@ -13,14 +11,11 @@ import unalcol.types.real.array.DoubleArrayPlainWrite;
 
 public class SparseVectorTest {
 	public static void init_services(){
-		ServicePool service = new ServicePool();
-        service.register(new JavaGenerator(), Object.class);         
-    	service.register(new DoubleArrayPlainRead(), double[].class);
-        service.register(new DoubleArrayPlainWrite(), double[].class);
-        service.register(new DefaultClone(), Object.class);
-        service.register(new VectorClone<Object>(), Vector.class);
+        Service.register(new JavaGenerator(), Object.class);         
+    	Service.register(new DoubleArrayPlainRead(), double[].class);
+        Service.register(new DoubleArrayPlainWrite(), double[].class);
+        Service.register(new VectorClone<Object>(), Vector.class);
 //        service.register(new ConsoleTracer(), Object.class);
-        Service.set(service);
 	}
 
     public static void main( String[] args ){

@@ -20,7 +20,7 @@ public class BubbleSort<T> extends Sort<T> {
    * Crates a bubble sort algorithm with the given order
    * @param order Order used for sorting the objects
    */
-  public BubbleSort( Order<T> order ){
+  public BubbleSort( Order order ){
       super( order );
   }
 
@@ -29,7 +29,7 @@ public class BubbleSort<T> extends Sort<T> {
    * @param order Order used for sorting the objects
    * @param overwrite If the array should be overwrited or not
    */
-  public BubbleSort( Order<T> order, boolean overwrite ){
+  public BubbleSort( Order order, boolean overwrite ){
       super( order, overwrite );
   }
 

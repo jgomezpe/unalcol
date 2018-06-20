@@ -5,11 +5,10 @@
  */
 package unalcol.search.local;
 
-import unalcol.Tagged;
+import unalcol.instance.Instanteable;
 import unalcol.search.Search;
 import unalcol.search.space.Space;
-import unalcol.services.Service;
-import unalcol.tracer.Tracer;
+import unalcol.types.object.tagged.Tagged;
 
 /**
  *
@@ -21,8 +20,9 @@ public interface LocalSearch<T,R> extends Search<T,R> {
     
     @Override
     public default Tagged<T> solve(Space<T> space){
-    	Tagged<T> x = new Tagged<T>(space.pick());
-        try{ Service.run(Tracer.name,Tagged.class, x); }catch(Exception e){}
+    	@SuppressWarnings("unchecked")
+		Tagged<T> x = (Tagged<T>)Instanteable.cast(Tagged.class).create(space.pick());
+        trace(x);
         return apply(x, space);
     }
 }

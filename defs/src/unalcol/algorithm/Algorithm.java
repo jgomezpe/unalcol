@@ -1,9 +1,10 @@
 package unalcol.algorithm;
 
-import unalcol.Thing;
 import unalcol.math.function.Function;
-import unalcol.services.Service;
-import unalcol.tracer.Tracer;
+import unalcol.math.function.ThingFunction;
+import unalcol.types.object.dynamic.KeyMapDynObj;
+import unalcol.types.collection.keymap.HTKeyMap;
+import unalcol.types.collection.keymap.KeyMap;
 
 /**
  * <p>Abstract version of an algorithm, can be used in a Thread</p>
@@ -16,11 +17,15 @@ import unalcol.tracer.Tracer;
  * @version 1.0
  */
 
-public abstract class Algorithm<I, O> extends Thing implements Function<I,O>{
-    /**
+public abstract class Algorithm<I, O> extends KeyMapDynObj implements ThingFunction<I,O>, Function<I,O>{
+	public Algorithm(){ this( new HTKeyMap<String,Object>()); }
+	
+    public Algorithm(KeyMap<String, Object> keymap){ super(keymap);	}
+
+	/**
      * Adds the output of the algorithm to the tracers
      */
-    public void addToTrace() throws Exception{ Service.run(Tracer.name, this, output()); }
+    public void addToTrace() throws Exception{ trace(output()); }
     
     /**
      * Flag used for determining if the function was stopped or not

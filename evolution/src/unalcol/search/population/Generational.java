@@ -1,6 +1,6 @@
 package unalcol.search.population;
 
-import unalcol.Tagged;
+import unalcol.types.object.tagged.Tagged;
 
 public class Generational<T> implements PopulationReplacement<T>{
 	@Override

@@ -5,11 +5,9 @@
  */
 package types;
 
-import unalcol.clone.Clone;
-import unalcol.clone.DefaultClone;
+import unalcol.clone.Cloneable;
 import unalcol.random.raw.JavaGenerator;
 import unalcol.services.Service;
-import unalcol.services.ServicePool;
 import unalcol.types.collection.vector.Vector;
 import unalcol.types.collection.vector.VectorClone;
 import unalcol.types.real.array.DoubleArrayPlainRead;
@@ -21,14 +19,10 @@ import unalcol.types.real.array.DoubleArrayPlainWrite;
  */
 public class VectorTest {
 	public static void init_services(){
-		ServicePool service = new ServicePool();
-        service.register(new JavaGenerator(), Object.class);         
-    	service.register(new DoubleArrayPlainRead(), double[].class);
-        service.register(new DoubleArrayPlainWrite(), double[].class);
-        service.register(new DefaultClone(), Object.class);
-        service.register(new VectorClone<Object>(), Vector.class);
-//        service.register(new ConsoleTracer(), Object.class);
-        Service.set(service);
+        Service.register(new JavaGenerator(), Object.class);         
+    	Service.register(new DoubleArrayPlainRead(), double[].class);
+        Service.register(new DoubleArrayPlainWrite(), double[].class);
+        Service.register(new VectorClone<Object>(), Vector.class);
 	}
 
 	public static void main( String[] args ){
@@ -64,7 +58,7 @@ public class VectorTest {
             
       try{
 	      @SuppressWarnings("unchecked")
-	  	  Vector<Integer> clone = (Vector<Integer>)Service.run(Clone.name, v);
+	  	  Vector<Integer> clone = (Vector<Integer>)Cloneable.cast(v).clone();
 	      if( clone != v ){
 		      System.out.println("Clone");
 		      for( Integer k:clone){

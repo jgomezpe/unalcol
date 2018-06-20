@@ -1,5 +1,5 @@
 package unalcol.js.vc;
-import unalcol.vc.frontend.View;
+import unalcol.vc.View;
 public interface JSView extends View{
-	default void execute( String js_command ){ ((JSFrontEnd)frontend()).execute(js_command); }
+	default void execute( String js_command ){ ((JSFrontEnd)front()).execute(js_command); }
 }

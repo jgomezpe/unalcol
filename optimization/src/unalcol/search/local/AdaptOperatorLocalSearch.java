@@ -2,11 +2,9 @@ package unalcol.search.local;
 
 import unalcol.search.Goal;
 import unalcol.search.replacement.GoalBasedReplacement;
-import unalcol.Tagged;
 import unalcol.search.space.Space;
 import unalcol.search.variation.Variation_1_1;
-import unalcol.services.Service;
-import unalcol.tracer.Tracer;
+import unalcol.types.object.tagged.Tagged;
 
 public class AdaptOperatorLocalSearch<T,P> extends VariationReplaceLocalSearch<T>{
     protected AdaptSearchOperatorParameters<P> adapt;
@@ -25,7 +23,7 @@ public class AdaptOperatorLocalSearch<T,P> extends VariationReplaceLocalSearch<T
 		Tagged<T> y = variation.apply(space, x);
         if( adapt != null )	adapt.apply(variation, goal.apply(x), goal.apply(y));
         Tagged<T> z = replace.apply(x, y);
-        try{ Service.run(Tracer.name,this, x, z); }catch(Exception e){}
+        trace(x, z);
         return z;
     }    
 }

@@ -1,8 +1,5 @@
 package unalcol.tracer;
 
-import unalcol.services.AbstractMicroService;
-import unalcol.services.Service;
-
 //
 //Unalcol Service structure Pack 1.0 by Jonatan Gomez-Perdomo
 //https://github.com/jgomezpe/unalcol/tree/master/services/
@@ -51,26 +48,26 @@ import unalcol.services.Service;
 * (E-mail: <A HREF="mailto:jgomezpe@unal.edu.co">jgomezpe@unal.edu.co</A> )
 * @version 1.0
 */
-public interface Tracer<T> extends AbstractMicroService<T>{
+public interface Tracer{
 	public boolean tracing();
 
 	/**
 	 * Starts the tracing of objects process
 	 * @return <i>true</i> if the Tracer was tracing objects, <i>false</i>otherwise.
 	 */
-	public boolean start();
+	public void start();
 
 	/**
 	 * Stops the tracing of objects process
 	 * @return <i>true</i> if the Tracer was tracing objects, <i>false</i>otherwise.
 	 */
-	public boolean stop();
+	public void stop();
 
 	/**
 	 * Adds an object sent by an object to the tracer
 	 * @param obj Traced information to be added
 	 */
-	public void add(Object... obj);
+	public void add(Object caller, Object... obj);
 
 	/**
 	 * Returns the traced object
@@ -87,54 +84,4 @@ public interface Tracer<T> extends AbstractMicroService<T>{
 	 * Closes the tracer
 	 */
 	public void close();
-
-	// The MicroService methods
-	public static final String name="trace";
-	public static final String clean=name+".clean"; 
-	public static final String tracing=name+".tracing"; 
-	public static final String start=name+".start"; 
-	public static final String stop=name+".stop"; 
-	public static final String get=name+".get"; 
-	public static final String close=name+".close";
-
-	public static final String[] methods = new String[]{Tracer.name,Tracer.tracing,Tracer.start,Tracer.stop,Tracer.get,Tracer.close,Tracer.clean}; 
-
-	@Override
-	public default String[] provides(){ return methods; }
-
-	@Override
-	public default boolean multiple(){ return true; }
-
-	@Override
-	public default Object run( Object... args ) throws Exception{
-		String service=name();
-		if( service.equals(name)){
-			add(args);
-			return null;
-		}
-
-		if(service.equals(get)){ return get(); }
-
-		if(service.equals(clean)){
-			this.clean();
-			return null;
-		}
-
-		if(service.equals(tracing)){ return this.tracing(); }
-
-		if(service.equals(start)){ return this.start(); }
-
-		if(service.equals(stop)){ return this.stop(); } 
-
-		if(service.equals(close)){
-			close();
-			return null;
-		} 
-
-		throw new Exception("Undefined service "+service);		
-	}
-
-	public static void trace( Object obj, Object...  args ){
-		try{ Service.run(name, obj, args); }catch(Exception e){}
-	}
 }

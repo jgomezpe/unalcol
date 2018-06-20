@@ -1,11 +1,6 @@
 package unalcol.types.real.array;
 
-import unalcol.io.*;
-import unalcol.services.MicroService;
-
 import java.io.*;
-
-
 
 /**
  * <p>Title: DoubleArraySimplePersistent </p>
@@ -16,7 +11,7 @@ import java.io.*;
  * @version 1.0
  */
 
-public class DoubleArrayPlainWrite extends MicroService<double[]> implements Write<double[]> {
+public class DoubleArrayPlainWrite implements DoubleArrayWrite {
     /**
      * Character used for separating the values in the array
      */
@@ -52,7 +47,6 @@ public class DoubleArrayPlainWrite extends MicroService<double[]> implements Wri
         this.separator = separator;
         this.write_dimension = write_dim;
     }
-
     
     /**
      * Writes an array to the given writer (writes the size and the values) using the associated separator char
@@ -60,8 +54,7 @@ public class DoubleArrayPlainWrite extends MicroService<double[]> implements Wri
      * @param out The writer object
      * @throws IOException IOException
      */
-    public void write(Writer out) throws IOException {
-    	double[] obj = caller();
+    public void write(double[] obj, Writer out) throws IOException {
         StringBuilder sb = new StringBuilder();
         int n = obj.length;
         if( write_dimension ){
@@ -77,4 +70,7 @@ public class DoubleArrayPlainWrite extends MicroService<double[]> implements Wri
         }
         out.write(sb.toString());
     }
+    
+	@Override
+	public String toString(){ return "DoubleArrayPlainWrite"; }    
 }

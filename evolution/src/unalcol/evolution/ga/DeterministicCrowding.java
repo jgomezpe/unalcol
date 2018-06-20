@@ -2,10 +2,9 @@ package unalcol.evolution.ga;
 
 import unalcol.search.population.PopulationReplacement;
 import unalcol.sort.Order;
-import unalcol.search.GoalBased;
+import unalcol.types.object.tagged.Tagged;
+import unalcol.search.BasicGoalBased;
 import unalcol.search.RealQualityGoal;
-import unalcol.Tagged;
-import unalcol.Thing;
 import unalcol.math.metric.QuasiMetric;
 
 /**
@@ -18,7 +17,7 @@ import unalcol.math.metric.QuasiMetric;
  *
  */
 
-public class DeterministicCrowding<T> extends Thing implements GoalBased<T,Double>, PopulationReplacement<T>{
+public class DeterministicCrowding<T> extends BasicGoalBased<T,Double> implements PopulationReplacement<T>{
 	/**
 	 * Distance between individuals
 	 **/
@@ -38,7 +37,7 @@ public class DeterministicCrowding<T> extends Thing implements GoalBased<T,Doubl
 	@Override
 	public Tagged<T>[] apply(Tagged<T>[] current, Tagged<T>[] next){
 		RealQualityGoal<T> goal = (RealQualityGoal<T>)goal();
-		Order<Double> order = goal.order();
+		Order order = goal.order();
 		Tagged<T>[] buffer = (Tagged<T>[])new Tagged[current.length];
 		for( int i=0; i<current.length; i+=2 ){
 			Tagged<T> P1, P2, C1, C2;

@@ -7,11 +7,11 @@ import unalcol.types.collection.tree.bplus.BPlusLeafNode;
 
 public class MemoryBPlus<T> extends BPlus<T> {
 
-	public MemoryBPlus(Order<T> order) {
+	public MemoryBPlus(Order order) {
 		super(order);
 	}
 
-	public MemoryBPlus(int BRANCHING, Order<T> order) {
+	public MemoryBPlus(int BRANCHING, Order order) {
 		super(BRANCHING, order);
 	}
 

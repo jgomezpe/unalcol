@@ -1,12 +1,11 @@
 package unalcol.search.population;
 
-import unalcol.Tagged;
-import unalcol.Thing;
-import unalcol.search.GoalBased;
+import unalcol.search.BasicGoalBased;
 import unalcol.search.selection.Elitism;
 import unalcol.search.selection.Selection;
+import unalcol.types.object.tagged.Tagged;
 
-public class TotalSelectionReplacement<T> extends Thing implements GoalBased<T,Double>, PopulationReplacement<T> {
+public class TotalSelectionReplacement<T> extends BasicGoalBased<T,Double> implements PopulationReplacement<T> {
 	protected Selection<T> selection=null;
 	
 	public TotalSelectionReplacement(){}

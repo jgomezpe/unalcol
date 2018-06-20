@@ -1,7 +1,6 @@
 package unalcol.random.integer;
 
 import unalcol.random.InverseGenerator;
-import unalcol.services.MicroService;
 
 //
 // Unalcol Random generation Pack 1.0 by Jonatan Gomez-Perdomo
@@ -53,7 +52,7 @@ import unalcol.services.MicroService;
  * (E-mail: <A HREF="mailto:jgomezpe@unal.edu.co">jgomezpe@unal.edu.co</A> )
  * @version 1.0
  */
-public class IntRoulette extends MicroService<Integer> implements InverseGenerator<Integer>, RandInt{
+public class IntRoulette  extends InverseGenerator<Integer> implements RandInt{
 	/**
 	 * Probability of generating an integer number [0,length(density))
 	 */

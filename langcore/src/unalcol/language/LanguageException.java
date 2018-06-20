@@ -1,7 +1,7 @@
 package unalcol.language;
 
+import unalcol.i18n.I18NException;
 import unalcol.io.Position;
-import unalcol.util.I18NException;
 
 public class LanguageException extends I18NException{
 	protected Position position;

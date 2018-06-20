@@ -5,9 +5,9 @@
  */
 package unalcol.search.population;
 
-import unalcol.Tagged;
 import unalcol.search.Search;
 import unalcol.search.space.Space;
+import unalcol.types.object.tagged.Tagged;
 
 /**
  *

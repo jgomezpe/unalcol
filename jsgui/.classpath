@@ -2,7 +2,8 @@
 <classpath>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry kind="lib" path="/home/jgomez/git/unalcol/libs/defs.jar"/>
-	<classpathentry kind="lib" path="/home/jgomez/git/unalcol/libs/reflection.jar"/>
+	<classpathentry kind="lib" path="/home/jgomez/git/unalcol/libs/gui.jar"/>
+	<classpathentry kind="lib" path="/home/jgomez/git/unalcol/libs/core.jar"/>
+	<classpathentry kind="lib" path="/home/jgomez/git/unalcol/libs/vc.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

@@ -2,9 +2,7 @@ package math;
 
 import unalcol.math.statistics.Histogram;
 import unalcol.random.integer.IntUniform;
-import unalcol.random.raw.JavaGenerator;
 import unalcol.services.Service;
-import unalcol.services.ServicePool;
 import unalcol.types.integer.IntegerOrder;
 import unalcol.types.integer.IntegerPlainRead;
 import unalcol.types.integer.array.IntArrayPlainRead;
@@ -13,15 +11,11 @@ import unalcol.types.real.DoublePlainRead;
 
 public class HistogramDemo {
 	public static void init_services(){
-		ServicePool service = new ServicePool();
-        service.register(new JavaGenerator(), Object.class);         
-    	service.register(new IntegerOrder(), Integer.class);
-    	service.register(new DoublePlainRead(), Double.class);
-    	service.register(new IntegerPlainRead(), Integer.class);
-    	service.register(new IntArrayPlainRead(), int[].class);
-        service.register(new IntArrayPlainWrite(), int[].class);
-//        service.register(new ConsoleTracer(), Object.class);
-        Service.set(service);
+    	Service.register(new IntegerOrder(), Integer.class);
+    	Service.register(new DoublePlainRead(), Double.class);
+    	Service.register(new IntegerPlainRead(), Integer.class);
+    	Service.register(new IntArrayPlainRead(), int[].class);
+        Service.register(new IntArrayPlainWrite(), int[].class);
 	}
 	
 	public static void main(String[] args){

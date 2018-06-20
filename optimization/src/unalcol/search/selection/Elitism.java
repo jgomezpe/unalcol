@@ -63,11 +63,11 @@ public class Elitism<T,R> extends GoalBasedSelection<T,R>{
 	 */
 	@Override
 	public int[] apply( int n, R[] x ){
-		Order<R> order = goal().order();
+		Order order = goal().order();
 		int[] sel = new int[n];
 		int s = x.length;
 		SortedVector<KeyValue<Integer,R>> indexq = new SortedVector<KeyValue<Integer,R>>( 
-			new ReversedOrder<KeyValue<Integer,R>>( new ValueOrder<Integer,R>(order) ) );
+			new ReversedOrder( new ValueOrder<Integer,R>(order) ) );
 		for( int i=0; i<s; i++ ) indexq.add(new KeyValue<Integer,R>(i, x[i] ) );
       
 		int m = (int) (s * elite_percentage);
@@ -94,7 +94,7 @@ public class Elitism<T,R> extends GoalBasedSelection<T,R>{
 	 */
 	@Override
 	public int choose_one( R[] x ){
-		Order<R> order = goal().order();
+		Order order = goal().order();
 		int k = 0;
 		R q = x[k];
 		for( int i=1; i<x.length; i++ ){

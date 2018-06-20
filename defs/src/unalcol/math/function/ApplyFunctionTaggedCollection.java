@@ -2,12 +2,12 @@ package unalcol.math.function;
 
 import java.util.Iterator;
 
-import unalcol.Tagged;
 import unalcol.types.collection.Collection;
+import unalcol.types.object.tagged.Tagged;
 
 public class ApplyFunctionTaggedCollection<S,T>  implements Collection<T>{
 	protected Function<S,T> function;
-	protected Collection<Tagged<S>> collection=null;
+	protected Collection<unalcol.types.object.tagged.Tagged<S>> collection=null;
     
 	protected class ApplyFunctionTaggedCollectionIterator implements Iterator<T>{
 		protected Iterator<Tagged<S>> iterator;

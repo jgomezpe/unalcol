@@ -1,16 +1,19 @@
 package unalcol.types.collection.sparse;
 
 import unalcol.clone.Clone;
-import unalcol.services.MicroService;
+import unalcol.clone.Cloneable;
 import unalcol.types.collection.keymap.KeyValue;
 import unalcol.types.collection.vector.SortedVector;
 
-public class SparseArrayClone<T>  extends MicroService<ImmutableSparseArray<T>> implements Clone<ImmutableSparseArray<T>> {
+public class SparseArrayClone<T> implements Clone{
+	@SuppressWarnings("unchecked")
+	public ImmutableSparseArray<T> clone( ImmutableSparseArray<T> toClone ){
+		SortedVector<KeyValue<Integer,T>> c = (SortedVector<KeyValue<Integer,T>>)Cloneable.cast(toClone.vector).clone();
+		if( toClone instanceof SparseArray ) return new SparseArray<T>(c);
+		else return new ImmutableSparseArray<T>(c);
+	}
+
 	@SuppressWarnings("unchecked")
 	@Override
-	public ImmutableSparseArray<T> clone(){
-		ImmutableSparseArray<T> toClone = caller();
-		if( toClone instanceof SparseArray ) return new SparseArray<T>( (SortedVector<KeyValue<Integer,T>>)Clone.create(toClone.vector));
-		else return new ImmutableSparseArray<T>( (SortedVector<KeyValue<Integer,T>>)Clone.create(toClone.vector));
-	}
+	public Object clone(Object obj){ return clone((ImmutableSparseArray<T>)obj); }
 }

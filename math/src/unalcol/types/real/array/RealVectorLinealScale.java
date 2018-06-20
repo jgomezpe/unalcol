@@ -5,7 +5,7 @@ import unalcol.types.collection.array.ImmutableArray;
 import unalcol.types.real.*;
 
 
-public class RealVectorLinealScale extends InvertableScale<double[]> {
+public class RealVectorLinealScale implements InvertableScale<double[]> {
     protected double originalMin;
     protected ToZeroOneLinealScale[] scale;
 

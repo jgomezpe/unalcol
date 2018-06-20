@@ -1,7 +1,7 @@
 package unalcol.evolution.haea;
 import unalcol.types.collection.vector.*;
 import unalcol.random.integer.*;
-import unalcol.random.raw.RawGenerator;
+import unalcol.random.raw.UsesRawGenerator;
 import unalcol.search.variation.Variation;
 import unalcol.types.real.array.DoubleArray;
 
@@ -15,7 +15,7 @@ import unalcol.types.real.array.DoubleArray;
  * @author Jonatan Gomez
  * @version 1.0
  */
-public abstract class HaeaOperators<T>{
+public abstract class HaeaOperators<T> extends UsesRawGenerator{
     /**
      * Roulette selection mechanism (for selecting the genetic operator)
      */
@@ -100,7 +100,7 @@ public abstract class HaeaOperators<T>{
      */
     public void reward(double[] r, int operIndex) {
         if( operIndex >= 0 ){
-            r[operIndex] += (1.0 - r[operIndex]) * RawGenerator.next(this);
+            r[operIndex] += (1.0 - r[operIndex]) * raw().next();
             DoubleArray.normalize(r);
         }
     }
@@ -112,7 +112,7 @@ public abstract class HaeaOperators<T>{
      */
     public void punish(double[] r, int operIndex) {
         if( operIndex >= 0 ){
-            r[operIndex] -= r[operIndex] *  RawGenerator.next(this);
+            r[operIndex] -= r[operIndex] * raw().next();
             DoubleArray.normalize(r);
         }    
     }
@@ -138,7 +138,7 @@ public abstract class HaeaOperators<T>{
         int m = rates.size();
         if( m < n ){
             for( int i=m; i<n; i++){
-                double[] r = DoubleArray.random( numberOfOperatorsPerIndividual() );
+                double[] r = raw().raw( numberOfOperatorsPerIndividual() );
                 DoubleArray.normalize(r);
                 rates.add(r);            
                 sel_oper.add(-1);

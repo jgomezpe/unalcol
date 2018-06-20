@@ -1,6 +1,5 @@
 package unalcol.types.real;
 
-import unalcol.services.MicroService;
 import unalcol.sort.*;
 
 
@@ -13,7 +12,7 @@ import unalcol.sort.*;
  * @version 1.0
  */
 
-public class DoubleOrder extends MicroService<Double> implements Order<Double> {
+public class DoubleOrder implements Order {
 
     /**
      * Determines if the first Double is less than (in some order) the second Double (one<two)
@@ -21,8 +20,11 @@ public class DoubleOrder extends MicroService<Double> implements Order<Double> {
      * @param two Second Double
      * @return (one<two)
      */
-    @Override
-    public int compare(Double one, Double two) {
-        return one.compareTo(two);
-    }
+    public int compare(Double one, Double two){ return one.compareTo(two); }
+
+	@Override
+	public int compare(Object one, Object two){ return compare((Double)one, (Double)two); }
+	
+	@Override
+	public String toString(){ return "DoubleOrder"; }
 }

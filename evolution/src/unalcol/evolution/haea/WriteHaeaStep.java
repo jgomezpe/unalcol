@@ -3,12 +3,13 @@ package unalcol.evolution.haea;
 import java.io.IOException;
 import java.io.Writer;
 
+import unalcol.io.Writable;
 import unalcol.io.Write;
-import unalcol.services.MicroService;
 
-public class WriteHaeaStep<T> extends MicroService<HaeaStep<T>> implements Write<HaeaStep<T>> {
+public class WriteHaeaStep<T> implements Write{
+	public void write(HaeaStep<T> step, Writer writer) throws IOException{ Writable.cast(step.operators()).write(writer); }
+
+	@SuppressWarnings("unchecked")
 	@Override
-	public void write(Writer writer) throws IOException {
-		Write.to(caller().operators(), writer);
-	}
+	public void write(Object obj, Writer writer) throws IOException { write((HaeaStep<T>)obj, writer); }
 }

@@ -2,7 +2,6 @@ package unalcol.random.raw;
 
 import java.util.*;
 
-import unalcol.services.MicroService;
 
 //
 // Unified Random generation Pack 1.0 by Jonatan Gómez-Perdomo
@@ -55,7 +54,7 @@ import unalcol.services.MicroService;
  * (E-mail: <A HREF="mailto:jgomezpe@unal.edu.co">jgomezpe@unal.edu.co</A> )
  * @version 1.0
  */
-public abstract class SeedableGenerator extends MicroService<Object> implements RawGenerator {
+public abstract class SeedableGenerator implements RawGenerator {
 
     /**
      * Generators Seed

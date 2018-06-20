@@ -8,11 +8,11 @@ import unalcol.types.collection.tree.bplus.immutable.ImmutableNode;
 public abstract class BPlus<T> extends ImmutableBPlus<T> implements MutableCollection<BPlusLocation<T>,T> {
 	public static final int MIN_BRANCHING = 6;
 	protected int BRANCHING;
-    public BPlus( Order<T> order ){
+    public BPlus( Order order ){
         this( MIN_BRANCHING, order );
     }
 
-    public BPlus( int BRANCHING, Order<T> order ){
+    public BPlus( int BRANCHING, Order order ){
         super( order );
         this.BRANCHING = BRANCHING<MIN_BRANCHING?MIN_BRANCHING:BRANCHING;
     }

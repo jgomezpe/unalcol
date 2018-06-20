@@ -1,9 +1,8 @@
 package evolution;
 
 import unalcol.search.variation.Variation_1_1;
-import unalcol.services.MicroService;
 
-public class NodeMutation extends MicroService<Node> implements Variation_1_1<Node>{
+public class NodeMutation implements Variation_1_1<Node>{
 	String[] codes = new String[]{"-9", "-8",};
 	  /**
 	   * Flips a bit in the given genome

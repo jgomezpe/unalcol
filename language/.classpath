@@ -6,5 +6,7 @@
 	<classpathentry kind="lib" path="/home/jgomez/git/unalcol/libs/services.jar"/>
 	<classpathentry kind="lib" path="/home/jgomez/git/unalcol/libs/types.jar"/>
 	<classpathentry kind="lib" path="/home/jgomez/git/unalcol/libs/primitives.jar"/>
+	<classpathentry kind="lib" path="/home/jgomez/git/unalcol/libs/core.jar"/>
+	<classpathentry kind="lib" path="/home/jgomez/git/unalcol/libs/langcore.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

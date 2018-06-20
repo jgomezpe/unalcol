@@ -6,8 +6,6 @@ package unalcol.types.real.array.sparse;
 
 import java.io.IOException;
 import java.io.Writer;
-import unalcol.io.Write;
-import unalcol.services.MicroService;
 import unalcol.types.collection.Collection;
 import unalcol.types.collection.keymap.KeyValue;
 
@@ -15,7 +13,7 @@ import unalcol.types.collection.keymap.KeyValue;
  *
  * @author jgomez
  */
-public class SparseRealVectorPlainWriteService extends MicroService<SparseRealVector> implements Write<SparseRealVector> {
+public class SparseRealVectorPlainWriteService implements SparseRealVectorWrite{
     /**
      * Character used for separating the values in the array
      */
@@ -59,8 +57,7 @@ public class SparseRealVectorPlainWriteService extends MicroService<SparseRealVe
      * @throws IOException IOException
      */
     @Override
-    public void write(Writer out) throws IOException {
-    	SparseRealVector obj=caller();
+    public void write(SparseRealVector obj, Writer out) throws IOException {
         StringBuilder sb = new StringBuilder();
         int n = obj.size();
         if( write_dimension ){

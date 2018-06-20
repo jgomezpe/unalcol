@@ -2,7 +2,7 @@ package unalcol.types.integer.array;
 
 import unalcol.random.integer.IntUniform;
 import unalcol.types.collection.array.ImmutableArray;
-import unalcol.types.object.FiboArray;
+import unalcol.types.object.array.FiboArray;
 
 public class IntArray extends FiboArray{
 	protected int[] buffer;

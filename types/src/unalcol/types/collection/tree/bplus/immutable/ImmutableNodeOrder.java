@@ -4,21 +4,19 @@
  */
 package unalcol.types.collection.tree.bplus.immutable;
 
-import unalcol.services.MicroService;
 import unalcol.sort.Order;
 
 /**
  *
  * @author jgomez
  */
-public class ImmutableNodeOrder<T> extends MicroService<ImmutableNode<T>> implements Order<ImmutableNode<T>>{
-    protected Order<T> inner;
-    public ImmutableNodeOrder( Order<T> _inner ){
-        inner = _inner;
-    }
-    @Override
-    public int compare(ImmutableNode<T> a, ImmutableNode<T> b){
-        return inner.compare(a.leftKey(), b.leftKey());
-    }
+public class ImmutableNodeOrder<T> implements Order{
+    protected Order inner;
+    public ImmutableNodeOrder( Order _inner ){ inner = _inner; }
+    
+    public int compare(ImmutableNode<T> a, ImmutableNode<T> b){ return inner.compare(a.leftKey(), b.leftKey()); }
 
+	@SuppressWarnings("unchecked")
+	@Override
+	public int compare(Object a, Object b){ return compare((ImmutableNode<T>)a, (ImmutableNode<T>)b); }
 }

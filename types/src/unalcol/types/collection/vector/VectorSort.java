@@ -2,8 +2,7 @@ package unalcol.types.collection.vector;
 import unalcol.algorithm.*;
 import unalcol.sort.*;
 import unalcol.sort.algorithm.*;
-import unalcol.clone.*;
-import unalcol.services.Service;
+import unalcol.clone.Cloneable;;
 
 /**
  * <p>Title: </p>
@@ -31,15 +30,15 @@ public class VectorSort<T> extends Algorithm<Vector<T>,Vector<T>> {
         sort = _sort;
     }
 
-    public VectorSort( Order<T> _order ) {
+    public VectorSort( Order _order ) {
         sort = new MergeSort<T>( _order );
     }
 
-    public void apply( Vector<T> input, Order<T> order ){
+    public void apply( Vector<T> input, Order order ){
         apply( input, 0, input.size, order );
     }
 
-    public void apply( Vector<T> input, int start, int end, Order<T> order ){
+    public void apply( Vector<T> input, int start, int end, Order order ){
         T[] obj = (T[])input.buffer;
         sort.apply( obj, start, end, order );
     }
@@ -47,8 +46,11 @@ public class VectorSort<T> extends Algorithm<Vector<T>,Vector<T>> {
     @SuppressWarnings("unchecked")
 	public Vector<T> apply( Vector<T> input ){
         if( input.size() > 0 ){
-            if (!overwrite) try{ input = (Vector<T>)Service.run(Clone.name, input); }catch( Exception e ){}
-            Order<T> order = sort.getOrder();
+            if (!overwrite){
+            	Cloneable c = Cloneable.cast(input);
+            	input = (Vector<T>)c.clone();
+            }
+            Order order = sort.order();
             apply(input, 0, input.size, order);
         }
         return input;

@@ -1,10 +1,7 @@
 package unalcol.search;
 
-import unalcol.AbstractThing;
-
-public interface GoalBased<T,R> extends AbstractThing{
-	@SuppressWarnings("unchecked")
-	public default Goal<T,R> goal(){ return (Goal<T,R>)get(Goal.name); }
+public interface GoalBased<T,R>{
+	public Goal<T,R> goal();
 	
-	public default void setGoal(Goal<T,R> goal ){ set(Goal.name, goal); } 
+	public void setGoal(Goal<T,R> goal ); 
 }

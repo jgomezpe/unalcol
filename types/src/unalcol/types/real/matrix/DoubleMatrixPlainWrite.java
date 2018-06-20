@@ -1,11 +1,6 @@
 package unalcol.types.real.matrix;
 
-import unalcol.io.*;
-import unalcol.services.MicroService;
-
 import java.io.*;
-
-
 
 /**
  * <p>Title: DoubleMatrixSimplePersistent </p>
@@ -16,7 +11,7 @@ import java.io.*;
  * @version 1.0
  */
 
-public class DoubleMatrixPlainWrite extends MicroService<double[][]> implements Write<double[][]> {
+public class DoubleMatrixPlainWrite implements DoubleMatrixWrite{
     /**
      * Character used for separating the values in the array
      */
@@ -41,8 +36,7 @@ public class DoubleMatrixPlainWrite extends MicroService<double[][]> implements 
      * @param out The writer object
      * @throws IOException IOException
      */
-    public void write( Writer out) throws IOException {
-	double[][] obj = caller();
+    public void write( double[][] obj, Writer out) throws IOException {
         int n = obj.length;
         int m = (n>0)?obj[0].length:0;
         out.write(n);
@@ -56,4 +50,7 @@ public class DoubleMatrixPlainWrite extends MicroService<double[][]> implements 
             }
         }
     }
+    
+	@Override
+	public String toString(){ return "DoubleMatrixPlainWrite"; }	    
 }

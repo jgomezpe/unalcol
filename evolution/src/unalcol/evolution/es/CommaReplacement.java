@@ -4,8 +4,8 @@
  */
 package unalcol.evolution.es;
 
-import unalcol.Tagged;
 import unalcol.search.selection.Selection;
+import unalcol.types.object.tagged.Tagged;
 
 /**
  *

@@ -5,7 +5,7 @@
  */
 package unalcol.search.replacement;
 
-import unalcol.Tagged;
+import unalcol.types.object.tagged.Tagged;
 
 /**
  *

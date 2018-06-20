@@ -1,7 +1,5 @@
 package unalcol.tracer;
 
-import unalcol.services.MicroService;
-
 //
 //Unalcol Service structure Pack 1.0 by Jonatan Gomez-Perdomo
 //https://github.com/jgomezpe/unalcol/tree/master/services/
@@ -50,7 +48,7 @@ import unalcol.services.MicroService;
 * (E-mail: <A HREF="mailto:jgomezpe@unal.edu.co">jgomezpe@unal.edu.co</A> )
 * @version 1.0
 */
-public class SingleResultTracer<T> extends MicroService<T> implements Tracer<T> {
+public class SingleResultTracer extends BasicTracer{
 	/**
 	 * Traced information
 	 */
@@ -65,7 +63,7 @@ public class SingleResultTracer<T> extends MicroService<T> implements Tracer<T> 
 	 * Replaces the traced information with a new one
 	 * @param obj Traced information
 	 */
-	public void add(Object... obj){ object = obj; }
+	public void add(Object caller, Object... obj){ object = obj; }
 
 	/**
 	 * Returns the traced information
@@ -82,23 +80,7 @@ public class SingleResultTracer<T> extends MicroService<T> implements Tracer<T> 
 	 * Closes the tracer (does nothing)
 	 */
 	public void close() {};
-
-	protected boolean isTracing=false;
-
+	
 	@Override
-	public boolean tracing() { return isTracing; }
-
-	@Override
-	public boolean start() {
-		boolean old = isTracing;
-		isTracing=true;
-		return old;
-	}
-
-	@Override
-	public boolean stop() {
-		boolean old = isTracing;
-		isTracing=false;
-		return old;
-	}    
+	public String toString(){ return "SingleResultTracer"; }	
 }

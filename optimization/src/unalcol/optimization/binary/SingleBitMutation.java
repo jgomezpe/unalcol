@@ -1,11 +1,8 @@
 package unalcol.optimization.binary;
 
 import unalcol.types.collection.bitarray.BitArray;
-import unalcol.random.raw.RawGenerator;
-import unalcol.random.raw.RawGeneratorWrapper;
+import unalcol.random.integer.IntUniform;
 import unalcol.search.variation.Variation_1_1;
-import unalcol.services.AbstractMicroService;
-import unalcol.services.MicroService;
 
 /**
  * <p>Title: SingleBitMutation</p>
@@ -16,29 +13,21 @@ import unalcol.services.MicroService;
  * @version 1.0
  */
 
-public class SingleBitMutation extends MicroService<BitArray> implements Variation_1_1<BitArray> {
-	public AbstractMicroService<?> wrap(String id){
-		if(id.equals(RawGenerator.name)) return new RawGeneratorWrapper();
+public class SingleBitMutation implements Variation_1_1<BitArray> {
+	protected IntUniform g = new IntUniform(0);
+	/**
+	 * Flips a bit in the given genome
+	 * @param genome Genome to be modified
+	 * @return Index of the flipped bit
+	 */
+	public BitArray apply(BitArray genome) {
+		genome = new BitArray(genome);
+		int pos = -1;
+		try{
+			g.set(genome.size());
+			pos = g.next();
+			genome.not(pos);
+		}catch(Exception e){ System.err.println("[Mutation]" + e.getMessage()); }          
 		return null;
 	}
-  /**
-   * Flips a bit in the given genome
-   * @param genome Genome to be modified
-   * @return Index of the flipped bit
-   */
-  public BitArray apply(BitArray genome) {
-      try {
-          genome = new BitArray(genome);
-          int pos = -1;
-          try {
-              RawGenerator g = (RawGenerator)getMicroService(RawGenerator.name);
-              pos = g.integer(genome.size());
-              genome.not(pos);
-          } catch (Exception e) {
-              System.err.println("[Mutation]" + e.getMessage());
-          }          
-          return genome;
-      } catch (Exception e) {}
-      return null;
-  }
 }

@@ -19,7 +19,7 @@ public class InsertionSort<T> extends Sort<T> {
    * Crates a Insertion sort algorithm with the given order
    * @param order Order used for sorting the objects
    */
-  public InsertionSort( Order<T> order ){
+  public InsertionSort( Order order ){
       super( order );
   }
 
@@ -28,7 +28,7 @@ public class InsertionSort<T> extends Sort<T> {
    * @param order Order used for sorting the objects
    * @param overwrite If the array should be overwritten or not
    */
-  public InsertionSort( Order<T> order, boolean overwrite ){
+  public InsertionSort( Order order, boolean overwrite ){
       super( order, overwrite );
   }
 

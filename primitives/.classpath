@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<classpath>
-	<classpathentry kind="src" path="src"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry kind="lib" path="/home/jgomez/git/unalcol/libs/random.jar"/>
-	<classpathentry kind="lib" path="/home/jgomez/git/unalcol/libs/defs.jar"/>
-	<classpathentry kind="lib" path="/home/jgomez/git/unalcol/libs/services.jar"/>
-	<classpathentry kind="output" path="bin"/>
-</classpath>

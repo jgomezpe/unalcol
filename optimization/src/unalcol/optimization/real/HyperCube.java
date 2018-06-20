@@ -6,7 +6,6 @@
 package unalcol.optimization.real;
 
 import unalcol.search.space.Space;
-import unalcol.services.MicroService;
 import unalcol.types.real.array.DoubleArray;
 import unalcol.types.real.array.DoubleArrayInstance;
 
@@ -14,7 +13,7 @@ import unalcol.types.real.array.DoubleArrayInstance;
  *
  * @author jgomez
  */
-public class HyperCube extends MicroService<double[]> implements Space<double[]> {
+public class HyperCube implements Space<double[]> {
     protected DoubleArrayInstance instance;
     protected double[] min;
     protected double[] max;

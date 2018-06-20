@@ -1,10 +1,9 @@
 package unalcol.types.integer.array;
 import java.io.IOException;
 
-import unalcol.io.*;
-import unalcol.services.AbstractMicroService;
-import unalcol.services.MicroService;
+import unalcol.io.Read;
 import unalcol.types.collection.UnalcolIterator;
+import unalcol.types.integer.IntegerRead;
 
 
 /**
@@ -16,10 +15,11 @@ import unalcol.types.collection.UnalcolIterator;
  * @version 1.0
  */
 
-public class IntArrayPlainRead extends MicroService<int[]>  implements Read<int[]>{
+public class IntArrayPlainRead implements IntArrayRead{
 	protected boolean read_dimension = true;
 	protected char separator = ' ';
 	protected int n=-1;
+	protected IntegerRead ri;
 	
 	public IntArrayPlainRead(){}
 	
@@ -38,10 +38,7 @@ public class IntArrayPlainRead extends MicroService<int[]>  implements Read<int[
 		read_dimension = (n <=0 );
 	}
 	
-	public AbstractMicroService<?> wrap(String id){
-		if( id.equals(Read.name) ) return new ReadWrapper<Integer>();
-		return null;
-	}
+	public void setReadIn(IntegerRead ri){ this.ri = ri; }
 	
    /**
      * Reads an array from the input stream (the first value is the array's size and the following values are the values in the array)
@@ -49,9 +46,6 @@ public class IntArrayPlainRead extends MicroService<int[]>  implements Read<int[
      * @throws IOException IOException
      */
     public int[] read(UnalcolIterator<?,Integer> reader) throws IOException{
-    	@SuppressWarnings("unchecked")
-		Read<Integer> ri = (Read<Integer>)getMicroService(Read.name);
-    	ri.setCaller(n);
         if( read_dimension ){
         	n = ri.read(reader);
             Read.readSeparator(reader, separator);        	
@@ -64,4 +58,7 @@ public class IntArrayPlainRead extends MicroService<int[]>  implements Read<int[
         if( n-1 >= 0 ) a[n-1] = ri.read(reader);
         return a;
     }
+   
+	@Override
+	public String toString(){ return "IntArrayPlainRead"; }	    
 }

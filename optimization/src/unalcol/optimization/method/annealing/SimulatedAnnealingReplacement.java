@@ -7,7 +7,7 @@ package unalcol.optimization.method.annealing;
 
 import unalcol.optimization.method.hillclimbing.HillClimbingReplacement;
 import unalcol.search.Goal;
-import unalcol.Tagged;
+import unalcol.types.object.tagged.Tagged;
 
 /**
  *

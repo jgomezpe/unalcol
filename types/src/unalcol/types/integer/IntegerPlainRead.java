@@ -4,8 +4,6 @@
  */
 
 package unalcol.types.integer;
-import unalcol.io.*;
-import unalcol.services.MicroService;
 import unalcol.types.collection.UnalcolIterator;
 
 import java.io.*;
@@ -14,7 +12,7 @@ import java.io.*;
  *
  * @author jgomez
  */
-public class IntegerPlainRead extends MicroService<Integer> implements Read<Integer>{
+public class IntegerPlainRead implements IntegerRead{
 	
 	public static void readDigitStar( UnalcolIterator<?,Integer> reader, StringBuilder sb ){
 		boolean flag = true;
@@ -56,4 +54,7 @@ public class IntegerPlainRead extends MicroService<Integer> implements Read<Inte
 		removeSpaces(reader);
 		return Integer.parseInt(number(reader));
     }
+	
+	@Override
+	public String toString(){ return "IntegerPlainRead"; }		
 }

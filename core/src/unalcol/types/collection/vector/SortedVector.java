@@ -1,7 +1,7 @@
 package unalcol.types.collection.vector;
 
 import unalcol.sort.*;
-import unalcol.types.object.BinarySearch;
+import unalcol.types.object.array.BinarySearch;
 
 /**
  * <p>Title: SortedVector</p>
@@ -18,27 +18,27 @@ import unalcol.types.object.BinarySearch;
 public class SortedVector<T> extends Vector<T>{
 	
     protected BinarySearch<T> search;
-    protected Order<T> order;
+    protected Order order;
 
-    public SortedVector( T[] buffer, int n, Order<T> order ){
+    public SortedVector( T[] buffer, int n, Order order ){
         super( buffer, n );
         this.order = order;
         search = new BinarySearch<T>(this.buffer, order);
     }
 
-    public SortedVector( T[] buffer, Order<T> order ){
+    public SortedVector( T[] buffer, Order order ){
         super( buffer );
         this.order = order;
         search = new BinarySearch<T>(this.buffer, order);
     }
 
-    public SortedVector( Vector<T> buffer, Order<T> order ){
+    public SortedVector( Vector<T> buffer, Order order ){
         super( buffer.buffer, buffer.size() );
         this.order = order;
         search = new BinarySearch<T>(this.buffer, order);
     }
 
-    public SortedVector( Order<T> order ) {
+    public SortedVector( Order order ) {
         super();
         this.order = order;
         search = new BinarySearch<T>(this.buffer, order);

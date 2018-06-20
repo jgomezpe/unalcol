@@ -1,7 +1,6 @@
 package unalcol.tracer;
 
 import unalcol.io.Write;
-import unalcol.services.MicroService;
 
 //
 //Unalcol Service structure Pack 1.0 by Jonatan Gomez-Perdomo
@@ -51,7 +50,7 @@ import unalcol.services.MicroService;
 * (E-mail: <A HREF="mailto:jgomezpe@unal.edu.co">jgomezpe@unal.edu.co</A> )
 * @version 1.0
 */
-public abstract class OutputStreamTracer<T> extends MicroService<T> implements Tracer<T> {	
+public abstract class OutputStreamTracer extends BasicTracer {	
 	/**
 	 * Determines if a new line symbol is added after tracing an object
 	 */
@@ -97,7 +96,7 @@ public abstract class OutputStreamTracer<T> extends MicroService<T> implements T
 	 * @param obj Traced information to be shown in the console
 	 */
 	@Override
-	public void add(Object... obj) {
+	public void add(Object caller, Object... obj) {
 		if( tracing() && obj.length > 0 ){
 			write(SEPARATOR+Write.toString(obj[0]));
 			for( int i=1; i<obj.length; i++ ) write(SEPARATOR+Write.toString(obj[i]));
@@ -110,24 +109,5 @@ public abstract class OutputStreamTracer<T> extends MicroService<T> implements T
 	 * @return null since the console does not store the traced information
 	 */
 	@Override
-	public Object get() { return null; }
-    
-	protected boolean isTracing=false;
-	
-	@Override
-	public boolean tracing() { return isTracing; }
-
-	@Override
-	public boolean start() {
-		boolean old = isTracing;
-		isTracing=true;
-		return old;
-	}
-
-	@Override
-	public boolean stop() {
-		boolean old = isTracing;
-		isTracing=false;
-		return old;
-	}    
+	public Object get() { return null; }    
 }

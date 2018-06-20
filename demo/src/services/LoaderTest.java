@@ -1,6 +1,6 @@
 package services;
 
-import unalcol.reflect.util.Loader;
+import unalcol.reflect.Loader;
 
 public class LoaderTest {
 	public static void main( String[] args ){
@@ -10,7 +10,8 @@ public class LoaderTest {
 		String clNm = "[[[L" + ocl.getName() + ";";
 		try {
 			// Load the class of an 3D array of the base class
-			Class<?> cl = Loader.loadClass(clNm);
+			Loader loader = new Loader();
+			Class<?> cl = loader.loadClass(clNm);
 			// Prints the class name of the 3D array of the base class
 			System.out.println( cl.getName() );
 		} catch (ClassNotFoundException e) {

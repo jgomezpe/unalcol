@@ -1,14 +1,15 @@
 package unalcol.js.gui;
 
 import unalcol.gui.editor.EditorView;
-import unalcol.js.vc.view.JSSimpleView;
+import unalcol.vc.DefaultComponent;
 
-public class JSEditorView extends JSSimpleView implements EditorView{
+public class JSEditorView extends DefaultComponent implements EditorView{
+
+	public JSEditorView(String id){ super(id); }
 
 	@Override
 	public void highlight(int row) {
-		// TODO Auto-generated method stub
-		
+		// TODO Auto-generated method stub		
 	}
 
 	@Override

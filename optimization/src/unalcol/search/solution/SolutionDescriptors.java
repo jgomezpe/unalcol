@@ -1,17 +1,20 @@
 package unalcol.search.solution;
 
-import unalcol.Tagged;
 import unalcol.descriptors.Descriptors;
 import unalcol.search.Goal;
-import unalcol.services.MicroService;
+import unalcol.types.object.tagged.Tagged;
 
-public class SolutionDescriptors<T> extends MicroService<Tagged<T>> implements Descriptors<Tagged<T>> {
+public class SolutionDescriptors<T> implements Descriptors{
 	protected Goal<T,Double> goal;
 
 	public SolutionDescriptors( Goal<T,Double> goal ) { this.goal = goal; }
 
+	public double[] descriptors( Tagged<T> sol ){ return new double[]{goal.apply(sol)}; }
+
+	@SuppressWarnings("unchecked")
 	@Override
-	public double[] descriptors(){
-		return new double[]{goal.apply(caller())};
-	}
+	public double[] descriptors(Object sol ){ return descriptors((Tagged<T>)sol); }
+	
+	@Override
+	public String toString(){ return "SolutionDescriptor"; }	
 }

@@ -1,14 +1,14 @@
 package unalcol.random;
 
 import unalcol.random.raw.RawGenerator;
-import unalcol.random.raw.RawGeneratorWrapper;
-import unalcol.services.AbstractMicroService;
+import unalcol.random.raw.UsesRawGenerator;
 
-public interface InverseGenerator<T> extends RandomGenerator<T> {
-	public default AbstractMicroService<?> wrap(String id){
-		if(id.equals(RawGenerator.name)) return new RawGeneratorWrapper();
-		return null;
-	}
+public abstract class InverseGenerator<T> extends UsesRawGenerator implements RandomGenerator<T> {
+	protected RawGenerator g=null;
+	
+	public InverseGenerator(){}
+	
+	public InverseGenerator( RawGenerator g ){ super(g); }
 	
     /**
      * Returns a random double number
@@ -22,5 +22,5 @@ public interface InverseGenerator<T> extends RandomGenerator<T> {
      * @return A random double number
      */
     @Override
-    public default T next(){ return next(((RawGenerator)getMicroService(RawGenerator.name)).next()); }
+    public T next(){ return next(raw().next()); }
 }

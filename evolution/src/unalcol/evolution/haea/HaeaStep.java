@@ -5,6 +5,8 @@ import unalcol.search.GoalBased;
 import unalcol.search.population.RealBasedPopulationSearch;
 import unalcol.search.population.VariationReplacePopulationSearch;
 import unalcol.search.selection.Selection;
+import unalcol.search.space.Space;
+import unalcol.types.object.tagged.Tagged;
 
 /**
  * <p>Title: HAEA</p>
@@ -74,4 +76,10 @@ public class HaeaStep<T> extends VariationReplacePopulationSearch<T,Double> impl
 		return ((GoalBased<T,Double>)replace).goal();
 	}
 	
+	@Override
+	public Tagged<T>[] init(Space<T> space){
+		Tagged<T>[] pop = super.init(space);
+		((HaeaVariation<T>)this.variation).operators().resize(pop.length);
+		return pop;
+	}
 }

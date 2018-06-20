@@ -14,7 +14,7 @@ import unalcol.types.collection.keymap.KeyValue;
 import unalcol.types.collection.tree.bplus.BPlusIterator;
 import unalcol.types.collection.tree.bplus.BPlusLocation;
 import unalcol.types.collection.tree.bplus.memory.MemoryLeafNode;
-import unalcol.types.object.BinarySearch;
+import unalcol.types.object.array.BinarySearch;
 
 /**
  *
@@ -22,19 +22,19 @@ import unalcol.types.object.BinarySearch;
  */
 public class ImmutableBPlus<T> implements SearchCollection<BPlusLocation<T>,T> {
     protected ImmutableInnerNode<T> root;
-    protected Order<T> order;
+    protected Order order;
     protected ImmutableNodeOrder<T> node_order;
     protected BinarySearch<T> search;
     protected BinarySearch<ImmutableNode<T>> node_search;
 
-    public ImmutableBPlus( Order<T> order ){
+    public ImmutableBPlus( Order order ){
     	this( order, null );
     }
     
-    public ImmutableBPlus( Order<T> order, ImmutableInnerNode<T> root ){
+    public ImmutableBPlus( Order order, ImmutableInnerNode<T> root ){
         this.root = root;
         this.order = order;
-        this.node_order = new ImmutableNodeOrder<>(order);
+        this.node_order = new ImmutableNodeOrder<T>(order);
         this.search = new BinarySearch<T>(null,order);
         this.node_search = new BinarySearch<ImmutableNode<T>>(null,node_order);
     }
@@ -44,8 +44,8 @@ public class ImmutableBPlus<T> implements SearchCollection<BPlusLocation<T>,T> {
         return search.findRight(0, n, key);
     }
 
-    public Order<T> key_order(){ return order; }
-    public Order<ImmutableNode<T>> node_order(){ return node_order; }
+    public Order key_order(){ return order; }
+    public Order node_order(){ return node_order; }
     
     @SuppressWarnings("unchecked")
 	protected MemoryLeafNode<T> search_aux = new MemoryLeafNode<T>( (T[])new Object[1], 1);

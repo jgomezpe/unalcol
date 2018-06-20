@@ -1,6 +1,6 @@
 package unalcol.random.real;
 
-import unalcol.services.MicroService;
+import unalcol.random.InverseGenerator;
 
 //
 //Unified Random generation Pack 1.0 by Jonatan Gómez-Perdomo
@@ -16,7 +16,7 @@ import unalcol.services.MicroService;
  *
  */
 
-public class UniformGenerator extends MicroService<Double> implements InverseRandDouble {
+public class UniformGenerator extends InverseGenerator<Double> implements RandDouble {
 
     /**
      * The inferior range of the random number generator interval

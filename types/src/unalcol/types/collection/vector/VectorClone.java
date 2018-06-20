@@ -1,20 +1,22 @@
 package unalcol.types.collection.vector;
 
 import unalcol.clone.Clone;
-import unalcol.services.MicroService;
-import unalcol.services.Service;
+import unalcol.clone.Cloneable;
 
-public class VectorClone<T>  extends MicroService<Vector<T>> implements Clone<Vector<T>> {
+public class VectorClone<T>  implements Clone {
+	@SuppressWarnings("unchecked")
+	public Vector<T> clone(Vector<T> toClone){
+		Cloneable c = Cloneable.cast(toClone.buffer);
+		if( toClone instanceof SortedVector )
+			return new SortedVector<T>((T[])c.clone(), toClone.size(), ((SortedVector<T>)toClone).order);
+		else
+			return new Vector<T>((T[])c.clone(), toClone.size());
+	}
+
 	@SuppressWarnings("unchecked")
 	@Override
-	public Vector<T> clone(){
-		Vector<T> toClone = caller();
-		try{
-			if( toClone instanceof SortedVector )
-				return new SortedVector<T>((T[])Service.run(Clone.name, toClone.buffer), toClone.size(), ((SortedVector<T>)toClone).order);
-			else
-				return new Vector<T>((T[])Service.run(Clone.name, toClone.buffer), toClone.size());
-		}catch(Exception e){}
-		return toClone;
-	}
+	public Object clone(Object obj){ return clone((Vector<T>)obj); }
+	
+	@Override
+	public String toString(){ return "VectorClone"; }	
 }

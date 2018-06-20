@@ -11,7 +11,7 @@ import unalcol.sort.Order;
  * @version 1.0
  */
 public class ArraySearch<T> {
-	protected Order<T> order=null;
+	protected Order order=null;
 	protected ImmutableArray<T> sorted=null;
 	
     /**
@@ -26,14 +26,14 @@ public class ArraySearch<T> {
      * @param sorted Array of elements (should be sorted)
      * @param order Order used for locating the object
      */
-	public ArraySearch(ImmutableArray<T> sorted, Order<T> order){
+	public ArraySearch(ImmutableArray<T> sorted, Order order){
 		this.order = order;
 		this.sorted = sorted;
 	}
 	
 	public void set(ImmutableArray<T> sorted){ this.sorted=sorted; }
 
-	public void set(Order<T> order){ this.order=order; }
+	public void set(Order order){ this.order=order; }
 
     /**
      * Searches for the position of the given element. The vector should be sorted

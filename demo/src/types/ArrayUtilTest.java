@@ -1,29 +1,19 @@
 package types;
 
-import unalcol.random.raw.JavaGenerator;
-import unalcol.random.raw.RawGenerator;
-import unalcol.services.Service;
-import unalcol.services.ServicePool;
-import unalcol.sort.Order;
-import unalcol.types.object.ArrayUtil;
+import unalcol.random.integer.IntUniform;
+import unalcol.random.integer.RandInt;
 import unalcol.types.integer.IntegerOrder;
+import unalcol.types.object.array.ArrayUtil;
 
 public class ArrayUtilTest {
-	public static void init_services(){
-		ServicePool service = new ServicePool();
-        service.register(new JavaGenerator(), Object.class);         
-//        service.register(new ConsoleTracer(), Object.class);
-        Service.set(service);
-	}
-
 	public static void main(String[] args){
 		try{
-			init_services();
 			Integer[] array = new Integer[100];
 			int n = 0;
-			Order<Integer> order = new IntegerOrder();
+			IntegerOrder order = new IntegerOrder();
+			RandInt g = new IntUniform(100);
 			for( int i=0; i<100; i++ ){
-	    		int x = (int)Service.run(RawGenerator.integer, Object.class, 100);
+	    		int x = g.next();
 	    		System.out.print("Adding.."+x + ":");    
 	    		boolean added = ArrayUtil.addToSortArray(n, array, x, order);
 	    		System.out.println(added);    
@@ -34,7 +24,7 @@ public class ArrayUtilTest {
 	        	System.out.println();
 	    	}
 	    	for( int i=0; i<20; i++ ){
-	    		int x = (int)Service.run(RawGenerator.integer, Object.class, 100);
+	    		int x = g.next();
 	    		System.out.print("Removing.."+x + ":");    
 	    		boolean removed = ArrayUtil.removeFromSortArray(n, array, x, order);
 	    		System.out.println(removed);    

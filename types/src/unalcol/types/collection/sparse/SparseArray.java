@@ -23,7 +23,7 @@ public class SparseArray<T> extends ImmutableSparseArray<T> implements Array<T> 
 	public boolean remove(Integer index){
 		loc.setKey(index);
 		index = vector.find(loc);
-		if( index >= 0 ) return vector.remove(index);
+		if( index != null ) return vector.remove(index);
 		return false;
 	}
 

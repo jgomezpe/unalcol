@@ -1,9 +1,6 @@
 package unalcol.io;
 import java.io.IOException;
-import java.util.Iterator;
 
-import unalcol.services.AbstractMicroService;
-import unalcol.services.Service;
 import unalcol.types.collection.UnalcolIterator;
 
 //
@@ -55,14 +52,14 @@ import unalcol.types.collection.UnalcolIterator;
 * @version 1.0
 * @param <T> Type of objects that will be read from the ShortTermMemoryReader.
 */
-public interface Read<T> extends AbstractMicroService<T>{
+public interface Read{
 	/**
 	 * Reads an object from the given reader
 	 * @param reader The input stream from which the object will be read
 	 * @return An object, of the type the read service is attending, that is read from the input stream
 	 * @throws IOException IOException
 	 */
-	public T read(UnalcolIterator<?,Integer> reader) throws IOException;
+	public Object read(Object obj, UnalcolIterator<?,Integer> reader) throws IOException;
 
 	/**
 	 * Reads space characters from a input reader up to finding the <i>separator</i> char.
@@ -77,18 +74,5 @@ public interface Read<T> extends AbstractMicroService<T>{
 			if( c==separator ) return;
 		}
 		throw new IOException("Non available separator...");
-	}	
-	
-	// The MicroService methods
-
-	public static final String name="read";
-
-	@SuppressWarnings("unchecked")
-	public default Object run( Object... args ) throws IOException{ return read((UnalcolIterator<?,Integer>)args[0]); }    
-
-	public default String[] provides(){ return new String[]{name}; }	
-
-	public static Object from( Object obj, Iterator<Integer> reader ){
-		try{ return Service.run(name, obj, reader); }catch(Exception e){ return null; }
 	}	
 }

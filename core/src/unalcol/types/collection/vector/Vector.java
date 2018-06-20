@@ -1,7 +1,7 @@
 package unalcol.types.collection.vector;
 
 import unalcol.types.collection.array.Array;
-import unalcol.types.object.FiboArray;
+import unalcol.types.object.array.FiboArray;
 
 public class Vector<T> extends FiboArray implements Array<T>{
 	protected T[] buffer;

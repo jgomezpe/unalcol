@@ -6,16 +6,16 @@
 package unalcol.optimization.method.hillclimbing;
 
 
-import unalcol.Tagged;
-import unalcol.Thing;
+import unalcol.search.BasicGoalBased;
 import unalcol.search.Goal;
 import unalcol.search.replacement.GoalBasedReplacement;
+import unalcol.types.object.tagged.Tagged;
 
 /**
  *
  * @author jgomez
  */
-public class HillClimbingReplacement<T> extends Thing implements GoalBasedReplacement<T,Double> {
+public class HillClimbingReplacement<T> extends BasicGoalBased<T, Double> implements GoalBasedReplacement<T,Double> {
     protected boolean neutral = false;
     
     public HillClimbingReplacement(){}
@@ -29,5 +29,5 @@ public class HillClimbingReplacement<T> extends Thing implements GoalBasedReplac
             return goal.compare(current, next) <= 0? next : current;
         else
             return goal.compare(current, next) < 0? next : current;
-    }    
+    }
 }

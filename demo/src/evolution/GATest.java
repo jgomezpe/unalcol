@@ -1,6 +1,5 @@
 package evolution;
 import optimization.MethodTest;
-import unalcol.Tagged;
 import unalcol.evolution.EAFactory;
 import unalcol.optimization.OptimizationFunction;
 import unalcol.optimization.binary.BitMutation;
@@ -15,6 +14,7 @@ import unalcol.search.population.PopulationSearch;
 import unalcol.search.selection.Tournament;
 import unalcol.search.space.Space;
 import unalcol.types.collection.bitarray.BitArray;
+import unalcol.types.object.tagged.Tagged;
 
 public class GATest {
 	
@@ -40,8 +40,8 @@ public class GATest {
 		MethodTest.real_service(function, search);
 		MethodTest.population_service(function);
 		// Apply the search method
-		Tagged<double[]> Tagged = search.solve(space);        
-		System.out.println(Tagged.get(function));		
+		Tagged<double[]> tagged = search.solve(space);        
+		System.out.println(tagged.getTag(function));		
 	}
     
 	public static void binary(){
@@ -68,8 +68,8 @@ public class GATest {
     		MethodTest.binary_service(function, search)	;
     		MethodTest.population_service(function);
     		// Apply the search method
-    		Tagged<BitArray> Tagged = search.solve(space);        
-    		System.out.println(Tagged.get(function));		
+    		Tagged<BitArray> tagged = search.solve(space);        
+    		System.out.println(tagged.getTag(function));		
     		// Remove for general use
     		// Glovito g = new Glovito( solution.object() );
     		// System.out.println(g.toString());
@@ -108,8 +108,8 @@ public class GATest {
 		MethodTest.binary2real_service(function, search);
 		MethodTest.population_service(function);
 		// Apply the search method
-		Tagged<double[]> Tagged = search.solve(space);        
-		System.out.println(Tagged.get(function));	
+		Tagged<double[]> tagged = search.solve(space);        
+		System.out.println(tagged.getTag(function));	
 	}
 	
 	public static void main(String[] args){

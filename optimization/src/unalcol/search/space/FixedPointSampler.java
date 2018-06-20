@@ -5,20 +5,17 @@
  */
 package unalcol.search.space;
 
-import unalcol.Thing;
+import unalcol.math.function.BasicFunction;
 
 /**
  *
  * @author Jonatan
  */
-public class FixedPointSampler<T> extends Thing implements SpaceSampler<T>{
-    protected T x;
-    public FixedPointSampler( T x ){
-        this.x = x;
-    }
-    
-    @Override
-    public T apply(Space<T> space) {
-        return x;
-    }    
+public class FixedPointSampler<T> extends BasicFunction<Space<T>,T> implements SpaceSampler<T>{
+	protected T x;
+	
+	public FixedPointSampler( T x ){ this.x = x; }
+
+	@Override
+	public T apply(Space<T> space){ return x; }
 }

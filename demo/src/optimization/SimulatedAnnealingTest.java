@@ -15,7 +15,7 @@ import unalcol.search.multilevel.CodeDecodeMap;
 import unalcol.search.multilevel.MultiLevelSearch;
 import unalcol.search.space.Space;
 import unalcol.types.collection.bitarray.BitArray;
-import unalcol.Tagged;
+import unalcol.types.object.tagged.Tagged;
 
 public class SimulatedAnnealingTest{
 	public static void real(){
@@ -41,8 +41,8 @@ public class SimulatedAnnealingTest{
         // Services
         MethodTest.real_service(function, search);
         // Apply the search method
-        Tagged<double[]> Tagged = search.solve(space);        
-        System.out.println(Tagged.get(function));		
+        Tagged<double[]> tagged = search.solve(space);        
+        System.out.println(tagged.getTag(function));		
 	}
     
 	// ******* Binary space problem ******** //
@@ -73,8 +73,8 @@ public class SimulatedAnnealingTest{
         // Services
         MethodTest.binary_service(function, search);
         // Apply the search method
-        Tagged<BitArray> Tagged = search.solve(space);        
-        System.out.println(Tagged.get(function));		
+        Tagged<BitArray> tagged = search.solve(space);        
+        System.out.println(tagged.getTag(function));		
 	}
 	
 	public static void binary2real(){
@@ -113,8 +113,8 @@ public class SimulatedAnnealingTest{
         // Services
         MethodTest.binary2real_service(function, search);
         // Apply the search method
-        Tagged<double[]> Tagged = search.solve(space);        
-        System.out.println(Tagged.get(function));		
+        Tagged<double[]> tagged = search.solve(space);        
+        System.out.println(tagged.getTag(function));		
 	}
 	
 	public static void queen(){
@@ -145,8 +145,8 @@ public class SimulatedAnnealingTest{
         // Services
         MethodTest.queen_service(function, search);
         // Apply the search method
-        Tagged<int[]> Tagged = search.solve(space);        
-        System.out.println(Tagged.get(function));		
+        Tagged<int[]> tagged = search.solve(space);        
+        System.out.println(tagged.getTag(function));		
 	}
     
     public static void main(String[] args){

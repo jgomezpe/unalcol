@@ -1,8 +1,5 @@
 package unalcol.types.real;
 
-import unalcol.services.MicroService;
-import unalcol.sort.*;
-
 
 /**
  * <p>Doubles considering the double precision defined in DoubleUtil class</p>
@@ -13,8 +10,7 @@ import unalcol.sort.*;
  * @version 1.0
  */
 
-public class DoublePrecisionOrder extends MicroService<Double> implements Order<Double> {
-
+public class DoublePrecisionOrder extends DoubleOrder{
     /**
      * Determines if the first Double is less than (in some order) the second Double (one<two) considering the precision
      * defined in DoubleUtil class
@@ -22,7 +18,8 @@ public class DoublePrecisionOrder extends MicroService<Double> implements Order<
      * @param two Second Double
      * @return (one<two)
      */
-    public int compare(Double one, Double two) {
-        return ( DoubleUtil.equal(one, two) )?0:one.compareTo(two);
-    }
+    public int compare(Double one, Double two){ return ( DoubleUtil.equal(one, two) )?0:one.compareTo(two); }    
+
+	@Override
+	public String toString(){ return "DoublePrecisonOrder"; }
 }
