@@ -11,6 +11,9 @@ import unalcol.types.collection.UnalcolIterator;
 import unalcol.types.collection.array.Array;
 
 public interface AbstractLexer<S> {
+	public int src();
+	public void setSrc( int src );
+	
 	public Array<Token<?>> apply( UnalcolIterator<?,S> buffer, AbstractEncoder<S> encoder ) throws LanguageException;
 	
 	@SuppressWarnings("unchecked")
@@ -20,7 +23,7 @@ public interface AbstractLexer<S> {
 		if( iter instanceof UnalcolIterator) riter = (UnalcolIterator<?, S>)iter;
 		else riter = new ShortTermMemoryIterator<Position, S>(iter) {
 			@Override
-			protected Position key(S data) { return new Position(pos); }
+			protected Position key(S data) { return new Position(src(),pos); }
 		};
 		return apply( riter, encoder );
 	}

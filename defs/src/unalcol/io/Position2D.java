@@ -48,27 +48,21 @@ public class Position2D extends Position{
 	protected int row;
 	protected int column;
 	
-	public Position2D(){ this(0,0,0); }
+	public Position2D(int src){ this(src,0,0,0); }
 	
-	public Position2D( int row, int column ){
-		super(0);
+	/*public Position2D( int src, int row, int column ){
+		super(src, 0);
+		this.row = row;
+		this.column = column;
+	}*/
+
+	public Position2D( int src, int offset, int row, int column ){
+		super(src, offset);
 		this.row = row;
 		this.column = column;
 	}
 
-	public Position2D( int offset, int row, int column ){
-		super(offset);
-		this.row = row;
-		this.column = column;
-	}
-
-	public Position2D(Position pos){ 
-		super(pos);
-		if(pos instanceof Position2D){
-			this.row =((Position2D)pos).row;
-			this.column =((Position2D)pos).column;
-		}
-	}
+	public Position2D(Position pos){ super(pos); }
 	
     public void init( Position pos ){
     	super.init(pos);

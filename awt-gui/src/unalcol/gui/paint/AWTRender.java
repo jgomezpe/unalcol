@@ -1,5 +1,6 @@
 package unalcol.gui.paint;
 
+import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
@@ -7,17 +8,28 @@ import java.awt.geom.AffineTransform;
 import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
 
+import javax.swing.JPanel;
+
 import unalcol.types.collection.keymap.HTKeyMap;
 import unalcol.util.Config;
+import unalcol.vc.Side;
 
 public class AWTRender extends Render{
 	public final static int SCALE=100;
 	protected int scale;
 	protected Graphics g;
+	protected String id;
+	protected Side side;
+	protected JPanel panel = null;
 	
 	protected HTKeyMap<String, Image> images = new HTKeyMap<String,Image>();
 	
-	public AWTRender(){}
+	public AWTRender( String id ){ this.id = id; }
+
+	public AWTRender( String id, JPanel panel ){
+		this.id = id;
+		this.panel = panel;
+	}
 	
 	protected java.awt.Color convert( int[] c ){ return new java.awt.Color(c[0],c[1],c[2],c[3]); }
 
@@ -29,10 +41,7 @@ public class AWTRender extends Render{
 	 */
 	public static BufferedImage toBufferedImage(Image img)
 	{
-	    if (img instanceof BufferedImage)
-	    {
-	        return (BufferedImage) img;
-	    }
+	    if (img instanceof BufferedImage) return (BufferedImage) img;
 
 	    // Create a buffered image with transparency
 	    BufferedImage bimage = new BufferedImage(img.getWidth(null), img.getHeight(null), BufferedImage.TYPE_INT_ARGB);
@@ -46,6 +55,8 @@ public class AWTRender extends Render{
 	    return bimage;
 	}	
 	
+	public int scale(){ return scale; }
+	
 	protected int scale( int value ){	return value*scale/SCALE; }
 	
 	protected int[] scale( int[] value ){
@@ -55,11 +66,7 @@ public class AWTRender extends Render{
 		return svalue;
 	}
 	
-	public void setGraphics( Graphics g, int scale ){
-		if( g != this.g ) System.out.println("AWTRender-->"+"Different");
-		this.g = g;
-		this.scale = scale;
-	}
+	public void setGraphics( Graphics g ){ this.g = g; }
 	
 	public void addImage( String id, Image image ){ images.set(id, image); }
 	
@@ -112,4 +119,24 @@ public class AWTRender extends Render{
 			}
 		}
 	}
+	
+	public void render( Drawable obj ){
+		super.render(obj);
+		Dimension d = panel.getSize();
+		this.scale = obj.scale(d.width, d.height);
+		panel.updateUI();
+	}
+	
+
+	@Override
+	public void setSide(Side side){ this.side = side; }
+
+	@Override
+	public Side side(){ return side; }
+
+	@Override
+	public void setId(String id) { this.id = id; }
+	
+	@Override
+	public String id(){ return id; }
 }

@@ -37,19 +37,19 @@ public abstract class ReaderAsCollection implements ClosableCollection<Integer>{
 	protected class ReaderIterator extends ShortTermMemoryIterator<Position2D, Integer>{
 		public ReaderIterator(Iterator<Integer> iter) {
 			super(iter);
-			extra[0]=new Position2D(0,0);
+			extra[0]=new Position2D(0,0,0,0);
 		}
 
 		@Override
 		protected Position2D key(Integer c) {
 			Position2D p = (Position2D)extra[(n+pos-1)%n];
 			if (c == CARRIAGERETURN || (c == LINEFEED && (int)data [pos] != CARRIAGERETURN)) {
-				return new Position2D(p.row() + 1, 0);
+				return new Position2D(0,0,p.row() + 1, 0);
 			}else{
 				int row = p.row();
 				int col = p.column();
-				if (col != LINEFEED) col++;
-				return new Position2D(row,col);
+				if (c != LINEFEED) col++;
+				return new Position2D(0,0,row,col);
 			}		
 		}
 		

@@ -10,10 +10,10 @@ public class LanguageException extends I18NException{
 		this.position = position;
 	}
 	
-	public LanguageException( String code, Object... args ){ 
-		this(new Position(), code, args);
+/*	public LanguageException( String code, Object... args ){ 
+		this(new Position(0,0), code, args);
 	}
-	
+*/	
 	public Position position(){ return position; }
 	public void setPosition(Position position){ this.position = position; }
 	

@@ -1,4 +1,4 @@
-package unalcol.gui.editor;
+package unalcol.gui.editor.simple;
 
 import unalcol.io.Tokenizer;
 import unalcol.types.collection.keymap.ImmutableKeyMap;

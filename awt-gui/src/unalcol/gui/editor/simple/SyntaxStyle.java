@@ -1,4 +1,4 @@
-package unalcol.gui.editor;
+package unalcol.gui.editor.simple;
 
 import unalcol.gui.paint.Color;
 import unalcol.types.collection.keymap.HTKeyMap;

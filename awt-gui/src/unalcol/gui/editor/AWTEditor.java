@@ -1,16 +1,36 @@
 package unalcol.gui.editor;
 
-import unalcol.vc.frontend.SimpleView;
+import javax.swing.JScrollPane;
+import javax.swing.text.JTextComponent;
 
-public class AWTEditor extends SimpleView implements EditorView{
-	protected SyntaxEditPanel edit_area;
+import unalcol.io.Tokenizer;
+import unalcol.types.collection.keymap.KeyMap;
+import unalcol.vc.DefaultComponent;
+
+public abstract class AWTEditor extends DefaultComponent implements EditorView{
+	protected JTextComponent editArea=null;
+	protected JScrollPane scroll=null;
+	
+	public abstract JTextComponent editArea();
+	public abstract JScrollPane scroll();
+	
+	public AWTEditor(String id){
+		super(id); 
+		editArea = this.editArea();
+		editArea.setVerifyInputWhenFocusTarget(true);
+		scroll = this.scroll();
+		scroll.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+		scroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+		scroll.setAutoscrolls(true);
+		scroll.getViewport().add(editArea, null);
+	}
 	
 	@Override
 	public void highlight(int arg0) {}
 
 	@Override
-	public void locate(int row, int column) {
-		String str = edit_area.getText();
+	public void locate(int row, int column){
+		String str = editArea.getText();
 		int caret = 0;
 		int i=0;
 		while( i<row ){
@@ -18,21 +38,16 @@ public class AWTEditor extends SimpleView implements EditorView{
 			caret++;
 			i++;
 		}
-		edit_area.setCaretPosition(caret+column);
-		edit_area.requestFocusInWindow();
+		editArea.setCaretPosition(caret+column);
+		editArea.requestFocusInWindow();
 	}
 
 	@Override
-	public void setText(String txt){ edit_area.setText(txt); }
+	public void setText(String txt){ editArea.setText(txt); }
 
-//	@Override
-//	public JComponent awt(){ return edit_area; }
-	
-	public String getText(){ return edit_area.getText(); }
-	
 	public int[] getPosition(){
-		int pos = edit_area.getCaretPosition();
-		String str = edit_area.getText();
+		int pos = editArea.getCaretPosition();
+		String str = editArea.getText();
 		int caret = 0;
 		int row=0;
 		int column=0;
@@ -46,4 +61,6 @@ public class AWTEditor extends SimpleView implements EditorView{
 		}
 		return new int[]{row,column}; 
 	}
+	
+	public abstract void setTokenizer( Tokenizer tokenizer, KeyMap<Integer, ?> converter );
 }

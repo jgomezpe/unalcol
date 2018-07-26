@@ -20,7 +20,8 @@ public class KeyMapSide extends DefaultSide{
 
 	public void register(Component component){
 		changed = true;
-		keymap.set(component.id(), component); 
+		String[] ids = component.ids();
+		for( String id:ids) keymap.set(id, component); 
 		component.setSide(this);
 	}
 	

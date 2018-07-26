@@ -35,8 +35,8 @@ public class LogPanel extends JPanel {
 
     private void jbInit() throws Exception {
         this.setLayout(logPanelLayout);
-        jOutTextArea = new JTextArea(4, 200);
-        jErrorTextArea = new JTextArea(4, 200);
+        jOutTextArea = new JTextPane();
+        jErrorTextArea = new JTextPane();
         jOutPanel.setLayout(outBorderLayout);
         jOutPanel.add(new JScrollPane(jOutTextArea),
                       java.awt.BorderLayout.CENTER);
@@ -53,23 +53,21 @@ public class LogPanel extends JPanel {
     JPanel jOutPanel = new JPanel();
     JPanel jErrorPanel = new JPanel();
     BorderLayout outBorderLayout = new BorderLayout();
-    JTextArea jOutTextArea;
+    JTextPane jOutTextArea;
     BorderLayout errorBorderLayout = new BorderLayout();
-    JTextArea jErrorTextArea;
+    JTextPane jErrorTextArea;
 
     /**
      * Gets the TextArea used for showing the output messages
      * @return TextArea used for showing the output messages
      */
-    public JTextArea getOutArea() {
-        return this.jOutTextArea;
-    }
+    public JTextPane getOutArea(){ return this.jOutTextArea; }
 
     /**
      * Gets the TextArea used for showing the error messages
      * @return TextArea used for showing the error messages
      */
-    public JTextArea getErrorArea() {
+    public JTextPane getErrorArea() {
         return this.jErrorTextArea;
     }
     
