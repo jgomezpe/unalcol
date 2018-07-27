@@ -10,11 +10,12 @@ import java.awt.image.BufferedImage;
 
 import javax.swing.JPanel;
 
+import unalcol.gui.render.AWTRender;
 import unalcol.types.collection.keymap.HTKeyMap;
 import unalcol.util.Config;
 import unalcol.vc.Side;
 
-public class AWTRender extends Render{
+public class AWTCanvasRender extends CanvasRender implements AWTRender{
 	public final static int SCALE=100;
 	protected int scale;
 	protected Graphics g;
@@ -24,9 +25,9 @@ public class AWTRender extends Render{
 	
 	protected HTKeyMap<String, Image> images = new HTKeyMap<String,Image>();
 	
-	public AWTRender( String id ){ this.id = id; }
+	public AWTCanvasRender( String id ){ this.id = id; }
 
-	public AWTRender( String id, JPanel panel ){
+	public AWTCanvasRender( String id, JPanel panel ){
 		this.id = id;
 		this.panel = panel;
 	}
@@ -126,7 +127,6 @@ public class AWTRender extends Render{
 		this.scale = obj.scale(d.width, d.height);
 		panel.updateUI();
 	}
-	
 
 	@Override
 	public void setSide(Side side){ this.side = side; }
@@ -139,4 +139,10 @@ public class AWTRender extends Render{
 	
 	@Override
 	public String id(){ return id; }
+
+	@Override
+	public void setPanel(JPanel panel) { this.panel=panel; }
+
+	@Override
+	public JPanel panel() { return panel; }
 }

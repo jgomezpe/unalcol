@@ -5,9 +5,9 @@ import unalcol.gui.paint.Color;
 public class Canvas{
 	public final static int SCALE=100;
 	protected Color color = new Color(0,0,0,0);
-	protected Render render;
+	protected CanvasRender render;
 	
-	public Canvas( Render render ){ this.render = render; }
+	public Canvas( CanvasRender render ){ this.render = render; }
 	
 	public Color setColor( Color color ){
 		Color p = this.color;
