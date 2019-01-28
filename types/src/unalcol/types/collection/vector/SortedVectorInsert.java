@@ -2,7 +2,8 @@ package unalcol.types.collection.vector;
 
 
 import unalcol.sort.*;
-import unalcol.types.object.array.BinarySearch;
+import unalcol.types.collection.array.BinarySearch;
+import unalcol.types.collection.vector.Vector;
 
 /**
  * <p>Title: SortedInsert</p>
@@ -20,7 +21,7 @@ public class SortedVectorInsert<T> {
     protected BinarySearch<T> search = new BinarySearch<T>(null, null);
     public SortedVectorInsert(){}
 
-    public void apply( Vector<T> set, T x, Order order, boolean multiSet ){
+	public void apply( Vector<T> set, T x, Order order, boolean multiSet ){
     	search.set(set.buffer);
     	search.set(order);
         int pos = search.findRight(x);

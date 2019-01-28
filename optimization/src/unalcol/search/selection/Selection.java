@@ -1,6 +1,6 @@
 package unalcol.search.selection;
 
-import unalcol.types.object.tagged.Tagged;
+import unalcol.types.object.Tagged;
 
 /**
  * <p>Title: Selection</p>

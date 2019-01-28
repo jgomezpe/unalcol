@@ -1,17 +1,17 @@
 package unalcol.gui.editor.simple;
 
 import unalcol.gui.paint.Color;
-import unalcol.types.collection.keymap.HTKeyMap;
+import unalcol.json.JSON;
+import unalcol.json.JSONParser;
+import unalcol.types.collection.keymap.HashMap;
 import unalcol.types.collection.keymap.ImmutableKeyMap;
-import unalcol.util.ObjectParser;
+import unalcol.types.collection.vector.Vector;
 
 public class SyntaxStyle {
-	public static final String DEF = "regular";
-	public static final String ITALIC = "italic";
-	public static final String BOLD = "bold";
-	public static final String UNDER_LINE = "under_line";
+	public static final String STYLES = "styles";
+	public static final String REGULAR = "regular";
 	
-	protected String tag=DEF;
+	protected String tag;
 	protected boolean italic=false;
 	protected boolean bold=false;
 	protected boolean under_line=false;
@@ -39,12 +39,14 @@ public class SyntaxStyle {
 	
 	public static ImmutableKeyMap<String, SyntaxStyle> get( String styles ){
 		SyntaxStyleInstance si = new SyntaxStyleInstance();
-		Object[] objs;
 		try {
-			objs = ObjectParser.parse(styles);
-			HTKeyMap<String, SyntaxStyle> km = new HTKeyMap<String,SyntaxStyle>();
+			JSONParser parser = new JSONParser();
+			JSON json = (JSON)parser.parse(styles);
+			HashMap<String, SyntaxStyle> km = new HashMap<String,SyntaxStyle>();
+			@SuppressWarnings("unchecked")
+			Vector<Object> objs = (Vector<Object>)json.get(STYLES);
 			for( Object o:objs ){
-				SyntaxStyle style = si.load((Object[])o);
+				SyntaxStyle style = si.load((JSON)o);
 				km.set(style.tag,style);
 			}
 			return km;
@@ -54,15 +56,11 @@ public class SyntaxStyle {
 		return null;
 	}
 
-	protected static String color( java.awt.Color c ){
-		return ObjectParser.store(new Object[]{"color",c.getRed(),c.getGreen(),c.getBlue(),c.getAlpha()});
-	}
-	
 /*	public static void main( String[] args ){
 		SyntaxStyleInstance si = new SyntaxStyleInstance();
 		String style =  "[[\"style\",\"regular\",[\"SansSerif\",12]],[\"style\",\"undef\",["+color(java.awt.Color.pink)+"]],[\"style\",\"comment\",[\"italic\","+color(java.awt.Color.gray)+"]],[\"style\",\"symbol\",["+color(java.awt.Color.blue)+"]],[\"style\",\"stitch\",["+color(java.awt.Color.red)+"]],[\"style\",\"reserved\",[\"bold\"]],[\"style\",\"remnant\",["+color(java.awt.Color.orange)+"]]]"; // "[[\"style\",\"normal\",[3,[\"color\",3,4,5,255],\"italic\",\"bold\",\"Sans Serif\"]]]";
 		System.out.println(style);
-		SyntaxStyle[] styles = get(style);
-		for( int i=0; i<styles.length; i++ ) System.out.println( ObjectParser.store(si.store(styles[i])) );
-	} */
+		ImmutableKeyMap<String, SyntaxStyle> styles = get(style);
+		for( SyntaxStyle s:styles ) System.out.println( si.store(s) );
+	}  */
 }

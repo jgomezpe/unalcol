@@ -5,7 +5,7 @@ import unalcol.search.variation.Variation;
 import unalcol.search.variation.Variation_1_1;
 import unalcol.search.variation.Variation_2_2;
 import unalcol.types.collection.vector.Vector;
-import unalcol.types.object.tagged.Tagged;
+import unalcol.types.object.Tagged;
 
 /**
  * <p>Title: ClassicStrategy</p>

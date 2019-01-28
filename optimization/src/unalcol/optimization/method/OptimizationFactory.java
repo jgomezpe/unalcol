@@ -11,7 +11,7 @@ import unalcol.search.local.IterativeLocalSearch;
 import unalcol.search.local.LocalSearch;
 import unalcol.search.local.VariationReplaceLocalSearch;
 import unalcol.search.variation.Variation_1_1;
-import unalcol.types.object.tagged.Tagged;
+import unalcol.types.object.Tagged;
 
 public class OptimizationFactory<T> {
 	public LocalSearch<T,Double> 

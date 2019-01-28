@@ -3,7 +3,7 @@ package unalcol.types.integer.array;
 import java.io.IOException;
 
 import unalcol.io.Read;
-import unalcol.types.collection.UnalcolIterator;
+import unalcol.types.collection.iterator.UnalcolIterator;
 
 public interface IntArrayRead extends Read{
 
@@ -12,8 +12,8 @@ public interface IntArrayRead extends Read{
 	 * @param reader The reader object
 	 * @throws IOException IOException
 	 */
-    public int[] read(UnalcolIterator<?,Integer> reader) throws IOException;
+    public int[] read(UnalcolIterator<Integer> reader) throws IOException;
 
     @Override
-    default Object read(Object obj, UnalcolIterator<?, Integer> reader) throws IOException{ return read(reader); }
+    default Object read(Object obj, UnalcolIterator<Integer> reader) throws IOException{ return read(reader); }
 }

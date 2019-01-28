@@ -7,7 +7,7 @@ package unalcol.search.population;
 
 import unalcol.search.space.Space;
 import unalcol.search.variation.Variation;
-import unalcol.types.object.tagged.Tagged;
+import unalcol.types.object.Tagged;
 
 /**
  *

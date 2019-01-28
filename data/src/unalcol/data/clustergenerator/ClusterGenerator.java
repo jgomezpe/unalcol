@@ -49,7 +49,7 @@ public class ClusterGenerator {
    * @return A data source with noise
    */
   public static Vector<double[]> noise(int noise_size) {
-	  double[] raw = RawGenerator.raw(ClusterGenerator.class, 2*noise_size);
+	  double[] raw = RawGenerator.cast(ClusterGenerator.class).raw(2*noise_size);
 	  Vector<double[]> v = new Vector<double[]>();
 	  int k=0;
 	  for (int i = 0; i < noise_size; i++) {

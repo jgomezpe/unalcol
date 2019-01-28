@@ -1,6 +1,5 @@
 package unalcol.language.symbol.util;
 
-import unalcol.language.util.*;
 import unalcol.language.symbol.*;
 
 /**
@@ -20,7 +19,7 @@ public class Alpha extends SymbolSet{
      * Creates an alpha character set over the given symbol code
      * @param code Symbol Code
      */
-    public Alpha(SymbolCode code) {
+    public Alpha(TextEncoder code) {
         super(code);
         intervals = code.alpha();
     }

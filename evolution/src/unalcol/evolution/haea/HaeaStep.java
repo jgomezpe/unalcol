@@ -6,7 +6,7 @@ import unalcol.search.population.RealBasedPopulationSearch;
 import unalcol.search.population.VariationReplacePopulationSearch;
 import unalcol.search.selection.Selection;
 import unalcol.search.space.Space;
-import unalcol.types.object.tagged.Tagged;
+import unalcol.types.object.Tagged;
 
 /**
  * <p>Title: HAEA</p>

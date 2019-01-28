@@ -16,7 +16,7 @@ import unalcol.language.util.*;
  * @author Jonatan Gomez Perdomo
  * @version 1.0
  */
-public  class UniCode16 extends SymbolCode {
+public  class UniCode16 implements TextEncoder {
     /**
      * Using UNICODE16 code for the input symbols
      */
@@ -26,46 +26,35 @@ public  class UniCode16 extends SymbolCode {
      * Number of symbols in the code
      * @return number of different symbols
      */
-    public int size() {
-        return UNI_CODE_16;
-    }
+    public int size(){ return UNI_CODE_16; }
 
     /**
      * Encodes the given symbol.
      * @param c Original symbol code.
      * @return Encoding of the symbol.
      */
-    public int encode(int c) {
-        return c;
-    }
+    public int encode(Integer c){ return c; }
 
     /**
      * Decodes the given symbol.
      * @param k Encoded symbol.
      * @return Decodification of the symbol.
      */
-    public int decode(int k) {
-        return k;
-    }
+    public Integer decode(int k){ return k; }
 
     /**
      * Determines if an encoded symbol is an alpha symbol.
      * @param k Encoded symbol.
      * @return <i>true</i> if the encoded symbol is alpha, <i>false</i> otherwise.
      */
-    public boolean is_alpha(int k) {
-        return k == 241 || k == 209 ||
-                (65 <= k && k <= 90) || (97 <= k && k <= 122);
-    }
+    public boolean is_alpha(int k){ return k == 241 || k == 209 || (65 <= k && k <= 90) || (97 <= k && k <= 122); }
 
     /**
      * Determines if an encoded symbol is a digit symbol.
      * @param k Encoded symbol.
      * @return <i>true</i> if the encoded symbol is a digit, <i>false</i> otherwise.
      */
-    public boolean is_digit(int k) {
-        return (48 <= k && k <= 57);
-    }
+    public boolean is_digit(int k){ return (48 <= k && k <= 57); }
 
     /**
      * Determines the set of intervals representing the alpha symbols.
@@ -90,5 +79,4 @@ public  class UniCode16 extends SymbolCode {
         intervals.add(new Interval(48, 58));
         return intervals;
     }
-
 }

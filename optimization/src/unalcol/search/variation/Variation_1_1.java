@@ -7,7 +7,7 @@ package unalcol.search.variation;
 
 import unalcol.instance.Instanteable;
 import unalcol.search.space.Space;
-import unalcol.types.object.tagged.Tagged;
+import unalcol.types.object.Tagged;
 
 /**
  *

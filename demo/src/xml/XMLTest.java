@@ -21,7 +21,7 @@ public class XMLTest{
 					XMLElement x = (XMLElement)e;
 					System.out.println("***************************");
 					System.out.println(x.getTag());
-					for( String a:x.attributes())
+					for( String a:x.keys())
 						System.out.println(a+"-->"+x.get(a));
 				}	
 			}
@@ -43,7 +43,7 @@ public class XMLTest{
 					XMLElement x = (XMLElement)e;
 					System.out.println("***************************");
 					System.out.println(x.getTag());
-					for( String a:x.attributes())
+					for( String a:x.keys())
 						System.out.println(a+"-->"+x.get(a));
 				}	
 			}
@@ -61,7 +61,7 @@ public class XMLTest{
 		for( XMLElement x:m ){
 			System.out.println("***************************");
 			System.out.println(x.getTag());
-			for( String a:x.attributes())
+			for( String a:x.keys())
 				System.out.println(a+"-->"+x.get(a));
 		}
 		System.out.println("----------------->XMLElements with tag view");
@@ -69,7 +69,7 @@ public class XMLTest{
 		for( XMLElement x:m ){
 			System.out.println("***************************");
 			System.out.println(x.getTag());
-			for( String a:x.attributes())
+			for( String a:x.keys())
 				System.out.println(a+"-->"+x.get(a));
 		}
 	}

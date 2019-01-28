@@ -1,9 +1,9 @@
 package unalcol.plugin;
 
 import unalcol.types.collection.array.Array;
-import unalcol.types.object.basic.BasicThing;
+import unalcol.types.object.Thing;
 
-public class DefaultPlugInTree extends BasicThing implements PlugInTree{
+public class DefaultPlugInTree extends Thing implements PlugInTree{
 	protected Array<Object> children;
 	
 	public DefaultPlugInTree(){ this("noname"); }

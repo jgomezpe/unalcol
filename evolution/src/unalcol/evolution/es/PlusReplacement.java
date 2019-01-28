@@ -5,7 +5,7 @@
 package unalcol.evolution.es;
 
 import unalcol.search.selection.Selection;
-import unalcol.types.object.tagged.Tagged;
+import unalcol.types.object.Tagged;
 
 /**
  *

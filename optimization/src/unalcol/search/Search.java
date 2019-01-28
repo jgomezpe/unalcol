@@ -7,7 +7,7 @@ package unalcol.search;
 
 import unalcol.search.space.Space;
 import unalcol.search.space.SpaceSampler;
-import unalcol.types.object.tagged.Tagged;
+import unalcol.types.object.Tagged;
 
 /**
  *

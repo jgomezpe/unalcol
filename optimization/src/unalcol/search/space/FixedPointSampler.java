@@ -5,13 +5,13 @@
  */
 package unalcol.search.space;
 
-import unalcol.math.function.BasicFunction;
+import unalcol.math.function.Function;
 
 /**
  *
  * @author Jonatan
  */
-public class FixedPointSampler<T> extends BasicFunction<Space<T>,T> implements SpaceSampler<T>{
+public class FixedPointSampler<T> implements Function<Space<T>,T>, SpaceSampler<T>{
 	protected T x;
 	
 	public FixedPointSampler( T x ){ this.x = x; }

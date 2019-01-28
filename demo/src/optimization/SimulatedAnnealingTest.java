@@ -15,7 +15,7 @@ import unalcol.search.multilevel.CodeDecodeMap;
 import unalcol.search.multilevel.MultiLevelSearch;
 import unalcol.search.space.Space;
 import unalcol.types.collection.bitarray.BitArray;
-import unalcol.types.object.tagged.Tagged;
+import unalcol.types.object.Tagged;
 
 public class SimulatedAnnealingTest{
 	public static void real(){

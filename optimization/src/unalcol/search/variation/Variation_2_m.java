@@ -1,6 +1,6 @@
 package unalcol.search.variation;
 
-import unalcol.types.object.tagged.Tagged;
+import unalcol.types.object.Tagged;
 
 /**
  * <p>Title:ArityTwo</p>

@@ -13,10 +13,8 @@ import unalcol.sort.Order;
  * @author Jonatan Gomez Perdomo
  * @version 1.0
  */
-public class DisjointIntervalOrder implements Order<Interval>{
-    public String getCanonicalName(){
-        return Interval.class.getCanonicalName();
-    }
+public class DisjointIntervalOrder implements Order{
+    public String getCanonicalName(){ return Interval.class.getCanonicalName(); }
 
     /**
      * Determines if interval one is less than (as disjoint intervals) interval two
@@ -24,7 +22,7 @@ public class DisjointIntervalOrder implements Order<Interval>{
      * @param two The secont interval to compare
      * @return (inf(one)<inf(two))
      */
-    public int compare(Interval one, Interval two) {
-        return (one.inf - two.inf);
-    }
+    public int compare(Interval one, Interval two){ return (one.inf - two.inf); }
+    
+    public int compare(Object one, Object two){ return compare((Interval)one, (Interval)two); }    
 }

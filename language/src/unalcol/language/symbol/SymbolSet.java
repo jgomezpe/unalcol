@@ -1,7 +1,7 @@
 package unalcol.language.symbol;
 
+import unalcol.types.collection.array.ArraySearch;
 import unalcol.types.collection.vector.*;
-import unalcol.sort.*;
 import unalcol.language.util.*;
 import unalcol.language.symbol.util.*;
 
@@ -22,12 +22,12 @@ public abstract class SymbolSet {
     /**
      * The universal symbol set (any symbol set into a matcher is a subset of the symbol code).
      */
-    protected SymbolCode code;
+    protected TextEncoder code;
 
     /**
      * Sorted vector of intervals that is equivalent to the symbol set.
      */
-    protected Vector<Interval> intervals = null;
+    protected Vector<Interval> intervals = new Vector<Interval>();
 
     /**
      * Constant used for identifying the Any symbol set
@@ -62,12 +62,7 @@ public abstract class SymbolSet {
     /**
      * Searching mechanism of disjoint intervals
      */
-    protected static SortedVectorSearch<Interval> search = new SortedVectorSearch<Interval>();
-    /**
-     * Ordering mechanism of disjoint intervals
-     */
-    protected static DisjointIntervalOrder order = new DisjointIntervalOrder();
-
+    protected static ArraySearch<Interval> search = new ArraySearch<Interval>(null, new DisjointIntervalOrder());
     /**
      * Determines if the set includes the given symbol
      * @param s symbol to analize
@@ -75,7 +70,8 @@ public abstract class SymbolSet {
      */
     public boolean includes(int s) {
         Vector<Interval> intervals = getIntervals();
-        int left = search.findLeft(intervals, new Interval(s), order);
+        search.set(intervals);
+        int left = search.findLeft(new Interval(s));
         if( left == -1 ){
             return intervals.get(0).contains(s);
         }else{
@@ -94,7 +90,8 @@ public abstract class SymbolSet {
      */
     public boolean includes(Interval s) {
         Vector<Interval> intervals = getIntervals();
-        int left = search.findLeft(intervals, s, order);
+        search.set(intervals);
+        int left = search.findLeft(s);
         if( left == -1 ){
             return intervals.get(0).contains(s);
         }else{
@@ -110,7 +107,7 @@ public abstract class SymbolSet {
      * Creates a symbol set over the given symbol code
      * @param code Symbol Code
      */
-    public SymbolSet(SymbolCode code) {
+    public SymbolSet(TextEncoder code) {
         this.code = code;
     }
 
@@ -155,7 +152,7 @@ public abstract class SymbolSet {
      * Returns the universal symbol set (a SymbolCode object)
      * @return Symbol Code
      */
-    public SymbolCode getCode() {
+    public TextEncoder getCode() {
         return code;
     }
 

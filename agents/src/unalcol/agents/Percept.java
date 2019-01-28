@@ -1,6 +1,7 @@
 package unalcol.agents;
 
-import unalcol.types.collection.keymap.HTKeyMap;
+import unalcol.types.collection.keymap.KeyMap;
+import unalcol.types.collection.keymap.HashMap;
 /**
  * <p>Title: Percept</p>
  *
@@ -14,7 +15,7 @@ import unalcol.types.collection.keymap.HTKeyMap;
  * @version 1.0
  */
 public class Percept {
-	protected HTKeyMap<String,Object> table = new HTKeyMap<String,Object>();
+	protected KeyMap<String,Object> table = new HashMap<String,Object>();
 	
 	public Percept() {}
 	

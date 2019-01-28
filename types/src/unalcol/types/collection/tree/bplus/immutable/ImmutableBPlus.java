@@ -10,11 +10,11 @@ import java.util.NoSuchElementException;
 import unalcol.sort.Order;
 import unalcol.types.collection.Collection;
 import unalcol.types.collection.SearchCollection;
+import unalcol.types.collection.array.BinarySearch;
 import unalcol.types.collection.keymap.KeyValue;
 import unalcol.types.collection.tree.bplus.BPlusIterator;
 import unalcol.types.collection.tree.bplus.BPlusLocation;
 import unalcol.types.collection.tree.bplus.memory.MemoryLeafNode;
-import unalcol.types.object.array.BinarySearch;
 
 /**
  *

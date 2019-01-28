@@ -1,11 +1,10 @@
 package unalcol.services;
 
 
-import unalcol.types.collection.keymap.HTKeyMap;
-import unalcol.types.collection.keymap.KeyMap;
+import unalcol.types.collection.keymap.LowLevelKeyMap;
 
 public class Service{
-	protected static KeyMap<Class<?>, ServicePool> services = new HTKeyMap<Class<?>,ServicePool>();
+	protected static LowLevelKeyMap<Class<?>, ServicePool> services = new LowLevelKeyMap<Class<?>,ServicePool>();
 	
 	protected static void register( Class<?> service, Object provider, Object caller ){
 		ServicePool sp = services.get(service);

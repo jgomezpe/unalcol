@@ -14,7 +14,7 @@ import unalcol.sort.*;
  * @author Jonatan Gomez Perdomo
  * @version 1.0
  */
-public class IntervalOrder implements Order<Interval>{
+public class IntervalOrder implements Order{
     public String getCanonicalName(){
         return Interval.class.getCanonicalName();
     }
@@ -29,4 +29,7 @@ public class IntervalOrder implements Order<Interval>{
         int dif = one.inf-two.inf;
         return (dif==0)?one.sup-two.sup:dif;
     }
+
+	@Override
+	public int compare(Object one, Object two){ return compare((Interval)one,(Interval)two); }
 }

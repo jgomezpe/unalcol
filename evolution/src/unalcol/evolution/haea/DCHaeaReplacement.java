@@ -1,7 +1,7 @@
 package unalcol.evolution.haea;
 import unalcol.search.RealValuedGoal;
 import unalcol.sort.Order;
-import unalcol.types.object.tagged.Tagged;
+import unalcol.types.object.Tagged;
 import unalcol.math.metric.*;
 
 /**

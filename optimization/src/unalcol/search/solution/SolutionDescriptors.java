@@ -2,7 +2,7 @@ package unalcol.search.solution;
 
 import unalcol.descriptors.Descriptors;
 import unalcol.search.Goal;
-import unalcol.types.object.tagged.Tagged;
+import unalcol.types.object.Tagged;
 
 public class SolutionDescriptors<T> implements Descriptors{
 	protected Goal<T,Double> goal;

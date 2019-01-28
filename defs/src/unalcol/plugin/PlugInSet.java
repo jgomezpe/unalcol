@@ -45,7 +45,7 @@ public class PlugInSet<T> extends MultiKeyCollection<T>{
 		}
 		try{
 			Class<?> objClass = obj.getClass();
-			for( String attr:element.attributes() ){
+			for( String attr:element.keys() ){
 				try{
 					Field field = objClass.getField(attr);
 					String type = field.getDeclaringClass().getName();

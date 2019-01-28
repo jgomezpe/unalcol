@@ -6,7 +6,7 @@
 package unalcol.search.space;
 
 import unalcol.instance.Instanteable;
-import unalcol.types.object.tagged.Tagged;
+import unalcol.types.object.Tagged;
 
 /**
  *

@@ -2,11 +2,10 @@ package unalcol.types.integer.array;
 
 import unalcol.random.integer.IntUniform;
 import unalcol.types.collection.array.ImmutableArray;
-import unalcol.types.object.array.FiboArray;
+import unalcol.types.collection.array.FiboArray;
 
 public class IntArray extends FiboArray{
 	protected int[] buffer;
-	protected int size;
 	
 	public IntArray( int[] buffer ){ this(buffer, buffer.length); }
 
@@ -17,12 +16,6 @@ public class IntArray extends FiboArray{
 	}
 
 	public IntArray(){ this( new int[DEFAULT_C], 0 ); }
-
-	@Override
-	public void clear(){
-		super.clear();
-		size = 0;
-	}
 
 	/**
 	 * Inserts a data element in the structure
@@ -65,8 +58,6 @@ public class IntArray extends FiboArray{
 		leftShift(index);
 		return true;
 	}
-
-	public int size(){ return size; }
 
 	/**
 	 * Sets the size of the array

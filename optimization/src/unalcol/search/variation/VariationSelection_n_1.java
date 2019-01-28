@@ -2,7 +2,7 @@ package unalcol.search.variation;
 
 import unalcol.search.Goal;
 import unalcol.search.selection.Selection;
-import unalcol.types.object.tagged.Tagged;
+import unalcol.types.object.Tagged;
 
 public class VariationSelection_n_1<T> implements Variation_n_1<T>{
 	protected Variation<T> variation;

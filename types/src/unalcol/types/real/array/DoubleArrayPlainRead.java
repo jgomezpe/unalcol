@@ -7,7 +7,7 @@ package unalcol.types.real.array;
 import java.io.IOException;
 
 import unalcol.io.*;
-import unalcol.types.collection.UnalcolIterator;
+import unalcol.types.collection.iterator.UnalcolIterator;
 import unalcol.types.integer.IntegerPlainRead;
 import unalcol.types.integer.IntegerRead;
 import unalcol.types.real.DoublePlainRead;
@@ -45,7 +45,7 @@ public class DoubleArrayPlainRead implements DoubleArrayRead{
 	public void setReadDouble( DoubleRead rr ){ this.rr = rr; }
 	
     @Override
-    public double[] read( UnalcolIterator<?,Integer> reader ) throws IOException{
+    public double[] read( UnalcolIterator<Integer> reader ) throws IOException{
         if( read_dimension ){
         	n = ri.read(reader);
             Read.readSeparator(reader, separator);        	

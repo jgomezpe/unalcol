@@ -7,9 +7,10 @@ import org.fife.ui.rsyntaxtextarea.Token;
 import org.fife.ui.rsyntaxtextarea.TokenImpl;
 import org.fife.ui.rsyntaxtextarea.TokenMaker;
 
-import unalcol.io.Position2D;
+import unalcol.types.collection.iterator.Position2DTrack;
 import unalcol.io.Tokenizer;
-import unalcol.types.collection.array.Array;
+import unalcol.language.generalized.GeneralizedToken;
+import unalcol.types.collection.Collection;
 import unalcol.types.collection.keymap.KeyMap;
 
 public class RSyntaxTokenMaker implements TokenMaker{
@@ -19,14 +20,16 @@ public class RSyntaxTokenMaker implements TokenMaker{
 	protected KeyMap<Integer, Integer> converter;
 	protected TokenImpl firstToken=null;
 	protected TokenImpl lastToken=null;
+	protected int src;
 	
 	public RSyntaxTokenMaker(){
 		lastInstance = this;
 	}
 	
-	public void setTokenizer( Tokenizer tokenizer, KeyMap<Integer, Integer> converter ){
+	public void setTokenizer( int src, Tokenizer tokenizer, KeyMap<Integer, Integer> converter ){
 		this.tokenizer = tokenizer;
 		this.converter = converter;
+		this.src = src;
 	}
 	
 	protected void addToken( TokenImpl token ){
@@ -110,9 +113,9 @@ public class RSyntaxTokenMaker implements TokenMaker{
 		String input = text.toString();
 		int count = input.length();
 		if( input != null && input.length()>0 ){
-			Array<unalcol.language.programming.lexer.Token<?>> token = tokenizer.apply(input);
-			for( unalcol.language.programming.lexer.Token<?> t:token ){
-				int start = ((Position2D)t.pos()).column()-1 + offset;
+			Collection<GeneralizedToken<Integer>> token = tokenizer.apply(input, src);
+			for( GeneralizedToken<Integer> t:token ){
+				int start = ((Position2DTrack)t.pos()).column()-1 + offset;
 				if( start>currentTokenStart ) addToken(array, currentTokenStart,start-1, Token.WHITESPACE, newStartOffset+currentTokenStart);
 				currentTokenStart = start;
 				addToken(array, currentTokenStart, start+t.length()-1, converter.get(t.type()), newStartOffset+currentTokenStart);

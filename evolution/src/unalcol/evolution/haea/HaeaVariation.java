@@ -3,7 +3,7 @@ package unalcol.evolution.haea;
 import unalcol.search.selection.Selection;
 import unalcol.search.variation.Variation;
 import unalcol.types.collection.vector.Vector;
-import unalcol.types.object.tagged.Tagged;
+import unalcol.types.object.Tagged;
 
 public class HaeaVariation<T> implements Variation<T>{
 	/**

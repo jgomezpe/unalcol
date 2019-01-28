@@ -5,7 +5,7 @@ import unalcol.search.variation.ParameterizedObject;
 import unalcol.search.variation.Variation;
 import unalcol.search.variation.Variation_1_1;
 import unalcol.search.variation.Variation_n_1;
-import unalcol.types.object.tagged.Tagged;
+import unalcol.types.object.Tagged;
 
 public class ESVariation<T,P> implements Variation<T>{ 
 	public static final String PARAMETERS_OPERATOR = "Parameters";

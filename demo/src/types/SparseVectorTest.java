@@ -5,7 +5,6 @@ import unalcol.services.Service;
 import unalcol.types.collection.Collection;
 import unalcol.types.collection.sparse.SparseArray;
 import unalcol.types.collection.vector.Vector;
-import unalcol.types.collection.vector.VectorClone;
 import unalcol.types.real.array.DoubleArrayPlainRead;
 import unalcol.types.real.array.DoubleArrayPlainWrite;
 
@@ -14,7 +13,6 @@ public class SparseVectorTest {
         Service.register(new JavaGenerator(), Object.class);         
     	Service.register(new DoubleArrayPlainRead(), double[].class);
         Service.register(new DoubleArrayPlainWrite(), double[].class);
-        Service.register(new VectorClone<Object>(), Vector.class);
 //        service.register(new ConsoleTracer(), Object.class);
 	}
 

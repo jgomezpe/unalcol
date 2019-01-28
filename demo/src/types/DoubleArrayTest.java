@@ -5,7 +5,7 @@
  */
 package types;
 
-import unalcol.io.CharReader;
+import unalcol.io.reader.CharReader;
 import unalcol.io.Readable;
 import unalcol.io.Write;
 import unalcol.random.raw.RawGenerator;

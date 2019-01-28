@@ -1,8 +1,8 @@
 package unalcol.search.variation;
 
 import unalcol.search.space.Space;
-import unalcol.types.object.tagged.Tagged;
-import unalcol.types.object.tagged.TaggedManager;
+import unalcol.types.object.Tagged;
+import unalcol.types.object.TaggedManager;
 
 public interface Variation<T> extends TaggedManager<T>{
 	public default int arity(){ return 0; };

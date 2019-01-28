@@ -50,7 +50,7 @@ public abstract class Wire extends Restriction {
    * @return A point following the wire shape and the point distribution
    */
   public double[] getPoint( Distribution d ){
-    double t = RawGenerator.next(this);
+    double t = RawGenerator.cast(this).next();
     double theta = getAngle( t );
     double[] p = getPoint( t );
     double[] q = d.generate( p, theta/Math.PI/2.0 );

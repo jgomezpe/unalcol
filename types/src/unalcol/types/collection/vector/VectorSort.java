@@ -2,6 +2,7 @@ package unalcol.types.collection.vector;
 import unalcol.algorithm.*;
 import unalcol.sort.*;
 import unalcol.sort.algorithm.*;
+import unalcol.types.collection.vector.Vector;
 import unalcol.clone.Cloneable;;
 
 /**
@@ -35,12 +36,11 @@ public class VectorSort<T> extends Algorithm<Vector<T>,Vector<T>> {
     }
 
     public void apply( Vector<T> input, Order order ){
-        apply( input, 0, input.size, order );
+        apply( input, 0, input.size(), order );
     }
 
     public void apply( Vector<T> input, int start, int end, Order order ){
-        T[] obj = (T[])input.buffer;
-        sort.apply( obj, start, end, order );
+        sort.apply( input.buffer, start, end, order );
     }
 
     @SuppressWarnings("unchecked")
@@ -51,7 +51,7 @@ public class VectorSort<T> extends Algorithm<Vector<T>,Vector<T>> {
             	input = (Vector<T>)c.clone();
             }
             Order order = sort.order();
-            apply(input, 0, input.size, order);
+            apply(input, 0, input.size(), order);
         }
         return input;
     }

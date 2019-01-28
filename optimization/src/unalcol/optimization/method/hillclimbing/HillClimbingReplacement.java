@@ -9,7 +9,7 @@ package unalcol.optimization.method.hillclimbing;
 import unalcol.search.BasicGoalBased;
 import unalcol.search.Goal;
 import unalcol.search.replacement.GoalBasedReplacement;
-import unalcol.types.object.tagged.Tagged;
+import unalcol.types.object.Tagged;
 
 /**
  *

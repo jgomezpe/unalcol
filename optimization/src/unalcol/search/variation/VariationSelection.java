@@ -1,7 +1,7 @@
 package unalcol.search.variation;
 
 import unalcol.search.selection.Selection;
-import unalcol.types.object.tagged.Tagged;
+import unalcol.types.object.Tagged;
 
 public class VariationSelection<T> implements Variation<T>{
 	protected int lambda;

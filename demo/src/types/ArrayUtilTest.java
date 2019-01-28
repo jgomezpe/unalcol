@@ -3,7 +3,7 @@ package types;
 import unalcol.random.integer.IntUniform;
 import unalcol.random.integer.RandInt;
 import unalcol.types.integer.IntegerOrder;
-import unalcol.types.object.array.ArrayUtil;
+import unalcol.types.collection.array.ArrayUtil;
 
 public class ArrayUtilTest {
 	public static void main(String[] args){

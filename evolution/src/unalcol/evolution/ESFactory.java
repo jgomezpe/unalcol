@@ -9,7 +9,7 @@ import unalcol.search.population.PopulationSearch;
 import unalcol.search.space.Space;
 import unalcol.search.variation.Variation_1_1;
 import unalcol.search.variation.Variation_n_1;
-import unalcol.types.object.tagged.Tagged;
+import unalcol.types.object.Tagged;
 
 public class ESFactory<T,P> {
 	//Evolutionary Strategy factory

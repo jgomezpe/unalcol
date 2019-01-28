@@ -2,7 +2,7 @@ package unalcol.search.selection;
 
 import unalcol.search.BasicGoalBased;
 import unalcol.search.Goal;
-import unalcol.types.object.tagged.Tagged;
+import unalcol.types.object.Tagged;
 
 public abstract class GoalBasedSelection<T,R> extends BasicGoalBased<T,R> implements Selection<T> {
 	

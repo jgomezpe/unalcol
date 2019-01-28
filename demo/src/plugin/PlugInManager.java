@@ -8,7 +8,7 @@ import unalcol.reflect.Loader;
 import unalcol.vc.BackEnd;
 import unalcol.vc.FrontEnd;
 import unalcol.vc.Side;
-import unalcol.vc.plugin.PlugInVCModel;
+import unalcol.plugin.PlugInVCModel;
 
 public class PlugInManager{
 	public static void testLoader(){

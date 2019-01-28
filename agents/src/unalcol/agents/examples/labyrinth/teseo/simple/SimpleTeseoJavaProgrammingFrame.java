@@ -1,11 +1,12 @@
 package unalcol.agents.examples.labyrinth.teseo.simple;
 import unalcol.gui.io.FileFilter;
 import unalcol.gui.log.*;
+import unalcol.java.JavaOS;
+
 import java.io.*;
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
-import unalcol.reflect.util.*;
 
 
 /**
@@ -198,7 +199,7 @@ String title = "Ambiente para Teseo";
       e.printStackTrace();
     }
 
-        unalcol.reflect.compiler.Compiler compiler = new unalcol.reflect.compiler.Compiler();
+    unalcol.java.compiler.Compiler compiler = new unalcol.java.compiler.Compiler();
     String pathName = (new File(".")).getAbsolutePath();
     pathName = pathName.substring(0, pathName.length()-1);
     compiler.addClassPath(pathName+"lib/agents.jar");

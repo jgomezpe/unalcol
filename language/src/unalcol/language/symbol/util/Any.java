@@ -22,7 +22,7 @@ public class Any extends SymbolSet{
      * Creates an any symbol set over the given symbol code Any = SymbolCode
      * @param code Symbol Code
      */
-    public Any(SymbolCode code) {
+    public Any(TextEncoder code) {
         super(code);
         intervals = new Vector<Interval>();
         intervals.add(new Interval(0, code.size()));

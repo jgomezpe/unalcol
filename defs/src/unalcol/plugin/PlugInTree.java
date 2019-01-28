@@ -2,10 +2,9 @@ package unalcol.plugin;
 
 import unalcol.types.collection.array.Array;
 import unalcol.types.collection.vector.Vector;
-import unalcol.types.object.Thing;
 import unalcol.xml.XMLElement;
 
-public interface PlugInTree extends Thing, PlugIn{
+public interface PlugInTree extends PlugIn{
 	@Override
 	default void init(XMLElement element, PlugInSet<?> builder){
 		setId(PlugIn.id(element));

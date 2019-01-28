@@ -1,5 +1,4 @@
 package unalcol.models.automata.nondeterministic;
-import unalcol.services.MicroService;
 import unalcol.sort.*;
 
 
@@ -15,7 +14,7 @@ import unalcol.sort.*;
  * @author Jonatan Gomez Perdomo
  * @version 1.0
  */
-public class TransitionOrder extends MicroService<Transition> implements Order<Transition> {
+public class TransitionOrder implements Order {
     public String getCanonicalName(){
         return Transition.class.getCanonicalName();
     }
@@ -39,4 +38,6 @@ public class TransitionOrder extends MicroService<Transition> implements Order<T
         int dif = one.start - two.start;
         return (dif==0)?one.end-two.end:dif;
     }
+    
+    public int compare(Object one, Object two) { return compare((Transition)one, (Transition)two);    }
 }

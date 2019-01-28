@@ -28,7 +28,7 @@ import unalcol.tracer.VectorTracer;
 import unalcol.types.collection.bitarray.BitArray;
 import unalcol.types.integer.array.IntArray;
 import unalcol.types.integer.array.IntArrayPlainWrite;
-import unalcol.types.object.tagged.Tagged;
+import unalcol.types.object.Tagged;
 import unalcol.types.real.array.DoubleArray;
 import unalcol.types.real.array.DoubleArrayPlainWrite;
 

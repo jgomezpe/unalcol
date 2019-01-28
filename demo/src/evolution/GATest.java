@@ -14,7 +14,7 @@ import unalcol.search.population.PopulationSearch;
 import unalcol.search.selection.Tournament;
 import unalcol.search.space.Space;
 import unalcol.types.collection.bitarray.BitArray;
-import unalcol.types.object.tagged.Tagged;
+import unalcol.types.object.Tagged;
 
 public class GATest {
 	

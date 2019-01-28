@@ -3,7 +3,7 @@ package unalcol.search.population;
 import unalcol.descriptors.Descriptors;
 import unalcol.search.BasicGoalBased;
 import unalcol.search.Goal;
-import unalcol.types.object.tagged.Tagged;
+import unalcol.types.object.Tagged;
 import unalcol.types.real.array.DoubleArray;
 
 public class PopulationDescriptors<T> extends BasicGoalBased<T,Double> implements Descriptors{

@@ -1,6 +1,6 @@
 package unalcol.search.variation;
 
-import unalcol.types.object.tagged.Tagged;
+import unalcol.types.object.Tagged;
 
 public class RefinedVariation<T> implements Variation<T> {
 	protected Variation_1_1<T> refining;

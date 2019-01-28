@@ -1,6 +1,5 @@
 package data;
 
-import unalcol.clone.DefaultClone;
 import unalcol.data.plaintext.RealVectorFile;
 import unalcol.io.Write;
 import unalcol.random.raw.JavaGenerator;
@@ -17,12 +16,10 @@ public class RealArrayFileTest {
 		// Tracking the goal evaluations
 		ServicePool service = new ServicePool();
 		service.register(new JavaGenerator(), Object.class);      
-		service.register(new DefaultClone(), Object.class);
-		Tracer<Object> t = new ConsoleTracer<Object>();
+		Tracer t = new ConsoleTracer();
 		t.start();
-		service.register(new DoubleArrayPlainWrite(',',false), double[].class);
-		service.register(new DoubleArrayPlainRead(','), double[].class);
-		Service.set(service);
+		Service.register(new DoubleArrayPlainWrite(',',false), double[].class);
+		Service.register(new DoubleArrayPlainRead(','), double[].class);
 	}
 
 	public static void main(String[] args){

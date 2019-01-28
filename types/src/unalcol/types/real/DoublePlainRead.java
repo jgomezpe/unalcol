@@ -6,7 +6,7 @@
 package unalcol.types.real;
 import java.io.IOException;
 
-import unalcol.types.collection.UnalcolIterator;
+import unalcol.types.collection.iterator.UnalcolIterator;
 import unalcol.types.integer.IntegerPlainRead;
 
 /**
@@ -15,7 +15,7 @@ import unalcol.types.integer.IntegerPlainRead;
  */
 public class DoublePlainRead implements DoubleRead{
 
-	public static String number(UnalcolIterator<?, Integer> reader) throws IOException{
+	public static String number(UnalcolIterator<Integer> reader) throws IOException{
 		StringBuilder sb = new StringBuilder();
 		IntegerPlainRead.removeSpaces(reader);
 		sb.append( IntegerPlainRead.number(reader) );
@@ -37,7 +37,7 @@ public class DoublePlainRead implements DoubleRead{
 		return sb.toString();
     }
 
-	public Double read(UnalcolIterator<?, Integer> reader) throws IOException{ return Double.parseDouble(number(reader)); }
+	public Double read(UnalcolIterator<Integer> reader) throws IOException{ return Double.parseDouble(number(reader)); }
 	
 	@Override
 	public String toString(){ return "DoublePlainRead"; }	

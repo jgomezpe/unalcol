@@ -2,7 +2,7 @@ package unalcol.search.population;
 
 import unalcol.search.RealValuedGoal;
 import unalcol.sort.Order;
-import unalcol.types.object.tagged.Tagged;
+import unalcol.types.object.Tagged;
 
 public interface RealBasedPopulationSearch<T> extends PopulationSearch<T, Double> {
 	@Override

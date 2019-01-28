@@ -6,7 +6,7 @@ import java.io.Writer;
 import unalcol.io.Writable;
 import unalcol.io.Write;
 import unalcol.search.Goal;
-import unalcol.types.object.tagged.Tagged;
+import unalcol.types.object.Tagged;
 
 public class SolutionWrite<T> implements Write {
 	protected Goal<T,Double> goal;

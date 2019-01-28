@@ -1,6 +1,5 @@
 package unalcol.language.symbol.util;
 
-import unalcol.language.util.*;
 import unalcol.language.symbol.*;
 
 /**
@@ -20,7 +19,7 @@ public class Digit extends SymbolSet{
      * Creates a digit symbol set over the given symbol code
      * @param code Symbol Code
      */
-    public Digit(SymbolCode code) {
+    public Digit(TextEncoder code) {
         super(code);
         intervals = code.digit();
     }

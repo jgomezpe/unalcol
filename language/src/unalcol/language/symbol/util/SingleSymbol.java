@@ -26,7 +26,7 @@ public class SingleSymbol extends SymbolSet {
      * @param code Symbol Code
      * @param symbol Symbol defining the set
      */
-    public SingleSymbol(SymbolCode code, int symbol) {
+    public SingleSymbol(TextEncoder code, int symbol) {
         super(code);
         this.symbol = symbol;
         intervals = new Vector<Interval>();
@@ -38,9 +38,9 @@ public class SingleSymbol extends SymbolSet {
      * @param code Symbol Code
      * @param symbol Symbol defining the set
      */
-    public SingleSymbol(SymbolCode code, char symbol) {
+    public SingleSymbol(TextEncoder code, char symbol) {
         super(code);
-        this.symbol = code.encode(symbol);
+        this.symbol = code.encode((Integer)(int)symbol);
         intervals = new Vector<Interval>();
         intervals.add(new Interval(this.symbol));
     }

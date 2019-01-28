@@ -1,6 +1,6 @@
 package types;
 
-import unalcol.io.CharReader;
+import unalcol.io.reader.CharReader;
 import unalcol.types.real.DoublePlainRead;
 
 public class DoubleTest {

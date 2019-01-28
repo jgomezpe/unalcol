@@ -1,7 +1,7 @@
 package unalcol.search.local;
 
 import unalcol.tracer.BasicTracer;
-import unalcol.types.object.tagged.Tagged; 
+import unalcol.types.object.Tagged; 
 
 public class PathTracer<T> extends BasicTracer {
     public static final String PARENT = "parent";

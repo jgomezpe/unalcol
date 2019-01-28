@@ -4,7 +4,7 @@
  */
 
 package unalcol.types.integer;
-import unalcol.types.collection.UnalcolIterator;
+import unalcol.types.collection.iterator.UnalcolIterator;
 
 import java.io.*;
 
@@ -14,7 +14,7 @@ import java.io.*;
  */
 public class IntegerPlainRead implements IntegerRead{
 	
-	public static void readDigitStar( UnalcolIterator<?,Integer> reader, StringBuilder sb ){
+	public static void readDigitStar( UnalcolIterator<Integer> reader, StringBuilder sb ){
 		boolean flag = true;
 		while( reader.hasNext() && flag ){
 			int c = reader.next();
@@ -24,13 +24,13 @@ public class IntegerPlainRead implements IntegerRead{
 		if( !flag ) reader.back();
 	}
 
-	public static void removeSpaces( UnalcolIterator<?,Integer> reader ){
+	public static void removeSpaces( UnalcolIterator<Integer> reader ){
 		boolean flag = true;
 		while( reader.hasNext() && flag ){ flag = Character.isSpaceChar(reader.next()); }
 		if( !flag ) reader.back();
 	}
 
-	public static String number( UnalcolIterator<?,Integer> reader ) throws IOException{
+	public static String number( UnalcolIterator<Integer> reader ) throws IOException{
 		if( reader.hasNext() ){
 			StringBuilder sb = new StringBuilder();
 			int c = reader.next();
@@ -50,7 +50,7 @@ public class IntegerPlainRead implements IntegerRead{
 	}
 	
 	@Override
-	public Integer read(UnalcolIterator<?,Integer> reader) throws IOException{
+	public Integer read(UnalcolIterator<Integer> reader) throws IOException{
 		removeSpaces(reader);
 		return Integer.parseInt(number(reader));
     }

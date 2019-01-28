@@ -1,7 +1,7 @@
 package unalcol.search.selection;
 
 import unalcol.random.integer.*;
-import unalcol.types.object.tagged.Tagged;
+import unalcol.types.object.Tagged;
 
 /**
  * <p>Title: Uniform</p>

@@ -6,10 +6,8 @@ package math;
 
 import java.io.StringReader;
 
-import unalcol.io.CharReader;
+import unalcol.io.reader.CharReader;
 import unalcol.services.Service;
-import unalcol.types.collection.vector.Vector;
-import unalcol.types.collection.vector.VectorClone;
 import unalcol.types.real.array.DoubleArrayPlainRead;
 import unalcol.types.real.array.DoubleArrayPlainWrite;
 import unalcol.types.real.array.sparse.SparseRealVector;
@@ -26,7 +24,6 @@ public class SparseRealVectorDemo {
 	public static void init_services(){
     	Service.register(new DoubleArrayPlainRead(), double[].class);
         Service.register(new DoubleArrayPlainWrite(), double[].class);
-        Service.register(new VectorClone<Object>(), Vector.class);
 //        service.register(new ConsoleTracer(), Object.class);
         Service.register(new DoubleArrayPlainWrite(','),double[].class);
 	}

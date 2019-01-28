@@ -7,7 +7,7 @@ package unalcol.search;
 
 import unalcol.math.function.Function;
 import unalcol.sort.Order;
-import unalcol.types.object.tagged.Tagged;
+import unalcol.types.object.Tagged;
 
 /**
  *

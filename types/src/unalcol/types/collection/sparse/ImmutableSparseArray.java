@@ -3,8 +3,8 @@ package unalcol.types.collection.sparse;
 import unalcol.types.collection.Collection;
 import unalcol.types.collection.array.ImmutableArray;
 import unalcol.types.collection.keymap.KeyValue;
-import unalcol.types.collection.keymap.KeyOrder;
 import unalcol.types.collection.vector.SortedVector;
+import unalcol.types.collection.keymap.KeyOrder;
 import unalcol.types.integer.IntegerOrder;
 
 public class ImmutableSparseArray<T> implements ImmutableArray<T>{

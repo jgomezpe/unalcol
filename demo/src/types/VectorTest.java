@@ -9,7 +9,6 @@ import unalcol.clone.Cloneable;
 import unalcol.random.raw.JavaGenerator;
 import unalcol.services.Service;
 import unalcol.types.collection.vector.Vector;
-import unalcol.types.collection.vector.VectorClone;
 import unalcol.types.real.array.DoubleArrayPlainRead;
 import unalcol.types.real.array.DoubleArrayPlainWrite;
 
@@ -22,7 +21,6 @@ public class VectorTest {
         Service.register(new JavaGenerator(), Object.class);         
     	Service.register(new DoubleArrayPlainRead(), double[].class);
         Service.register(new DoubleArrayPlainWrite(), double[].class);
-        Service.register(new VectorClone<Object>(), Vector.class);
 	}
 
 	public static void main( String[] args ){

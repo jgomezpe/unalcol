@@ -8,7 +8,7 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 
-import unalcol.io.CharReader;
+import unalcol.io.reader.CharReader;
 import unalcol.types.collection.vector.Vector;
 import unalcol.types.real.array.DoubleArrayPlainRead;
 

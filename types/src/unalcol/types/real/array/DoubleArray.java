@@ -1,5 +1,5 @@
 package unalcol.types.real.array;
-import unalcol.types.object.array.FiboArray;
+import unalcol.types.collection.array.FiboArray;
 import unalcol.types.real.*;
 
 /**
@@ -13,7 +13,6 @@ import unalcol.types.real.*;
  */
 public class DoubleArray extends FiboArray{
 	protected double[] buffer;
-	protected int size;
 	
 	public DoubleArray( double[] buffer ){ this(buffer, buffer.length); }
 
@@ -24,12 +23,6 @@ public class DoubleArray extends FiboArray{
 	}
 
 	public DoubleArray(){ this( new double[DEFAULT_C], 0 ); }
-
-	@Override
-	public void clear(){
-		super.clear();
-		size = 0;
-	}
 
 	/**
 	 * Inserts a data element in the structure
@@ -72,8 +65,6 @@ public class DoubleArray extends FiboArray{
 		leftShift(index);
 		return true;
 	}
-
-	public int size(){ return size; }
 
 	/**
 	 * Sets the size of the array

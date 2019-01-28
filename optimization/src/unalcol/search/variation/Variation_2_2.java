@@ -1,6 +1,6 @@
 package unalcol.search.variation;
 
-import unalcol.types.object.tagged.Tagged;
+import unalcol.types.object.Tagged;
 import unalcol.clone.Cloneable;
 
 public interface Variation_2_2<T> extends Variation_2_m<T>{

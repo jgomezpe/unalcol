@@ -1,7 +1,6 @@
 package unalcol.language.util;
 import unalcol.types.collection.vector.*;
 
-import unalcol.types.integer.*;
 import unalcol.types.integer.array.*;
 
 /**
@@ -63,7 +62,7 @@ public class Interval {
 
     /**
      * Determines if the interval contains the given value
-     * @param x Value to be analized
+     * @param x Value to be analyzed
      * @return <i>true</i> if <i>x</i> falls into the interval, <i>false</i> otherwise
      */
     public boolean contains(int x) {
@@ -72,7 +71,7 @@ public class Interval {
 
     /**
      * Determines if the interval contains the given interval
-     * @param x Interval to be analized
+     * @param x Interval to be analyzed
      * @return <i>true</i> if <i>x</i> falls into the interval, <i>false</i> otherwise
      */
     public boolean contains(Interval x) {
@@ -118,7 +117,7 @@ public class Interval {
 
     /**
      * Creates a sorted set of disjoint intervals that are equivalent to the given set of intervals.
-     * For example if the rpvided intervals are [2,10), [7,15) and [20, 30) then the reduced intervals
+     * For example if the provided intervals are [2,10), [7,15) and [20, 30) then the reduced intervals
      * are [2,7), [7,10), [10,15) and [20, 30).
      * @param intervals set of intervals that will be reduced to a sorted set of disjoint intervals.
      * @return Sorted Vector of disjoint intervals that is equivalent to the given set of intervals.
@@ -133,7 +132,7 @@ public class Interval {
             limits[k] = intervals.get(i).sup;
             k++;
         }
-        IntArraySort.merge(limits);
+        IntArray.merge(limits);
         Vector<Interval> new_intervals = new Vector<Interval>();
         int m = 2 * n - 1;
         for (int i = 0; i < m; i++) {

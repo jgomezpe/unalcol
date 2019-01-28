@@ -1,6 +1,6 @@
 package unalcol.plugin;
 
-import unalcol.types.object.Thing;
+import unalcol.types.object.Named;
 import unalcol.xml.XMLElement;
 
 //
@@ -51,13 +51,13 @@ import unalcol.xml.XMLElement;
 * (E-mail: <A HREF="mailto:jgomezpe@unal.edu.co">jgomezpe@unal.edu.co</A> )
 * @version 1.0
 */
-public interface PlugIn extends Thing{
+public interface PlugIn extends Named{
 	public static final String PLUGIN = "plugin";
 	public static final String LOADER = "loader";
 	public static final String SRC = "src";
 
 	public static String id(XMLElement element){
-		String id = (String)element.get(Thing.ID); 
+		String id = (String)element.get(Named.ID); 
 		return (id!=null)?id:element.getTag(); 
 	}
 	

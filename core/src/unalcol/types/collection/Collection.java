@@ -2,6 +2,10 @@ package unalcol.types.collection;
 
 import java.util.Iterator;
 
+import unalcol.types.collection.iterator.UnalcolIterator;
+import unalcol.types.collection.iterator.CoreIterator;
+import unalcol.types.collection.iterator.PositionTrack;
+
 /**
  * <p>Title: Collection</p>
  *
@@ -21,14 +25,16 @@ public interface Collection<T> extends Iterable<T> {
 	 */
 	public boolean isEmpty();      
 	
-	@SuppressWarnings("unchecked")
-	public default UnalcolIterator<?, T> unalcol(){
+	public default UnalcolIterator<T> unalcol(){
 		Iterator<T> iter = iterator();
-		UnalcolIterator<?, T> riter;
-		if( iter instanceof UnalcolIterator) riter = (UnalcolIterator<?, T>)iter;
-		else riter = new ShortTermMemoryIterator<Integer, T>(iter) {
+		UnalcolIterator<T> riter;
+		if( iter instanceof UnalcolIterator) riter = (UnalcolIterator<T>)iter;
+		else riter = new CoreIterator<T>(iter) {
 			@Override
-			protected Integer key(T data) { return pos; }
+			protected PositionTrack pos(T data) { return pos(); }
+
+			@Override
+			public PositionTrack pos(){ return new PositionTrack(0,pos); }
 		};		
 		return riter;
 	}

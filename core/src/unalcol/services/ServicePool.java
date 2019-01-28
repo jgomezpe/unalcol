@@ -1,16 +1,13 @@
 package unalcol.services;
 
 import unalcol.types.collection.Collection;
-import unalcol.types.collection.keymap.HTKeyMap;
-import unalcol.types.collection.keymap.KeyMap;
-import unalcol.types.object.ObjectKey;
+import unalcol.types.collection.keymap.LowLevelKeyMap;
 
 public class ServicePool {
 	/**
 	 * Maintains a pool of services (the key is the service name) that are provided to objects/classes
 	 */
-	protected KeyMap<Object,ProvidersSet> pool = new HTKeyMap<Object,ProvidersSet>();
-	protected ObjectKey key = new ObjectKey();
+	protected LowLevelKeyMap<Object,ProvidersSet> pool = new LowLevelKeyMap<Object,ProvidersSet>();
 	
 	protected ProvidersSet get( Class<?> caller ) throws NoSuchMethodException {
 		if( caller == null ) throw new NoSuchMethodException();
@@ -54,6 +51,6 @@ public class ServicePool {
 			s = new ProvidersSet();
 			pool.set(caller,s);
 		}
-		s.register(key.key(service), service);
+		s.register(service.toString(), service);
 	}
 }

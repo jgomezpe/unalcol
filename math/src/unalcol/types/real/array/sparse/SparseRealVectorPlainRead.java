@@ -7,7 +7,7 @@ package unalcol.types.real.array.sparse;
 import java.io.IOException;
 
 import unalcol.io.Read;
-import unalcol.types.collection.UnalcolIterator;
+import unalcol.types.collection.iterator.UnalcolIterator;
 import unalcol.types.integer.IntegerPlainRead;
 import unalcol.types.integer.IntegerRead;
 import unalcol.types.real.DoublePlainRead;
@@ -55,7 +55,7 @@ public class SparseRealVectorPlainRead implements SparseRealVectorRead{
 	public void setReadInt( IntegerRead ri ){ this.ri = ri; }
 	public void setReadDouble( DoubleRead rr ){ this.rr = rr; }
 	
-	public SparseRealVector read( UnalcolIterator<?, Integer> reader ) throws IOException{
+	public SparseRealVector read( UnalcolIterator<Integer> reader ) throws IOException{
         if( read_dimension ){
         	n = ri.read(reader);
             Read.readSeparator(reader, separator);        	

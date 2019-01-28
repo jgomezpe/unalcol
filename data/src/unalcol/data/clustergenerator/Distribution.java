@@ -80,7 +80,7 @@ public class Distribution {
     }
     double[] q = (double[]) center.clone();
     double r = Math.abs(g.next());
-    if (symmetric && RawGenerator.next(this)<0.5) {
+    if (symmetric && RawGenerator.cast(this).bool()) {
       r *= -1.0;
     }
 

@@ -1,0 +1,8 @@
+{
+ "JSON_novalid":"Definicion de %s invalida. %s ",
+ "JSON_word":"palabra reservada",
+ "JSON_object":"objeto",
+ "JSON_option":" uno de los siguientes simbolos",
+ "JSON_unexpected":"Simbolo $s inesperado. Se esperaba %s %s",
+ "JSON_array:"arreglo",
+}

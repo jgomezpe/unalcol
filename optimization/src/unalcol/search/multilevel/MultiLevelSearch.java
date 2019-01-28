@@ -3,8 +3,8 @@ package unalcol.search.multilevel;
 import unalcol.search.BasicGoalBased;
 import unalcol.search.Search;
 import unalcol.search.space.Space;
-import unalcol.types.object.tagged.Tagged;
-import unalcol.types.object.tagged.TaggedManager;
+import unalcol.types.object.Tagged;
+import unalcol.types.object.TaggedManager;
 
 public class MultiLevelSearch<G,P,R> extends BasicGoalBased<P, R> implements Search<P,R> {
 	protected Search<G,R> lowLevelSearch;

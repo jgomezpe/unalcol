@@ -1,16 +1,32 @@
 package unalcol.gui.render;
 
+import java.awt.BorderLayout;
+
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTextPane;
 
 import unalcol.vc.Side;
 
-public class AWTTextRender implements AWTRender, TextRender{
+public class AWTTextRender extends JPanel implements TextRender{
 	protected String id;
 	protected Side side;
-	protected JPanel panel = null;
-
-	public AWTTextRender(String id) { this.id = id; }
 	
+	BorderLayout layout = new BorderLayout();
+	JTextPane textArea = new JTextPane();
+	JScrollPane scroll;
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -8976916928457960190L;
+
+	public AWTTextRender( String id ){
+		this.id = id;
+		scroll = new JScrollPane(textArea);
+		this.setLayout(layout);
+		this.add(scroll, BorderLayout.CENTER);
+	}
+
 	@Override
 	public void setSide(Side side){ this.side = side; }
 
@@ -18,19 +34,20 @@ public class AWTTextRender implements AWTRender, TextRender{
 	public Side side(){ return side; }
 
 	@Override
-	public void setId(String id) { this.id = id; }
+	public String id(){ return id; }
 	
 	@Override
-	public String id(){ return id; }
+	public void setId(String id) { this.id = id; }
 
 	@Override
-	public void setPanel(JPanel panel) { this.panel=panel; }
+	public void render(String str){ textArea.setText(str);	}
+	
+	@Override
+	public void add(String str){ textArea.setText(textArea.getText()+str); }
+	
+	@Override
+	public void init() { textArea.setText(""); }
 
 	@Override
-	public JPanel panel() { return panel; }
-
-	@Override
-	public void render(String str) {
-		((TextRenderPanel)panel).textArea.setText(str);
-	}
+	public void render(){}
 }

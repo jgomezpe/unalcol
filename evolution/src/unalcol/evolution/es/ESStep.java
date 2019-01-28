@@ -6,7 +6,7 @@ import unalcol.search.population.VariationReplacePopulationSearch;
 import unalcol.search.space.Space;
 import unalcol.search.variation.Variation_1_1;
 import unalcol.search.variation.Variation_n_1;
-import unalcol.types.object.tagged.Tagged;
+import unalcol.types.object.Tagged;
 
 public class ESStep<T,P> extends VariationReplacePopulationSearch<T,Double> implements RealBasedPopulationSearch<T>{
 	protected Space<P> s_space;

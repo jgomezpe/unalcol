@@ -8,7 +8,7 @@ package unalcol.search.local;
 import unalcol.math.logic.Predicate;
 import unalcol.search.Goal;
 import unalcol.search.space.Space;
-import unalcol.types.object.tagged.Tagged;
+import unalcol.types.object.Tagged;
 
 /**
  *

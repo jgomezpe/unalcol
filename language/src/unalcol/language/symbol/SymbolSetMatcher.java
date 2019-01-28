@@ -2,7 +2,6 @@ package unalcol.language.symbol;
 
 import unalcol.types.collection.vector.*;
 import unalcol.language.util.*;
-import unalcol.language.symbol.*;
 import unalcol.language.symbol.util.*;
 
 /**
@@ -47,7 +46,7 @@ public class SymbolSetMatcher {
      * Creates a symbol set matcher using the provided disjoint intervals of symbols.
      * @param intervals Set of disjoint intervals if the matcher was defined by such disjoint intervals.
      */
-    public SymbolSetMatcher(SymbolCode code, Vector<Interval> intervals) {
+    public SymbolSetMatcher(TextEncoder code, Vector<Interval> intervals) {
         sets = new Vector<SymbolSet>();
         for (int i = 0; i < intervals.size(); i++) {
             Vector<Interval> rank = new Vector<Interval>();
@@ -62,7 +61,7 @@ public class SymbolSetMatcher {
      * @param intervals Set of disjoint intervals if the matcher was defined by such disjoint intervals.
      * @param any A symbol set used for representing the universal set (symbolcode as symbol set).
      */
-    public SymbolSetMatcher(SymbolCode code, Vector<Interval> intervals,
+    public SymbolSetMatcher(TextEncoder code, Vector<Interval> intervals,
                             SymbolSet any) {
         this(code, intervals);
 
@@ -89,7 +88,8 @@ public class SymbolSetMatcher {
         Vector<SymbolSet> sub_set = new Vector<SymbolSet>();
         if (intervals != null) {
             Interval is = new Interval(s);
-            int left = SymbolSet.search.findLeft(intervals, is, SymbolSet.order);
+            SymbolSet.search.set(intervals);
+            int left = SymbolSet.search.findLeft(is);
             if (left >= 0) {
                 intervals.get(left).contains(s);
                 sub_set.add(sets.get(left));
@@ -120,7 +120,8 @@ public class SymbolSetMatcher {
     public Vector<SymbolSet> match(Interval s) {
         Vector<SymbolSet> sub_set = new Vector<SymbolSet>();
         if (intervals != null) {
-            int left = SymbolSet.search.findLeft(intervals, s, SymbolSet.order);
+            SymbolSet.search.set(intervals);
+            int left = SymbolSet.search.findLeft(s);
             if (left >= 0) {
                 intervals.get(left).contains(s);
                 sub_set.add(sets.get(left));

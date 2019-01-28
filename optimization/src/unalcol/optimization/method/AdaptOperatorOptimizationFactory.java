@@ -12,7 +12,7 @@ import unalcol.search.local.AdaptSearchOperatorParameters;
 import unalcol.search.local.IterativeLocalSearch;
 import unalcol.search.local.LocalSearch;
 import unalcol.search.variation.Variation_1_1;
-import unalcol.types.object.tagged.Tagged;
+import unalcol.types.object.Tagged;
 
 public class AdaptOperatorOptimizationFactory<T,P> {
 	// Adapt parameters - Hill Climbing

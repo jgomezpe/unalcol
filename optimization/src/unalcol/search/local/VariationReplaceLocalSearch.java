@@ -11,7 +11,7 @@ import unalcol.search.replacement.GoalBasedReplacement;
 import unalcol.search.replacement.Replacement;
 import unalcol.search.space.Space;
 import unalcol.search.variation.Variation_1_1;
-import unalcol.types.object.tagged.Tagged;
+import unalcol.types.object.Tagged;
 
 /**
  *

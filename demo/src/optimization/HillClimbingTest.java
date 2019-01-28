@@ -16,7 +16,7 @@ import unalcol.search.multilevel.CodeDecodeMap;
 import unalcol.search.multilevel.MultiLevelSearch;
 import unalcol.search.space.Space;
 import unalcol.types.collection.bitarray.BitArray;
-import unalcol.types.object.tagged.Tagged;
+import unalcol.types.object.Tagged;
 
 public class HillClimbingTest{
 	public static void real(){
@@ -28,7 +28,7 @@ public class HillClimbingTest{
     	// Variation
     	Mutation variation = MethodTest.real_variation();
         // Search method
-        int MAXITERS = 1500;
+        int MAXITERS = 15000;
         boolean neutral = true; // Accepts movements when having same function value
         boolean adapt_operator = false; // Set to true if you want adaptation in operator
         LocalSearch<double[],Double> search;

@@ -14,10 +14,11 @@ import javax.swing.text.StyleConstants;
 import javax.swing.text.StyleContext;
 import javax.swing.text.StyledDocument;
 
-import unalcol.language.programming.lexer.Token;
-import unalcol.types.collection.array.Array;
+import unalcol.language.Token;
+import unalcol.language.generalized.GeneralizedToken;
+import unalcol.types.collection.Collection;
 import unalcol.types.collection.keymap.ImmutableKeyMap;
-import unalcol.io.Position2D;
+import unalcol.types.collection.iterator.Position2DTrack;
 import unalcol.io.Tokenizer;
 
 public class SyntaxEditPanel extends JTextPane implements SyntaxEditComponent{
@@ -53,8 +54,8 @@ public class SyntaxEditPanel extends JTextPane implements SyntaxEditComponent{
 		Style s = doc.getStyle(style.tag());
 		if( s==null ){
 			Style parent;
-			if( style.tag().equals(SyntaxStyle.DEF) ) parent = StyleContext.getDefaultStyleContext().getStyle(StyleContext.DEFAULT_STYLE);
-			else parent = doc.getStyle(SyntaxStyle.DEF);
+			if( style.tag().equals(SyntaxStyle.REGULAR) ) parent = StyleContext.getDefaultStyleContext().getStyle(StyleContext.DEFAULT_STYLE);
+			else parent = doc.getStyle(SyntaxStyle.REGULAR);
 			s = doc.addStyle(style.tag(),parent);
 		}	
 		if( style.font_family()!=null)  StyleConstants.setFontFamily(s, style.font_family());
@@ -83,17 +84,17 @@ public class SyntaxEditPanel extends JTextPane implements SyntaxEditComponent{
 	        Element paragraph = root.getElement(root.getElementIndex(pos));
 			int start = paragraph.getStartOffset();
 			int end = length==0?paragraph.getEndOffset():pos+length;
-			Vector<Token<?>> changes = new Vector<Token<?>>();
+			Vector<Token> changes = new Vector<Token>();
 			while(start<end){
 				Element p = root.getElement(root.getElementIndex(start));
 				length = p.getEndOffset()-start;
 				String code = null;
 		        try{ code = doc.getText(start, length); } catch (BadLocationException e1) {}
 		        if( code != null && code.length()>0 ){
-					Array<Token<?>> token = tokenizer.apply(code);
-					for( Token<?> t:token ){
-						((Position2D)t.pos()).shift(start);
-						changes.add(t);
+					Collection<GeneralizedToken<Integer>> token = tokenizer.apply(code);
+					for( GeneralizedToken<Integer> t:token ){
+						((Position2DTrack)t.pos()).shift(start);
+						changes.add((Token)t);
 					}
 		        }
 				start = p.getEndOffset();
@@ -102,8 +103,8 @@ public class SyntaxEditPanel extends JTextPane implements SyntaxEditComponent{
 	        Runnable doAssist = new Runnable() {
 			@Override
 				public void run() {
-					for( Token<?> t:changes ){
-						doc.setCharacterAttributes(((Position2D)t.pos()).offset(),t.length(),doc.getStyle(token_style.get(t.type())),true);
+					for( Token t:changes ){
+						doc.setCharacterAttributes(((Position2DTrack)t.pos()).offset(),t.length(),doc.getStyle(token_style.get(t.type())),true);
 	    			}
 				}
 	        };

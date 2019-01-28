@@ -1,7 +1,7 @@
 package unalcol.search.variation;
 
 import unalcol.instance.Instanteable;
-import unalcol.types.object.tagged.Tagged;
+import unalcol.types.object.Tagged;
 
 public interface Variation_n_1<T> extends Variation<T> {
 	public default T build( @SuppressWarnings("unchecked") T... pop ){ return build(wrap(pop)).unwrap();	}

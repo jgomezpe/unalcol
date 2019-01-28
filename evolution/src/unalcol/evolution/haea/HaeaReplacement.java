@@ -1,7 +1,7 @@
 package unalcol.evolution.haea;
 import unalcol.search.population.PopulationReplacement;
 import unalcol.sort.Order;
-import unalcol.types.object.tagged.Tagged;
+import unalcol.types.object.Tagged;
 import unalcol.search.BasicGoalBased;
 import unalcol.search.RealValuedGoal;
 

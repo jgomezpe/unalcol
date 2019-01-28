@@ -1,6 +1,6 @@
 package unalcol.agents.search;
 import unalcol.types.collection.vector.*;
-import unalcol.types.object.tagged.Tagged;
+import unalcol.types.object.Tagged;
 import unalcol.agents.*;
 import unalcol.search.BasicGoalBased;
 import unalcol.search.Goal;

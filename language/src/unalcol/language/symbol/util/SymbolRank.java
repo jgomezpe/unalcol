@@ -22,7 +22,7 @@ public class SymbolRank extends SymbolSet {
      * Creates an empty symbol rank set over the given symbol code
      * @param code Symbol Code
      */
-    public SymbolRank(SymbolCode code) {
+    public SymbolRank(TextEncoder code) {
         super(code);
         intervals = new Vector<Interval>();
     }
@@ -33,7 +33,7 @@ public class SymbolRank extends SymbolSet {
      * @param inf min limit of the interval
      * @param sup sup limit of the interval
      */
-    public SymbolRank(SymbolCode code, int inf, int sup) {
+    public SymbolRank(TextEncoder code, int inf, int sup) {
         super(code);
         intervals = new Vector<Interval>();
         if (inf < sup) {
@@ -46,11 +46,11 @@ public class SymbolRank extends SymbolSet {
      * @param code Symbol Code
      * @param inf min limit of the interval
      * @param sup sup limit of the interval
-     * @param negated If the interval is defing the symbol set or its complement. A <i>true</i>
+     * @param negated If the interval is defining the symbol set or its complement. A <i>true</i>
      * value indicates that the symbol set is defined as the complement of the provided interval.
-     * A <i>false</i> value indicates that the symbol set will be defnied by the interval.
+     * A <i>false</i> value indicates that the symbol set will be defined by the interval.
      */
-    public SymbolRank(SymbolCode code, int inf, int sup, boolean negated) {
+    public SymbolRank(TextEncoder code, int inf, int sup, boolean negated) {
         super(code);
         intervals = new Vector<Interval>();
         if (inf < sup) {
@@ -69,7 +69,7 @@ public class SymbolRank extends SymbolSet {
      * @param code Symbol Code
      * @param intervals Disjoint vector of intervals defining the set.
      */
-    public SymbolRank(SymbolCode code, Vector<Interval> intervals) {
+    public SymbolRank(TextEncoder code, Vector<Interval> intervals) {
         super(code);
         this.intervals = intervals;
     }
@@ -84,7 +84,7 @@ public class SymbolRank extends SymbolSet {
     }
 
     /**
-     * Calcultes the union symbol set.
+     * Calculates the union symbol set.
      * @param second SymbolSet being joined with the symbol set.
      * @return SymbolSet that represents the union of the two symbol sets.
      */

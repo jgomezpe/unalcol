@@ -72,8 +72,8 @@ public class HAEATest {
 		HaeaOperators<double[]> operators = new SimpleHaeaOperators<double[]>(mutation, xover);
     	
 		// Search method
-		int POPSIZE = 10;
-		int MAXITERS = 3;
+		int POPSIZE = 50;
+		int MAXITERS = 200;
 		EAFactory<double[]> factory = new EAFactory<double[]>();
 		PopulationSearch<double[],Double> search = 
         		factory.HAEA(POPSIZE, operators, new Tournament<double[],Double>(function,4), MAXITERS );
