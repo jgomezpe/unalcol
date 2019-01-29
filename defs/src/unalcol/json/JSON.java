@@ -14,4 +14,17 @@ public class JSON extends LowLevelKeyMap<String, Object> implements Cloneable{
 		}
 		return json;
 	}
+	
+	public int getInt( String tag ){
+		Integer i = (Integer)get(tag);
+		if( i==null ) return 0;
+		return i;
+	}
+	
+	public boolean getBool( String tag ){
+		Boolean i = (Boolean)get(tag);
+		if( i==null ) return false;
+		return i;
+	}
+	
 }

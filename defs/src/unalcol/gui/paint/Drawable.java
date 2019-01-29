@@ -1,6 +1,10 @@
 package unalcol.gui.paint;
 
+import unalcol.json.JSON;
+
 public interface Drawable {
-	public void draw(Canvas canvas);
-	public int scale( int width, int height );
+	JSON draw();
+	default void draw(Canvas canvas){
+		canvas.drawJSON(draw());
+	}
 }

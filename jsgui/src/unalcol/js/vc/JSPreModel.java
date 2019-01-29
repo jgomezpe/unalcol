@@ -17,6 +17,7 @@ public interface JSPreModel {
 			@SuppressWarnings("resource")
 			URLClassLoader loader =  new URLClassLoader(new URL[]{new URL(url+model_jar)}, JSPreModel.class.getClassLoader());
 			Class<?> cl = loader.loadClass(model_class);
+			System.out.println("[JSPremodel]"+cl.getName());
 			JSPreModel model = (JSPreModel)cl.newInstance();
 			model.use(url);
 			return model;
