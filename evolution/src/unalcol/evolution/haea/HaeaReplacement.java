@@ -65,6 +65,7 @@ public class HaeaReplacement<T> extends BasicGoalBased<T,Double> implements Popu
                 double qk = goal.apply(next[k]);
                 if( order.compare(qk, qs) > 0 ){
                     sel = k;
+                    qs = qk;
                 }
                 k++;
             }

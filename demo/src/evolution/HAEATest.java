@@ -15,6 +15,7 @@ import unalcol.optimization.binary.Transposition;
 import unalcol.optimization.binary.XOver;
 //import unalcol.optimization.binary.testbed.Deceptive;
 import unalcol.optimization.real.BinaryToRealVector;
+import unalcol.optimization.real.HyperCube;
 import unalcol.optimization.real.mutation.Mutation;
 import unalcol.optimization.real.xover.LinearXOver;
 import unalcol.optimization.real.xover.RealArityTwo;
@@ -26,6 +27,8 @@ import unalcol.search.space.Space;
 import unalcol.search.variation.Variation_1_1;
 import unalcol.services.ProvidersSet;
 import unalcol.services.Service;
+import unalcol.testbed.optimization.FunctionTestBed;
+import unalcol.testbed.optimization.real.basic.BasicFunctionTestBed;
 import unalcol.tracer.Tracer;
 import unalcol.types.collection.bitarray.BitArray;
 import unalcol.types.collection.vector.Vector;
@@ -40,34 +43,16 @@ public class HAEATest {
 		MethodTest.population_service(function);
 	}
 	
-	public static void print_function(OptimizationFunction<?> function){
-		try{
-			ProvidersSet tracers = Service.providers(Tracer.class, function);
-			Tracer s = (Tracer)tracers.get("VectorTracer");
-			@SuppressWarnings("unchecked")
-			Vector<Object[]> v = (Vector<Object[]>)s.get();
-			Object[] f = (Object[])v.get(0);
-			// The fitness value is located as the second element in the array (the first one is the object)
-			double bf = (Double)(f[1]);
-			for( int i=0; i<v.size(); i++ ){
-				f = (Object[])v.get(i);
-				double cf = (Double)(f[1]);
-				if( function.order().compare(bf, cf) < 0 ) bf = cf;
-				System.out.println(i+" "+bf);
-			}
-		}catch(Exception e){ e.printStackTrace(); }
-	}
-	
 	public static void real(){
 		// Search space
 		int DIM=10;
-		Space<double[]> space = MethodTest.real_space(DIM);    	
-		// Optimization Function
-		OptimizationFunction<double[]> function = MethodTest.real_f();
+    	// Optimization Function
+    	FunctionTestBed<double[]> function = new BasicFunctionTestBed(0,DIM);
+    	HyperCube space = (HyperCube)function.space();    	
 		haea_service(function);
     	
 		// Variation definition
-		Mutation mutation = MethodTest.real_variation();
+		Mutation mutation = MethodTest.real_variation(DIM);
 		RealArityTwo xover = new LinearXOver();
 		HaeaOperators<double[]> operators = new SimpleHaeaOperators<double[]>(mutation, xover);
     	
@@ -86,7 +71,7 @@ public class HAEATest {
 		// Apply the search method
 		//Tagged<double[]> sol = 
 		search.solve(space);
-		print_function(function);		
+		MethodTest.print_function(function);		
 	}
     
 	public static void binary(){
@@ -103,8 +88,8 @@ public class HAEATest {
 		HaeaOperators<BitArray> operators = new SimpleHaeaOperators<BitArray>(mutation, transposition, xover);
 
 		// Search method
-		int POPSIZE = 100;
-		int MAXITERS = 2;
+		int POPSIZE = 200;
+		int MAXITERS = 65;
 		EAFactory<BitArray> factory = new EAFactory<BitArray>();
         
 		PopulationSearch<BitArray,Double> search = factory.HAEA(POPSIZE, operators, new Tournament<BitArray,Double>(function,4), MAXITERS );
@@ -119,21 +104,20 @@ public class HAEATest {
 		// Apply the search method
 		// Tagged<BitArray> sol = 
 		search.solve(space);
-		print_function(function);		
+		MethodTest.print_function(function);		
 	}
 	
 	public static void binary2real(){
-		// Search Space definition
+		// Search space
 		int DIM=10;
-		Space<double[]> space = MethodTest.real_space(DIM);
-
-		// Optimization Function
-		OptimizationFunction<double[]> function = MethodTest.real_f();		
+    	// Optimization Function
+    	FunctionTestBed<double[]> function = new BasicFunctionTestBed(0,DIM);
+    	HyperCube space = (HyperCube)function.space();    	
 
 		// CodeDecodeMap
 		int BITS_PER_DOUBLE = 16; // Number of bits per integer (i.e. per real)
 		CodeDecodeMap<BitArray, double[]> map = 
-				new BinaryToRealVector(BITS_PER_DOUBLE, MethodTest.min(DIM), MethodTest.max(DIM));
+				new BinaryToRealVector(BITS_PER_DOUBLE, space.min(), space.max());
 
 		// Variation definition in the binary space
 		BitMutation mutation = MethodTest.binary_mutation();
@@ -160,7 +144,7 @@ public class HAEATest {
 		// Apply the search method
 		// Tagged<double[]> sol = 
 		search.solve(space);
-		print_function(function);		
+		MethodTest.print_function(function);		
 	}
 	
 	public static void queen(){
@@ -211,8 +195,8 @@ public class HAEATest {
 	
     
 	public static void main(String[] args){
-		real(); // Uncomment if testing real valued functions
-    	//binary(); // Uncomment if testing binary valued functions
+		//real(); // Uncomment if testing real valued functions
+    	binary(); // Uncomment if testing binary valued functions
     	//binary2real(); // Uncomment if you want to try the multi-level search method
     	//queen(); // Uncomment if testing integer (queen) value functions
     }

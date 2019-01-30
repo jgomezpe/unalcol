@@ -7,6 +7,7 @@ import unalcol.optimization.method.AdaptOperatorOptimizationFactory;
 import unalcol.optimization.method.OptimizationFactory;
 import unalcol.optimization.integer.MutationIntArray;
 import unalcol.optimization.real.BinaryToRealVector;
+import unalcol.optimization.real.HyperCube;
 import unalcol.optimization.real.mutation.Mutation;
 import unalcol.optimization.real.mutation.OneFifthRule;
 //import unalcol.optimization.real.testbed.Rastrigin;
@@ -15,6 +16,8 @@ import unalcol.search.local.LocalSearch;
 import unalcol.search.multilevel.CodeDecodeMap;
 import unalcol.search.multilevel.MultiLevelSearch;
 import unalcol.search.space.Space;
+import unalcol.testbed.optimization.FunctionTestBed;
+import unalcol.testbed.optimization.real.basic.BasicFunctionTestBed;
 import unalcol.types.collection.bitarray.BitArray;
 import unalcol.types.object.Tagged;
 
@@ -22,11 +25,11 @@ public class HillClimbingTest{
 	public static void real(){
 		// Search space
 		int DIM=10;
-    	Space<double[]> space = MethodTest.real_space(DIM);    	
     	// Optimization Function
-    	OptimizationFunction<double[]> function = MethodTest.real_f();
+    	FunctionTestBed<double[]> function = new BasicFunctionTestBed(0,DIM);
+    	Space<double[]> space = function.space();    	
     	// Variation
-    	Mutation variation = MethodTest.real_variation();
+    	Mutation variation = MethodTest.real_variation(DIM);
         // Search method
         int MAXITERS = 15000;
         boolean neutral = true; // Accepts movements when having same function value
@@ -82,16 +85,16 @@ public class HillClimbingTest{
 	
 	public static void binary2real(){
 		// Search Space definition
+		// Search space
 		int DIM=10;
-    	Space<double[]> space = MethodTest.real_space(DIM);
-
     	// Optimization Function
-    	OptimizationFunction<double[]> function = MethodTest.real_f();		
+    	FunctionTestBed<double[]> function = new BasicFunctionTestBed(0,DIM);
+    	HyperCube space = (HyperCube)function.space();    	
 		
         // CodeDecodeMap
         int BITS_PER_DOUBLE = 16; // Number of bits per integer (i.e. per real)
         CodeDecodeMap<BitArray, double[]> map = 
-        		new BinaryToRealVector(BITS_PER_DOUBLE, MethodTest.min(DIM), MethodTest.max(DIM));
+        		new BinaryToRealVector(BITS_PER_DOUBLE, space.min(), space.max());
 
     	// Variation definition in the binary space
     	BitMutation variation = MethodTest.binary_mutation();

@@ -4,16 +4,17 @@ import unalcol.descriptors.WriteDescriptors;
 import unalcol.optimization.OptimizationFunction;
 import unalcol.optimization.binary.BinarySpace;
 import unalcol.optimization.binary.BitMutation;
-import unalcol.optimization.binary.testbed.Deceptive;
+import unalcol.testbed.optimization.FunctionTestBed;
+import unalcol.testbed.optimization.binary.Deceptive;
 import unalcol.optimization.integer.IntHyperCube;
 import unalcol.optimization.integer.MutationIntArray;
-import unalcol.optimization.integer.testbed.QueenFitness;
+import unalcol.testbed.optimization.integer.QueenFitness;
 import unalcol.optimization.real.HyperCube;
 import unalcol.optimization.real.mutation.IntensityMutation;
 import unalcol.optimization.real.mutation.Mutation;
 import unalcol.optimization.real.mutation.PermutationPick;
 import unalcol.optimization.real.mutation.PickComponents;
-import unalcol.optimization.real.testbed.Rastrigin;
+import unalcol.testbed.optimization.real.basic.Rastrigin;
 import unalcol.random.real.RandDouble;
 import unalcol.random.real.SimplestSymmetricPowerLawGenerator;
 import unalcol.search.Search;
@@ -21,15 +22,16 @@ import unalcol.search.population.PopulationDescriptors;
 import unalcol.search.solution.SolutionDescriptors;
 import unalcol.search.solution.SolutionWrite;
 import unalcol.search.space.Space;
+import unalcol.services.ProvidersSet;
 import unalcol.services.Service;
 import unalcol.tracer.ConsoleTracer;
 import unalcol.tracer.Tracer;
 import unalcol.tracer.VectorTracer;
 import unalcol.types.collection.bitarray.BitArray;
+import unalcol.types.collection.vector.Vector;
 import unalcol.types.integer.array.IntArray;
 import unalcol.types.integer.array.IntArrayPlainWrite;
 import unalcol.types.object.Tagged;
-import unalcol.types.real.array.DoubleArray;
 import unalcol.types.real.array.DoubleArrayPlainWrite;
 
 public class MethodTest {
@@ -45,24 +47,8 @@ public class MethodTest {
 	}
 	
 	// ******* Real space problem ******** //
-	public static double[] min( int DIM ){ return DoubleArray.create(DIM, -5.12); }
 	
-	public static double[] max( int DIM ){ return DoubleArray.create(DIM, 5.12); }
-	
-	public static Space<double[]> real_space(int DIM){
-		// Search Space definition
-    	return new HyperCube( min(DIM), max(DIM) );
-	}
-	
-	public static OptimizationFunction<double[]> real_f(){
-    	// Optimization Function
-//	    	OptimizationFunction<double[]> function = new Schwefel();		
-    	OptimizationFunction<double[]> function = new Rastrigin();
-        function.minimize(true); // set to false if maximizing
-        return function;
-	}
-	
-	public static Mutation real_variation(){
+	public static Mutation real_variation(int D){
     	// Variation definition
     	RandDouble random = new SimplestSymmetricPowerLawGenerator(); // It can be set to Gaussian or other symmetric number generator (centered in zero)
     	PickComponents pick = new PermutationPick(6); // It can be set to null if the mutation operator is applied to every component of the Tagged array
@@ -145,5 +131,23 @@ public class MethodTest {
 		//pd.setGoal(function);
 		Service.register(pd, Tagged[].class);
 		Service.register(new WriteDescriptors(), Tagged[].class);
+	}	
+	
+	public static void print_function(OptimizationFunction<?> function){
+		try{
+			ProvidersSet tracers = Service.providers(Tracer.class, function);
+			Tracer s = (Tracer)tracers.get("VectorTracer");
+			@SuppressWarnings("unchecked")
+			Vector<Object[]> v = (Vector<Object[]>)s.get();
+			Object[] f = (Object[])v.get(0);
+			// The fitness value is located as the second element in the array (the first one is the object)
+			double bf = (Double)(f[1]);
+			for( int i=0; i<v.size(); i++ ){
+				f = (Object[])v.get(i);
+				double cf = (Double)(f[1]);
+				if( function.order().compare(bf, cf) < 0 ) bf = cf;
+				System.out.println(i+" "+bf);
+			}
+		}catch(Exception e){ e.printStackTrace(); }
 	}	
 }
