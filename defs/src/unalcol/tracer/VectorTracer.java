@@ -7,6 +7,9 @@ public class VectorTracer extends BasicTracer {
 	 * Traced information
 	 */
 	private Vector<Object[]> object = new Vector<Object[]>();
+	
+	private int each=1;
+	private int count = 0;
 
 	/**
 	 * Creates a new SingleResultTracer
@@ -14,10 +17,18 @@ public class VectorTracer extends BasicTracer {
 	public VectorTracer(){}
 
 	/**
+	 * Creates a new SingleResultTracer
+	 */
+	public VectorTracer( int each ){ this.each=each; }
+
+	/**
 	 * Replaces the traced information with a new one
 	 * @param obj Traced information
 	 */
-	public void add(Object caller, Object... obj){ object.add(obj); }
+	public void add(Object caller, Object... obj){
+		count = (count+1)%each;
+		if( count==0 ) object.add(obj);
+	}
 
 	/**
 	 * Returns the traced information

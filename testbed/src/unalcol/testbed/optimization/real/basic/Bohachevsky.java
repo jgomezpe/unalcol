@@ -1,7 +1,5 @@
 package unalcol.testbed.optimization.real.basic;
 
-import unalcol.optimization.*;
-
 /**
  * <p>Title:  Bohachevsky</p>
  * <p>Description: The Bohachevsky function</p>
@@ -10,7 +8,7 @@ import unalcol.optimization.*;
  * @author Jonatan Gomez
  * @version 1.0
  */
-public class Bohachevsky extends OptimizationFunction<double[]> {
+public class Bohachevsky extends BasicFunction {
 	/**
 	 * Evaluates the Bohachevsky I function over two real values
 	 * @param x1 the first real value argument of the Bohachevsky function
@@ -32,4 +30,7 @@ public class Bohachevsky extends OptimizationFunction<double[]> {
 		for( int i=0; i<n; i++ ) f += eval( x[i], x[i+1] );
 		return f;
 	}
+
+	@Override
+	public double limit() { return 100; }
 }

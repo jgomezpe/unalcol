@@ -4,8 +4,10 @@
  */
 package random;
 
+import unalcol.random.real.PowerLawGenerator;
 import unalcol.random.real.RandDouble;
 import unalcol.random.real.SimplestGeneralizedPowerLawGenerator;
+import unalcol.random.real.SimplestPowerLawGenerator;
 import unalcol.random.real.StandardGaussianGenerator;
 import unalcol.random.real.SymmetricGenerator;
 import unalcol.random.real.UniformGenerator;
@@ -26,6 +28,11 @@ public class DoubleGeneratorTest{
 	}  
   
 	public static RandDouble power_law(){
+		System.out.println( "Power Law" );
+		return new SimplestPowerLawGenerator();
+	}
+    
+	public static RandDouble power_law2(){
 		System.out.println( "Power Law" );
 		return new SimplestGeneralizedPowerLawGenerator();
 	}

@@ -1,4 +1,6 @@
-package optimization;
+package optimization.hillclimbing;
+
+import optimization.EncodeTest;
 import unalcol.optimization.OptimizationFunction;
 import unalcol.optimization.binary.BitMutation;
 import unalcol.optimization.method.AdaptOperatorOptimizationFactory;
@@ -6,6 +8,7 @@ import unalcol.optimization.method.AdaptOperatorOptimizationFactory;
 import unalcol.optimization.method.OptimizationFactory;
 import unalcol.optimization.integer.MutationIntArray;
 import unalcol.optimization.real.BinaryToRealVector;
+import unalcol.optimization.real.HyperCube;
 import unalcol.optimization.real.mutation.Mutation;
 import unalcol.optimization.real.mutation.OneFifthRule;
 //import unalcol.optimization.real.testbed.Rastrigin;
@@ -14,139 +17,118 @@ import unalcol.search.local.LocalSearch;
 import unalcol.search.multilevel.CodeDecodeMap;
 import unalcol.search.multilevel.MultiLevelSearch;
 import unalcol.search.space.Space;
+import unalcol.testbed.optimization.FunctionTestBed;
+import unalcol.testbed.optimization.real.basic.BasicFunctionTestBed;
+import unalcol.testbed.optimization.real.lsgo.LSGOFunction;
 import unalcol.types.collection.bitarray.BitArray;
 import unalcol.types.object.Tagged;
 
-public class SimulatedAnnealingTest{
-	public static void real(){
-		// Search space
-		int DIM=10;
-    	Space<double[]> space = MethodTest.real_space(DIM);    	
-    	// Optimization Function
-    	OptimizationFunction<double[]> function = MethodTest.real_f();
-    	// Variation
-    	Mutation variation = MethodTest.real_variation();
-        // Search method
-        int MAXITERS = 100;
-        boolean adapt_operator = false; //
-        LocalSearch<double[],Double> search;
-        if( adapt_operator ){
-        	OneFifthRule adapt = new OneFifthRule(20, 0.9); // One Fifth rule for adapting the mutation parameter
-        	AdaptOperatorOptimizationFactory<double[],Double> factory = new AdaptOperatorOptimizationFactory<double[],Double>();
-        	search = factory.simulated_annealing( function, variation, adapt, MAXITERS );
-        }else{
-        	OptimizationFactory<double[]> factory = new OptimizationFactory<double[]>();
-        	search = factory.simulated_annealing( function, variation, MAXITERS );
-        }
-        // Services
-        MethodTest.real_service(function, search);
-        // Apply the search method
-        Tagged<double[]> tagged = search.solve(space);        
-        System.out.println(tagged.getTag(function));		
-	}
-    
+public class HillClimbingTest{
 	// ******* Binary space problem ******** //
 	public static void binary(){
 		// Search Space definition
-		Space<BitArray> space = MethodTest.binary_space();
+		Space<BitArray> space = EncodeTest.binary_space();
     	
     	// Optimization Function
-    	OptimizationFunction<BitArray> function = MethodTest.binary_f();   	
+    	OptimizationFunction<BitArray> function = EncodeTest.binary_f();   	
     	
     	// Variation definition
-    	BitMutation variation = MethodTest.binary_mutation();
+    	BitMutation variation = EncodeTest.binary_mutation();
         
         // Search method
-        int MAXITERS = 10000;
+        int MAXITERS = 150;
+        boolean neutral = true; // Accepts movements when having same function value
         boolean adapt_operator = true; //
         LocalSearch<BitArray,Double> search;
         if( adapt_operator ){
         	OneFifthRule adapt = new OneFifthRule(20, 0.9); // One Fifth rule for adapting the mutation parameter
         	AdaptOperatorOptimizationFactory<BitArray,Double> factory = new AdaptOperatorOptimizationFactory<BitArray,Double>();
-        	search = factory.simulated_annealing( function, variation, adapt, MAXITERS );
+        	search = factory.hill_climbing( function, variation, adapt, neutral, MAXITERS );
         }else{
         	OptimizationFactory<BitArray> factory = new OptimizationFactory<BitArray>();
-        	search = factory.simulated_annealing( function, variation, MAXITERS );
+        	search = factory.hill_climbing( function, variation, neutral, MAXITERS );
         }
 
         // Apply the search method
         // Services
-        MethodTest.binary_service(function, search);
+        EncodeTest.binary_service(function, search);
         // Apply the search method
-        Tagged<BitArray> tagged = search.solve(space);        
-        System.out.println(tagged.getTag(function));		
+        Tagged<BitArray> sol = search.solve(space);        
+        System.out.println(sol.getTag(function));		
 	}
 	
 	public static void binary2real(){
 		// Search Space definition
+		// Search space
 		int DIM=10;
-    	Space<double[]> space = MethodTest.real_space(DIM);
-
     	// Optimization Function
-    	OptimizationFunction<double[]> function = MethodTest.real_f();		
+    	FunctionTestBed<double[]> function = new BasicFunctionTestBed(0,DIM);
+    	HyperCube space = (HyperCube)function.space();    	
 		
         // CodeDecodeMap
         int BITS_PER_DOUBLE = 16; // Number of bits per integer (i.e. per real)
         CodeDecodeMap<BitArray, double[]> map = 
-        		new BinaryToRealVector(BITS_PER_DOUBLE, MethodTest.min(DIM), MethodTest.max(DIM));
+        		new BinaryToRealVector(BITS_PER_DOUBLE, space.min(), space.max());
 
     	// Variation definition in the binary space
-    	BitMutation variation = MethodTest.binary_mutation();
+    	BitMutation variation = EncodeTest.binary_mutation();
         
         // Search method in the binary space
         int MAXITERS = 10000;
+        boolean neutral = true; // Accepts movements when having same function value
         boolean adapt_operator = true; //
         LocalSearch<BitArray,Double> bin_search;
         if( adapt_operator ){
         	OneFifthRule adapt = new OneFifthRule(20, 0.9); // One Fifth rule for adapting the mutation parameter
         	AdaptOperatorOptimizationFactory<BitArray,Double> factory = new AdaptOperatorOptimizationFactory<BitArray,Double>();
-        	bin_search = factory.simulated_annealing( null, variation, adapt, MAXITERS );
+        	bin_search = factory.hill_climbing( null, variation, adapt, neutral, MAXITERS );
         }else{
         	OptimizationFactory<BitArray> factory = new OptimizationFactory<BitArray>();
-        	bin_search = factory.simulated_annealing( null, variation, MAXITERS );
+        	bin_search = factory.hill_climbing( null, variation, neutral, MAXITERS );
         }
 
         // The multilevel search method (moves in the binary space, but computes fitness in the real space)
         Search<double[], Double> search = new MultiLevelSearch<>(bin_search, map);
         search.setGoal(function);
-
+        
         // Services
-        MethodTest.binary2real_service(function, search);
+        EncodeTest.binary2real_service(function, search);
         // Apply the search method
-        Tagged<double[]> tagged = search.solve(space);        
-        System.out.println(tagged.getTag(function));		
+        Tagged<double[]> sol = search.solve(space);        
+        System.out.println(sol.getTag(function));		
 	}
 	
 	public static void queen(){
 		// It is the well-known problem of setting n-queens in a chess board without attacking among them
 		// Search Space definition
 		int DIM = 8; // Board size		
-		Space<int[]> space = MethodTest.queen_space(DIM);
+		Space<int[]> space = EncodeTest.queen_space(DIM);
     	// Optimization Function
-    	OptimizationFunction<int[]> function = MethodTest.queen_f();		    	
+    	OptimizationFunction<int[]> function = EncodeTest.queen_f();		    	
     	// Variation definition
-    	MutationIntArray variation = MethodTest.queen_variation(DIM);
+    	MutationIntArray variation = EncodeTest.queen_variation(DIM);
         
         // Search method
         int MAXITERS = 200;
+        boolean neutral = true; // Accepts movements when having same function value
         boolean adapt_operator = true; //
         LocalSearch<int[],Double> search;
         if( adapt_operator ){
         	OneFifthRule adapt = new OneFifthRule(20, 0.9); // One Fifth rule for adapting the mutation parameter
         	AdaptOperatorOptimizationFactory<int[],Double> factory = new AdaptOperatorOptimizationFactory<int[],Double>();
-        	search = factory.simulated_annealing( function, variation, adapt, MAXITERS );
+        	search = factory.hill_climbing( function, variation, adapt, neutral, MAXITERS );
         }else{
         	OptimizationFactory<int[]> factory = new OptimizationFactory<int[]>();
-        	search = factory.simulated_annealing( function, variation, MAXITERS );
+        	search = factory.hill_climbing( function, variation, neutral, MAXITERS );
         }
 
         // Tracking the goal evaluations
         // Apply the search method
         // Services
-        MethodTest.queen_service(function, search);
+        EncodeTest.queen_service(function, search);
         // Apply the search method
-        Tagged<int[]> tagged = search.solve(space);        
-        System.out.println(tagged.getTag(function));		
+        Tagged<int[]> sol = search.solve(space);        
+        System.out.println(sol.getTag(function));		
 	}
     
     public static void main(String[] args){

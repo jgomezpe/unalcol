@@ -1,5 +1,5 @@
 package evolution;
-import optimization.MethodTest;
+import optimization.EncodeTest;
 import unalcol.evolution.EAFactory;
 import unalcol.optimization.OptimizationFunction;
 import unalcol.optimization.binary.BitMutation;
@@ -28,7 +28,7 @@ public class GATest {
     	FunctionTestBed<double[]> function = new BasicFunctionTestBed(0,DIM);
     	Space<double[]> space = function.space();    	
     	// Variation
-    	Mutation mutation = MethodTest.real_variation(DIM);
+    	Mutation mutation = EncodeTest.real_variation(DIM);
 		RealArityTwo xover = new LinearXOver();
     	
 		// Search method
@@ -39,22 +39,22 @@ public class GATest {
 			factory.generational_ga(POPSIZE, new Tournament<double[],Double>(function, 4), mutation, xover, 0.6, MAXITERS );
 		search.setGoal(function);
 		// Services
-		MethodTest.real_service(function, search);
-		MethodTest.population_service(function);
+		EncodeTest.real_service(function, search);
+		EncodeTest.population_service(function);
 		// Apply the search method
 		Tagged<double[]> tagged = search.solve(space);        
-		MethodTest.print_function(function);		
+		EncodeTest.print_function(function);		
 	}
     
 	public static void binary(){
 		// Search Space definition
-		Space<BitArray> space = MethodTest.binary_space();
+		Space<BitArray> space = EncodeTest.binary_space();
     	
 		// Optimization Function
-		OptimizationFunction<BitArray> function = MethodTest.binary_f();   	
+		OptimizationFunction<BitArray> function = EncodeTest.binary_f();   	
 
 		// Variation definition
-    		BitMutation mutation = MethodTest.binary_mutation();        
+    		BitMutation mutation = EncodeTest.binary_mutation();        
     		XOver xover = new XOver();
 
     		// Search method
@@ -67,11 +67,11 @@ public class GATest {
 
     		// Apply the search method
     		// Services
-    		MethodTest.binary_service(function, search)	;
-    		MethodTest.population_service(function);
+    		EncodeTest.binary_service(function, search)	;
+    		EncodeTest.population_service(function);
     		// Apply the search method
     		Tagged<BitArray> tagged = search.solve(space);        
-    		MethodTest.print_function(function);		
+    		EncodeTest.print_function(function);		
     		// Remove for general use
     		// Glovito g = new Glovito( solution.object() );
     		// System.out.println(g.toString());
@@ -90,7 +90,7 @@ public class GATest {
 				new BinaryToRealVector(BITS_PER_DOUBLE, space.min(), space.max());
 
 		// Variation definition in the binary space
-		BitMutation mutation = MethodTest.binary_mutation();
+		BitMutation mutation = EncodeTest.binary_mutation();
 		XOver xover = new XOver();
 
 		// Search method
@@ -106,11 +106,11 @@ public class GATest {
 		search.setGoal(function);
 
 		// Services
-		MethodTest.binary2real_service(function, search);
-		MethodTest.population_service(function);
+		EncodeTest.binary2real_service(function, search);
+		EncodeTest.population_service(function);
 		// Apply the search method
 		Tagged<double[]> tagged = search.solve(space);        
-		MethodTest.print_function(function);		
+		EncodeTest.print_function(function);		
 	}
 	
 	public static void main(String[] args){

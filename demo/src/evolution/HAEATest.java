@@ -1,7 +1,7 @@
 package evolution;
 
 
-import optimization.MethodTest;
+import optimization.EncodeTest;
 import unalcol.descriptors.WriteDescriptors;
 import unalcol.evolution.EAFactory;
 import unalcol.evolution.haea.HaeaOperators;
@@ -40,7 +40,7 @@ public class HAEATest {
         Service.register( new WriteHaeaStep(), HaeaStep.class);
         Service.register( new SimpleHaeaOperatorsDescriptor(), HaeaOperators.class);
         Service.register( new WriteDescriptors(), HaeaOperators.class);
-		MethodTest.population_service(function);
+		EncodeTest.population_service(function);
 	}
 	
 	public static void real(){
@@ -52,7 +52,7 @@ public class HAEATest {
 		haea_service(function);
     	
 		// Variation definition
-		Mutation mutation = MethodTest.real_variation(DIM);
+		Mutation mutation = EncodeTest.real_variation(DIM);
 		RealArityTwo xover = new LinearXOver();
 		HaeaOperators<double[]> operators = new SimpleHaeaOperators<double[]>(mutation, xover);
     	
@@ -66,23 +66,23 @@ public class HAEATest {
 		search.setGoal(function);
 		
 		// Services
-		MethodTest.real_service(function, search);
+		EncodeTest.real_service(function, search);
 		
 		// Apply the search method
 		//Tagged<double[]> sol = 
 		search.solve(space);
-		MethodTest.print_function(function);		
+		EncodeTest.print_function(function);		
 	}
     
 	public static void binary(){
 		// Search Space definition
-		Space<BitArray> space = MethodTest.binary_space();
+		Space<BitArray> space = EncodeTest.binary_space();
     	
 		// Optimization Function
-		OptimizationFunction<BitArray> function = MethodTest.binary_f();   	
+		OptimizationFunction<BitArray> function = EncodeTest.binary_f();   	
 
 		// Variation definition
-		BitMutation mutation = MethodTest.binary_mutation();        
+		BitMutation mutation = EncodeTest.binary_mutation();        
 		XOver xover = new XOver();
 		Transposition transposition = new Transposition();
 		HaeaOperators<BitArray> operators = new SimpleHaeaOperators<BitArray>(mutation, transposition, xover);
@@ -98,13 +98,13 @@ public class HAEATest {
 
 		// Apply the search method
 		// Services
-		MethodTest.binary_service(function, search);
+		EncodeTest.binary_service(function, search);
 		haea_service(function);
 		
 		// Apply the search method
 		// Tagged<BitArray> sol = 
 		search.solve(space);
-		MethodTest.print_function(function);		
+		EncodeTest.print_function(function);		
 	}
 	
 	public static void binary2real(){
@@ -120,7 +120,7 @@ public class HAEATest {
 				new BinaryToRealVector(BITS_PER_DOUBLE, space.min(), space.max());
 
 		// Variation definition in the binary space
-		BitMutation mutation = MethodTest.binary_mutation();
+		BitMutation mutation = EncodeTest.binary_mutation();
 		XOver xover = new XOver();
 		Variation_1_1<BitArray> transposition = new Transposition();
 		HaeaOperators<BitArray> operators = new SimpleHaeaOperators<BitArray>(mutation, transposition, xover);
@@ -138,13 +138,13 @@ public class HAEATest {
 		search.setGoal(function);
 
 		// Services
-		MethodTest.binary2real_service(function, search);
+		EncodeTest.binary2real_service(function, search);
 		haea_service(function);
 		
 		// Apply the search method
 		// Tagged<double[]> sol = 
 		search.solve(space);
-		MethodTest.print_function(function);		
+		EncodeTest.print_function(function);		
 	}
 	
 	public static void queen(){

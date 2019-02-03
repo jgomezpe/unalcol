@@ -54,10 +54,7 @@ public class BitArray implements Cloneable {
   public BitArray(BitArray source) {
     if (source.data != null) {
       n = source.n;
-      data = new int[source.data.length];
-      for (int i = 0; i < source.data.length; i++) {
-        data[i] = source.data[i];
-      }
+      data = source.data.clone();
     }
   }
 
