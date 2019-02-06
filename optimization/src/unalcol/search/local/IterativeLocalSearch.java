@@ -8,6 +8,9 @@ package unalcol.search.local;
 import unalcol.math.logic.Predicate;
 import unalcol.search.Goal;
 import unalcol.search.space.Space;
+import unalcol.services.Service;
+import unalcol.tracer.CountTracer;
+import unalcol.tracer.Tracer;
 import unalcol.types.object.Tagged;
 
 /**
@@ -17,6 +20,7 @@ import unalcol.types.object.Tagged;
 public class IterativeLocalSearch<T,R> implements LocalSearch<T,R> {
     protected Predicate< Tagged<T> > terminationCondition;
     protected LocalSearch<T,R> step;
+	protected Tracer t = new CountTracer();
     
     public IterativeLocalSearch( LocalSearch<T,R> step,
                                  Predicate< Tagged<T> > tC ){
@@ -25,7 +29,11 @@ public class IterativeLocalSearch<T,R> implements LocalSearch<T,R> {
     }
     
 	@Override
-    public void setGoal(Goal<T,R> goal){ step.setGoal(goal); }
+    public void setGoal(Goal<T,R> goal){ 
+		step.setGoal(goal); 
+		t.start();
+		Service.register(t, goal);		
+	}
         
 	@Override 
 	public Goal<T,R> goal(){ return step.goal(); }
@@ -37,12 +45,12 @@ public class IterativeLocalSearch<T,R> implements LocalSearch<T,R> {
 	@Override
 	public Tagged<T> apply(Tagged<T> x, Space<T> space) {
         terminationCondition.init();
-        int i=0;
-        trace(i, x);
+		t.start();
+		Service.register(t, this.goal());		
+        trace(t.get(), x);
         while( terminationCondition.evaluate(x) ){
             x = step(x, space);
-            i++;
-            trace(i, x);
+            trace(t.get(), x);
         }
         return x;
 	}

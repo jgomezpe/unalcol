@@ -22,7 +22,6 @@ public interface LocalSearch<T,R> extends Search<T,R> {
     public default Tagged<T> solve(Space<T> space){
     	@SuppressWarnings("unchecked")
 		Tagged<T> x = (Tagged<T>)Instanteable.cast(Tagged.class).create(space.pick());
-        trace(x);
         return apply(x, space);
     }
 }

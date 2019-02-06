@@ -60,7 +60,6 @@ public class MethodTest {
 	    try {
 	        @SuppressWarnings("rawtypes")
 			Class<?> aClass = classLoader.loadClass(className);
-	        System.out.println("aClass.getName() = " + aClass.getName());
 	        return aClass.newInstance();
 	    } catch (Exception e){ e.printStackTrace(); }
 		return null;
@@ -105,7 +104,6 @@ public class MethodTest {
 	public Variation_1_1<?> mutation(JSON json){
 		if( pack.equals(REAL) || pack.equals(LSGO) ){
 			double sigma = json.getReal(SIGMA);
-			System.out.println(sigma);
 			int D = ((double[])space.pick()).length;
 			RandDouble random=(RandDouble)load("unalcol.random.real."+(String)json.get(MUTATION));
 	    	PickComponents pick = new PermutationPick(6); // It can be set to null if the mutation operator is applied to every component of the Tagged array
@@ -161,7 +159,7 @@ public class MethodTest {
 				f = (Object[])v.get(i);
 				double cf = (Double)(f[1]);
 				if( !keepBest || function.order().compare(bf, cf) < 0 ) bf = cf;
-				sb.append(i+" "+bf+"\n");
+				sb.append((Integer)f[0]+" "+bf+"\n");
 			}
 		}catch(Exception e){ e.printStackTrace(); }
 		return sb.toString();
@@ -173,19 +171,17 @@ public class MethodTest {
 		function = (String)json.get(FUNCTION);
 		this.f = f(json);
 		this.space = space(json);
-		Tracer t = new VectorTracer(Math.max(1, json.getInt(EVALS)/10000));
-		t.start();
-		Service.register(t, this.f);
 
 		@SuppressWarnings("unchecked")
 		Search<Object,Double> search = (Search<Object,Double>)search(json);
-/*		Tracer t = new VectorTracer(Math.max(1, EVALS/10000));
+		Tracer t = new VectorTracer(Math.max(1, json.getInt(EVALS)/1000));
 		t.start();
-		Service.register(t, search); */
-        // Apply the search method
+		Service.register(t, search);
+
+		// Apply the search method
         @SuppressWarnings("unchecked")
 		Tagged<?> sol = search.solve((Space<Object>)space);        
-		System.out.print(toString(f, true));	
+		System.out.print(toString(search));	
 		return sol;
 	}
 
@@ -197,34 +193,37 @@ public class MethodTest {
 		Service.register(new WriteDescriptors(), Tagged[].class);
 	}	
 	
-	public String toString(Search<?,Double> search){
+	public String toString(Search<Object,Double> search){
 		StringBuilder sb = new StringBuilder();
 		try{
 			ProvidersSet tracers = Service.providers(Tracer.class, search);
 			Tracer s = (Tracer)tracers.get("VectorTracer");
 			@SuppressWarnings("unchecked")
 			Vector<Object[]> v = (Vector<Object[]>)s.get();
-			Object[] f = (Object[])v.get(0);
+			Object[] obj = (Object[])v.get(0);
 			//@TODO Check how it is done with search method...
 			// The fitness value is located as the second element in the array (the first one is the object)
 			for( int i=0; i<v.size(); i++ ){
-				f = (Object[])v.get(i);
-				double cf = (Double)(f[1]);
-				sb.append(i+" "+cf+"\n");
+				obj = (Object[])v.get(i);
+				@SuppressWarnings("unchecked")
+				Tagged<Object> t = (Tagged<Object>)obj[1];
+				double cf = (Double)t.getTag(f);
+				sb.append((Integer)obj[0]+" "+cf+"\n");
 			}
 		}catch(Exception e){ e.printStackTrace(); }
 		return sb.toString();
 	}	
 	
 	public static void main(String[] args){
-		String method = "\"method\":\"hc\"";
+		/*String method = "\"method\":\"hc\"";
 		String pack = "\"package\":\"real\"";
 		String func = "\"f\":\"Rastrigin\"";
 		String d = "\"dim\":10";
 		String s = "\"sigma\":0.1";
 		String m = "\"mutation\":\"SimplestSymmetricPowerLawGenerator\"";
-		String e = "\"evals\":10000";
-		String jsonTxt = '{'+method+','+pack+','+func+','+d+','+m+','+s+','+e+'}';
+		String e = "\"evals\":100";
+		String jsonTxt = '{'+method+','+pack+','+func+','+d+','+m+','+s+','+e+'}';*/ 
+		String jsonTxt = args[0];
 		JSONParser parser = new JSONParser();
 		try {
 			JSON json = (JSON)parser.parse(jsonTxt);

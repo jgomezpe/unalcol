@@ -25,7 +25,7 @@ public class FXManager extends JSFrontEnd{
 
 	protected void synchronize_back(){
 		BackEnd backend = backend();
-		if( backend.hasChanged() ){
+		if( backend.hasChanged() && webEngine!=null ){
 			JSObject win = (JSObject)webEngine.executeScript("window");
 			for( Component c : backend.components() ){
 				String[] ids = c.ids();
