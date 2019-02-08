@@ -7,7 +7,7 @@ import unalcol.vc.Side;
 
 public class PullServerController extends DefaultComponent implements Controller{
 	protected BackEnd backend; 
-	public static final String SERVER = "unalcol_servlet";
+	public static final String SERVER = "servlet";
 
 	public PullServerController( BackEnd backend ){
 		super( SERVER ); 

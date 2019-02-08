@@ -4,18 +4,18 @@ import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
+import unalcol.js.Util;
 import unalcol.js.vc.JSFrontEnd;
-import unalcol.types.collection.keymap.KeyMap;
+import unalcol.js.vc.JSPreModel;
 import unalcol.types.collection.vector.Vector;
-import unalcol.vc.Component;
+import unalcol.vc.BackEnd;
 import unalcol.vc.Controller;
+import unalcol.vc.VCModel;
 
 public class JSServerManager extends JSFrontEnd {
 	public static final String pull="pull_server";
 	protected PullServerController serverc = null; 
 	protected Vector<String> commands_queue = new Vector<String>();
-	
-	public JSServerManager( String url, KeyMap<String, Component> views ){ super(url, views); }
 	
 	@Override
 	public void execute(String command){ commands_queue.add(command); }
@@ -81,19 +81,44 @@ public class JSServerManager extends JSFrontEnd {
 		return args;
 	}
 	
+	public String setParams(Object[] args){
+		String[] pars = new String[args.length];
+		for( int i=0; i<pars.length; i++ ) pars[i] = (String)args[i];
+		this.url = Util.value(pars, "url");
+		String pack = Util.value(pars,"pack");
+		if( pack==null ) pack="";
+		String file = Util.value(pars,"file");
+		if( file==null ) file="main.xml";
+		
+		JSPreModel m = JSPreModel.get(url,pack);
+		BackEnd backend = m.backend();
+		this.init(m.frontend());
+		new VCModel(backend, this);	
+		System.out.println("[JSServerManager]"+backend());
+		return null;
+	}
+	
 	public String javacall( String command ){
-		if( serverc==null ) serverc = new PullServerController(backend());
+		System.out.println("[JSServerManager]"+command);
 		int i=command.indexOf('.'); 
 		String id = command.substring(0,i);
-		if( id.equals(serverc.id())) return serverc.pull();
 		command = command.substring(i+1);
-		Controller c = backend().controller(id);
-		if( c== null ) return null;
-		
 		i=command.indexOf('(');
 		String method = command.substring(0,i);
 		String arg = command.substring(i+1,command.length()-1);
 		Object[] args = args(arg);
+		
+		if( id.equals(PullServerController.SERVER) ){
+			if(method.equals("setParams")){
+				return setParams(args);
+			}
+		}
+
+		if( serverc==null ) serverc = new PullServerController(backend());
+		if( id.equals(serverc.id())) return serverc.pull();
+		Controller c = backend().controller(id);
+		if( c== null ) return null;
+		
 		@SuppressWarnings("rawtypes")
 		Class[] types = new Class[args.length];
 		for( int k=0; k<types.length; k++ ) types[k] = args[k].getClass();
@@ -118,6 +143,7 @@ public class JSServerManager extends JSFrontEnd {
 		sb.append("',");
 		sb.append(delay);
 		sb.append(')');
+		System.out.println("[JSServerManager]"+sb.toString());
 		return sb.toString();
 	} 
 	

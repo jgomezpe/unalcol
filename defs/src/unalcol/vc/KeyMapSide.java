@@ -1,16 +1,18 @@
 package unalcol.vc;
 
 import unalcol.types.collection.Collection;
+import unalcol.types.collection.keymap.HashMap;
 import unalcol.types.collection.keymap.KeyMap;
 
 public class KeyMapSide extends DefaultSide{
 	protected boolean changed = false;
 	protected KeyMap<String, Component> keymap;
 	
+	public KeyMapSide(String id){ this( id, new HashMap<String,Component>() ); }
+
 	public KeyMapSide(String id, KeyMap<String, Component> keymap){
 		super( id );
-		this.keymap = keymap;
-		for( Component c:keymap ) c.setSide(this);
+		init(keymap);
 	}
 
 	public void clear(){ keymap.clear(); }
@@ -18,6 +20,11 @@ public class KeyMapSide extends DefaultSide{
 	@Override
 	public Component component(String id){ return keymap.get(id); }
 
+	public void init(KeyMap<String, Component> keymap){
+		this.keymap = keymap;
+		for( Component c:keymap ) c.setSide(this);
+	}
+	
 	public void register(Component component){
 		changed = true;
 		String[] ids = component.ids();

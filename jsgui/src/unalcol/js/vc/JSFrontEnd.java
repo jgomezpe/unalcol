@@ -9,10 +9,14 @@ import unalcol.vc.KeyMapSide;
 public class JSFrontEnd extends KeyMapSide implements FrontEnd{
 	protected String url;
 	
+	public JSFrontEnd(){ super(FrontEnd.FRONTEND); }
+	
 	public JSFrontEnd( String url, KeyMap<String, Component> views ){
 		super(FrontEnd.FRONTEND, views);
 		this.url = url;
 	}
+	
+	public void setUrl( String url ){ this.url = url; }
 	
 	public void execute( String command ){}
 	

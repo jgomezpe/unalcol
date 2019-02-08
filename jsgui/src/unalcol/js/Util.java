@@ -1,4 +1,4 @@
-package unalcol.js.vc.mode.fx;
+package unalcol.js;
 
 import java.awt.Image;
 import java.io.BufferedReader;
@@ -16,7 +16,18 @@ public class Util {
 	public static final String cfg="cfg/";
 	public static final String i18n="I18N/";
 	
-	
+	public static String value(String[] args, String tag){
+		String v = null;
+		String shTag = tag.substring(0,1); 
+		int i=0;
+		while(i<args.length && v==null){
+			String[] p = args[i].split("=");
+			if( p[0].equals(shTag) || p[0].equals(tag) ) v = p[1];
+			i++;
+		}
+		return v;
+	}
+		
 	public static String resource( String name, boolean asResource ){
 		return asResource?"/"+images+name:resources+images+name;
 	}
