@@ -11,6 +11,7 @@ import java.net.URL;
 import javax.imageio.ImageIO;
 
 public class Util {
+	
 	public static final String resources="resources/";
 	public static final String images="imgs/";
 	public static final String cfg="cfg/";
