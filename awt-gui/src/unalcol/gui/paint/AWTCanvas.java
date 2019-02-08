@@ -7,6 +7,7 @@ import java.awt.geom.AffineTransform;
 import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
 
+import unalcol.json.JSON;
 import unalcol.types.collection.keymap.HashMap;
 import unalcol.util.Config;
 
@@ -14,6 +15,7 @@ public class AWTCanvas implements Canvas{
 	protected double scale=1;
 	protected Graphics g;
 	protected HashMap<String, Image> images = new HashMap<String,Image>();
+	protected HashMap<String, JSON> commands = new HashMap<String,JSON>();
 
 	@Override
 	public double scale(){ return scale; }
@@ -114,5 +116,16 @@ public class AWTCanvas implements Canvas{
 	}
 	
 	public static Color awt2color( java.awt.Color color ){ return new Color(color.getRed(), color.getGreen(), color.getBlue(), color.getAlpha()); } 
-	public static java.awt.Color color2awt( Color color ){ return new java.awt.Color(color.red(), color.green(), color.blue(), color.alpha()); } 
+	public static java.awt.Color color2awt( Color color ){ return new java.awt.Color(color.red(), color.green(), color.blue(), color.alpha()); }
+
+	@Override
+	public JSON get(String command){ return commands.get(command); }
+
+	@Override
+	public boolean register(JSON command){
+		String type = (String)command.get(COMMAND);
+		if( isPrimitive(type) ) return false;
+		commands.set(type, (JSON)command.get(DEF));
+		return true;
+	} 
 }

@@ -1,16 +1,10 @@
 package unalcol.js.vc.mode.server;
-import java.io.BufferedReader;
-import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
-import unalcol.js.Util;
 import unalcol.js.vc.JSFrontEnd;
-import unalcol.js.vc.JSPreModel;
 import unalcol.types.collection.vector.Vector;
-import unalcol.vc.BackEnd;
 import unalcol.vc.Controller;
-import unalcol.vc.VCModel;
 
 public class JSServerManager extends JSFrontEnd {
 	public static final String pull="pull_server";
@@ -31,86 +25,14 @@ public class JSServerManager extends JSFrontEnd {
 		return sb.toString();
 	}
 	
-	public String javacall( BufferedReader reader ) throws IOException {
-		  StringBuilder sb = new StringBuilder();
-		  String line = reader.readLine();
-		  while( line != null ){
-			  sb.append(line);
-			  line = reader.readLine();
-		  };
-		  return javacall(sb.toString());		
-	}
-	
-	public Object[] args( String arg ){
-		StringBuilder sb;
-		Vector<Object> parse = new Vector<Object>();
-		int i=0;
-		while( i<arg.length() ){
-			switch( arg.charAt(i) ){
-				case ',': case ' ': i++; break;
-				case '"':
-					sb = new StringBuilder();
-					i++;
-					while( arg.charAt(i) != '"' ){
-						if( arg.charAt(i) == '\\' )	i++;
-						sb.append(arg.charAt(i));
-						i++;
-					}
-					parse.add( sb.toString() );
-					i++;
-				break;
-				case '\'':
-					i++;
-					if( arg.charAt(i) == '\\' )	i++;
-					parse.add(arg.charAt(i));
-					i+=2;
-				break;
-				default:
-					sb = new StringBuilder();
-					while(i<arg.length() && arg.charAt(i)!=' ' && arg.charAt(i)!=',' ){ 
-						sb.append(arg.charAt(i));
-						i++; 
-					}
-					String number = sb.toString();
-					try{ parse.add(Integer.parseInt(number)); }
-					catch( NumberFormatException e ){ parse.add(Double.parseDouble(number)); }
-			}
-		}
-		Object[] args = new Object[parse.size()];
-		for( int k=0; k<args.length; k++ ) args[k] = parse.get(k); 
-		return args;
-	}
-	
-	public String setParams(Object[] args){
-		String[] pars = new String[args.length];
-		for( int i=0; i<pars.length; i++ ) pars[i] = (String)args[i];
-		this.url = Util.value(pars, "url");
-		String pack = Util.value(pars,"pack");
-		if( pack==null ) pack="";
-		String file = Util.value(pars,"file");
-		if( file==null ) file="main.xml";
-		
-		JSPreModel m = JSPreModel.get(url,pack);
-		BackEnd backend = m.backend();
-		this.init(m.frontend());
-		new VCModel(backend, this);	
-		System.out.println("[JSServerManager]"+backend());
-		return null;
-	}
-	
-	public String javacall( String command ){
-		System.out.println("[JSServerManager]"+command);
-		int i=command.indexOf('.'); 
-		String id = command.substring(0,i);
-		command = command.substring(i+1);
-		i=command.indexOf('(');
-		String method = command.substring(0,i);
-		String arg = command.substring(i+1,command.length()-1);
-		Object[] args = args(arg);
+	public String javacall( Command command ){
+		String id = command.id();
+		String method = command.method();
+		Object[] args = command.args();
 		
 		if( id.equals(PullServerController.SERVER) ){
 			if(method.equals("setParams")){
-				return setParams(args);
+				return null;
 			}
 		}
 
@@ -143,7 +65,6 @@ public class JSServerManager extends JSFrontEnd {
 		sb.append("',");
 		sb.append(delay);
 		sb.append(')');
-		System.out.println("[JSServerManager]"+sb.toString());
 		return sb.toString();
 	} 
 	

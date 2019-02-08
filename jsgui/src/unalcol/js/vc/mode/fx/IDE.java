@@ -1,49 +1,35 @@
 package unalcol.js.vc.mode.fx;
 
-import java.awt.Dimension;
-import java.awt.Toolkit;
-
-import javax.swing.JFrame;
-import javax.swing.SwingUtilities;
-
-import unalcol.js.Util;
-import unalcol.js.vc.JSPreModel;
-import unalcol.js.vc.mode.fx.FXPanel;
-import unalcol.vc.BackEnd;
-import unalcol.vc.FrontEnd;
-import unalcol.vc.VCModel;
+import unalcol.js.vc.JSModel;
 
 public class IDE{
+	public static String repairHostName( String host ){
+		if( host.indexOf("http") < 0) host = "http://" + host;
+		while( host.endsWith("/") ) host = host.substring(0, host.length()-1);
+		if( !host.endsWith(".html" ) ){
+			if( !host.endsWith("/") ) host = host + "/";
+			host = host + "index.html";
+		}
+		return host;
+	}
+	
 	public static void main(String[] args){
-		System.setProperty("sun.net.http.allowRestrictedHeaders", "true");
+		// Here is an example of the arguments 
+		//args = new String[2];
+		//args[0] = "localhost";
+		//args[1] = "pack=demo";
+
 		// Getting the parameters 
-		String url = Util.value(args, "url");
-		String pack = Util.value(args,"pack");
-		if( pack==null ) pack="";
-		String file = Util.value(args,"file");
-		if( file==null ) file="main.xml";
-		String params = "index.html?mode=fx&pack="+pack+"&file="+file;
-		System.out.println(params);
-		//String unalcol_url = "http://localhost/unalcol/";
-		JSPreModel m = JSPreModel.get(url,pack);
-		BackEnd backend = m.backend();
-		FXPanel panel = new FXPanel(url+params, m.frontend());
-		FrontEnd frontend = panel.frontend();
-		new VCModel(backend, frontend);
-        // Run this later:
-        SwingUtilities.invokeLater(new Runnable() {  
-            @Override
-            public void run() {  
-                final JFrame frame = new JFrame();  
-                 
-                frame.getContentPane().add(panel);  
-        		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-        		int width = (int)screenSize.getWidth();
-        		int height = (int)screenSize.getHeight();
-        		frame.setSize(new Dimension(width*4/5, height*4/5));                 
-                frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);  
-                frame.setVisible(true);  
-            }  
-        });     
+		String host = repairHostName(args[0]); // An url with info of the host webpage: "http://localhost/index.html
+		StringBuilder query = new StringBuilder();
+		query.append("?mode=fx");
+		for( int i=1; i<args.length; i++ )
+			if( args[i].indexOf("mode=") < 0 ){
+				query.append('&');
+				query.append(args[i]);			
+			}
+		String url = host + query.toString();
+		// For the example, the url will become something like: "http://localhost/index.html?mode=fx&pack=demo"
+		new JSModel(url);
 	}
 }

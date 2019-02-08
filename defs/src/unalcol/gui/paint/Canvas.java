@@ -6,11 +6,59 @@ import unalcol.types.collection.Collection;
 import unalcol.types.collection.FiniteCollection;
 
 public interface Canvas{
+	public final static String COMMAND="command";
+	public final static String LINE="line";
+	public final static String POLYGON="polygon";
+	public final static String POLYLINE="polyline";
+	public final static String TEXT="text";
+	public final static String IMAGE="image";
+	public final static String RECT="rect";
+	public final static String FILLRECT="fillrect";
+	public final static String ARC="arc";
+	public final static String FILLARC="fillarc";
+	public final static String COMPOUND="compound";
+
+	public final static String X="x";
+	public final static String Y="y";
+	public final static String WIDTH="width";
+	public final static String HEIGHT="height";
+	public final static String MESSAGE="message";
+	public final static String IMAGE_URL="url";
+	public final static String IMAGE_ROT="rotation";
+	public final static String IMAGE_REF="reflection";
+	public final static String START_ANGLE="start_angle";
+	public final static String END_ANGLE="end_angle";
+	public final static String COMMANDS="commands";
+	public final static String DEF="def";
+
+
+	JSON get( String command );
+	
+	boolean register( JSON command );
 	
 	void setScale( double scale );
-	
+
 	double scale();
 	
+	/**
+	 * Sets the new painting color, returns the previous color
+	 * @param color
+	 * @return
+	 */
+	Color setColor( Color color );
+	
+	void drawLine( int start_x, int start_y, int end_x, int end_y );
+	
+	void drawPolygon( int[] x, int[] y );	
+	
+	void drawImage( int start_x, int start_y, int width, int height, int rot, boolean reflex, String image_url ); 
+	
+	void drawString( int x, int y, String str ); 
+	
+	void drawArc(int x, int y, int width, int height, int startAngle, int endAngle); 
+	
+	void drawFillArc(int x, int y, int width, int height, int startAngle, int endAngle);
+
 	default int scale( int value ){ return (int)(value*scale()); }
 	
 	default int[] scale( int[] value ){
@@ -19,25 +67,6 @@ public interface Canvas{
 		for( int i=0; i<svalue.length; i++ ) svalue[i] = scale(value[i]);
 		return svalue;
 	}
-	
-	/**
-	 * Sets the new painting color, returns the previous color
-	 * @param color
-	 * @return
-	 */
-	public Color setColor( Color color );
-	
-	public void drawLine( int start_x, int start_y, int end_x, int end_y );
-
-	public void drawPolygon( int[] x, int[] y );	
-
-	public void drawImage( int start_x, int start_y, int width, int height, int rot, boolean reflex, String image_url ); 
-	
-	public void drawString( int x, int y, String str ); 
-	
-	public void drawArc(int x, int y, int width, int height, int startAngle, int endAngle); 
-	
-	public void drawFillArc(int x, int y, int width, int height, int startAngle, int endAngle);
 
 	public default void drawPolyline( int[] x, int[] y ){
 		int e = x.length-1;
@@ -53,28 +82,6 @@ public interface Canvas{
 	default void drawFillOval( int x, int y, int width, int height ){ drawFillArc( x, y, width, height, 0, 360); }
 	
 	// JSON drawing methods
-	public final static String COMMAND="command";
-	public final static String X="x";
-	public final static String Y="y";
-	public final static String WIDTH="width";
-	public final static String HEIGHT="height";
-	public final static String COMPOUND="compound";
-	public final static String COMMANDS="commands";
-	public final static String LINE="line";
-	public final static String POLYGON="polygon";
-	public final static String POLYLINE="polyline";
-	public final static String TEXT="text";
-	public final static String MESSAGE="message";
-	public final static String IMAGE="image";
-	public final static String IMAGE_URL="url";
-	public final static String IMAGE_ROT="rotation";
-	public final static String IMAGE_REF="reflection";
-	public final static String RECT="rect";
-	public final static String FILLERECT="fillrect";
-	public final static String ARC="arc";
-	public final static String START_ANGLE="start_angle";
-	public final static String END_ANGLE="end_angle";
-	public final static String FILLEARC="fillarc";
 
 	default int[] coordinates( FiniteCollection<Object> v ){
 		int n = v.size();
@@ -100,10 +107,20 @@ public interface Canvas{
 		if( obj == null ) return null;
 		return cinstance.load((JSON)obj);	
 	}
+	
+	default boolean isPrimitive( String command ){
+		return( command.equals(LINE) || command.equals(RECT) || command.equals(FILLRECT) || command.equals(ARC) || command.equals(FILLARC) || 
+				command.equals(POLYLINE) || command.equals(POLYGON) || command.equals(COMPOUND) || command.equals(TEXT) || command.equals(IMAGE) );
+	}
 		
 	default void drawJSON( JSON json ){
 		String type = (String)json.get(COMMAND);
 		if( type==null ) return;
+		JSON j = get(type);
+		if( j != null ){
+			drawJSON( j );
+			return;
+		}
 		int c = type.charAt(0);
 		Color color = color(json);
 		if(color!=null) setColor(color);

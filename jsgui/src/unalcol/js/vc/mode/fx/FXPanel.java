@@ -17,8 +17,6 @@ import javafx.scene.Scene;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
 import javafx.stage.Stage;
-import unalcol.types.collection.keymap.KeyMap;
-import unalcol.vc.Component;
 import unalcol.vc.FrontEnd;
 
 public class FXPanel extends JPanel{
@@ -34,13 +32,13 @@ public class FXPanel extends JPanel{
 	protected String index;
 	protected FXManager manager;
 	
-	public FXPanel( String url, KeyMap<String, Component> views ){
+	public FXPanel( String url, FXManager manager ){
 		super();
 		this.setMinimumSize(new Dimension());
 		this.setPreferredSize(new Dimension());
 		this.index = url;
 		System.out.println("[FXPanel]"+this.index);
-		this.manager = new FXManager(url, views);
+		this.manager = manager;
 		initComponents();
 	}
 	
