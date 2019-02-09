@@ -4,8 +4,9 @@ import unalcol.gui.paint.Color;
 import unalcol.json.JSON;
 import unalcol.types.collection.Collection;
 import unalcol.types.collection.FiniteCollection;
+import unalcol.types.collection.keymap.HashMap;
 
-public interface Canvas{
+public abstract class Canvas{
 	public final static String COMMAND="command";
 	public final static String LINE="line";
 	public final static String POLYGON="polygon";
@@ -31,59 +32,67 @@ public interface Canvas{
 	public final static String COMMANDS="commands";
 	public final static String DEF="def";
 
+	protected double scale=1;
 
-	JSON get( String command );
-	
-	boolean register( JSON command );
-	
-	void setScale( double scale );
+	protected HashMap<String, JSON> commands = new HashMap<String,JSON>();
 
-	double scale();
-	
 	/**
 	 * Sets the new painting color, returns the previous color
 	 * @param color
 	 * @return
 	 */
-	Color setColor( Color color );
+	public abstract Color setColor( Color color );
 	
-	void drawLine( int start_x, int start_y, int end_x, int end_y );
+	public abstract void drawLine( int start_x, int start_y, int end_x, int end_y );
 	
-	void drawPolygon( int[] x, int[] y );	
+	public abstract void drawPolygon( int[] x, int[] y );	
 	
-	void drawImage( int start_x, int start_y, int width, int height, int rot, boolean reflex, String image_url ); 
+	public abstract void drawImage( int start_x, int start_y, int width, int height, int rot, boolean reflex, String image_url ); 
 	
-	void drawString( int x, int y, String str ); 
+	public abstract void drawString( int x, int y, String str ); 
 	
-	void drawArc(int x, int y, int width, int height, int startAngle, int endAngle); 
+	public abstract void drawArc(int x, int y, int width, int height, int startAngle, int endAngle); 
 	
-	void drawFillArc(int x, int y, int width, int height, int startAngle, int endAngle);
+	public abstract void drawFillArc(int x, int y, int width, int height, int startAngle, int endAngle);
 
-	default int scale( int value ){ return (int)(value*scale()); }
+	public JSON get(String command){ return commands.get(command); }
+
+	public boolean register(JSON command){
+		String type = (String)command.get(COMMAND);
+		if( isPrimitive(type) ) return false;
+		commands.set(type, (JSON)command.get(DEF));
+		return true;
+	} 
+
+	public double scale(){ return scale; }
+
+	public void setScale( double scale ){ this.scale = scale; }
 	
-	default int[] scale( int[] value ){
+	public int scale( int value ){ return (int)(value*scale()); }
+	
+	public int[] scale( int[] value ){
 		if( value == null ) return null;
 		int[] svalue = new int[value.length];
 		for( int i=0; i<svalue.length; i++ ) svalue[i] = scale(value[i]);
 		return svalue;
 	}
 
-	public default void drawPolyline( int[] x, int[] y ){
+	public void drawPolyline( int[] x, int[] y ){
 		int e = x.length-1;
 		for( int i=0; i<e; i++ ) drawLine( x[i], y[i], x[i+1], y[i+1] );
 	}	
 	
-	default void drawRect( int x, int y, int width, int height ){ drawPolyline( new int []{x, x+width, x+width, x, x}, new int[]{y, y, y+height, y+height, y} ); }
+	public void drawRect( int x, int y, int width, int height ){ drawPolyline( new int []{x, x+width, x+width, x, x}, new int[]{y, y, y+height, y+height, y} ); }
 
-	default void drawFillRect( int x, int y, int width, int height ){ drawPolygon( new int []{x, x+width, x+width, x, x}, new int[]{y, y, y+height, y+height, y} );	}
+	public void drawFillRect( int x, int y, int width, int height ){ drawPolygon( new int []{x, x+width, x+width, x, x}, new int[]{y, y, y+height, y+height, y} );	}
 	
-	default void drawOval( int x, int y, int width, int height ){ drawArc( x, y, width, height, 0, 360); }
+	public void drawOval( int x, int y, int width, int height ){ drawArc( x, y, width, height, 0, 360); }
 	
-	default void drawFillOval( int x, int y, int width, int height ){ drawFillArc( x, y, width, height, 0, 360); }
+	public void drawFillOval( int x, int y, int width, int height ){ drawFillArc( x, y, width, height, 0, 360); }
 	
 	// JSON drawing methods
 
-	default int[] coordinates( FiniteCollection<Object> v ){
+	public int[] coordinates( FiniteCollection<Object> v ){
 		int n = v.size();
 		int[] p = new int[n];
 		int i=0;
@@ -95,25 +104,25 @@ public interface Canvas{
 	}
 
 	@SuppressWarnings("unchecked")
-	default int[] x( JSON json ){ return coordinates( (FiniteCollection<Object>)json.get(X) ); }
+	public int[] x( JSON json ){ return coordinates( (FiniteCollection<Object>)json.get(X) ); }
 
 	@SuppressWarnings("unchecked")
-	default int[] y( JSON json ){ return coordinates( (FiniteCollection<Object>)json.get(Y) ); }
+	public int[] y( JSON json ){ return coordinates( (FiniteCollection<Object>)json.get(Y) ); }
 	
 	ColorInstance cinstance = new ColorInstance();
 	
-	default Color color( JSON json ){
+	public Color color( JSON json ){
 		Object obj = json.get(ColorInstance.COLOR);
 		if( obj == null ) return null;
 		return cinstance.load((JSON)obj);	
 	}
 	
-	default boolean isPrimitive( String command ){
+	public boolean isPrimitive( String command ){
 		return( command.equals(LINE) || command.equals(RECT) || command.equals(FILLRECT) || command.equals(ARC) || command.equals(FILLARC) || 
 				command.equals(POLYLINE) || command.equals(POLYGON) || command.equals(COMPOUND) || command.equals(TEXT) || command.equals(IMAGE) );
 	}
 		
-	default void drawJSON( JSON json ){
+	public void drawJSON( JSON json ){
 		String type = (String)json.get(COMMAND);
 		if( type==null ) return;
 		JSON j = get(type);

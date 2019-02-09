@@ -43,11 +43,13 @@ public class AWTLog extends DefaultComponent implements Log{
 	public void error(String message){
 		panel.getErrorArea().setText("");
 		appendToPane(panel.getErrorArea(), message, error_color); 
+		display(false);
 	}
 
 	@Override
 	public void out(String message) {
 		panel.getOutArea().setText("");
 		appendToPane(panel.getOutArea(), message, out_color); 
+		display(true);
 	}
 }

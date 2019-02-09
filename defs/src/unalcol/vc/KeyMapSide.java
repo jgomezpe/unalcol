@@ -21,8 +21,8 @@ public class KeyMapSide extends DefaultSide{
 	public Component component(String id){ return keymap.get(id); }
 
 	public void init(KeyMap<String, Component> keymap){
-		this.keymap = keymap;
-		for( Component c:keymap ) c.setSide(this);
+		this.keymap = new HashMap<String,Component>();
+		for( Component c:keymap ) register(c);	
 	}
 	
 	public void register(Component component){

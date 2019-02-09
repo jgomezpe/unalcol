@@ -29,6 +29,8 @@ public class AWTCanvasRender extends JPanel implements CanvasRender{
 	
 	protected HashMap<String, Image> images = new HashMap<String,Image>();
 	
+	public AWTCanvasRender(){ this("",new Color(255,255,255)); }
+	
 	public AWTCanvasRender( String id ){ this(id,new Color(255,255,255)); }
 
 	public AWTCanvasRender( String id, Color background_color ){

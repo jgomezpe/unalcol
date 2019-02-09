@@ -75,5 +75,20 @@ public class Util {
 			}		
 		}
 		return sb.toString();
-	}	
+	}
+	
+	public static String toJS( String code ){
+		StringBuilder sb = new StringBuilder();
+		for( int i=0; i<code.length(); i++ ){
+			char c = code.charAt(i); 
+			switch(c){
+				case'\n': sb.append("\\n"); break;
+				case'\t': sb.append("\\t"); break;
+				case'\r': sb.append("\\r"); break;
+				default:
+					sb.append(c);
+			}		
+		}
+		return sb.toString();
+	}		
 }

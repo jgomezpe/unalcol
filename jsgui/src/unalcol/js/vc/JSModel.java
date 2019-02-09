@@ -6,7 +6,9 @@ import java.net.URLClassLoader;
 import unalcol.js.Util;
 import unalcol.js.vc.mode.fx.FXManager;
 import unalcol.js.vc.mode.server.JSServerManager;
+import unalcol.types.collection.keymap.KeyMap;
 import unalcol.vc.BackEnd;
+import unalcol.vc.Component;
 import unalcol.vc.FrontEnd;
 import unalcol.vc.VCModel;
 
@@ -42,9 +44,10 @@ public class JSModel extends VCModel{
 			URL aURL = new URL( url );
 			String[] query = aURL.getQuery().split("&"); 
 			String mode = Util.value(query, "mode");
+			KeyMap<String, Component> comps = modelLoader.frontend(url); 
 			if( mode.equals("fx") ) front = new FXManager(url); 
 			if( mode.equals("servlet") ) front = new JSServerManager(); 
-			if( front != null )	front.init(modelLoader.frontend(url)); 
+			if( front != null )	front.init(comps); 
 		} catch (Exception e) { e.printStackTrace(); }
 		return front;
 	}	

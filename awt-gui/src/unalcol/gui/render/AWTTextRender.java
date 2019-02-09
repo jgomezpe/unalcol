@@ -20,11 +20,15 @@ public class AWTTextRender extends JPanel implements TextRender{
 	 */
 	private static final long serialVersionUID = -8976916928457960190L;
 
-	public AWTTextRender( String id ){
-		this.id = id;
+	public AWTTextRender(){
 		scroll = new JScrollPane(textArea);
 		this.setLayout(layout);
-		this.add(scroll, BorderLayout.CENTER);
+		this.add(scroll, BorderLayout.CENTER);		
+	}
+	
+	public AWTTextRender( String id ){
+		this();
+		this.id = id;
 	}
 
 	@Override

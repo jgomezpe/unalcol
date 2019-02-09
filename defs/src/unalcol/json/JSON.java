@@ -2,6 +2,8 @@ package unalcol.json;
 
 import unalcol.clone.Cloneable;
 import unalcol.types.collection.keymap.LowLevelKeyMap;
+import unalcol.types.collection.vector.Vector;
+import unalcol.util.ParseUtil;
 
 public class JSON extends LowLevelKeyMap<String, Object> implements Cloneable{
 	@Override
@@ -33,4 +35,36 @@ public class JSON extends LowLevelKeyMap<String, Object> implements Cloneable{
 		return i;
 	}
 	
+	public String toString(Object obj){
+		if( obj instanceof String )	return ParseUtil.encode((String)obj);
+		else if( obj instanceof Vector ){
+			StringBuilder sb = new StringBuilder();
+			sb.append('[');
+			@SuppressWarnings("unchecked")
+			Vector<Object> v = (Vector<Object>)obj;
+			boolean prComma = false;
+			for( Object x : v ){
+				if( prComma ) sb.append(',');
+				sb.append(toString(x));
+				prComma = true;
+			}
+			sb.append(']');
+			return sb.toString();
+		}else return obj.toString();		
+	}
+	
+	public String toString(){
+		StringBuilder sb = new StringBuilder();
+		sb.append('{');
+		boolean prComma = false;
+		for( String key : this.keys() ){
+			if( prComma ) sb.append(',');
+			sb.append(ParseUtil.encode(key));
+			sb.append(':');
+			sb.append(toString(this.get(key)));
+			prComma = true;
+		}
+		sb.append('}');
+		return sb.toString();
+	}	
 }

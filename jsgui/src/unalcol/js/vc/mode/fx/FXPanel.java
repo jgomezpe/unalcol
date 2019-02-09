@@ -37,7 +37,6 @@ public class FXPanel extends JPanel{
 		this.setMinimumSize(new Dimension());
 		this.setPreferredSize(new Dimension());
 		this.index = url;
-		System.out.println("[FXPanel]"+this.index);
 		this.manager = manager;
 		initComponents();
 	}

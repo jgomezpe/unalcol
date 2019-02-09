@@ -68,12 +68,30 @@ public class ParseUtil {
 					pos++;
 				break;
 				case '\\':
+					c = '\\';
+					pos++;
+				break;
 				case '/':
+					pos++;
+				break;
 				case 'b':
+					c = '\b';
+					pos++;
+				break;
 				case 'f':
+					c = '\f';
+					pos++;
+				break;
 				case 'n':
+					c = '\n';
+					pos++;
+				break;
 				case 'r':
+					c = '\r';
+					pos++;
+				break;
 				case 't':
+					c = '\t';
 					pos++;
 				break;
 				case 'u':
@@ -84,12 +102,11 @@ public class ParseUtil {
 						int k=Integer.parseInt(uc,16);
 						c = (char)k;
 					}catch(NumberFormatException e){ throw new Exception("Invalid unicode " + uc); }
-					pos += 3;
+					pos += 4;
 					
 				break;
 				default: throw new Exception("Invalid escape character \\' inside string."); 
 			}
-			pos++;
 		}else{
 			pos++;
 		}
@@ -136,4 +153,31 @@ public class ParseUtil {
 	}	
 	
 	public int consumed(){ return length; }
+	
+	public static String encode( String str ){
+		StringBuilder sb = new StringBuilder();
+		sb.append('"');
+		for( int i=0; i<str.length(); i++ ){
+			char c = str.charAt(i);
+			switch( c ){
+				case '/': sb.append("\\/"); break;	
+				case '\\': sb.append("\\\\"); break;
+				case '\b': sb.append("\\b"); break;
+				case '\f': sb.append("\\f"); break;
+				case '\n': sb.append("\\n"); break;
+				case '\r': sb.append("\\r"); break;
+				case '\t': sb.append("\\t"); break;
+				case '\'': sb.append("\'"); break;
+				case '"': sb.append("\\\""); break;
+				default:
+					if( c < 32 || c > 255 ){
+						sb.append("\\u");
+						sb.append(Integer.toHexString((int)c));
+					}else sb.append(c);
+				break;
+			}
+		}
+		sb.append('"');
+		return sb.toString();	
+	} 	
 }
