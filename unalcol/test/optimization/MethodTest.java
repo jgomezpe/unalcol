@@ -225,7 +225,7 @@ public class MethodTest {
 			MethodTest me = new MethodTest();
 			me.apply(json);
 		} catch (Exception e1) {
-			e1.printStackTrace();
+			e1.printStackTrace(); //If something goes wrong
 		}
 	}
 }
