@@ -1,0 +1,53 @@
+package optimization;
+
+import unalcol.optimization.binary.mutation.BitMutation;
+import unalcol.optimization.binary.mutation.SingleBitMutation;
+import unalcol.bit.Array;
+import unalcol.optimization.binary.XOver;
+
+public class BitArrayOperatorTest {
+	 /**
+	  * Testing function
+	  */
+	  public static void bit_mutation(){
+	    System.out.println("*** Bit Mutation: Generating a genome of 21 genes randomly ***");
+	    Array genome = new Array(21, true);
+	    BitMutation mutation = new BitMutation(0.05);
+	    Array mutated = mutation.apply(genome);
+	    System.out.println(genome+"<--Original");
+	    System.out.println(mutated+"<--Mutated");
+	  }
+
+	  /**
+	   * Testing function
+	   */
+	   public static void single_bit_mutation(){
+		    System.out.println("*** Single Bit Mutation: Generating two genomes of 20 genes randomly ***");
+		    Array genome = new Array(21, true);
+		    SingleBitMutation mutation = new SingleBitMutation();
+		    Array mutated = mutation.apply(genome);
+		    System.out.println(genome+"<--Original");
+		    System.out.println(mutated+"<--Mutated");
+	    }
+	  
+	   /**
+	    * Testing function
+	    */
+	    public static void xover(){
+	      System.out.println("***  XOver: Generating two genomes of 20 genes randomly ***");
+	      Array parent1 = new Array(20, true);
+	      Array parent2 = new Array(20, true);
+	      System.out.println(parent1+":"+parent2+"<--parents");
+
+	      XOver xover = new XOver();
+	      Array[] kids = xover.apply(parent1, parent2);
+	      System.out.println(kids[0]+":"+kids[1]+"<--offspring");
+	    }
+	   
+	  public static void main( String[] args ){
+		  bit_mutation();
+		  single_bit_mutation();
+		  xover();
+	  }
+
+}
