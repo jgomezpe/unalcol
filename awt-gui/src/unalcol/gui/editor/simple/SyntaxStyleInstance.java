@@ -17,22 +17,22 @@ public class SyntaxStyleInstance implements JSON2Instance<SyntaxStyle>{
 
 	protected ColorInstance c = new ColorInstance();
 	
-	protected boolean value( JSON json, String tag ){
-		Object b = json.get(tag);
-		return b!=null?(Boolean)b:false;
-	}
+	protected boolean value( JSON json, String tag ){ return json.getBool(tag);	}
 	
 	@Override
-	public SyntaxStyle load(JSON json) {
-		String tag = (String)json.get(DEF);
-		int size = (Integer)json.get(SIZE);
+	public SyntaxStyle load(JSON json){
+		int size = json.getInt(SIZE);
 		boolean bold = value(json,BOLD);
 		boolean italic = value(json,ITALIC);
 		boolean under_line = value(json,UNDER_LINE);
-		String font_family = (String)json.get(FONT);
 		Color color = null;
-		Object co = json.get(COLOR);
-		if( co!=null ) color = c.load((JSON)co); 
+		try{ color = c.load((JSON)json.get(COLOR));	}catch(Exception e){}
+
+		String font_family = null;
+		try{ font_family = (String)json.get(FONT); }catch(Exception e){}
+		
+		String tag = null; 
+		try{ tag = (String)json.get(DEF); }catch(Exception e){}
 		return new SyntaxStyle(tag,font_family,size,bold,italic,under_line,color);
 	}
 

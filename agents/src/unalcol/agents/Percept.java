@@ -1,7 +1,7 @@
 package unalcol.agents;
 
-import unalcol.types.collection.keymap.KeyMap;
-import unalcol.types.collection.keymap.HashMap;
+import unalcol.collection.keymap.KeyMap;
+import unalcol.collection.keymap.HashMap;
 /**
  * <p>Title: Percept</p>
  *
@@ -19,7 +19,7 @@ public class Percept {
 	
 	public Percept() {}
 	
-	public Object getAttribute( String code ){ return table.get(code); }
+	public Object getAttribute( String code ){ try{ return table.get(code); }catch(Exception e){ return null; } }
 
 	public void setAttribute( String key, Object value ){ table.set(key, value); }
 }

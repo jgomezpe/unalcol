@@ -2,7 +2,7 @@ package unalcol.agents.examples.labyrinth.variable;
 import unalcol.agents.Action;
 import unalcol.agents.AgentProgram;
 import unalcol.agents.Percept;
-import unalcol.random.raw.UsesRawGenerator;
+import unalcol.random.UsesRawGenerator;
 
 public class WallDaemon extends UsesRawGenerator implements AgentProgram{
 	protected double probability;

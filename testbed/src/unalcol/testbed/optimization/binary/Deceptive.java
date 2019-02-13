@@ -1,7 +1,7 @@
 package unalcol.testbed.optimization.binary;
 
 import unalcol.optimization.*;
-import unalcol.types.collection.bitarray.BitArray;
+import unalcol.collection.bitarray.BitArray;
 
 /**
  * <p>Title: Deceptive</p>
@@ -26,10 +26,12 @@ public class Deceptive extends OptimizationFunction<BitArray>{
     int s = 0;
     int b = 1;
     length += start;
-    for( int i=start; i<length; i++ ){
-     if( genes.get(i) ){ s += b; };
-     b *= 2;
-    };
+    try{
+    	for( int i=start; i<length; i++ ){
+    		if( genes.get(i) ){ s += b; };
+    		b *= 2;
+    	}
+    }catch(Exception e){}	
     return s;
   }
 

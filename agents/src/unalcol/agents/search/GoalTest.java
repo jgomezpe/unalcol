@@ -14,4 +14,4 @@ import unalcol.search.Goal;
  * @author Jonatan Gómez
  * @version 1.0
  */
-public interface GoalTest<T> extends Goal<T,Boolean> {}
+public abstract class GoalTest<T> extends Goal<T,Boolean> {}

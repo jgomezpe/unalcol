@@ -3,7 +3,7 @@ package unalcol.agents.examples.labyrinth.teseo.simple;
 import unalcol.agents.AgentProgram;
 import unalcol.agents.Percept;
 import unalcol.agents.simulate.util.SimpleLanguage;
-import unalcol.types.collection.vector.*;
+import unalcol.collection.vector.*;
 import unalcol.agents.Action;
 
 /**
@@ -71,9 +71,12 @@ public abstract class SimpleTeseoAgentProgram  implements AgentProgram{
         cmd.add(language.getAction(0)); // die
       }
     }
-    String x = cmd.get(0);
-    cmd.remove(0);
-    return new Action(x);
+    try{
+    	String x = cmd.get(0);
+        cmd.remove(0);
+        return new Action(x);
+    }catch(Exception e){}
+    return null;
   }
 
   /**

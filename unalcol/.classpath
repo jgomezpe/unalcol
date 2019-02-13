@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="services"/>
+	<classpathentry kind="src" path="test"/>
+	<classpathentry kind="src" path="jsgui"/>
+	<classpathentry kind="src" path="agents"/>
+	<classpathentry kind="src" path="testbed"/>
+	<classpathentry kind="src" path="awtgui"/>
+	<classpathentry kind="src" path="language"/>
+	<classpathentry kind="src" path="evolution"/>
+	<classpathentry kind="src" path="optimization"/>
+	<classpathentry kind="src" path="math"/>
+	<classpathentry kind="src" path="typeservice"/>
+	<classpathentry kind="src" path="util"/>
+	<classpathentry kind="src" path="xml"/>
+	<classpathentry kind="src" path="gui"/>
+	<classpathentry kind="src" path="outercore"/>
+	<classpathentry kind="src" path="json"/>
+	<classpathentry kind="src" path="random"/>
+	<classpathentry kind="src" path="collection"/>
+	<classpathentry kind="src" path="primitives"/>
+	<classpathentry kind="src" path="innercore"/>
+	<classpathentry kind="lib" path="/home/jgomez/git/projects/libs/rsyntaxtextarea-3.0.0-SNAPSHOT.jar"/>
+	<classpathentry kind="lib" path="/home/jgomez/git/projects/libs/lsgo.jar"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>

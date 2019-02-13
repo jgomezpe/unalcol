@@ -1,7 +1,7 @@
 package unalcol.agents.examples.sudoku;
 
 import java.util.Random;
-import unalcol.types.collection.vector.*;
+import unalcol.collection.vector.*;
 
 /**
  * <p>Title: </p>
@@ -93,16 +93,18 @@ public class Board {
             place.add( new Integer(i) );
         }
 
-        for( int k=0; k<emptyPlaces; k++ ){
-            int m = (int)(n*g.nextDouble());
-            int tmp = ((Integer)place.get(m)).intValue();
-            place.del(m);
-            m = tmp;
-            int i = m / DIGITS;
-            int j = m % DIGITS;
-            board[i][j] = 0;
-            n--;
-        }
+        try{
+	        for( int k=0; k<emptyPlaces; k++ ){
+	            int m = (int)(n*g.nextDouble());
+	            int tmp = ((Integer)place.get(m)).intValue();
+	            place.del(m);
+	            m = tmp;
+	            int i = m / DIGITS;
+	            int j = m % DIGITS;
+	            board[i][j] = 0;
+	            n--;
+	        }
+        }catch(Exception e){}
     }
 
     public int emptyPlaces(){
@@ -332,36 +334,38 @@ public class Board {
             }
         }
         if( v.size() > 0 ){
-            int index = (int)(v.size()*g.nextDouble());
-            int[] val = (int[])v.get(index);
-            int row = val[0];
-            int column = val[1];
-            int[] new_c = new int[DIGITS];
-            int temp;
-            for( int j=0; j<DIGITS; j++ ){
-                temp = board[row][j];
-                board[row][j] = board[row][column];
-                board[row][column] = temp;
-                int[][] nc = conflicts(board);
-                new_c[j] = cost( nc );
-                temp = board[row][j];
-                board[row][j] = board[row][column];
-                board[row][column] = temp;
-            }
-            int low = 1000;
-            Vector<Integer> vi = new Vector<Integer>();
-            for( int j=0; j<DIGITS; j++ ){
-                if( new_c[j] < low ){
-                    low = new_c[j];
-                    vi.clear();
-                    vi.add(new Integer(j));
-                }
-            }
-            index = (int)(vi.size()*g.nextDouble());
-            int k = ((Integer)vi.get(index)).intValue();
-            temp = board[row][k];
-            board[row][k] = board[row][column];
-            board[row][column] = temp;
+        	try{
+	            int index = (int)(v.size()*g.nextDouble());
+	            int[] val = (int[])v.get(index);
+	            int row = val[0];
+	            int column = val[1];
+	            int[] new_c = new int[DIGITS];
+	            int temp;
+	            for( int j=0; j<DIGITS; j++ ){
+	                temp = board[row][j];
+	                board[row][j] = board[row][column];
+	                board[row][column] = temp;
+	                int[][] nc = conflicts(board);
+	                new_c[j] = cost( nc );
+	                temp = board[row][j];
+	                board[row][j] = board[row][column];
+	                board[row][column] = temp;
+	            }
+	            int low = 1000;
+	            Vector<Integer> vi = new Vector<Integer>();
+	            for( int j=0; j<DIGITS; j++ ){
+	                if( new_c[j] < low ){
+	                    low = new_c[j];
+	                    vi.clear();
+	                    vi.add(new Integer(j));
+	                }
+	            }
+	            index = (int)(vi.size()*g.nextDouble());
+	            int k = ((Integer)vi.get(index)).intValue();
+	            temp = board[row][k];
+	            board[row][k] = board[row][column];
+	            board[row][column] = temp;
+        	}catch(Exception e){}
         }
     }
 

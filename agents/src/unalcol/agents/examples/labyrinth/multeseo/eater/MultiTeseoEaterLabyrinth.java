@@ -9,7 +9,7 @@ import unalcol.agents.examples.labyrinth.multeseo.MultiAgentLabyrinth;
 import unalcol.agents.simulate.SimulatedAgent;
 import unalcol.agents.simulate.gui.SimpleView;
 import unalcol.agents.simulate.util.Language;
-import unalcol.types.collection.vector.Vector;
+import unalcol.collection.vector.Vector;
 
 public class MultiTeseoEaterLabyrinth extends MultiAgentLabyrinth{
     public static final int AGENT = 0;
@@ -44,7 +44,7 @@ public class MultiTeseoEaterLabyrinth extends MultiAgentLabyrinth{
     
     protected int agentIndex( Agent agent ){
 	int i=0;
-	while( i<agents.size() && agents.get(i)!=agent) i++;
+	while( i<agents.size() && agent(i)!=agent) i++;
 	return i;
     }
 
@@ -61,8 +61,7 @@ public class MultiTeseoEaterLabyrinth extends MultiAgentLabyrinth{
     
     public Percept sense(Agent agent){
 	Percept p = super.sense(agent);
-	int i=0;
-	while( i<agents.size() && agents.get(i)!=agent) i++;
+	int i=agentIndex(agent);
 	p.setAttribute(LabyrinthUtil.ENERGY, agent_energy_level[i]);
 	return p;
     }   

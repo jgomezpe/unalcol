@@ -3,9 +3,9 @@ package unalcol.search.population;
 import unalcol.math.logic.Predicate;
 import unalcol.search.Goal;
 import unalcol.search.space.Space;
-import unalcol.types.object.Tagged;
+import unalcol.object.Tagged;
 
-public class IterativePopulationSearch<T,R> implements PopulationSearch<T,R> {
+public class IterativePopulationSearch<T,R> extends PopulationSearch<T,R> {
     protected Predicate<Tagged<T>[] > terminationCondition;
     protected PopulationSearch<T,R> step;
     

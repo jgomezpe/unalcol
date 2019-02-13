@@ -6,7 +6,7 @@ import java.net.URLClassLoader;
 import unalcol.js.Util;
 import unalcol.js.vc.mode.fx.FXManager;
 import unalcol.js.vc.mode.server.JSServerManager;
-import unalcol.types.collection.keymap.KeyMap;
+import unalcol.collection.keymap.KeyMap;
 import unalcol.vc.BackEnd;
 import unalcol.vc.Component;
 import unalcol.vc.FrontEnd;

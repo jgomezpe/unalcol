@@ -2,8 +2,10 @@ package unalcol.js.gui;
 
 import unalcol.gui.paint.Canvas;
 import unalcol.gui.paint.Color;
+import unalcol.gui.paint.ColorInstance;
 import unalcol.js.vc.JSView;
 import unalcol.json.JSON;
+import unalcol.collection.vector.Vector;
 
 public class JSCanvas extends Canvas{
 	protected JSView view;
@@ -29,11 +31,19 @@ public class JSCanvas extends Canvas{
 		
 	}
 
+	protected Vector<Object> cast(Object... args){
+		Vector<Object> v = new Vector<Object>();
+		for( Object o:args) v.add(o);
+		return v;
+	}
+	
 	@Override
 	public void drawLine( int start_x, int start_y, int end_x, int end_y ){
 		JSON json = new JSON();
 		json.set(COMMAND, LINE);
-		json.set(X, new int[]{});
+		json.set(X, cast( start_x, end_x ));
+		json.set(Y, cast( start_y, end_y ));
+		json.set(ColorInstance.COLOR, cinstance.store(color));
 	}
 
 	@Override

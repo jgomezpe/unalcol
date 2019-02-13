@@ -1,12 +1,12 @@
 package optimization;
 
 import unalcol.optimization.binary.BinarySpace;
-import unalcol.optimization.binary.BitMutation;
+import unalcol.optimization.binary.mutation.BitMutation;
 import unalcol.testbed.optimization.binary.Deceptive;
 import unalcol.json.JSON;
 import unalcol.optimization.OptimizationFunction;
-import unalcol.types.collection.bitarray.BitArray;
-import unalcol.types.object.Tagged;
+import unalcol.collection.bitarray.BitArray;
+import unalcol.object.Tagged;
 import unalcol.search.solution.SolutionDescriptors;
 import unalcol.search.solution.SolutionWrite;
 import unalcol.search.space.Space;

@@ -1,9 +1,10 @@
 package unalcol.evolution.haea;
-import unalcol.types.collection.vector.*;
-import unalcol.random.integer.*;
-import unalcol.random.raw.UsesRawGenerator;
+import unalcol.collection.vector.*;
+import unalcol.exception.ParamsException;
+import unalcol.integer.Roulette;
+import unalcol.random.UsesRawGenerator;
 import unalcol.search.variation.Variation;
-import unalcol.types.real.array.DoubleArray;
+import unalcol.real.array.Array;
 
 /**
  * <p>Title: HaeaOperators</p>
@@ -19,7 +20,7 @@ public abstract class HaeaOperators<T> extends UsesRawGenerator{
     /**
      * Roulette selection mechanism (for selecting the genetic operator)
      */
-    protected IntRoulette roulette = new IntRoulette( new double[]{} );
+    protected Roulette roulette = new Roulette( new double[]{} );
 
     /**
      * Rates associated to each genetic operator per individual
@@ -62,7 +63,7 @@ public abstract class HaeaOperators<T> extends UsesRawGenerator{
         size_offspring_sel_oper.set(indIndex, (Integer)n);
     }
 
-    public int getSizeOffspring( int indIndex ){
+    public int getSizeOffspring( int indIndex )  throws ParamsException{
         return size_offspring_sel_oper.get(indIndex);
     }
 
@@ -71,7 +72,7 @@ public abstract class HaeaOperators<T> extends UsesRawGenerator{
      * @param indIndex Individual to be taken into account
      * @return Index of the choosen operator
      */
-    public int select( int indIndex ){
+    public int select( int indIndex )  throws ParamsException{
         sel_oper.set(indIndex, (Integer)select( rates.get(indIndex) ));
         return sel_oper.get(indIndex);
     }
@@ -81,9 +82,7 @@ public abstract class HaeaOperators<T> extends UsesRawGenerator{
      * @param indIndex Individual to be taken into account
      * @return Index of the choosen operator
      */
-    public void unselect( int indIndex ){
-        sel_oper.set(indIndex, (Integer)(-1));
-    }
+    public void unselect( int indIndex ){ sel_oper.set(indIndex, (Integer)(-1)); }
 
     /**
      * Gets the genetic operator associated to the given index and individual
@@ -101,7 +100,7 @@ public abstract class HaeaOperators<T> extends UsesRawGenerator{
     public void reward(double[] r, int operIndex) {
         if( operIndex >= 0 ){
             r[operIndex] += (1.0 - r[operIndex]) * raw().next();
-            DoubleArray.normalize(r);
+            Array.normalize(r);
         }
     }
 
@@ -113,17 +112,17 @@ public abstract class HaeaOperators<T> extends UsesRawGenerator{
     public void punish(double[] r, int operIndex) {
         if( operIndex >= 0 ){
             r[operIndex] -= r[operIndex] * raw().next();
-            DoubleArray.normalize(r);
+            Array.normalize(r);
         }    
     }
     
-    public void reward( int indIndex ){
+    public void reward( int indIndex ) throws ParamsException{
         reward(rates.get(indIndex), sel_oper.get(indIndex));
         // @TODO: Adaptation of operators in Haea
         //get(indIndex, sel_oper.get(indIndex)).adapt(1.0);
     }
 
-    public void punish( int indIndex ){
+    public void punish( int indIndex ) throws ParamsException {
         punish(rates.get(indIndex), sel_oper.get(indIndex));
         // @TODO: Adaptation of operators in Haea
         //get(indIndex, sel_oper.get(indIndex)).adapt(-1.0);
@@ -139,7 +138,7 @@ public abstract class HaeaOperators<T> extends UsesRawGenerator{
         if( m < n ){
             for( int i=m; i<n; i++){
                 double[] r = raw().raw( numberOfOperatorsPerIndividual() );
-                DoubleArray.normalize(r);
+                Array.normalize(r);
                 rates.add(r);            
                 sel_oper.add(-1);
                 size_offspring_sel_oper.add(1);
@@ -159,15 +158,11 @@ public abstract class HaeaOperators<T> extends UsesRawGenerator{
      * @param indIndex Individual
      * @return Genetic operator rates associated to a given individual
      */
-    public double[] rates( int indIndex ){
-        return rates.get(indIndex);
-    }
+    public double[] rates( int indIndex ) throws ParamsException{ return rates.get(indIndex); }
 
     /**
      * Genetic operator rates
      * @return Genetic operator rates
      */
-    public Vector<double[]> rates(){
-        return rates;
-    }
+    public Vector<double[]> rates(){ return rates; }
 }

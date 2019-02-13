@@ -5,8 +5,8 @@ import javax.swing.text.JTextComponent;
 
 import unalcol.gui.editor.AWTEditor;
 import unalcol.io.Tokenizer;
-import unalcol.types.collection.keymap.ImmutableKeyMap;
-import unalcol.types.collection.keymap.KeyMap;
+import unalcol.collection.keymap.ImmutableKeyMap;
+import unalcol.collection.keymap.KeyMap;
 
 public class SimpleAWTEditor extends AWTEditor{
 	public SimpleAWTEditor(String id){ super(id); }

@@ -7,13 +7,13 @@ package unalcol.search.population;
 
 import unalcol.search.space.Space;
 import unalcol.search.variation.Variation;
-import unalcol.types.object.Tagged;
+import unalcol.object.Tagged;
 
 /**
  *
  * @author Jonatan
  */
-public abstract class VariationReplacePopulationSearch<T,R> implements PopulationSearch<T, R>{
+public abstract class VariationReplacePopulationSearch<T,R> extends PopulationSearch<T, R>{
 	protected int mu; // Population size
     protected Variation<T> variation; 
     protected PopulationReplacement<T> replace;

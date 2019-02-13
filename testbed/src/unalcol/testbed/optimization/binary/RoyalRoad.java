@@ -1,7 +1,7 @@
 package unalcol.testbed.optimization.binary;
 
 import unalcol.optimization.*;
-import unalcol.types.collection.bitarray.BitArray;
+import unalcol.collection.bitarray.BitArray;
 
 /**
  * <p>Title: RoyalRoad</p>
@@ -36,12 +36,14 @@ public class RoyalRoad extends OptimizationFunction<BitArray>{
   public Double compute( BitArray x ){
     double f=0.0;
     int n = x.size() / pathLength;
-    for( int i=0; i<n; i++ ){
-      int start = pathLength*i;
-      int end = start+pathLength;
-      while( start < end && x.get(start) ){ start++; }
-      if( start == end ){ f += pathLength; }
-    }
+    try{
+    	for( int i=0; i<n; i++ ){
+    		int start = pathLength*i;
+    		int end = start+pathLength;
+    		while( start < end && x.get(start) ){ start++; }
+    		if( start == end ){ f += pathLength; }
+    	}
+    }catch(Exception e){}
     return f;
   }
 }

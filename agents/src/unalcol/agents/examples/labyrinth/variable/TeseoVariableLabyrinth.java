@@ -6,15 +6,13 @@ import unalcol.agents.examples.labyrinth.Labyrinth;
 import unalcol.agents.examples.labyrinth.LabyrinthDrawer;
 import unalcol.agents.examples.labyrinth.LabyrinthPercept;
 import unalcol.agents.examples.labyrinth.teseo.TeseoPercept;
-import unalcol.random.raw.JavaGenerator;
-import unalcol.random.raw.RawGenerator;
-import unalcol.types.collection.vector.Vector;
+import unalcol.random.raw.Generator;
+import unalcol.collection.vector.Vector;
 
 public class TeseoVariableLabyrinth  extends Labyrinth {
 	protected int x = -1;
 	protected int y;
 	protected boolean flag = false;
-	protected RawGenerator raw = new JavaGenerator();
 
 	  protected static Vector<Agent> add( Agent agent ){
 		  Vector<Agent> v = new Vector<Agent>();
@@ -45,11 +43,11 @@ public class TeseoVariableLabyrinth  extends Labyrinth {
 	  public Labyrinth copy(){
 		  double p = 0.0;
 		  int i=0;
-		  while( i<agents.size() && !(agents.get(i).getProgram() instanceof WallDaemon) ){
+		  while( i<agents.size() && !(agent(i).getProgram() instanceof WallDaemon) ){
 			  i++;
 		  }
 		  if( i<agents.size() ){
-			  WallDaemon daemon = (WallDaemon)agents.get(i).getProgram();
+			  WallDaemon daemon = (WallDaemon)agent(i).getProgram();
 			  p = daemon.probability;
 		  }
 	    return new TeseoVariableLabyrinth( agents, structure.clone(), p );
@@ -86,6 +84,7 @@ public class TeseoVariableLabyrinth  extends Labyrinth {
 	            if( y > 0 )  structure[x][y-1] ^= B;				
 		      }
 			}
+			Generator raw = Generator.cast(this);
 			x = raw.integer(COLUMNS);
 		    y = raw.integer(ROWS);
 			flag = raw.bool();

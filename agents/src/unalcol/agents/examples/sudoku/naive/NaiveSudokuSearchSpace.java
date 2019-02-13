@@ -1,7 +1,7 @@
 package unalcol.agents.examples.sudoku.naive;
 import unalcol.agents.search.*;
 import unalcol.agents.Action;
-import unalcol.types.collection.vector.*;
+import unalcol.collection.vector.*;
 import java.io.StreamTokenizer;
 import java.io.StringReader;
 /**

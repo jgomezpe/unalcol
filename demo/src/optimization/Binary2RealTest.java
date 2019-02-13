@@ -4,7 +4,7 @@ import unalcol.descriptors.WriteDescriptors;
 import unalcol.optimization.OptimizationFunction;
 import unalcol.search.solution.SolutionDescriptors;
 import unalcol.services.Service;
-import unalcol.types.object.Tagged;
+import unalcol.object.Tagged;
 
 public class Binary2RealTest extends EncodeTest<double[]>{
 	public Binary2RealTest(OptimizationFunction<double[]> function, int EVALS){ 

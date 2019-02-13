@@ -7,21 +7,19 @@ package unalcol.search.population;
 
 import unalcol.search.Search;
 import unalcol.search.space.Space;
-import unalcol.types.object.Tagged;
+import unalcol.object.Tagged;
 
 /**
  *
  * @author Jonatan
  */
-public interface PopulationSearch<T,R> extends Search<T,R>{
+public abstract class PopulationSearch<T,R> extends Search<T,R>{
 
-	public Tagged<T>[] init( Space<T> space );
-	public Tagged<T> pick( Tagged<T>[] pop );
+	public abstract Tagged<T>[] init( Space<T> space );
+	public abstract Tagged<T> pick( Tagged<T>[] pop );
 	
 	@Override
-    public default Tagged<T> solve( Space<T> space ){
-    	return pick(apply(init(space), space));
-    }   
+    public Tagged<T> solve( Space<T> space ){ return pick(apply(init(space), space)); }   
     
-    public Tagged<T>[] apply( Tagged<T>[] pop, Space<T> space );    
+    public abstract Tagged<T>[] apply( Tagged<T>[] pop, Space<T> space );    
 }

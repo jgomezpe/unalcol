@@ -1,8 +1,7 @@
 package unalcol.agents.search;
-import unalcol.types.collection.vector.*;
-import unalcol.types.object.Tagged;
+import unalcol.collection.vector.*;
+import unalcol.object.Tagged;
 import unalcol.agents.*;
-import unalcol.search.BasicGoalBased;
 import unalcol.search.Goal;
 import unalcol.search.local.LocalSearch;
 import unalcol.search.space.Space;
@@ -19,7 +18,14 @@ import unalcol.search.space.Space;
  * @author Jonatan Gómez
  * @version 1.0
  */
-public abstract class GraphSearch<T> extends BasicGoalBased<T, Boolean> implements LocalSearch<T,Boolean>{
+public abstract class GraphSearch<T> extends LocalSearch<T,Boolean>{
+	protected Goal<T,Boolean> goal;
+	@Override
+	public Goal<T, Boolean> goal() { return goal; }
+	
+	@Override
+	public void setGoal(Goal<T, Boolean> goal) { this.goal = goal; }
+
 	public abstract Vector<Action> apply( T initial, GraphSpace<T> space, Goal<T,Boolean> goal, ActionCost<T> cost  );
   
 	public Tagged<T> apply( Tagged<T> x, Space<T> space ){

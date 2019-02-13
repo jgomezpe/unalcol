@@ -28,7 +28,7 @@ import unalcol.agents.simulate.gui.SimpleView;
 import unalcol.agents.simulate.gui.WorkingPanel;
 import unalcol.agents.simulate.util.InteractiveAgentProgram;
 import unalcol.agents.simulate.util.SimpleLanguage;
-import unalcol.types.collection.vector.Vector;
+import unalcol.collection.vector.Vector;
 
 /**
  *

@@ -1,7 +1,7 @@
 package unalcol.testbed.optimization.binary;
 
 import unalcol.optimization.*;
-import unalcol.types.collection.bitarray.BitArray;
+import unalcol.collection.bitarray.BitArray;
 
 /**
  * <p>Title: BoundedlyDeceptive</p>
@@ -23,9 +23,11 @@ public class BoundedlyDeceptive extends OptimizationFunction<BitArray> {
   public int getValue(BitArray genes, int start, int length) {
     int u = 0;
     int end = length + start;
-    for (int i = start; i < end; i++) {
-     if (genes.get(i)) { u++; };
-    }
+    try{
+    	for (int i = start; i < end; i++) {
+    		if (genes.get(i)) { u++; };
+    	}
+    }catch(Exception e){}	
     if (u < length) { u = 3 - u; }
     return u;
   }

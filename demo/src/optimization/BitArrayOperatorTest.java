@@ -1,64 +1,47 @@
 package optimization;
 
-import unalcol.optimization.binary.BitMutation;
-import unalcol.optimization.binary.SingleBitMutation;
+import unalcol.optimization.binary.mutation.BitMutation;
+import unalcol.optimization.binary.mutation.SingleBitMutation;
 import unalcol.optimization.binary.XOver;
-import unalcol.types.collection.bitarray.BitArray;
+import unalcol.collection.bitarray.BitArray;
 
 public class BitArrayOperatorTest {
 	 /**
 	  * Testing function
 	  */
 	  public static void bit_mutation(){
-	    System.out.println("*** Generating a genome of 21 genes randomly ***");
+	    System.out.println("*** Bit Mutation: Generating a genome of 21 genes randomly ***");
 	    BitArray genome = new BitArray(21, true);
-	    System.out.println(genome.toString());
-
 	    BitMutation mutation = new BitMutation(0.05);
-
-	    System.out.println("*** Applying the mutation ***");
 	    BitArray mutated = mutation.apply(genome);
-	    System.out.println("Mutated array " + mutated );
-
+	    System.out.println(genome+"<--Original");
+	    System.out.println(mutated+"<--Mutated");
 	  }
 
 	  /**
 	   * Testing function
 	   */
 	   public static void single_bit_mutation(){
-	       System.out.println("*** Generating a genome of 21 genes randomly ***");
-	       BitArray genome = new BitArray(21, true);
-	       System.out.println(genome.toString());
-
-
-	       SingleBitMutation mutation = new SingleBitMutation();
-
-	       System.out.println("*** Applying the mutation ***");
-	       BitArray mutated = mutation.apply(genome);
-	       System.out.println("Mutated array " + mutated );
+		    System.out.println("*** Single Bit Mutation: Generating two genomes of 20 genes randomly ***");
+		    BitArray genome = new BitArray(21, true);
+		    SingleBitMutation mutation = new SingleBitMutation();
+		    BitArray mutated = mutation.apply(genome);
+		    System.out.println(genome+"<--Original");
+		    System.out.println(mutated+"<--Mutated");
 	    }
 	  
 	   /**
 	    * Testing function
 	    */
 	    public static void xover(){
-	      System.out.println("*** Generating a genome of 20 genes randomly ***");
+	      System.out.println("***  XOver: Generating two genomes of 20 genes randomly ***");
 	      BitArray parent1 = new BitArray(20, true);
-	      System.out.println(parent1);
-
-	      System.out.println("*** Generating a genome of 20 genes randomly ***");
 	      BitArray parent2 = new BitArray(20, true);
-	      System.out.println(parent2);
+	      System.out.println(parent1+":"+parent2+"<--parents");
 
 	      XOver xover = new XOver();
-
-	      System.out.println("*** Applying the croosover ***");
 	      BitArray[] kids = xover.apply(parent1, parent2);
-
-	      System.out.println("*** Child 1 ***");
-	      System.out.println(kids[0]);
-	      System.out.println("*** Child 2 ***");
-	      System.out.println(kids[1]);
+	      System.out.println(kids[0]+":"+kids[1]+"<--offspring");
 	    }
 	   
 	  public static void main( String[] args ){

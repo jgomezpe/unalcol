@@ -1,6 +1,6 @@
 package unalcol.agents.simulate;
 import unalcol.agents.*;
-import unalcol.types.collection.vector.*;
+import unalcol.collection.vector.*;
 
 /**
  * <p>Title: </p>
@@ -18,8 +18,6 @@ public class SimulatedKernel extends Kernel{
   public SimulatedKernel(Vector<Agent> _agents, Environment environment ) {
     super( _agents );
     int n = agents.size();
-    for( int i=0; i<n; i++ ){
-      agents.set( i, new SimulatedAgent(environment, agents.get(i).getProgram()) );
-    }
+    try{ for( int i=0; i<n; i++ ) agents.set( i, new SimulatedAgent(environment, agents.get(i).getProgram()) ); }catch(Exception e){}
   }
 }

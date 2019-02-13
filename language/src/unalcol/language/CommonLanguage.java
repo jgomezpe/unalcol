@@ -2,8 +2,8 @@ package unalcol.language;
 
 import unalcol.io.reader.CharReader;
 import unalcol.language.generalized.GeneralizedToken;
-import unalcol.types.collection.Collection;
-import unalcol.types.collection.iterator.UnalcolIterator;
+import unalcol.collection.Collection;
+import unalcol.iterator.BackableIterator;
 
 public class CommonLanguage<T> implements Language<T>{
 	protected Encoder symbols;
@@ -42,7 +42,7 @@ public class CommonLanguage<T> implements Language<T>{
 	public T process( int rule, String reader, int src ) throws LanguageException{ return process(rule, (new CharReader(reader,src)).unalcol() ); }
 	public T process( int rule, String reader ) throws LanguageException{ return process(rule, reader, 0); }
 
-	public T process( int rule, UnalcolIterator<Integer> reader ) throws LanguageException{
+	public T process( int rule, BackableIterator<Integer> reader ) throws LanguageException{
 		lexer.setEncoder(symbols);
 		Collection<GeneralizedToken<Integer>> tokens = lexer.process(reader);
 		parser.setRule(rule);
@@ -51,5 +51,5 @@ public class CommonLanguage<T> implements Language<T>{
 	}
 
 	@Override
-	public T process( UnalcolIterator<Integer> reader ) throws LanguageException{ return process(main,reader); }
+	public T process( BackableIterator<Integer> reader ) throws LanguageException{ return process(main,reader); }
 }

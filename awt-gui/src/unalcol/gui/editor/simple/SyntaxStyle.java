@@ -3,9 +3,9 @@ package unalcol.gui.editor.simple;
 import unalcol.gui.paint.Color;
 import unalcol.json.JSON;
 import unalcol.json.JSONParser;
-import unalcol.types.collection.keymap.HashMap;
-import unalcol.types.collection.keymap.ImmutableKeyMap;
-import unalcol.types.collection.vector.Vector;
+import unalcol.collection.keymap.HashMap;
+import unalcol.collection.keymap.ImmutableKeyMap;
+import unalcol.collection.vector.Vector;
 
 public class SyntaxStyle {
 	public static final String STYLES = "styles";

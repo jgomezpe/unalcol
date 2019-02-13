@@ -1,8 +1,8 @@
 package unalcol.language.generalized;
 
 import unalcol.language.Typed;
-import unalcol.types.collection.iterator.PositionTrack;
-import unalcol.types.collection.vector.Vector;
+import unalcol.iterator.PositionTrack;
+import unalcol.collection.vector.Vector;
 
 public class GeneralizedToken<S> extends Typed{
 	public static final int EOF = -1;

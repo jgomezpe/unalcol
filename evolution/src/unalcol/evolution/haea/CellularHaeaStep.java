@@ -2,8 +2,8 @@ package unalcol.evolution.haea;
 import unalcol.ca.*;
 import unalcol.search.selection.Selection;
 import unalcol.search.space.Space;
-import unalcol.types.collection.vector.*;
-import unalcol.types.object.Tagged;
+import unalcol.collection.vector.*;
+import unalcol.object.Tagged;
 
 /**
  * <p>Title: CAHAEAStrategy</p>

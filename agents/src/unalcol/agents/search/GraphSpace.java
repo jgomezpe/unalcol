@@ -2,7 +2,7 @@ package unalcol.agents.search;
 
 import unalcol.agents.*;
 import unalcol.search.space.Space;
-import unalcol.types.collection.vector.*;
+import unalcol.collection.vector.*;
 
 /**
  * <p>Title: </p>

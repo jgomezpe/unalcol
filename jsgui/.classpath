@@ -2,8 +2,10 @@
 <classpath>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry kind="lib" path="/home/jgomez/git/unalcol/libs/gui.jar"/>
-	<classpathentry kind="lib" path="/home/jgomez/git/unalcol/libs/core.jar"/>
-	<classpathentry kind="lib" path="/home/jgomez/git/unalcol/libs/vc.jar"/>
+	<classpathentry kind="lib" path="/home/jgomez/git/projects/libs/gui.jar"/>
+	<classpathentry kind="lib" path="/home/jgomez/git/projects/libs/innercore.jar"/>
+	<classpathentry kind="lib" path="/home/jgomez/git/projects/libs/json.jar"/>
+	<classpathentry kind="lib" path="/home/jgomez/git/projects/libs/outercore.jar"/>
+	<classpathentry kind="lib" path="/home/jgomez/git/projects/libs/collection.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

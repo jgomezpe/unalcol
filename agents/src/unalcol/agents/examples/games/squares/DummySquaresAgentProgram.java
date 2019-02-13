@@ -7,7 +7,7 @@ package unalcol.agents.examples.games.squares;
 import unalcol.agents.Action;
 import unalcol.agents.AgentProgram;
 import unalcol.agents.Percept;
-import unalcol.types.collection.vector.Vector;
+import unalcol.collection.vector.Vector;
 
 /**
  *
@@ -42,7 +42,10 @@ public class DummySquaresAgentProgram implements AgentProgram {
               if(((String)p.getAttribute(i+":"+j+":"+Squares.RIGHT)).equals(Squares.FALSE))
                 v.add(Squares.RIGHT);
             }
-            return new Action( i+":"+j+":"+v.get((int)(Math.random()*v.size())) );
+            try{
+            	String move = v.get((int)(Math.random()*v.size()));
+                return new Action( i+":"+j+":"+move);
+            }catch(Exception e){}
         }
         return new Action(Squares.PASS);
     }

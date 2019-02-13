@@ -5,7 +5,7 @@ import unalcol.language.Encoder;
 import unalcol.language.Lexer;
 import unalcol.language.generalized.GeneralizedTokenizer;
 import unalcol.language.generalized.GeneralizedToken;
-import unalcol.types.collection.array.Array;
+import unalcol.collection.array.Array;
 
 public class Tokenizer extends GeneralizedTokenizer<Integer> {
 	public Tokenizer( Encoder encoder, Lexer lexer ){ super(  encoder, lexer ); }

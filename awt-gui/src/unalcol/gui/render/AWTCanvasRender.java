@@ -10,9 +10,9 @@ import unalcol.gui.paint.AWTCanvas;
 import unalcol.gui.paint.Canvas;
 import unalcol.gui.paint.CanvasRender;
 import unalcol.gui.paint.Drawable;
-import unalcol.types.collection.GrowCollection;
-import unalcol.types.collection.keymap.HashMap;
-import unalcol.types.collection.vector.Vector;
+import unalcol.collection.GrowCollection;
+import unalcol.collection.keymap.HashMap;
+import unalcol.collection.vector.Vector;
 import unalcol.vc.Side;
 
 public class AWTCanvasRender extends JPanel implements CanvasRender{

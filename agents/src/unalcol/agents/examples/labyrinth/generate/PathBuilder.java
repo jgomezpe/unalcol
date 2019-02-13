@@ -1,7 +1,7 @@
 package unalcol.agents.examples.labyrinth.generate;
 
 import unalcol.random.util.Shuffle;
-import unalcol.types.collection.list.Stack;
+import unalcol.collection.list.Stack;
 
 public class PathBuilder {
 	

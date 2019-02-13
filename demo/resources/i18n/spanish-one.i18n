@@ -1,0 +1,5 @@
+{
+ "uses":"core",
+ "arity":"aOne",
+ "rotate":"No se puede tratar de realizar la operacion one de rotar (%s) en la fila %d, columna %d."
+}

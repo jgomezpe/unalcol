@@ -11,7 +11,7 @@ import unalcol.agents.simulate.Environment;
 import unalcol.agents.simulate.SimulatedAgent;
 import unalcol.agents.simulate.gui.SimpleView;
 import unalcol.agents.simulate.util.Language;
-import unalcol.types.collection.vector.Vector;
+import unalcol.collection.vector.Vector;
 
 public class SokobanEnvironment  extends Environment{
     

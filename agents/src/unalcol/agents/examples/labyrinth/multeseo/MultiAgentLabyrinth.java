@@ -4,7 +4,7 @@ import unalcol.agents.examples.labyrinth.*;
 import unalcol.agents.*;
 import unalcol.agents.simulate.*;
 
-import unalcol.types.collection.vector.*;
+import unalcol.collection.vector.*;
 
 class Key{
   protected String color;
@@ -44,9 +44,9 @@ public class MultiAgentLabyrinth extends Labyrinth {
 	p.setAttribute(LabyrinthUtil.AGENT[i], false);
     }
     int[][] pos = new int[][]{{x,x+1,x,x-1},{y-1,y,y+1,y}};
-    for( int i=0; i<agents.size(); i++ ){
-        if( agents.get(i) != agent ){
-            SimulatedAgent a = (SimulatedAgent)agents.get(i);               
+    for( Agent ag:agents ){
+        if( ag != agent ){
+            SimulatedAgent a = (SimulatedAgent)ag;               
             int ax = ((Integer) a.getAttribute(X)).intValue();
             int ay = ((Integer) a.getAttribute(Y)).intValue();
             for( int k=0; k<LabyrinthUtil.AGENT.length; k++ ){
@@ -58,7 +58,7 @@ public class MultiAgentLabyrinth extends Labyrinth {
     }
     for( int i=0; i<direction; i++ ){ p.rotate(); }
     int i=0;
-    while( i<failAgents.size() && failAgents.get(i) != agent ){ i++; }
+    while( i<failAgents.size() && failAgent(i) != agent ){ i++; }
     p.setAttribute(LabyrinthUtil.FAIL, i<failAgents.size());
     return p;
   }

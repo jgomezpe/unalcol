@@ -1,7 +1,7 @@
 package unalcol.testbed.optimization.binary;
 
 import unalcol.optimization.*;
-import unalcol.types.collection.bitarray.BitArray;
+import unalcol.collection.bitarray.BitArray;
 
 /**
  * <p>Title: M9_Deceptive</p>
@@ -24,10 +24,12 @@ public class M9_Deceptive extends OptimizationFunction<BitArray> {
   public int distance(BitArray genes, boolean[] b, int start) {
     int d = 0;
     int j = 0;
-    for (int i = length * start; i < length * (start + 1); i++) {
-      if (genes.get(i) ^ b[j]) { d++; }
-      j++;
-    }
+    try{
+    	for (int i = length * start; i < length * (start + 1); i++) {
+    		if (genes.get(i) ^ b[j]) { d++; }
+    		j++;
+    	}
+    }catch(Exception e){}	
     return d;
   }
   /**

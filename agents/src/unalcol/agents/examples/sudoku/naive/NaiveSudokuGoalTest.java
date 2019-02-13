@@ -1,6 +1,5 @@
 package unalcol.agents.examples.sudoku.naive;
 import unalcol.agents.search.*;
-import unalcol.algorithm.Algorithm;
 import unalcol.sort.Order;
 
 /**
@@ -15,7 +14,7 @@ import unalcol.sort.Order;
  * @author Jonatan Gómez
  * @version 1.0
  */
-public class NaiveSudokuGoalTest extends Algorithm<NaiveSudokuBoardState,Boolean> implements GoalTest<NaiveSudokuBoardState>{
+public class NaiveSudokuGoalTest extends GoalTest<NaiveSudokuBoardState>{
 	public NaiveSudokuGoalTest() {}
   
 	@Override

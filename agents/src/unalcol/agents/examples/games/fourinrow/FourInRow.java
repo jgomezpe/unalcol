@@ -10,7 +10,7 @@ import unalcol.agents.Percept;
 import unalcol.agents.examples.games.Clock;
 import unalcol.agents.simulate.Environment;
 import unalcol.agents.simulate.gui.EnvironmentView;
-import unalcol.types.collection.vector.Vector;
+import unalcol.collection.vector.Vector;
 
 /**
  *
@@ -53,8 +53,8 @@ public class FourInRow extends Environment{
     public boolean act(Agent agent, Action action){
         int w = board.check();
         if(board.full() ||  w != 0 ){
-            agents.get(0).die();
-            agents.get(1).die();            
+            agent(0).die();
+            agent(1).die();            
             if( w > 0 ){
                updateViews(EnvironmentView.DONE + ": White wins");
             }else{
@@ -67,23 +67,23 @@ public class FourInRow extends Environment{
         }        
         
         if(clock.white_turn()){
-            if( agent != agents.get(0)){
+            if( agent != agent(0)){
                 updateViews("Working");
                 return false;                
             }
             if(clock.white_time() <= 0 ){
-                agents.get(0).die();
-                agents.get(1).die();            
+                agent(0).die();
+                agent(1).die();            
                 updateViews(EnvironmentView.DONE + ": Black wins");
             }
         }else{
-            if( agent != agents.get(1)){
+            if( agent != agent(1)){
                 updateViews("Working");
                 return false;                
             }
             if(clock.black_time() <= 0 ){
-                agents.get(0).die();
-                agents.get(1).die();            
+                agent(0).die();
+                agent(1).die();            
                 updateViews(EnvironmentView.DONE + ": White wins");
             }
         }

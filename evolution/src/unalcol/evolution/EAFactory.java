@@ -1,6 +1,6 @@
 package unalcol.evolution;
 
-import unalcol.algorithm.iterative.ForLoopCondition;
+import unalcol.math.function.iterative.ForLoopCondition;
 import unalcol.evolution.ga.GAStep;
 import unalcol.evolution.haea.HaeaOperators;
 import unalcol.evolution.haea.HaeaStep;
@@ -12,7 +12,7 @@ import unalcol.search.selection.Selection;
 import unalcol.search.selection.Tournament;
 import unalcol.search.variation.Variation_1_1;
 import unalcol.search.variation.Variation_2_2;
-import unalcol.types.object.Tagged;
+import unalcol.object.Tagged;
 
 public class EAFactory<T> {
 	//Generational Genetic Algorithm factory (Only uses offsprings in replacement)

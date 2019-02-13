@@ -1,14 +1,15 @@
 package unalcol.evolution.es;
 
 import unalcol.search.Goal;
-import unalcol.search.population.RealBasedPopulationSearch;
+import unalcol.search.RealValuedGoal;
+import unalcol.search.population.RealValuedPopulationGoal;
 import unalcol.search.population.VariationReplacePopulationSearch;
 import unalcol.search.space.Space;
 import unalcol.search.variation.Variation_1_1;
 import unalcol.search.variation.Variation_n_1;
-import unalcol.types.object.Tagged;
+import unalcol.object.Tagged;
 
-public class ESStep<T,P> extends VariationReplacePopulationSearch<T,Double> implements RealBasedPopulationSearch<T>{
+public class ESStep<T,P> extends VariationReplacePopulationSearch<T,Double>{
 	protected Space<P> s_space;
 	protected Goal<T,Double> goal;
 	
@@ -43,4 +44,10 @@ public class ESStep<T,P> extends VariationReplacePopulationSearch<T,Double> impl
 
 	@Override
 	public void setGoal(Goal<T, Double> goal) { this.goal = goal; }
+
+	@Override
+	public Tagged<T> pick(Tagged<T>[] pop) {
+		RealValuedPopulationGoal<T> g = new RealValuedPopulationGoal<T>();
+		return g.pick(pop, (RealValuedGoal<T>)goal);
+	}
 }

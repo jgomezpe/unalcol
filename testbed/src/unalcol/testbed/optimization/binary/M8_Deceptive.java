@@ -1,6 +1,6 @@
 package unalcol.testbed.optimization.binary;
 
-import unalcol.types.collection.bitarray.BitArray;
+import unalcol.collection.bitarray.BitArray;
 
 /**
  * <p>Title: M8_Deceptive</p>

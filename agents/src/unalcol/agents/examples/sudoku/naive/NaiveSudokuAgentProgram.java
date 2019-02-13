@@ -3,7 +3,7 @@ import unalcol.agents.*;
 import unalcol.agents.examples.sudoku.*;
 import unalcol.agents.search.classic.*;
 import unalcol.agents.search.util.*;
-import unalcol.types.collection.vector.*;
+import unalcol.collection.vector.*;
 
 /**
  * <p>Title: </p>
@@ -36,9 +36,11 @@ public class NaiveSudokuAgentProgram implements AgentProgram{
       if( cmd == null ){ cmd = new Vector<Action>(); }
     }
     if( cmd.size() > 0 ){
-      Action action = cmd.get(0);
-      cmd.remove(0);
-      return action;
+      try{
+    	Action action = cmd.get(0);
+    	cmd.remove(0);
+    	return action;
+      }catch(Exception e){}
     }
     return null;
   }

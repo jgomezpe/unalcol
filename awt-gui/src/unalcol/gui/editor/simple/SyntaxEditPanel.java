@@ -16,9 +16,9 @@ import javax.swing.text.StyledDocument;
 
 import unalcol.language.Token;
 import unalcol.language.generalized.GeneralizedToken;
-import unalcol.types.collection.Collection;
-import unalcol.types.collection.keymap.ImmutableKeyMap;
-import unalcol.types.collection.iterator.Position2DTrack;
+import unalcol.collection.Collection;
+import unalcol.collection.keymap.ImmutableKeyMap;
+import unalcol.iterator.Position2DTrack;
 import unalcol.io.Tokenizer;
 
 public class SyntaxEditPanel extends JTextPane implements SyntaxEditComponent{
@@ -103,9 +103,10 @@ public class SyntaxEditPanel extends JTextPane implements SyntaxEditComponent{
 	        Runnable doAssist = new Runnable() {
 			@Override
 				public void run() {
-					for( Token t:changes ){
-						doc.setCharacterAttributes(((Position2DTrack)t.pos()).offset(),t.length(),doc.getStyle(token_style.get(t.type())),true);
-	    			}
+					try{
+						for( Token t:changes )
+							doc.setCharacterAttributes(((Position2DTrack)t.pos()).offset(),t.length(),doc.getStyle(token_style.get(t.type())),true);
+	    			}catch(Exception e){}
 				}
 	        };
 	        SwingUtilities.invokeLater(doAssist);

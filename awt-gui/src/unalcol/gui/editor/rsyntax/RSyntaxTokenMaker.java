@@ -7,11 +7,11 @@ import org.fife.ui.rsyntaxtextarea.Token;
 import org.fife.ui.rsyntaxtextarea.TokenImpl;
 import org.fife.ui.rsyntaxtextarea.TokenMaker;
 
-import unalcol.types.collection.iterator.Position2DTrack;
+import unalcol.iterator.Position2DTrack;
 import unalcol.io.Tokenizer;
 import unalcol.language.generalized.GeneralizedToken;
-import unalcol.types.collection.Collection;
-import unalcol.types.collection.keymap.KeyMap;
+import unalcol.collection.Collection;
+import unalcol.collection.keymap.KeyMap;
 
 public class RSyntaxTokenMaker implements TokenMaker{
 	public static RSyntaxTokenMaker lastInstance=null;
@@ -118,7 +118,7 @@ public class RSyntaxTokenMaker implements TokenMaker{
 				int start = ((Position2DTrack)t.pos()).column()-1 + offset;
 				if( start>currentTokenStart ) addToken(array, currentTokenStart,start-1, Token.WHITESPACE, newStartOffset+currentTokenStart);
 				currentTokenStart = start;
-				addToken(array, currentTokenStart, start+t.length()-1, converter.get(t.type()), newStartOffset+currentTokenStart);
+				try{ addToken(array, currentTokenStart, start+t.length()-1, converter.get(t.type()), newStartOffset+currentTokenStart); }catch(Exception e){}
 				currentTokenStart += t.length();
 			}
 		}

@@ -1,5 +1,5 @@
 package unalcol.agents.search.classic;
-import unalcol.types.collection.vector.*;
+import unalcol.collection.vector.*;
 
 /**
  * <p>Title: </p>

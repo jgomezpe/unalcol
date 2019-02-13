@@ -4,7 +4,7 @@ import unalcol.agents.*;
 import unalcol.agents.simulate.util.*;
 import unalcol.agents.simulate.gui.*;
 import unalcol.agents.simulate.*;
-import unalcol.types.collection.vector.*;
+import unalcol.collection.vector.*;
 
 /**
  * <p>Title: </p>

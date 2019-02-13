@@ -1,7 +1,7 @@
 package unalcol.gui.editor.simple;
 
 import unalcol.io.Tokenizer;
-import unalcol.types.collection.keymap.ImmutableKeyMap;
+import unalcol.collection.keymap.ImmutableKeyMap;
 
 public interface SyntaxEditComponent {
 	public void setTokenizer(Tokenizer tokenizer, ImmutableKeyMap<Integer,String> token_style);

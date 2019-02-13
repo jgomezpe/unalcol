@@ -1,17 +1,17 @@
 package optimization;
 
 import unalcol.io.Write;
-import unalcol.optimization.integer.MutationIntArray;
-import unalcol.optimization.integer.XOverIntArray;
+import unalcol.integer.Mutation;
+import unalcol.integer.XOver;
 import unalcol.random.raw.JavaGenerator;
 import unalcol.services.Service;
-import unalcol.types.integer.array.IntArray;
-import unalcol.types.integer.array.IntArrayPlainWrite;
+import unalcol.integer.array.Array;
+import unalcol.integer.array.PlainWrite;
 
 public class IntArrayOperatorTest {
 	public static void init_services(){
 		Service.register(new JavaGenerator(), Object.class);         
-		Service.register(new IntArrayPlainWrite(',',false), int[].class);
+		Service.register(new PlainWrite(',',false), int[].class);
 	}
 	 /**
 	  * Testing function
@@ -19,10 +19,10 @@ public class IntArrayOperatorTest {
 	  public static void mutation(){
 
 	      System.out.println("*** Generating a genome of 21 genes randomly ***");
-	      int[] genome = IntArray.random(10, 10);
+	      int[] genome = Array.random(10, 10);
 	      System.out.println(Write.toString(genome));
 
-	      MutationIntArray mutation = new MutationIntArray(10);
+	      Mutation mutation = new Mutation(10);
 
 	      System.out.println("*** Applying the mutation ***");
 	      int[] mutated = mutation.apply(genome);
@@ -33,14 +33,14 @@ public class IntArrayOperatorTest {
 	      System.out.println("*** Generating a genome of 20 genes randomly ***");
 	      int D = 1000;
 	      int MAX = 1000;
-	      int[] parent1 = IntArray.random(D,MAX);
+	      int[] parent1 = Array.random(D,MAX);
 	      System.out.println(Write.toString(parent1));
 		
 	      System.out.println("*** Generating a genome of 10 genes randomly ***");
-	      int[] parent2 = IntArray.random(D,MAX);
+	      int[] parent2 = Array.random(D,MAX);
 	      System.out.println(Write.toString(parent2));
 		
-	      XOverIntArray xover = new XOverIntArray();
+	      XOver xover = new XOver();
 		
 	      System.out.println("*** Applying the croosover ***");
 	      int[][] children = xover.apply(parent1, parent2);

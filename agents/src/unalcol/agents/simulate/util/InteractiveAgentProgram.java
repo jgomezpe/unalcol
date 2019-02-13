@@ -3,7 +3,7 @@ package unalcol.agents.simulate.util;
 
 import unalcol.agents.*;
 
-import unalcol.types.collection.vector.*;
+import unalcol.collection.vector.*;
 
 
 public class InteractiveAgentProgram implements AgentProgram{
@@ -19,12 +19,14 @@ public class InteractiveAgentProgram implements AgentProgram{
   }
 
   public Action compute( Percept p ){
-    Action x = null;
-    if( cmds.size() > 0 ){
-      x = new Action( cmds.get(0) );
-      cmds.remove(0);
-    }
-    return x;
+  	if( cmds.size() > 0 ){
+  		try{
+    		Action x = new Action( cmds.get(0) );
+    		cmds.remove(0);
+    		return x;
+  	   	}catch(Exception e){}
+   	}
+    return null; 
   }
 
   public void setCommands( String _cmds ){

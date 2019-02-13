@@ -1,5 +1,5 @@
 package unalcol.agents;
-import unalcol.types.collection.vector.*;
+import unalcol.collection.vector.*;
 
 /**
  * <p>Title: Kernel </p>
@@ -30,9 +30,9 @@ public class Kernel implements Runnable{
 
 	public Kernel( Vector<Agent> _agents ) { agents = _agents; }
 
-	public Agent getAgent( int index ){ return agents.get(index); }
+	public Agent getAgent( int index ){ try{ return agents.get(index); }catch(Exception e){ return null; } }
 
-	public Agent getAgent(){ return agents.get(0); }
+	public Agent getAgent(){ return getAgent(0); }
 
 	public boolean addAgent( Agent agent ){
 		boolean cflag = !agents.contains(agent);
@@ -44,20 +44,17 @@ public class Kernel implements Runnable{
 
 	public void stop(){ 
 		flag = false;
-		int n = agents.size();
-		for (int i = 0; i<n; i++) agents.get(i).die();
+		for( Agent a:agents) a.die();
 	}
 
 	public void run(){
 		flag = true;
-		Agent a;
-		int n = agents.size();
-		for (int i = 0; i < n && flag ; i++) {
-			a = agents.get(i);
+		for( Agent a:agents ){
 			a.live();
 			Thread t = new Thread(a);
 			a.setThread(t);
 			t.start();
+			if(!flag) return;
 		}
 	}
 }

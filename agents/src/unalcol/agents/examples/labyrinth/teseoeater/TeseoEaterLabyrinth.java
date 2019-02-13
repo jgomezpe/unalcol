@@ -5,7 +5,7 @@ import unalcol.agents.*;
 import unalcol.agents.simulate.*;
 import unalcol.agents.simulate.util.*;
 
-import unalcol.types.collection.vector.*;
+import unalcol.collection.vector.*;
 import unalcol.agents.simulate.gui.*;
 
 class Key{

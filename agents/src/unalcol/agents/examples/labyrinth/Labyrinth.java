@@ -4,7 +4,7 @@ import unalcol.agents.simulate.util.*;
 import unalcol.agents.*;
 import unalcol.agents.simulate.*;
 
-import unalcol.types.collection.vector.*;
+import unalcol.collection.vector.*;
 import java.io.StreamTokenizer;
 import java.io.FileReader;
 import java.io.FileWriter;
@@ -29,7 +29,10 @@ public class Labyrinth extends Environment{
 
   public int getRowsNumber(){  return structure.length; }
   public int getColumnsNumber(){  return structure[0].length; }
-
+  
+	protected Agent failAgent( int k ){
+		try{ return failAgents.get(k); }catch(Exception e){ return null; }
+	}  
   
   public boolean act(Agent agent, Action action){
 	boolean fail = false;
@@ -98,11 +101,11 @@ public class Labyrinth extends Environment{
     }
     if( fail ){
         int i=0; 
-        while( i<failAgents.size() && failAgents.get(i) != agent ){ i++; }
+        while( i<failAgents.size() && failAgent(i) != agent ){ i++; }
         if( i==failAgents.size() ){ failAgents.add(agent); }
     }else{
       int i=0; 
-      while( i<failAgents.size() && failAgents.get(i) != agent ){ i++; }
+      while( i<failAgents.size() && failAgent(i) != agent ){ i++; }
       if( i<failAgents.size() ){ failAgents.remove(i); }
     }
     return flag;
@@ -121,17 +124,17 @@ public class Labyrinth extends Environment{
     LabyrinthPercept p = getPercept( x, y );
     for( int i=0; i<direction; i++ ){ p.rotate(); }
     int i=0;
-    while( i<failAgents.size() && failAgents.get(i) != agent ){ i++; }
+    while( i<failAgents.size() && failAgent(i) != agent ){ i++; }
     p.setAttribute("fail", i<failAgents.size());
     return p;
   }
 
   public Labyrinth( Vector<Agent> _agents, int[][] _structure ) {
     super( _agents );
-    for( int i=0; i<agents.size(); i++ ){
-       ((SimulatedAgent)agents.get(i)).setAttribute(D, 0);
-       ((SimulatedAgent)agents.get(i)).setAttribute(X,0);
-       ((SimulatedAgent)agents.get(i)).setAttribute(Y,0);
+    for( Agent a:agents ){
+       ((SimulatedAgent)a).setAttribute(D, 0);
+       ((SimulatedAgent)a).setAttribute(X,0);
+       ((SimulatedAgent)a).setAttribute(Y,0);
     }  
     structure = _structure;
   }

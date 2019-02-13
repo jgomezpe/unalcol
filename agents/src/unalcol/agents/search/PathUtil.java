@@ -1,6 +1,6 @@
 package unalcol.agents.search;
 import unalcol.agents.*;
-import unalcol.types.collection.vector.*;
+import unalcol.collection.vector.*;
 
 /**
  * <p>Title: </p>

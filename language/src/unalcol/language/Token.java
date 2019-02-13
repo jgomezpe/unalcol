@@ -1,8 +1,8 @@
 package unalcol.language;
 
 import unalcol.language.generalized.GeneralizedToken;
-import unalcol.types.collection.iterator.PositionTrack;
-import unalcol.types.collection.vector.Vector;
+import unalcol.iterator.PositionTrack;
+import unalcol.collection.vector.Vector;
 
 public class Token extends GeneralizedToken<Integer>{
 	public Token( PositionTrack pos ){ this(EOF,pos); }

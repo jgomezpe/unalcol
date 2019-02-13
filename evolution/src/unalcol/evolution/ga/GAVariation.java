@@ -1,11 +1,12 @@
 package unalcol.evolution.ga;
-import unalcol.random.util.*;
+import unalcol.bool.Rand;
 import unalcol.search.selection.Selection;
 import unalcol.search.variation.Variation;
 import unalcol.search.variation.Variation_1_1;
 import unalcol.search.variation.Variation_2_2;
-import unalcol.types.collection.vector.Vector;
-import unalcol.types.object.Tagged;
+import unalcol.collection.vector.Vector;
+import unalcol.object.Tagged;
+import unalcol.random.util.Shuffle;
 
 /**
  * <p>Title: ClassicStrategy</p>
@@ -21,14 +22,14 @@ public class GAVariation<T> implements Variation<T>{
 	protected Selection<T> selection;
     protected Variation_1_1<T> mutation;
     protected Variation_2_2<T> xover;
-    protected RandBool generator;
+    protected Rand generator;
 
     public GAVariation( Selection<T> selection, Variation_1_1<T> mutation,
     		Variation_2_2<T> xover, double probability) {
     	this.selection = selection;
         this.xover = xover;
         this.mutation = mutation;
-        generator = new RandBool( 1.0 - probability );
+        generator = new Rand( 1.0 - probability );
     }
 
     

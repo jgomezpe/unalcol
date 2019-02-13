@@ -1,9 +1,10 @@
 package unalcol.language.generalized;
 
-import unalcol.types.collection.Collection;
-import unalcol.types.collection.iterator.UnalcolIterator;
-import unalcol.types.collection.array.Array;
-import unalcol.types.collection.vector.Vector;
+import unalcol.collection.Collection;
+import unalcol.collection.array.Array;
+import unalcol.collection.vector.Vector;
+import unalcol.iterator.BackableIterator;
+import unalcol.iterator.TrackableIterator;
 
 public class GeneralizedTokenizer<S> {
 	protected int error = Integer.MIN_VALUE;
@@ -18,8 +19,9 @@ public class GeneralizedTokenizer<S> {
 		this.error = error;
 	}
 			
+	@SuppressWarnings("unchecked")
 	public Array<GeneralizedToken<S>> apply(Collection<S> reader){
-		UnalcolIterator<S> iter = reader.unalcol();
+		BackableIterator<S> iter = (BackableIterator<S>)reader.unalcol();
 		Vector<GeneralizedToken<S>> tokens = new Vector<GeneralizedToken<S>>();
 		boolean flag = false;
 		while(!flag){
@@ -28,7 +30,7 @@ public class GeneralizedTokenizer<S> {
 				for(GeneralizedToken<S> t:toks) tokens.add(t);
 				flag = true;
 			}catch( Exception e ){
-				tokens.add(new GeneralizedToken<S>(error, iter.pos()));
+				tokens.add(new GeneralizedToken<S>(error, ((TrackableIterator<S>)iter).pos()));
 				try{ iter.next();	}catch(Exception ex){}
 			}
 		}

@@ -1,6 +1,6 @@
 package unalcol.agents.search.classic;
 
-import unalcol.types.collection.vector.*;
+import unalcol.collection.vector.*;
 import unalcol.agents.Action;
 import unalcol.agents.search.GraphSpace;
 import unalcol.search.Goal;

@@ -3,7 +3,8 @@
  * and open the template in the editor.
  */
 package unalcol.agents.examples.games.bullsandcows;
-import unalcol.types.collection.vector.Vector;
+import unalcol.collection.vector.Vector;
+import unalcol.exception.ParamsException;
 
 /**
  *
@@ -29,7 +30,7 @@ public class NumberIndex {
 		return options[positions];
 	}
 
-	public int getIndex( int[] option, int n, Vector<Integer> check ){
+	public int getIndex( int[] option, int n, Vector<Integer> check ) throws ParamsException{
 		if( n==option.length ) return 0;
 		int pos = check.find(option[n]);
 		check.remove(pos);        
@@ -37,13 +38,13 @@ public class NumberIndex {
 		return pos*options[positions-n] + getIndex(option, n, check);
 	}
     
-	public int getIndex( int[] option ){
+	public int getIndex( int[] option ) throws ParamsException{
 		Vector<Integer> check = new Vector<Integer>();
 		for( int i=0; i<digits; i++) check.add(i);
 		return getIndex(option, 0, check);
-    	}
+    }
     
-	public void getOption( int index, int[] option, int n, Vector<Integer> check ){
+	public void getOption( int index, int[] option, int n, Vector<Integer> check ) throws ParamsException{
 		n++;
 		if( n < option.length ){
 			int pos = index / options[positions-n];
@@ -58,7 +59,7 @@ public class NumberIndex {
 		Vector<Integer> check = new Vector<Integer>();
 		for( int i=0; i<digits; i++) check.add(i);
 		int[] option = new int[positions];
-		getOption(index, option, 0, check);
+		try{ getOption(index, option, 0, check); }catch(Exception e){}
 		return option;
 	}
 

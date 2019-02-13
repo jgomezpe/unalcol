@@ -1,0 +1,5 @@
+{
+ "uses":"one,two",
+ "code":"%$=,()|@",
+ "priority":"pBasic"
+}

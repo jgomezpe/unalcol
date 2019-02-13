@@ -10,7 +10,7 @@ import org.fife.ui.rtextarea.RTextScrollPane;
 
 import unalcol.gui.editor.AWTEditor;
 import unalcol.io.Tokenizer;
-import unalcol.types.collection.keymap.KeyMap;
+import unalcol.collection.keymap.KeyMap;
 
 public class RSyntaxEditor extends AWTEditor{
 	protected AbstractTokenMakerFactory atmf = (AbstractTokenMakerFactory)TokenMakerFactory.getDefaultInstance();

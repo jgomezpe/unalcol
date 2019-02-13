@@ -3,7 +3,7 @@ package unalcol.search.population;
 import unalcol.search.BasicGoalBased;
 import unalcol.search.selection.Elitism;
 import unalcol.search.selection.Selection;
-import unalcol.types.object.Tagged;
+import unalcol.object.Tagged;
 
 public class TotalSelectionReplacement<T> extends BasicGoalBased<T,Double> implements PopulationReplacement<T> {
 	protected Selection<T> selection=null;

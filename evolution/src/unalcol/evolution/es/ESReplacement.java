@@ -5,7 +5,7 @@ import unalcol.search.BasicGoalBased;
 import unalcol.search.population.PopulationReplacement;
 import unalcol.search.selection.Elitism;
 import unalcol.search.selection.Selection;
-import unalcol.types.object.Tagged;
+import unalcol.object.Tagged;
 
 
 public abstract class ESReplacement<T> extends BasicGoalBased<T, Double> implements PopulationReplacement<T>{

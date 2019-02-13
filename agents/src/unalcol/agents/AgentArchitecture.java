@@ -1,5 +1,5 @@
 package unalcol.agents;
-import unalcol.types.collection.vector.*;
+import unalcol.collection.vector.*;
 
 /**
  * <p>Title: AgentArchitecture </p>

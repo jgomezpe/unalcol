@@ -2,8 +2,8 @@ package unalcol.evolution.haea;
 
 import unalcol.search.selection.Selection;
 import unalcol.search.variation.Variation;
-import unalcol.types.collection.vector.Vector;
-import unalcol.types.object.Tagged;
+import unalcol.collection.vector.Vector;
+import unalcol.object.Tagged;
 
 public class HaeaVariation<T> implements Variation<T>{
 	/**
@@ -52,27 +52,29 @@ public class HaeaVariation<T> implements Variation<T>{
 		for (int i = 0; i<n; i++) {
 			// next line added  Feb 25, 2011
 			if( available(i) ){
-				int oper = operators.select(i);
-				Variation<T> o = operators.get(i, oper);
-				Vector<Integer> subset = select(i, population);
-				Tagged<T>[] pop;
-				if(subset==null) pop = population;
-				else{
-					pop = array_sol(subset.size());
-					int id=0;
-					for( int k : subset ){
-						pop[id] = population[k];
-						id++;
+				try{
+					int oper = operators.select(i);
+					Variation<T> o = operators.get(i, oper);
+					Vector<Integer> subset = select(i, population);
+					Tagged<T>[] pop;
+					if(subset==null) pop = population;
+					else{
+						pop = array_sol(subset.size());
+						int id=0;
+						for( int k : subset ){
+							pop[id] = population[k];
+							id++;
+						}
 					}
-				}
-				pop = selection.pick(o.arity()-1, pop);
-				Tagged<T>[] parent = array_sol(o.arity());
-				parent[0] = population[i];
-				for( int k=0; k<pop.length; k++ ) parent[k+1] = pop[k]; 
-				//@TODO Check how to use the space???
-				Tagged<T>[] offspring = o.apply(parent);
-				operators.setSizeOffspring(i, offspring.length);
-				for( Tagged<T> x : offspring ) buffer.add(x);
+					pop = selection.pick(o.arity()-1, pop);
+					Tagged<T>[] parent = array_sol(o.arity());
+					parent[0] = population[i];
+					for( int k=0; k<pop.length; k++ ) parent[k+1] = pop[k]; 
+					//@TODO Check how to use the space???
+					Tagged<T>[] offspring = o.apply(parent);
+					operators.setSizeOffspring(i, offspring.length);
+					for( Tagged<T> x : offspring ) buffer.add(x);
+				}catch(Exception e){}	
 			}else{
 				operators.unselect(i);
 				operators.setSizeOffspring(i, 1);

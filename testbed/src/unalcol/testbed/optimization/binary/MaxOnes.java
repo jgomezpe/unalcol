@@ -1,7 +1,7 @@
 package unalcol.testbed.optimization.binary;
 
 import unalcol.optimization.*;
-import unalcol.types.collection.bitarray.BitArray;
+import unalcol.collection.bitarray.BitArray;
 
 /**
  * <p>Title: MaxOnes</p>
@@ -22,9 +22,7 @@ public class MaxOnes extends OptimizationFunction<BitArray>{
    */
   public Double compute( BitArray x ){
     double f = 0.0;
-    for( int i=0; i<x.size(); i++ ){
-      if( x.get(i) ){ f++; }
-    }
+    try{ for( int i=0; i<x.size(); i++ ) if( x.get(i) ){ f++; } }catch(Exception e){}
     return f;
   }
 

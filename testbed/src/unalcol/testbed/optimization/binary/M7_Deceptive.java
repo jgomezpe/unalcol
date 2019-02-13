@@ -1,7 +1,7 @@
 package unalcol.testbed.optimization.binary;
 
 import unalcol.optimization.*;
-import unalcol.types.collection.bitarray.BitArray;
+import unalcol.collection.bitarray.BitArray;
 
 /**
  * <p>Title: M7_Deceptive</p>
@@ -24,9 +24,7 @@ public class M7_Deceptive extends OptimizationFunction<BitArray>{
   public int getValue(BitArray genes, int start, int length) {
     int s = 0;
     length += start;
-    for( int i=start; i<length; i++ ){
-     if( genes.get(i) ){ s++; };
-    };
+    try{ for( int i=start; i<length; i++ ){ if( genes.get(i) ){ s++; }; } }catch(Exception e){}	
     return s;
   }
 

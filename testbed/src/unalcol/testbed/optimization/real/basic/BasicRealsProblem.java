@@ -6,7 +6,7 @@ import unalcol.optimization.Problem;
 import unalcol.optimization.OptimizationFunction;
 import unalcol.optimization.real.HyperCube;
 import unalcol.search.space.Space;
-import unalcol.types.real.array.DoubleArray;
+import unalcol.real.array.Array;
 
 public class BasicRealsProblem implements Problem<double[]>{
 	
@@ -30,8 +30,8 @@ public class BasicRealsProblem implements Problem<double[]>{
 
 	@Override
 	public Space<double[]> space() {
-		double[] max = DoubleArray.create(D, f.limit());
-		double[] min = DoubleArray.create(D, -f.limit());
+		double[] max = Array.create(D, f.limit());
+		double[] min = Array.create(D, -f.limit());
 		return new HyperCube(min, max);
 	}
 }

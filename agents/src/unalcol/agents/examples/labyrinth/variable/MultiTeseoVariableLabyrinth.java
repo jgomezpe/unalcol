@@ -6,7 +6,7 @@ import unalcol.agents.examples.labyrinth.LabyrinthDrawer;
 import unalcol.agents.examples.labyrinth.LabyrinthPercept;
 import unalcol.agents.examples.labyrinth.multeseo.MultiAgentLabyrinthPercept;
 import unalcol.agents.simulate.SimulatedAgent;
-import unalcol.types.collection.vector.Vector;
+import unalcol.collection.vector.Vector;
 
 public class MultiTeseoVariableLabyrinth  extends TeseoVariableLabyrinth {
 	  public static final int AGENT = 0;
@@ -37,9 +37,9 @@ public class MultiTeseoVariableLabyrinth  extends TeseoVariableLabyrinth {
 	    p.setAttribute("aleft", false);
 	    p.setAttribute("aright", false);
 	    p.setAttribute("aback", false);
-	    for( int i=0; i<agents.size(); i++ ){
-	        if( agents.get(i) != agent ){
-	            SimulatedAgent a = (SimulatedAgent)agents.get(i);               
+	    for( Agent ag:agents ){
+	        if( ag != agent ){
+	            SimulatedAgent a = (SimulatedAgent)ag;               
 	            int ax = ((Integer) a.getAttribute(X)).intValue();
 	            int ay = ((Integer) a.getAttribute(Y)).intValue();
 	            //System.out.println("("+x+","+y+") : ("+ax+","+ay+")");
@@ -63,7 +63,7 @@ public class MultiTeseoVariableLabyrinth  extends TeseoVariableLabyrinth {
 	    }
 	    for( int i=0; i<direction; i++ ){ p.rotate(); }
 	    int i=0;
-	    while( i<failAgents.size() && failAgents.get(i) != agent ){ i++; }
+	    while( i<failAgents.size() && failAgent(i) != agent ){ i++; }
 	    p.setAttribute("fail", i<failAgents.size());
 	    return p;
 	  }

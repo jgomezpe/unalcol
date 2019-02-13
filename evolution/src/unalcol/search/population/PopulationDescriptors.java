@@ -3,22 +3,22 @@ package unalcol.search.population;
 import unalcol.descriptors.Descriptors;
 import unalcol.search.BasicGoalBased;
 import unalcol.search.Goal;
-import unalcol.types.object.Tagged;
-import unalcol.types.real.array.DoubleArray;
+import unalcol.object.Tagged;
+import unalcol.real.array.Array;
 
 public class PopulationDescriptors<T> extends BasicGoalBased<T,Double> implements Descriptors{
 	public double[] descriptors( T[] pop ) {
 		Goal<T,Double> goal = goal();
 		double[] quality = new double[pop.length];
 		for(int i=0; i<quality.length; i++ ) quality[i] = goal.apply(pop[i]);
-		return DoubleArray.statistics_with_median(quality).get();		
+		return Array.statistics_with_median(quality).get();		
 	}
 
 	public double[] descriptors(Tagged<T>[] pop) {
 		Goal<T,Double> goal = goal();
 		double[] quality = new double[pop.length];
 		for(int i=0; i<quality.length; i++ ) quality[i] = goal.apply(pop[i]);
-		return DoubleArray.statistics_with_median(quality).get();		
+		return Array.statistics_with_median(quality).get();		
 	}
 
 	@SuppressWarnings("unchecked")

@@ -1,9 +1,9 @@
 package unalcol.evolution.growing;
 
 import unalcol.search.multilevel.CodeDecodeMap;
-import unalcol.types.collection.bitarray.*;
-import unalcol.types.real.array.*;
-import unalcol.types.real.*;
+import unalcol.collection.bitarray.*;
+import unalcol.real.array.LinealScale;
+import unalcol.real.array.Array;
 
 /**
  * <p>Title: GrowingBinaryToRealVector</p>
@@ -15,14 +15,14 @@ import unalcol.types.real.*;
 
 public class GrowingBinaryToRealVector extends CodeDecodeMap<BitArray, double[]>{
     protected GrowingBinaryToIntArray lowLevel = null;
-    protected RealVectorLinealScale scale = null;
-    protected LinealScale one_scale = null;
+    protected LinealScale scale = null;
+    protected unalcol.real.LinealScale one_scale = null;
 
     public GrowingBinaryToRealVector( int _int_size, double[] min, double[] max ){
         lowLevel = new GrowingBinaryToIntArray(_int_size);
-        double[] minLow = DoubleArray.create(min.length, lowLevel.min());
-        double[] maxLow = DoubleArray.create(max.length, lowLevel.max());
-        scale = new RealVectorLinealScale(minLow, maxLow, min, max);
+        double[] minLow = Array.create(min.length, lowLevel.min());
+        double[] maxLow = Array.create(max.length, lowLevel.max());
+        scale = new LinealScale(minLow, maxLow, min, max);
     }
 
     /**
@@ -30,7 +30,7 @@ public class GrowingBinaryToRealVector extends CodeDecodeMap<BitArray, double[]>
      */
     public GrowingBinaryToRealVector(int _int_size) {
         lowLevel = new GrowingBinaryToIntArray(_int_size);
-        one_scale = new LinealScale(lowLevel.min(), lowLevel.max());
+        one_scale = new unalcol.real.LinealScale(lowLevel.min(), lowLevel.max());
     }
 
     public double[] decode( BitArray genome ){

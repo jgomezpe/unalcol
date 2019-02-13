@@ -2,11 +2,12 @@ package unalcol.evolution.haea;
 
 import unalcol.search.Goal;
 import unalcol.search.GoalBased;
-import unalcol.search.population.RealBasedPopulationSearch;
+import unalcol.search.RealValuedGoal;
+import unalcol.search.population.RealValuedPopulationGoal;
 import unalcol.search.population.VariationReplacePopulationSearch;
 import unalcol.search.selection.Selection;
 import unalcol.search.space.Space;
-import unalcol.types.object.Tagged;
+import unalcol.object.Tagged;
 
 /**
  * <p>Title: HAEA</p>
@@ -18,7 +19,7 @@ import unalcol.types.object.Tagged;
  * @version 1.0
  *
  */
-public class HaeaStep<T> extends VariationReplacePopulationSearch<T,Double> implements RealBasedPopulationSearch<T>{
+public class HaeaStep<T> extends VariationReplacePopulationSearch<T,Double>{
     /**
      * Constructor: Creates a Haea offspring generation strategy
      * @param operators Genetic operators used to evolve the solution
@@ -82,4 +83,10 @@ public class HaeaStep<T> extends VariationReplacePopulationSearch<T,Double> impl
 		((HaeaVariation<T>)this.variation).operators().resize(pop.length);
 		return pop;
 	}
+	
+	@Override
+	public Tagged<T> pick(Tagged<T>[] pop) {
+		RealValuedPopulationGoal<T> g = new RealValuedPopulationGoal<T>();
+		return g.pick(pop, (RealValuedGoal<T>)goal());
+	}	
 }

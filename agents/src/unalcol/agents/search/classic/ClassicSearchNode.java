@@ -1,5 +1,5 @@
 package unalcol.agents.search.classic;
-import unalcol.types.collection.vector.*;
+import unalcol.collection.vector.*;
 import unalcol.agents.*;
 import unalcol.agents.search.GraphSpace;
 import unalcol.agents.search.PathUtil;

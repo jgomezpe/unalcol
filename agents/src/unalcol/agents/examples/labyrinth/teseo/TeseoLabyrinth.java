@@ -1,6 +1,6 @@
 package unalcol.agents.examples.labyrinth.teseo;
 import unalcol.agents.examples.labyrinth.*;
-import unalcol.types.collection.vector.*;
+import unalcol.collection.vector.*;
 import unalcol.agents.Agent;
 
 public class TeseoLabyrinth extends Labyrinth {

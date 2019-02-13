@@ -4,7 +4,7 @@ import javax.swing.JScrollPane;
 import javax.swing.text.JTextComponent;
 
 import unalcol.io.Tokenizer;
-import unalcol.types.collection.keymap.KeyMap;
+import unalcol.collection.keymap.KeyMap;
 import unalcol.vc.DefaultComponent;
 
 public abstract class AWTEditor extends DefaultComponent implements EditorView{

@@ -3,7 +3,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
 import unalcol.js.vc.JSFrontEnd;
-import unalcol.types.collection.vector.Vector;
+import unalcol.collection.vector.Vector;
 import unalcol.vc.Controller;
 
 public class JSServerManager extends JSFrontEnd {

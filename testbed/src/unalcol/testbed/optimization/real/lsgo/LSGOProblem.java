@@ -4,7 +4,7 @@ import unalcol.optimization.OptimizationFunction;
 import unalcol.optimization.Problem;
 import unalcol.optimization.real.HyperCube;
 import unalcol.search.space.Space;
-import unalcol.types.real.array.DoubleArray;
+import unalcol.real.array.Array;
 
 public class LSGOProblem  implements Problem<double[]> {
 	protected lsgo.Function f;
@@ -31,8 +31,8 @@ public class LSGOProblem  implements Problem<double[]> {
 		int D = f.getDimension();
 		double minL = f.getMin();
 		double maxL = f.getMax();
-		double[] max = DoubleArray.create(D, maxL);
-		double[] min = DoubleArray.create(D, minL);
+		double[] max = Array.create(D, maxL);
+		double[] min = Array.create(D, minL);
 		return new HyperCube(min, max);		
 	}
 }

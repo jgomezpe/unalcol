@@ -1,6 +1,6 @@
 package unalcol.evolution.growing;
 import unalcol.search.multilevel.CodeDecodeMap;
-import unalcol.types.collection.bitarray.*;
+import unalcol.collection.bitarray.*;
 
 /**
  * <p>Title:GrowingBinaryToIntArray</p>

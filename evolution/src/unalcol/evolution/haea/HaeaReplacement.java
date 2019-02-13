@@ -1,7 +1,7 @@
 package unalcol.evolution.haea;
 import unalcol.search.population.PopulationReplacement;
 import unalcol.sort.Order;
-import unalcol.types.object.Tagged;
+import unalcol.object.Tagged;
 import unalcol.search.BasicGoalBased;
 import unalcol.search.RealValuedGoal;
 
@@ -57,29 +57,26 @@ public class HaeaReplacement<T> extends BasicGoalBased<T,Double> implements Popu
 		@SuppressWarnings("unchecked")
 		Tagged<T>[] buffer = (Tagged<T>[])new Tagged[current.length];
         for( int i=0; i<current.length; i++){
+            try{
+            	buffer[i] = current[i];
             //@TODO: Change the elitism here
-            int sel = k; 
-            double qs = goal.apply(next[sel]);
-            k++;
-            for(int h=1; h<operators.getSizeOffspring(i); h++){
-                double qk = goal.apply(next[k]);
-                if( order.compare(qk, qs) > 0 ){
-                    sel = k;
-                    qs = qk;
-                }
-                k++;
-            }
-            double qi = goal.apply(current[i]);
-            if( order.compare(qi, qs) < 0)
-                operators.reward(i);
-            else
-                operators.punish(i);
+            	int sel = k; 
+            	double qs = goal.apply(next[sel]);
+            	k++;
+            	for(int h=1; h<operators.getSizeOffspring(i); h++){
+            		double qk = goal.apply(next[k]);
+            		if( order.compare(qk, qs) > 0 ){
+            			sel = k;
+            			qs = qk;
+            		}
+            		k++;
+            	}
+            	double qi = goal.apply(current[i]);
+            	if( order.compare(qi, qs) < 0) operators.reward(i);
+            	else operators.punish(i);
             
-            if( !steady || order.compare(qi, qs) <= 0)
-                buffer[i] = next[sel];
-            else
-                buffer[i] = current[i];
-            
+            	if( !steady || order.compare(qi, qs) <= 0) buffer[i] = next[sel];
+            }catch(Exception e){}	
         }
         return buffer;
     }    

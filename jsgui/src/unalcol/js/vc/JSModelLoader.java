@@ -1,6 +1,6 @@
 package unalcol.js.vc;
 
-import unalcol.types.collection.keymap.KeyMap;
+import unalcol.collection.keymap.KeyMap;
 import unalcol.vc.BackEnd;
 import unalcol.vc.Component;
 

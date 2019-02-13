@@ -1,6 +1,6 @@
 package unalcol.agents.examples.labyrinth.generate;
 
-import unalcol.types.collection.vector.Vector;
+import unalcol.collection.vector.Vector;
 
 public class LabyrinthGenerator {
 	
@@ -24,9 +24,10 @@ public class LabyrinthGenerator {
 			if(unmarkedLocations.size() > 0) {
 				Coordinate start = null;
 				do {
-					start = markedLocations.get((int)(markedLocations.size() * Math.random()));
-					if(Math.random() < probability)
-						start = unmarkedLocations.get((int)(unmarkedLocations.size() * Math.random()));
+					try{
+						start = markedLocations.get((int)(markedLocations.size() * Math.random()));
+						if(Math.random() < probability)	start = unmarkedLocations.get((int)(unmarkedLocations.size() * Math.random()));
+					}catch(Exception e){}	
 				} while(!structure.areThereWalls(start.x, start.y));
 				if(markedLocations.size() > 1)
 					marked[start.x][start.y] = false;

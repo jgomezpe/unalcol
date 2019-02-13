@@ -1,6 +1,6 @@
 package unalcol.js.vc.mode.server;
 
-import unalcol.types.collection.vector.Vector;
+import unalcol.collection.vector.Vector;
 
 public class Command {
 	protected String id;
@@ -52,7 +52,7 @@ public class Command {
 			}
 		}
 		args = new Object[parse.size()];
-		for( int k=0; k<args.length; k++ ) args[k] = parse.get(k); 
+		try{ for( int k=0; k<args.length; k++ ) args[k] = parse.get(k); }catch(Exception e){} 
 		return args;
 	}
 	

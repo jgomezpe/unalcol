@@ -1,5 +1,5 @@
 package unalcol.agents.examples.games.bullsandcows;
-import unalcol.types.collection.vector.Vector;
+import unalcol.collection.vector.Vector;
 import unalcol.random.raw.JavaGenerator;
 /**
  *
@@ -16,17 +16,19 @@ public class SimpleBCPlayer {
 
 	public int[] next(){
 		JavaGenerator g = new JavaGenerator();
-		return ni.getOption( options.get(g.integer(options.size())) );
+		try{ return ni.getOption( options.get(g.integer(options.size())) ); }catch( Exception e){ return null; }
 	}
 
 	public boolean check( int[] option, int[] bc ){
-		int i=0;
-		while(  i<options.size() ){
-			int[] opt = ni.getOption(options.get(i));            
-			int[] bc2 = NumberIndex.compare(option, opt);
-			if( bc2[0] != bc[0] || bc2[1] != bc[1] ) options.remove(i);
-			else i++;
-		}
+		try{
+			int i=0;
+			while(  i<options.size() ){
+				int[] opt = ni.getOption(options.get(i));            
+				int[] bc2 = NumberIndex.compare(option, opt);
+				if( bc2[0] != bc[0] || bc2[1] != bc[1] ) options.remove(i);
+				else i++;
+			}
+		}catch(Exception e){}	
 		return options.size()>0;
 	}
 }

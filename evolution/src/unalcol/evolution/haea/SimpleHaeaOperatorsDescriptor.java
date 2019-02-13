@@ -1,7 +1,7 @@
 package unalcol.evolution.haea;
 import unalcol.descriptors.*;
-import unalcol.types.real.Statistics;
-import unalcol.types.real.matrix.DoubleMatrixUtil;
+import unalcol.real.Statistics;
+import unalcol.real.matrix.Util;
 
 
 /**
@@ -20,8 +20,8 @@ public class SimpleHaeaOperatorsDescriptor<T> implements Descriptors{
      */
     public double[] descriptors( HaeaOperators<T> operators ) {
     	double[][] rates = new double[operators.rates.size()][];
-    	for( int i=0; i<rates.length; i++ ) rates[i] = operators.rates(i);
-		Statistics[] stat = DoubleMatrixUtil.statistics(rates, false);
+    	try{ for( int i=0; i<rates.length; i++ ) rates[i] = operators.rates(i); }catch(Exception e){}
+		Statistics[] stat = Util.statistics(rates, false);
 		double[] avg = new double[stat.length];
 		for( int i=0; i<avg.length; i++ ) avg[i] = stat[i].avg; 
 		return avg;

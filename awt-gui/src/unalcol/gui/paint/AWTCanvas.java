@@ -7,8 +7,8 @@ import java.awt.geom.AffineTransform;
 import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
 
-import unalcol.types.collection.keymap.HashMap;
-import unalcol.util.Config;
+import unalcol.collection.keymap.HashMap;
+import unalcol.util.FileResource;
 
 public class AWTCanvas extends Canvas{
 	protected Graphics g;
@@ -46,9 +46,11 @@ public class AWTCanvas extends Canvas{
 	
 	@Override
 	public void drawImage(int x, int y, int width, int height, int rot, boolean reflex, String image_path) {
-		Image obj = images.get(image_path);
-		if( obj == null ){
-			obj = Config.image(image_path);
+		Image obj;
+		try{
+			obj = images.get(image_path);
+		}catch(Exception e){
+			obj = FileResource.image(image_path);
 			if( obj == null ) return;
 			images.set(image_path,obj);
 		}
