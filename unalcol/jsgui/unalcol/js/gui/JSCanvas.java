@@ -1,18 +1,16 @@
 package unalcol.js.gui;
 
-import unalcol.collection.Vector;
 import unalcol.gui.paint.Canvas;
 import unalcol.gui.paint.Color;
 import unalcol.gui.paint.ColorInstance;
-import unalcol.js.vc.JSView;
 import unalcol.json.JSON;
 
 public class JSCanvas extends Canvas{
-	protected JSView view;
-	protected Color color;
+	protected Color color=null;
+	protected JSCanvasRender render;
 	
-	public void setView( JSView view ){ this.view = view; }
-
+	public JSCanvas( JSCanvasRender render ){ this.render = render; }
+	
 	@Override
 	public void drawArc(int arg0, int arg1, int arg2, int arg3, int arg4, int arg5) {
 		// TODO Auto-generated method stub
@@ -31,19 +29,26 @@ public class JSCanvas extends Canvas{
 		
 	}
 
-	protected Vector<Object> cast(Object... args){
-		Vector<Object> v = new Vector<Object>();
-		for( Object o:args) v.add(o);
-		return v;
+	protected Object[] cast(Object... args){
+		return args;
 	}
 	
 	@Override
 	public void drawLine( int start_x, int start_y, int end_x, int end_y ){
+		System.out.println("[JSCanvas.drawLine]");
 		JSON json = new JSON();
+		System.out.println("[JSCanvas.drawLine]1");
+		json.set("canvas", render.jsId());
+		System.out.println("[JSCanvas.drawLine]2");
 		json.set(COMMAND, LINE);
+		System.out.println("[JSCanvas.drawLine]3");
 		json.set(X, cast( start_x, end_x ));
+		System.out.println("[JSCanvas.drawLine]4");
 		json.set(Y, cast( start_y, end_y ));
-		json.set(ColorInstance.COLOR, cinstance.store(color));
+		System.out.println("[JSCanvas.drawLine]5");
+		if(color!=null) json.set(ColorInstance.COLOR, cinstance.store(color));
+		System.out.println("[JSCanvas.drawLine]"+json);
+		render.execute("drawJSON", json.toString());		
 	}
 
 	@Override

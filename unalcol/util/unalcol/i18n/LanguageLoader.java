@@ -1,6 +1,6 @@
 package unalcol.i18n;
 
-import unalcol.collection.KeyMap;
+import unalcol.json.JSON;
 import unalcol.json.JSONParser;
 import unalcol.util.FileResource;
 
@@ -12,20 +12,16 @@ public class LanguageLoader extends Language{
 
 	public LanguageLoader( String name ){ super(name); }
 	
-	@SuppressWarnings("unchecked")
 	protected void load(String pack, String json){
 		JSONParser p = new JSONParser();
 		try {
-			Object obj = p.parse(json);
-			if( obj instanceof KeyMap ){
-				KeyMap<String, String> extraMsgs = (KeyMap<String, String>)obj;
-				String extra = extraMsgs.get(USES);
-				if( extra != null ){
-					String[] packs = extra.split(",");
-					for( int i=packs.length-1; i>=0; i-- ) load( packs[i] );
-				}
-			//	msgs.merge(extraMsgs);
-			}
+			JSON obj = (JSON)p.parse(json);
+			try{
+				String extra = obj.getString(USES);
+				String[] packs = extra.split(",");
+				for( int i=packs.length-1; i>=0; i-- ) load( packs[i] );
+			}catch(Exception e){}
+			codes.merge(obj);
 		}catch (Exception e){}
 	}
 	
@@ -44,6 +40,7 @@ public class LanguageLoader extends Language{
 		return true;
 	}
 	
+	/*
 	public String get(String key){
 		try{
 			return codes.get(key);
@@ -51,7 +48,6 @@ public class LanguageLoader extends Language{
 		}catch(Exception e){ return key; }
 	}
 	
-	/*
 	public static String process( String message ){
 		StringBuilder sb = new StringBuilder();
 		int i=0; 

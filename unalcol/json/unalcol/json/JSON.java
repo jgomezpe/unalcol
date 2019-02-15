@@ -23,6 +23,13 @@ public class JSON extends HashMap<String, Object> implements Cloneable{
 	public int getInt( String tag ){ try{ return (Integer)get(tag); }catch(Exception e){ return 0; } } 
 	
 	public boolean getBool( String tag ){ try{ return (Boolean)get(tag); }catch(Exception e){ return false; } }
+
+	public String getString( String tag ){ try{ return (String)get(tag); }catch(Exception e){ return null; } }
+
+	public Object[] getArray( String tag ){ try{ return (Object[])get(tag); }catch(Exception e){ return null; } }
+
+	public JSON getJSON( String tag ){ try{ return (JSON)get(tag); }catch(Exception e){ return null; } }
+
 	
 	public boolean storable(Object obj){
 		if( obj == null ) return true;

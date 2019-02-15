@@ -36,7 +36,13 @@ public class I18N{
 		if( msg==null && i18nObj.lang != i18nObj.defaultLang ) msg = i18nObj.defaultLang.get(key);
 		return msg;
 	}
+	
+	public static void add( Language language ){ i18nObj.addLanguage(language); }
 
+	public static void use( Language language ){
+		i18nObj.setLanguage(language); 
+	}
+	
 	public static void set( String code, String msg ){ i18nObj.defaultLang.set(code, msg); }
 	
 	public void addLanguage( Language language ){ this.languages.set(language.name(), language); }

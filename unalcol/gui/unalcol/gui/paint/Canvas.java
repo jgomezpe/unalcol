@@ -2,7 +2,6 @@ package unalcol.gui.paint;
 
 import unalcol.gui.paint.Color;
 import unalcol.json.JSON;
-import unalcol.collection.Collection;
 import unalcol.collection.array.ArrayUtil;
 import unalcol.collection.keymap.HashMap;
 
@@ -87,6 +86,7 @@ public abstract class Canvas{
 	}
 
 	public void drawPolyline( int[] x, int[] y ){
+		System.out.println("[Canvas.drawPolyline]");
 		int e = x.length-1;
 		for( int i=0; i<e; i++ ) drawLine( x[i], y[i], x[i+1], y[i+1] );
 	}	
@@ -113,16 +113,12 @@ public abstract class Canvas{
 	} 
 
 	public int[] coordinates( JSON json, String tag ){
-		try{
-			Object[] v = (Object[])json.get(tag); 
-			int n = v.length;
-			int[] p = new int[n];
-			for( int i=0; i<n; i++ ){
-				p[i] = (Integer)v[i];
-				i++;
-			}
-			return p;
-		}catch(Exception e){ return new int[0]; }	
+		Object[] v = json.getArray(tag);
+		System.out.println("[Canvas.coordinates]"+v.length);
+		int n = v.length;
+		int[] p = new int[n];
+		for( int i=0; i<n; i++ ) p[i] = (Integer)v[i];
+		return p;
 	}
 
 //	public 
@@ -142,7 +138,7 @@ public abstract class Canvas{
 	public boolean isPrimitive( String command ){ return primitives.valid(command); }
 		
 	public void drawJSON( JSON json ){
-		
+		System.out.println("[Canvas.drawJSON]"+json);
 		String type;
 		try{ type = (String)json.get(COMMAND); }catch(Exception e){ return; }
 		JSON j = get(type);
@@ -153,11 +149,12 @@ public abstract class Canvas{
 		try{
 			int c = primitives.get(type);
 			if( c==0 ) { // It is a compound command
-				@SuppressWarnings("unchecked") Collection<Object> v = (Collection<Object>)json.get(COMMANDS);
+				Object[] v = json.getArray(COMMANDS);
 				for( Object o:v ) if( o instanceof JSON ) drawJSON( (JSON)o );
 				return;
 			}	
 			if( c<4 ){
+				System.out.println("[Canvas.drawJSON]"+c);
 				int[] x = coordinates( json, X );
 				int[] y = coordinates( json, Y );
 				switch( c ){
