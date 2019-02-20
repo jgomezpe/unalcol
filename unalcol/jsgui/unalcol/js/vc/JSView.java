@@ -13,7 +13,7 @@ public interface JSView extends View{
 				sb.append(Util.store((String)obj));
 			}else sb.append(obj.toString());
 		}
-		sb.append(')');
+		sb.append(')' );
 		execute(sb.toString());
 	}
 	default void execute( String js_command ){ ((JSFrontEnd)front()).execute(js_command); }
