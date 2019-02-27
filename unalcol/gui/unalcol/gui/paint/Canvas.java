@@ -1,63 +1,125 @@
 package unalcol.gui.paint;
 
-import unalcol.gui.paint.Color;
-import unalcol.json.JSON;
-import unalcol.collection.array.ArrayUtil;
 import unalcol.collection.keymap.HashMap;
+import unalcol.json.JSON;
 
 public abstract class Canvas{
-	public final static String COMMAND="command";
-	public final static String COMPOUND="compound";
-	public final static String LINE="line";
-	public final static String POLYLINE="polyline";
-	public final static String POLYGON="polygon";
-	public final static String TEXT="text";
-	public final static String RECT="rect";
-	public final static String FILLRECT="fillrect";
-	public final static String ARC="arc";
-	public final static String FILLARC="fillarc";
-	public final static String OVAL="oval";
-	public final static String FILLOVAL="filloval";
-	public final static String IMAGE="image";
-
-	public final static String X="x";
-	public final static String Y="y";
-	public final static String WIDTH="width";
-	public final static String HEIGHT="height";
-	public final static String MESSAGE="message";
-	public final static String IMAGE_URL="url";
-	public final static String IMAGE_ROT="rotation";
-	public final static String IMAGE_REF="reflection";
-	public final static String START_ANGLE="start_angle";
-	public final static String END_ANGLE="end_angle";
-	public final static String COMMANDS="commands";
-	public final static String DEF="def";
-
 	protected double scale=1;
 
-	protected HashMap<String, JSON> commands = new HashMap<String,JSON>();
 	protected HashMap<String, Integer> primitives = new HashMap<String,Integer>();
 
+	public double scale(){ return scale; }
+	public void setScale( double scale ){ this.scale = scale; }
+	public double scale( double value ){ return (value*scale()); }
+	public double[] scale( double[] value ){
+		if( value == null ) return null;
+		double[] svalue = new double[value.length];
+		for( int i=0; i<svalue.length; i++ ) svalue[i] = scale(value[i]);
+		return svalue;
+	}
+	
 	public Canvas(){
-		primitives.set(COMPOUND,0);
-		primitives.set(LINE,1);
-		primitives.set(POLYLINE,2);
-		primitives.set(POLYGON,3);
-		primitives.set(TEXT,4);
-		primitives.set(IMAGE,5);
-		primitives.set(RECT,6);
-		primitives.set(OVAL,7);
-		primitives.set(ARC,8);
-		primitives.set(FILLRECT,9);
-		primitives.set(FILLOVAL,10);
-		primitives.set(FILLARC,11);
+		primitives.set(Command.COMPOUND,0);
+		primitives.set(Command.MOVETO,1);
+		primitives.set(Command.LINETO,2);
+		primitives.set(Command.QUADTO,3);
+		primitives.set(Command.CURVETO,4);
+		primitives.set(Command.TEXT,5);
+		primitives.set(Command.IMAGE,6);
+		primitives.set(Command.BEGIN,7);
+		primitives.set(Command.CLOSE,8);
+		primitives.set(Command.STROKE,9);
+		primitives.set(Command.FILL,10);
+		primitives.set(Command.STROKESTYLE,11);
+		primitives.set(Command.FILLSTYLE,12);
+		primitives.set(Command.LINE,13);
+		primitives.set(Command.POLYLINE,14);
+		primitives.set(Command.POLYGON,15);
 	}
 
+	public abstract void moveTo( Command c );
+	public abstract void lineTo( Command c );
+	public abstract void quadTo( Command c );
+	public abstract void curveTo( Command c );
+	public abstract void image( Command c );
+	public abstract void text( Command c );
+	public abstract void beginPath();
+	public abstract void closePath();
+	public abstract void strokeStyle( Command c );
+	public abstract void fillStyle( Command c );
+	public abstract void stroke();
+	public abstract void fill();
+
+	public void compound( Command c ){
+		Command[] commands =c.commands();
+		for( Command v : commands ){ command(v); }
+	}
+	
+	public void line( Command c ){
+		double[] x = c.getRealArray(Command.X);
+		double[] y = c.getRealArray(Command.Y);
+		beginPath();
+		moveTo(Command.moveTo(x[0],y[0]));
+		lineTo(Command.lineTo(x[1],y[1]));
+		stroke();		
+	}
+
+	protected void poly( Command c ){
+		beginPath();
+		double[] x = c.getRealArray(Command.X);
+		double[] y = c.getRealArray(Command.Y);
+		moveTo(Command.moveTo(x[0],y[0]));
+		for( int i=1; i<x.length; i++) lineTo(Command.lineTo(x[i],y[i]));
+	}
+	
+	public void polyline( Command c ){
+		poly(c);
+		stroke();
+	}
+
+	public void polygon( Command c ){
+		poly(c);
+		fill();
+	}
+	
+	public void command( Command c ){
+		String type = c.type();
+		if( type == null ) return;
+		try{
+			int cId = primitives.get(type);
+			switch(cId){
+				case 0: compound(c); break; 
+				case 1: moveTo(c); break; 
+				case 2: lineTo(c); break; 
+				case 3: quadTo(c); break; 
+				case 4: curveTo(c); break; 
+				case 5: text(c); break; 
+				case 6: image(c); break; 
+				case 7: beginPath(); break; 
+				case 8: closePath(); break; 
+				case 9: stroke(); break; 
+				case 10: fill(); break; 
+				case 11: strokeStyle(c); break; 
+				case 12: fillStyle(c); break; 
+				case 13: line(c); break; 
+				case 14: polyline(c); break; 
+				case 15: polygon(c); break; 
+			}
+		}catch(Exception e){}	
+	}
+	
+	protected ColorInstance cinstance = new ColorInstance();
+	
+	public Color color( JSON json ){ return color(json, ColorInstance.COLOR); }
+	
+	public Color color( JSON json, String tag ){
+		try{
+			Object obj = json.get(tag);
+			return cinstance.load((JSON)obj);	
+		}catch( Exception e ){ return null; }
+	}
+		
 	/**
-	 * Sets the new painting color, returns the previous color
-	 * @param color
-	 * @return
-	 */
 	public abstract Color setColor( Color color );
 	
 	public abstract void drawLine( int start_x, int start_y, int end_x, int end_y );
@@ -71,19 +133,6 @@ public abstract class Canvas{
 	public abstract void drawArc(int x, int y, int width, int height, int startAngle, int endAngle); 
 
 	public abstract void drawFillArc(int x, int y, int width, int height, int startAngle, int endAngle );
-
-	public double scale(){ return scale; }
-
-	public void setScale( double scale ){ this.scale = scale; }
-	
-	public int scale( int value ){ return (int)(value*scale()); }
-	
-	public int[] scale( int[] value ){
-		if( value == null ) return null;
-		int[] svalue = new int[value.length];
-		for( int i=0; i<svalue.length; i++ ) svalue[i] = scale(value[i]);
-		return svalue;
-	}
 
 	public void drawPolyline( int[] x, int[] y ){
 		System.out.println("[Canvas.drawPolyline]");
@@ -125,15 +174,6 @@ public abstract class Canvas{
 	public int[] x( JSON json ){ return coordinates( json, X ); }
 
 	public int[] y( JSON json ){ return coordinates( json, Y ); }
-	
-	protected ColorInstance cinstance = new ColorInstance();
-	
-	public Color color( JSON json ){
-		try{
-			Object obj = json.get(ColorInstance.COLOR);
-			return cinstance.load((JSON)obj);	
-		}catch( Exception e ){ return null; }
-	}
 	
 	public boolean isPrimitive( String command ){ return primitives.valid(command); }
 		
@@ -184,73 +224,5 @@ public abstract class Canvas{
 			}
 		}catch(Exception e){}	
 	}
-	
-	public JSON jsonLine( int start_x, int start_y, int end_x, int end_y ){
-		JSON json = new JSON();
-		json.set(COMMAND, LINE);
-		json.set(X, ArrayUtil.cast( start_x, end_x ));
-		json.set(Y, ArrayUtil.cast( start_y, end_y ));
-		return json;
-	}
-	
-	public JSON json( String command, int[] x, int[] y ){
-		JSON json = new JSON();
-		json.set(COMMAND, command);
-		json.set(X, unalcol.integer.Array.cast(x));
-		json.set(Y, unalcol.integer.Array.cast(y));
-		return json;
-	}
-	
-	public JSON jsonPolygon( int[] x, int[] y ){ return json(POLYGON, x, y); }
-
-	public JSON jsonPolyline( int[] x, int[] y ){ return json(POLYLINE, x, y); }
-
-	public JSON json( String command, int x, int y, int width, int height ){
-		JSON json = new JSON();
-		json.set(COMMAND, command);
-		json.set(X, x);
-		json.set(Y, y);
-		json.set(WIDTH, width);
-		json.set(HEIGHT, height);
-		return json;
-	}
-
-	public JSON jsonRect( int x, int y, int width, int height ){ return json( RECT, x, y, width, height ); }
-	
-	public JSON jsonFillRect( int x, int y, int width, int height ){ return json( FILLRECT, x, y, width, height ); }
-	
-	public JSON jsonOval( int x, int y, int width, int height ){ return json( OVAL, x, y, width, height ); }
-	
-	public JSON jsonFillOval( int x, int y, int width, int height ){ return json( FILLOVAL, x, y, width, height); }
-	
-	public JSON jsonImage( int x, int y, int width, int height, int rot, boolean reflex, String url ){
-		JSON json = json(IMAGE, x, y, width, height );
-		json.set(IMAGE_ROT, rot);
-		json.set(IMAGE_REF, reflex);
-		json.set(IMAGE_URL, url);
-		return json;
-	}
-	
-	public JSON jsonArc(int x, int y, int width, int height, int startAngle, int endAngle){
-		JSON json = json(ARC, x, y, width, height );
-		json.set(START_ANGLE, startAngle);
-		json.set(END_ANGLE, endAngle);
-		return json;
-	} 
-	
-	public JSON jsonFillArc(int x, int y, int width, int height, int startAngle, int endAngle){
-		JSON json = json(FILLARC, x, y, width, height );
-		json.set(START_ANGLE, startAngle);
-		json.set(END_ANGLE, endAngle);
-		return json;
-	}
-
-	public JSON jsonString( int x, int y, String str ){
-		JSON json = new JSON();
-		json.set(COMMAND, TEXT);
-		json.set(X, x);
-		json.set(Y, y);
-		json.set(MESSAGE, str);
-		return json;
-	} 	
+*/	
 }

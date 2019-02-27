@@ -12,8 +12,8 @@ public class JSLog extends DefaultComponent implements JSView, Log{
 
 	@Override
 	public void display(boolean output){
-		if( output ) execute("logShowOut", out);
-		else execute("logShowError",err);
+		if( output ) execute("log.out", out);
+		else execute("log.error",err);
 	}
 
 	@Override

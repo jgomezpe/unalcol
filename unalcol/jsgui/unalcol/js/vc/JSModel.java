@@ -31,6 +31,7 @@ public class JSModel extends VCModel{
 			if( model==null || model.length()==0 ) model = "model.jar";
 			@SuppressWarnings("resource")
 			URLClassLoader loader =  new URLClassLoader(new URL[]{new URL(path+"plugins/"+pack+model)}, JSModel.class.getClassLoader());
+			System.out.println("[JS--Model]"+path+"plugins/"+pack+model);
 			Class<?> cl = loader.loadClass("js.ModelLoader");
 			modelLoader = (JSModelLoader)cl.newInstance();
 		} catch(Exception e) { e.printStackTrace(); };

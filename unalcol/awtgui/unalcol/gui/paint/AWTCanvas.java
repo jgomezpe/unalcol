@@ -1,9 +1,13 @@
 package unalcol.gui.paint;
 
+import java.awt.BasicStroke;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
+import java.awt.LinearGradientPaint;
+import java.awt.RadialGradientPaint;
 import java.awt.geom.AffineTransform;
+import java.awt.geom.GeneralPath;
 import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
 
@@ -11,11 +15,12 @@ import unalcol.collection.keymap.HashMap;
 import unalcol.util.FileResource;
 
 public class AWTCanvas extends Canvas{
-	protected Graphics g;
+	
+	protected Graphics2D g;
 	protected HashMap<String, Image> images = new HashMap<String,Image>();
 
 	
-	public void setGraphics( Graphics g ){ this.g = g; }
+	public void setGraphics( Graphics g ){ this.g = (Graphics2D)g; }
 	
 	public void addImage( String id, Image image ){ images.set(id, image); }
 	public void delImage( String id ){ images.remove(id); }
@@ -43,9 +48,54 @@ public class AWTCanvas extends Canvas{
 	    return bimage;
 	}	
 	
+	public static Color awt2color( java.awt.Color color ){ return new Color(color.getRed(), color.getGreen(), color.getBlue(), color.getAlpha()); } 
+	public static java.awt.Color color2awt( Color color ){ return new java.awt.Color(color.red(), color.green(), color.blue(), color.alpha()); }
+
+	GeneralPath path = new GeneralPath();
 	
 	@Override
-	public void drawImage(int x, int y, int width, int height, int rot, boolean reflex, String image_path) {
+	public void moveTo(Command c) {
+		double x = scale(c.getReal(Command.X));
+		double y = scale(c.getReal(Command.Y));
+		path.moveTo(x, y);
+	}
+
+	@Override
+	public void lineTo(Command c) {
+		double x = scale(c.getReal(Command.X));
+		double y = scale(c.getReal(Command.Y));
+		path.lineTo(x, y);
+	}
+
+	@Override
+	public void quadTo(Command c) {
+		double[] x = scale(c.getRealArray(Command.X));
+		double[] y = scale(c.getRealArray(Command.Y));
+		path.quadTo(x[0], y[0], x[1], y[1]);
+	}
+
+	@Override
+	public void curveTo(Command c) {
+		double[] x = scale(c.getRealArray(Command.X));
+		double[] y = scale(c.getRealArray(Command.Y));
+		path.curveTo(x[0], y[0], x[1], y[1], x[2], y[2]);
+	}
+
+	@Override
+	public void text(Command c) {
+		double x = scale(c.getReal(Command.X));
+		double y = scale(c.getReal(Command.Y));
+		String str = c.getString(Command.MESSAGE);
+		g.drawString(str, (int)scale(x), (int)scale(y)); 
+	}
+
+	@Override
+	public void image(Command c) {
+		double[] x = scale(c.getRealArray(Command.X));
+		double[] y = scale(c.getRealArray(Command.Y));
+		int rot = c.getInt(Command.IMAGE_ROT);
+		// boolean reflex = c.getBool(Command.IMAGE_REF);
+		String image_path = c.getString(Command.IMAGE_URL); 
 		Image obj;
 		try{
 			obj = images.get(image_path);
@@ -54,7 +104,7 @@ public class AWTCanvas extends Canvas{
 			if( obj == null ) return;
 			images.set(image_path,obj);
 		}
-		Image img = obj.getScaledInstance(scale(width), scale(height), Image.SCALE_SMOOTH);
+		Image img = obj.getScaledInstance((int)scale(x[1]), (int)scale(y[1]), Image.SCALE_SMOOTH);
 		double rotationRequired = Math.toRadians(rot);
 		int cx = (img.getWidth(null) / 2);
 		int cy = (img.getHeight(null) / 2);
@@ -62,53 +112,48 @@ public class AWTCanvas extends Canvas{
 		AffineTransformOp op = new AffineTransformOp(tx, AffineTransformOp.TYPE_BILINEAR);
 
 		// Drawing the rotated image at the required drawing locations
-		Graphics2D g2d = (Graphics2D)g;
-		g2d.drawImage(op.filter(toBufferedImage(img), null),scale(x), scale(y), null);		
-/*
-		AffineTransform identity = new AffineTransform();
-		AffineTransform trans = new AffineTransform();
-		trans.setTransform(identity);
-		trans.rotate( rotationRequired, cx, cy );
-		// Drawing the rotated image at the required drawing locations
-		Graphics2D g2d = (Graphics2D)g;
-		AffineTransform orTr= g2d.getTransform();
-		AffineTransform transX = new AffineTransform();
-		transX.setTransform(identity);
-		transX.translate(x, y);
-		g2d.setTransform(transX);
-		g2d.drawImage(img, trans, null);
-		g2d.setTransform(orTr); */		
+		g.drawImage(op.filter(toBufferedImage(img), null),(int)scale(x[0]), (int)scale(y[0]), null);		
 	}
 
 	@Override
-	public void drawArc(int x, int y, int width, int height, int startAngle, int endAngle) {
-		// @TODO use quadTo (it is a quadratic bezier) in GeneralPath see https://docs.oracle.com/javase/tutorial/2d/geometry/arbitrary.html
+	public void beginPath(){ path = new GeneralPath(); }
+
+	@Override
+	public void closePath(){ path.closePath(); }
+
+	@Override
+	public void fill(){
+		path.closePath();
+		g.fill(path); 
 	}
 
 	@Override
-	public void drawFillArc(int x, int y, int width, int height, int startAngle, int endAngle) {
-		// @TODO use quadTo (it is a quadratic bezier) in GeneralPath and closePath().. see https://docs.oracle.com/javase/tutorial/2d/geometry/arbitrary.html		
+	public void stroke(){ g.draw(path); }
+
+	@Override
+	public void strokeStyle(Command c) {
+		if( c.valid(ColorInstance.COLOR) ) g.setColor(color2awt(color(c))); 
+		if( c.valid(Command.LINEWIDTH) ) g.setStroke(new BasicStroke(c.getInt(Command.LINEWIDTH)));
+		fillStyle(c);
 	}
 
-
 	@Override
-	public void drawLine(int start_x, int start_y, int end_x, int end_y){ g.drawLine(scale(start_x), scale(start_y), scale(end_x), scale(end_y)); }
-
-	@Override
-	public void drawPolygon(int[] x, int[] y) { g.fillPolygon(scale(x),scale(y),x.length); }
-
-	@Override
-	public void drawString( int x, int y, String str ) { g.drawString(str, scale(x), scale(y)); }
-
-	@Override
-	public Color setColor(Color color) {
-		java.awt.Color cawt = g.getColor(); 
-		Color c = awt2color(cawt);
-		cawt = color2awt(color);
-		g.setColor(cawt);
-		return c;
-	}
-	
-	public static Color awt2color( java.awt.Color color ){ return new Color(color.getRed(), color.getGreen(), color.getBlue(), color.getAlpha()); } 
-	public static java.awt.Color color2awt( Color color ){ return new java.awt.Color(color.red(), color.green(), color.blue(), color.alpha()); }
+	public void fillStyle(Command c) {
+		if( c.valid(ColorInstance.COLOR) ){
+			g.setPaint(color2awt(color(c)));
+		}else{
+			java.awt.Color sc = color2awt(color(c, Command.STARTCOLOR));
+			java.awt.Color ec = color2awt(color(c, Command.ENDCOLOR));
+			if( c.valid(Command.R) ){
+				double x = (Double)c.x();
+				double y = (Double)c.y();
+				double r = c.getReal(Command.R);
+				g.setPaint(new RadialGradientPaint((float)x, (float)y, (float)r, new float[]{0.0f,1.0f}, new java.awt.Color[]{sc,ec}) );
+			}else{
+				double[] x = (double[])c.x();
+				double[] y = (double[])c.y();
+				g.setPaint(new LinearGradientPaint((float)x[0], (float)y[0], (float)x[1], (float)y[1], new float[]{0.0f,1.0f}, new java.awt.Color[]{sc,ec}));
+			}
+		}
+	}	
 }

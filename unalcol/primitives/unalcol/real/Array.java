@@ -379,4 +379,17 @@ public class Array extends Fibo{
     		y[i] = x[i];
     	return y;
     }
+
+    /**
+     * Casts an array of Doubles to an array of doubles
+     * @param x Array of Doubles
+     * @return Array of doubles
+     */
+    public static Double[] cast( double[] x ){
+    	Double[] y = new Double[x.length];
+    	for( int i=0; i<y.length; i++ )
+    		y[i] = x[i];
+    	return y;
+    }
+    
 }

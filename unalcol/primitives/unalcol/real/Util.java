@@ -34,4 +34,9 @@ public class Util {
     public static boolean isZero(double x) {
         return (Math.abs(x) <= PRECISION);
     }
+    
+	public static double cast( Object x ){
+		if( x instanceof Double ) return (Double)x;
+		else return (Integer)x;
+	}    
 }

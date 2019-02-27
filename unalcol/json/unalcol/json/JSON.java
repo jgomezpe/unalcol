@@ -5,20 +5,29 @@ import unalcol.collection.keymap.HashMap;
 import unalcol.string.Util;
 
 public class JSON extends HashMap<String, Object> implements Cloneable{
-	@Override
-	public Object clone(){
-		JSON json = new JSON();
+	public JSON(){}
+	
+	public JSON( JSON source ){
 		try{
-			for( String key:keys() ){
-				Object obj = get(key);
+			for( String key:source.keys() ){
+				Object obj = source.get(key);
 				Cloneable c = Cloneable.cast(obj);
-				json.set(key, c.clone());
+				set(key, c.clone());
 			}
 		}catch(Exception e){}	
-		return json;
 	}
 	
-	public double getReal( String tag ){ try{ return (Double)get(tag); }catch(Exception e){ return 0.0; } }
+	@Override
+	public Object clone(){ return new JSON(this); }
+	
+	public double getReal( String tag ){
+		try{
+			Object obj = get(tag);
+			if( obj instanceof Double ) return (Double)obj;
+			if( obj instanceof Integer ) return (Integer)obj;
+		}catch(Exception e){}
+		return 0;
+	}
 	
 	public int getInt( String tag ){ try{ return (Integer)get(tag); }catch(Exception e){ return 0; } } 
 	
@@ -28,11 +37,30 @@ public class JSON extends HashMap<String, Object> implements Cloneable{
 
 	public Object[] getArray( String tag ){ try{ return (Object[])get(tag); }catch(Exception e){ return null; } }
 
+	public int[] getIntArray( String tag ){ 
+		Object[] a = getArray(tag);
+		int[] x = null;
+		if( a!=null ){
+			x = new int[a.length];
+			try{ for(int i=0; i<a.length; i++ ) x[i] = (Integer)a[i]; }catch(Exception e){ x = null; }
+		} 
+		return x;
+	}
+	public double[] getRealArray( String tag ){
+		Object[] a = getArray(tag);
+		double[] x = null;
+		if( a!=null ){
+			x = new double[a.length];
+			try{ for(int i=0; i<a.length; i++ ) x[i] = (Double)a[i]; }catch(Exception e){ x = null; }
+		} 
+		return x;
+	}
+
 	public JSON getJSON( String tag ){ try{ return (JSON)get(tag); }catch(Exception e){ return null; } }
 
 	
 	public boolean storable(Object obj){
-		if( obj == null ) return true;
+		if( obj == null || obj instanceof double[] || obj instanceof int[]) return true;
 		if( obj instanceof Object[] ){
 			Object[] v = (Object[])obj;
 			int i=0;
@@ -44,7 +72,20 @@ public class JSON extends HashMap<String, Object> implements Cloneable{
 	
 	@Override
 	public boolean set(String key, Object obj ){
-		if( storable(obj ) ) return super.set(key, obj);
+		if( storable(obj ) ){
+			if( obj instanceof double[] ){
+				double[] a = (double[])obj;
+				Object[] x = new Object[a.length];
+				for( int i=0; i<a.length; i++ ) x[i] = a[i];
+				obj = x;
+			}else if( obj instanceof int[] ){
+				int[] a = (int[])obj;
+				Object[] x = new Object[a.length];
+				for( int i=0; i<a.length; i++ ) x[i] = a[i];
+				obj = x;
+			}
+			return super.set(key, obj);
+		}
 		return false;
 	} 
 	

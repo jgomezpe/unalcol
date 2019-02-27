@@ -10,6 +10,7 @@ public class Command {
 	public Command( String command ){
 		int i=command.indexOf('.'); 
 		id = command.substring(0,i);
+		System.out.println("[Command]"+id);
 		command = command.substring(i+1);
 		i=command.indexOf('(');
 		method = command.substring(0,i);

@@ -27,7 +27,6 @@ public class JSCanvasRender extends JSSimpleView implements CanvasRender{
 	
 	@Override
 	public void render( Object obj ){
-		System.out.println("[JSCanvasRender]"+obj);
 		add(obj);
 		render();
 	}	

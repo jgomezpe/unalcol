@@ -12,31 +12,33 @@ public class LanguageLoader extends Language{
 
 	public LanguageLoader( String name ){ super(name); }
 	
-	protected void load(String pack, String json){
+	protected void load(ClassLoader loader, String pack, String json){
 		JSONParser p = new JSONParser();
 		try {
 			JSON obj = (JSON)p.parse(json);
 			try{
 				String extra = obj.getString(USES);
 				String[] packs = extra.split(",");
-				for( int i=packs.length-1; i>=0; i-- ) load( packs[i] );
+				for( int i=packs.length-1; i>=0; i-- ) load( loader, packs[i] );
 			}catch(Exception e){}
 			codes.merge(obj);
 		}catch (Exception e){}
 	}
 	
-	protected void load( String pack ){
+	protected void load( ClassLoader loader, String pack ){
 		if( !codes.valid(PACK+pack) ){
-			String json = FileResource.txt( name+'-'+pack+'.'+i18n, FileResource.resources+i18n+'/', i18n+'/', true);
-			if( json != null ) load(pack, json);
+			String json = FileResource.txt( loader,  name+'-'+pack+'.'+i18n, FileResource.resources+i18n+'/', i18n+'/', true);
+			if( json != null ) load(loader, pack, json);
 			codes.set(PACK+pack, pack);
 		}
 	}
 
-	public boolean use(String pack){
+	public boolean use(String pack){ return use(LanguageLoader.class.getClassLoader(), pack); }
+	
+	public boolean use(ClassLoader loader, String pack){
 		if( name == null ) return false;
 		codes.clear();
-		load( pack );
+		load( loader, pack );
 		return true;
 	}
 	
