@@ -11,10 +11,7 @@ public class JSCanvas extends Canvas{
 	public JSCanvas( JSCanvasRender render ){ this.render = render; }
 	
 	@Override
-	public void command( Command json ){
-		System.out.println("[JSCanvas.canvas.draw]"+json);
-		render.execute("canvas.draw", json.toString());	
-	}
+	public void command( Command json ){ render.execute("canvas.draw", json.toString()); }
 
 	@Override
 	public void beginPath(){ command( Command.beginPath() ); }
