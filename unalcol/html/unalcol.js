@@ -63,7 +63,9 @@ var unalcol = {
 	
 	filePath : function(){
 		if( this.file==null || unalcol.file.length == 0 ) unalcol.file='main.xml';
-		return 'xml/' + unalcol.packPath() + unalcol.file; 
+		path = 'xml/' + unalcol.packPath() + unalcol.file; 	
+		// if( unalcol.mode != 'servlet' pat = unalcol.url + path;
+		return path;
 	},
 	
 	modePath : function(){ return unalcol.path(unalcol.mode, ''); },
