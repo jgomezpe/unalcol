@@ -44,7 +44,7 @@
 * @version 1.0
 */
 
-function trace( data ){	document.getElementById('tracer').innerHTML += data; }
+function trace( data ){	/*document.getElementById('tracer').innerHTML += data;*/ }
 
 // Global unalcol object
 var unalcol = {
@@ -459,10 +459,11 @@ var servlet = {
 	load: function(params, fn){
 		var xhttp = new XMLHttpRequest();
 		xhttp.onreadystatechange = function (){ if (xhttp.readyState==4 && xhttp.status == 200) fn(xhttp.responseText); }
-		xhttp.open('POST', servlet.id, true);
+		trace('[servlet].load '+ unalcol.url+servlet.id);
+		xhttp.open('POST', unalcol.url + servlet.id , true);
 		xhttp.setRequestHeader("Cache-Control", "max-age=0");
 		xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-		xhttp.setRequestHeader("Content-length", params.length);
+		//xhttp.setRequestHeader("Content-length", params.length);
 		xhttp.send(params); 
 	},
 	

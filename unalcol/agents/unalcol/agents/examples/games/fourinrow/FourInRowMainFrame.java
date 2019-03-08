@@ -32,7 +32,7 @@ public class FourInRowMainFrame extends JFrame implements EnvironmentView{
 	 * 
 	 */
 	private static final long serialVersionUID = -697350764270364063L;
-  Agent white_agent;
+Agent white_agent;
   Agent black_agent;
   String fileDir = ".";
   String fileName = null;
@@ -99,6 +99,10 @@ public class FourInRowMainFrame extends JFrame implements EnvironmentView{
     gridLayout2.setColumns(2);
     gridLayout2.setRows(3);
 //    multiChart1.setDataChart(new com.klg.jclass.chart.beans.MultiDataChartWrapper("(data1 SCATTER_PLOT)(data2 SCATTER_PLOT)","(data1 x1)(data2 x1)","(data1 y1)(data2 y1)"));
+    this.getContentPane().add(jPanel2,  BorderLayout.CENTER);
+    jPanel2.add(drawArea,  BorderLayout.CENTER);
+    
+    this.getContentPane().add(jPanel1,  BorderLayout.SOUTH);
     jLabel1.setText("Dimension:");
     jTextField1.setPreferredSize(new Dimension(37, 20));
     jTextField1.setText("8");
@@ -118,9 +122,6 @@ public class FourInRowMainFrame extends JFrame implements EnvironmentView{
         jButton2_actionPerformed(e);
       }
     });
-    this.getContentPane().add(jPanel2,  BorderLayout.CENTER);
-    jPanel2.add(drawArea,  BorderLayout.CENTER);
-    this.getContentPane().add(jPanel1,  BorderLayout.SOUTH);
     jPanel1.add(jLabel1, null);
     jPanel1.add(jTextField1, null);
     jPanel1.add(jLabel2, null);
@@ -128,7 +129,6 @@ public class FourInRowMainFrame extends JFrame implements EnvironmentView{
     jPanel1.add(jButton1, null);
     jPanel1.add(jButton2, null);
     
-    //this.getContentPane().add(jPanel3,  BorderLayout.EAST);
     gridLayout3.setColumns(1);
     gridLayout3.setRows(2);
     jPanel3.setLayout(gridLayout3);
@@ -145,20 +145,16 @@ public class FourInRowMainFrame extends JFrame implements EnvironmentView{
         thread = null;
         System.exit(0);
       } } );
-  }
-
-
-  void iterButton_actionPerformed(ActionEvent e) {
-    // Here some code
+    
   }
 
   public void view(){
-//    drawArea.show_clusters = paramFrame.showClusterCheck.isSelected();
     drawArea.update();
   }
 
 
   void jButton1_actionPerformed(ActionEvent e) {
+	  System.out.println("[ForInRowMainFrame].button1");
     int dim = Integer.parseInt( jTextField1.getText() );
     long time = 1000*Long.parseLong( jTextField2.getText() );
     Clock clock = new Clock(time, time);

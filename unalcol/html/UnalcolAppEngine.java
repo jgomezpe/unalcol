@@ -1,7 +1,6 @@
 import java.io.IOException;
-import java.rmi.ServerException;
 
-import javax.servlet.annotation.WebServlet;
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -9,10 +8,6 @@ import javax.servlet.http.HttpServletResponse;
 import unalcol.js.vc.mode.server.JSServerManager;
 import unalcol.js.vc.mode.server.Servlet;
 
-@WebServlet(
-    name = "UnalcolAppEngine",
-    urlPatterns = {"/unalcol"}
-)
 public class UnalcolAppEngine extends HttpServlet implements Servlet {
 	/**
 	 * 
@@ -30,14 +25,20 @@ public class UnalcolAppEngine extends HttpServlet implements Servlet {
 	public void set(JSServerManager frontend){ this.frontend = frontend; }	
 	
 	@Override
-	public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException{ doPost(request, response); }
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{ doPost(request, response); }
   
 	@Override
-	public void doPost(HttpServletRequest request, HttpServletResponse response) 
-			throws ServerException, IOException {
-		System.out.println("[UnalcolAppEngine.doPost]");
-		String cmd = doPost(request.getReader());
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) 
+			throws ServletException, IOException {
+        response.setContentType("text/plain");
+		try{
+			String cmd = doPost(request.getReader());
+			response.getOutputStream().print((cmd!=null)?cmd:"");
+		}catch(Exception e){
+			response.getOutputStream().print(e.getMessage());
+		}
+/*		System.out.println("[UnalcolAppEngine.doPost]");
 		response.setCharacterEncoding("UTF-8");
-		response.getWriter().print((cmd!=null)?cmd:"");  
+		response.getWriter().print((cmd!=null)?cmd:""); */  
 	}
 }
