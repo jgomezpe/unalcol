@@ -44,59 +44,82 @@
 * @version 1.0
 */
 button={
+		
+	set : [],
+	
+	size : 32,
+
+	fa_style : 'opacity:0.6; color:RoyalBlue',
+	img_style : 'opacity:0.6; background-size:cover; background_repeat:no-repeat; padding:16px 16px; border:1px solid #A4A4A4',
+	
+	resize: function(){
+		for( var i=0; i<button.set.length; i++ ){
+			b = button.set[i];
+			parent = b.parentElement;
+			w = parent.clientWidth;
+			h = parent.clientHeight;
+			s = w;
+			if( s > h ) s = h;
+			if( button.size < s ) s = button.size;
+			if( b.tagName.toLowerCase()=='button'){
+				s = s/2;
+				b.style.padding = s+"px "+s+"px";
+			}else{
+				b.style.fontSize = s+"px";
+			}
+		}
+	},
+
 	init_fontawesome: function (){
 		var fontAwesome = document.createElement('link');
 		fontAwesome.rel="stylesheet";
-		fontAwesome.href="fontawesome/css/font-awesome.css";
+		fontAwesome.href="https://use.fontawesome.com/releases/v5.7.0/css/all.css";
+		fontAwesome.crossorigin="anonymous";		
 		document.getElementsByTagName('head')[0].appendChild(fontAwesome);
-		var css = '.btn { background-color: DodgerBlue; border: none; color: white; padding: 12px 16px;	font-size: 16px; cursor: pointer; } .btn:hover { background-color: RoyalBlue;	}';
-		var style = document.createElement('style');
-		if (style.styleSheet) style.styleSheet.cssText = css;
-		else style.appendChild(document.createTextNode(css));
-		document.getElementsByTagName('head')[0].appendChild(style);
 	},
 	
-	make: function ( container, id, image ){
+	make: function ( container, id, image, style ){
 		var p = container.parentElement;
-		var pId = p.id.substring(vcl.js_tag.length);
+		var pId = p.id.substring(vc.js_tag.length);
 		if( window[pId]==null ) window[pId] = { id:pId };
-		if( image.substring(0,3) == 'fa ' ){
-			var c = vcl.createChildFlow('button',id);
+
+		if( image.substring(0,3) == 'fa ' ){ //|| image.substring(0,3) == 'fas ' ){
 			var k = xml.childById(p, container.id);
-			p.replaceChild(c,p.children[k]);
-			container = c;
-			container.setAttribute('class','btn');
-			var i  = document.createElement('i');
-			i.setAttribute('class',image);
-			i.id = image;
-			container.appendChild(i); 
+			container = document.createElement('i');
+			container.id = image;
+			container.setAttribute('class',image);
+			container.style=button.fa_style;
+
 		}else{
-			var c = vcl.createChildFlow('button',id);
 			var k = xml.childById(p, container.id);
-			p.replaceChild(c,p.children[k]);
-			container = c;
-			c.setAttribute('class','btn');
-			
-			c.style.backgroundImage = 'url('+image+')';
-			c.style.backgroundSize = 'cover';
-			c.style.backgroundRepeat='no-repeat';
-			c.style.padding = '16px 16px';
-			c.style.border = '1px solid #A4A4A4';
-
-//				var i  = document.createElement('i');
-//				container.appendChild(i); 
-
-//				var xn = createXMLNode('image');
-//				xn.setAttribute('id','img-'+id);
-//				xn.setAttribute('src',image);
-//				gui(container,xn);
+			container = vc.createChildFlow('button',id);
+			container.style=button.img_style;
+			container.style.backgroundImage = 'url('+image+')';
 		}
-		container.setAttribute('onclick', id+'_button()');
+
+		if( style != null ){
+			var s = style.split(";");
+			for( var i=0; i<s.length; i++ ){
+				var x = s[i].split(":");
+				container.style[x[0].trim()] = x[1].trim();
+			}
+		}
+
+		var opacity = container.style.opacity;
+		container.onmouseover=function(){ container.style.opacity=1; }
+		container.onmouseout=function(){ container.style.opacity=opacity; }
+		p.replaceChild(container,p.children[k]);
+		button.set.push(container);
+		button.resize();
+		container.setAttribute('onclick', pId+'.'+id+'()');
+
+		p.style.display='table-cell';
+		p.style.verticalAlign='middle';
 
 		return container;
 	},
 	
-	load: function ( container, node ){ return button.make( container, node.id, node.getAttribute('image') ); }
+	load: function ( container, node ){ return button.make( container, node.id, node.getAttribute('image'), node.getAttribute('style') ); }
 }
 
 button.init_fontawesome();
@@ -105,10 +128,8 @@ button.init_fontawesome();
 // buttonbar
 
 buttonbar={
-	show: function ( container, id ){
-		script.addVC( id, null);
-		return container;
-	},
-
-	load: function ( container, node ){ return buttonbar.show( container, node.id ); }
+	load: function ( container, node ){
+		resizer.add(button.resize);
+		return container; 
+	}
 }

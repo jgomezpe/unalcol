@@ -47,6 +47,7 @@
 label = { 
 	show: function ( container, txt ){
 		container.innerHTML = txt;
+		container.style.fontSize = '1.3vw';
 		return container;
 	},
 

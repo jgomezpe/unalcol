@@ -3,8 +3,8 @@
 //
 /**
 *
-* canvas.js
-* <P>A latex render for unalcol   (based on MathJax)
+* cell.js
+* <P>A cell component for unalcol  
 *
 * <P>
 *
@@ -43,26 +43,16 @@
 * (E-mail: <A HREF="mailto:jgomezpe@unal.edu.co">jgomezpe@unal.edu.co</A> )
 * @version 1.0
 */
-
-latex={
-	render: function ( container, latex_code ){
-		latex.init( container );
-		container.innerHTML = latex_code;
-
+cell={
+	make: function ( container, style ){
+		if( style != null ){
+			container.style = style;
+			container.style.position = 'absolute';
+			trace('cell..'+container.style.width);
+		}
 		return container;
 	},
-
-	init: function ( container ){
-		document.getElementsByTagName('body')[0].setAttribute('class','no-mathjax');
-		container.setAttribute('class','mathjax');
-		container.style.overflowX = 'scroll';
-		container.style.overflowY = 'scroll';
-		container.style.fontSize = '1.3vw';
-		if(window.MathJax==null || MathJax == null ){
-			script.addAsync( "text/x-mathjax-config", "MathJax.Hub.Config({tex2jax: {inlineMath: [['$','$'], ['\\\\(','\\\\)']],processClass: 'mathjax', ignoreClass: 'no-mathjax'}});", 'x-mathjax-config' );
-			script.addJS("https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS_CHTML", 'mathjax', null, null ); 
-		}else{	MathJax.Hub.Queue(["Typeset",MathJax.Hub]); }
-	},	
-
-	load: function ( container, node ){ return latex.render( container, node.childNodes[0].nodeValue ); }
+	
+	load: function ( container, node ){ return cell.make( container, node.getAttribute('style') ); }
 }
+

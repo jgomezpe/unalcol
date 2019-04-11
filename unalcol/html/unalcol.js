@@ -44,55 +44,16 @@
 * @version 1.0
 */
 
-function trace( data ){	/*document.getElementById('tracer').innerHTML += data;*/ }
+function trace( data ){	document.getElementById('tracer').innerHTML = data; }
 
 // Global unalcol object
 var unalcol = {
-	url:'http://localhost/',
-	ready:false,
-	mode:'js',
-	pack:'',
-	file:'main.xml',
-	
-	path : function( tag, defTag ){
-		if( tag != null && tag.length > 0 ) return tag + '/';
-		else return defTag;
-	},
-	
-	packPath: function(){ return unalcol.path(unalcol.pack,''); },
-	
-	filePath : function(){
-		if( this.file==null || unalcol.file.length == 0 ) unalcol.file='main.xml';
-		path = 'xml/' + unalcol.packPath() + unalcol.file; 	
-		// if( unalcol.mode != 'servlet' pat = unalcol.url + path;
-		return path;
-	},
-	
-	modePath : function(){ return unalcol.path(unalcol.mode, ''); },
-	
 	load : function (url_string){
-		var searchQuery = unalcol.parseUrl(url_string);
-		unalcol.pack = searchQuery.pack;
-		unalcol.file = searchQuery.file;
-		unalcol.mode = searchQuery.mode;
-		if( searchQuery.mode=='servlet' ) servlet.load('servlet.setParams("'+url_string+'")', eval);
-		xml.load(unalcol.filePath(), vcl.load); 
-	},
-	
-	parseUrl: function(url_string) {
-		k = url_string.indexOf('?');
-		unalcol.url = url_string.substring( 0, k );
-		if( unalcol.url.indexOf('index.html') >= 0 ) unalcol.url = unalcol.url.substring(0,k-10);
-		if( unalcol.url.lastIndexOf(':') > 5 ) unalcol.url = unalcol.url.substring(0,unalcol.url.lastIndexOf(':')) + '/';
-		// Convert query string to object
-		url_string = url_string.substring( k+1 );
-		queries = url_string.split('&');
-		var searchObject = {};
-		for( i = 0; i < queries.length; i++ ) {
-			split = queries[i].split('=');
-			searchObject[split[0]] = split[1];
-		}
-		return searchObject;
+		page.init(url_string);
+		script.addVC('main', null);
+		if( page.mode=='servlet/' ) servlet.load('servlet.setParams("'+url_string+'")', eval);
+		xml.load(page.file, vc.load);
+		window.addEventListener('resize', resizer.apply, false);
 	},
 	
 	// vector load
@@ -103,6 +64,40 @@ var unalcol = {
 			f(x);
 		}
 	}
+}
+
+var page = {
+	url: '',
+	port:'',
+	mode: 'js',
+	pack: '',
+	file: 'main.xml',
+
+	init: function(url_string) {
+		var k = url_string.indexOf('?');
+		var url = url_string.substring( 0, k );
+		if( url.indexOf('index.html') >= 0 ) url = url.substring(0,k-10);
+		var colon = url.lastIndexOf(':');
+		if( colon > 5 ){
+			page.port = url.substring(colon+1, url.length-1);
+			url = url.substring(0,colon) + '/';
+		}
+		page.url = url;
+		// Convert query string to object
+		url_string = url_string.substring( k+1 );
+		var queries = url_string.split('&');
+		for( i = 0; i < queries.length; i++ ) {
+			split = queries[i].split('=');
+			page[split[0]] = split[1];
+		}
+		page.mode += '/';
+		if( page.pack.length > 0 ) page.pack += '/';
+		page.file = 'xml/' + page.pack + page.file; 	
+	},
+
+	vc: function(){ return page.url+'vc/'; },
+
+	packPath: function(){ return page.vc()+page.pack; }
 }
 
 // Script functions 
@@ -163,19 +158,20 @@ var script ={
 	addJS: function ( src, id, callback, errorback ){ script.add( 'text/javascript', src, id, true, callback, errorback ); },
 
 	addVC: function ( id, callback ){
-		var path = unalcol.url+'vc/';
-		var pack = unalcol.packPath();
-		var mode = unalcol.modePath();
-		function nothree(){ script.addJS( path+id+'.js', id+'-unc-js', callback, null ); }
-		function notwo(){ script.addJS( path+pack+id+'.js', id+'-js', callback, nothree ); }
-		function noone(){ script.addJS( path+mode+id+'.js', id+'-unc-mode-js', callback, notwo ); }
-		this.addJS( path+pack+mode+id+'.js', id+'-mode-js', callback, noone );
+		var file = id+'.js';
+		var path = page.vc();
+		var pack = page.packPath();
+		var mode = page.mode;
+		function nothree(){ script.addJS( path+file, id+'-unc-js', callback, null ); }
+		function notwo(){ script.addJS( pack+file, id+'-js', callback, nothree ); }
+		function noone(){ script.addJS( path+mode+file, id+'-unc-mode-js', callback, notwo ); }
+		this.addJS( pack+mode+file, id+'-mode-js', callback, noone );
 	}
 };
 
 // XML processing methods used by an unalcol javascript client
 var xml = {
-	load : function load( xmlFile, fn ){
+	load : function ( xmlFile, fn ){
 		var xhttp = new XMLHttpRequest();
 		xhttp.onreadystatechange = function (){ if (xhttp.readyState==4 && xhttp.status == 200){ fn(xhttp.responseXML); } }
 		xhttp.open('GET', xmlFile, true);
@@ -197,13 +193,8 @@ var xml = {
 	
 	childById: function (node, id){
 		var n = node.children.length;  
-		var k=-1;
-		for( var i=0; i<n; i++ )
-			if(node.children[i].id == id){
-				k=i;
-				i=n;
-			}
-		return k;
+		for( var i=0; i<n; i++ ) if(node.children[i].id == id) return i;
+		return -1;
 	},
 	
 	childCount: function ( node ){ 
@@ -223,9 +214,11 @@ var xml = {
 };
 
 // Collection of methods for gui component managment
-var vcl = {
+var vc = {
 	js_tag:'JS',
-	jsId: function (id){ return vcl.js_tag+id; },
+	jsId: function (id){ return vc.js_tag+id; },
+
+	find: function (id){ return document.getElementById(vc.jsId(id)); },
 	
 	// HTML functions
 	createChildFlow: function (tag, id){
@@ -236,47 +229,47 @@ var vcl = {
 	
 	create: function (tag, id, left, top, width, height){
 		var c = document.createElement(tag);
-		if( id != null ){ c.id = vcl.jsId(id); }
+		if( id != null ){ c.id = vc.jsId(id); }
 		c.style.position = 'absolute';
 		c.style.left = left+'%';
 		c.style.top = top+'%';
-		c.style.maxHeight = c.style.height = (height-1)+'%';
-		c.style.maxWidth = c.style.width = (width-1)+'%';
+		c.style.maxHeight = c.style.height = (height)+'%';
+		c.style.maxWidth = c.style.width = (width)+'%';
 		return c;
 	},
 
-	div: function (id, left, top, width, height){ return vcl.create('div', id, left, top, width, height ); },
+	div: function (id, left, top, width, height){ return vc.create('div', id, left, top, width, height ); },
 	
 	addChild: function (container, tag, id, left, top, width, height){
-		var c = vcl.create(tag, id, left, top, width, height);
+		var c = vc.create(tag, id, left, top, width, height);
 		container.appendChild(c);
 		return c;
 	},
 
 	addChildFlow: function (container, tag, id){
 		var c = document.createElement(tag);
-		if( id != null ){ c.id = id; }
+		if( id != null ){ c.id = vc.jsId(id); }
 		container.appendChild(c);
 		return c;
 	},
 
-	addDiv: function (container, id, left, top, width, height){ return vcl.addChild(container, 'div', id, left, top, width, height); },
+	addDiv: function (container, id, left, top, width, height){ return vc.addChild(container, 'div', id, left, top, width, height); },
 
 	replaceChild: function (container, k, tag, id, left, top, width, height){
-		var c = vcl.create(tag, id, left, top, width, height);
+		var c = vc.create(tag, id, left, top, width, height);
 		container.replaceChild( c, container.children[k]); 
 		return c;
 	},
 
 	setChild: function (container, tag, id, left, top, width, height){
 		container.innerHTML = "";
-		return vcl.addChild(container, tag, id, left, top, width, height); 
+		return vc.addChild(container, tag, id, left, top, width, height); 
 	},
 
 	addOrReplaceChild: function (container, tag, id, left, top, width, height){
 		var k = xml.childById(container, id);
-		if(k>=0){ return vcl.replaceChild(container, k, tag, id, left, top, width, height); }
-		else{ return vcl.addChild(container, tag, id, left, top, width, height); }
+		if(k>=0){ return vc.replaceChild(container, k, tag, id, left, top, width, height); }
+		else{ return vc.addChild(container, tag, id, left, top, width, height); }
 	},
 
 	// Children functions
@@ -285,8 +278,8 @@ var vcl = {
 		var n = xml.childCount(node);
 		for( var i=0; i<n; i++){
 			var node_child = xml.child( node, i );
-			var cChild = vcl.addChildFlow(comp, node_child.tagName, node_child.id );
-			vcl.gui(cChild, node_child);
+			var cChild = vc.addChildFlow(comp, node_child.tagName, node_child.id );
+			vc.init(cChild, node_child);
 		} 
 		return comp;
 	},
@@ -329,8 +322,8 @@ var vcl = {
 				}
 			}else{
 				if( height != null ){
-					left = vcl.positions(n,height.length);
-					width = vcl.sizes( left );
+					left = vc.positions(n,height.length);
+					width = vc.sizes( left );
 				}else width = [100];
 			}
 
@@ -340,15 +333,15 @@ var vcl = {
 					top.push(top[i]+height[i]);
 				}
 			}else{
-				top = vcl.positions( n, width.length );
-				height = vcl.sizes(top);
+				top = vc.positions( n, width.length );
+				height = vc.sizes(top);
 			}
 
 			var i=0;
 			var j=0;
 			for( var k=0; k<n; k++){
 				var node_child = xml.child( node, k );
-				var cell = vcl.addDiv(comp, node_child.id, left[j], top[i], width[j], height[i]);
+				var cell = vc.addDiv(comp, node_child.id, left[j], top[i], width[j], height[i]);
 				buildChild(cell, node_child);
 				j++;
 				if( j>=width.length ){
@@ -360,25 +353,25 @@ var vcl = {
 		return comp;
 	},
 
-	addChildrenTable: function ( comp, node ){ return vcl.genericAddChildrenTable(comp, node, vcl.gui); },
+	addChildrenTable: function ( comp, node ){ return vc.genericAddChildrenTable(comp, node, vc.init); },
 
-	gui: function ( container, node ){ return plugin.run( container, node, plugin.unknown ); },
+	init: function ( container, node ){ return plugin.run( container, node, plugin.unknown ); },
 	
 	// Loading Functions
 
 	load: function ( xmlDoc ){
 		root = xmlDoc.documentElement.tagName;
 		var node = xml.child(xmlDoc.getElementsByTagName(root)[0], 0);
-		var root_container = document.getElementById(vcl.jsId(root));
+		var root_container = vc.find(root);
 		root_container.innerHTML = "";
-		var cmain = vcl.setChild( root_container, 'div', node.tagName, 0, 0, 100, 100 );
-		vcl.gui( cmain, node );
+		var cmain = vc.setChild( root_container, 'div', node.tagName, 0, 0, 100, 100 );
+		vc.init( cmain, node );
 	},
 
 	loadTxt: function ( xmlTxt ){
 	   parser = new DOMParser();
 	   xmlDoc = parser.parseFromString(xmlTxt,"text/xml");
-	   vcl.load( xmlDoc );
+	   vc.load( xmlDoc );
 	}	
 };
 
@@ -388,6 +381,7 @@ var plugin={
 	
 	fn: function ( comp, isNotDefined ){ 
 		var g = window[comp]; 
+		trace('[plugin...]'+g);
 		if( g==null ) g = isNotDefined; 
 		else g = g.load; 
 		return g;
@@ -395,7 +389,7 @@ var plugin={
 
 	fnAddChildren: function ( comp ){ 
 		var g = window[comp]; 
-		if( g==null || g.addChildren==null) g = vcl.addChildrenTable; 
+		if( g==null || g.addChildren==null) g = vc.addChildrenTable; 
 		else g = g.addChildren; 
 		return g;
 	},
@@ -441,6 +435,20 @@ var plugin={
 	}
 }
 
+var resizer = {
+	set:[],
+	
+	add: function ( method ){
+		resizer.set.push( method );
+	},
+	
+	apply: function(){
+		for( var i = 0; i < resizer.set.length; i++ ){
+			resizer.set[i]();
+		}
+	}
+}
+
 // Collection of methods for connecting to server from an unalcol javascript client
 var servlet = {
 	id:'unalcol',
@@ -459,8 +467,9 @@ var servlet = {
 	load: function(params, fn){
 		var xhttp = new XMLHttpRequest();
 		xhttp.onreadystatechange = function (){ if (xhttp.readyState==4 && xhttp.status == 200) fn(xhttp.responseText); }
-		trace('[servlet].load '+ unalcol.url+servlet.id);
-		xhttp.open('POST', unalcol.url + servlet.id , true);
+		var url = page.url;
+		if( page.port.length>0 ) url = url.substring(0,url.length-1)+':' + page.port + '/';
+		xhttp.open('POST', url + servlet.id , true);
 		xhttp.setRequestHeader("Cache-Control", "max-age=0");
 		xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
 		//xhttp.setRequestHeader("Content-length", params.length);
@@ -530,4 +539,3 @@ var servlet = {
 	
 	encode: function ( str ){ return '"' + str.replace(/\\/g, '\\\\').replace(/"/g,'\\"') +'"'; }
 }
-

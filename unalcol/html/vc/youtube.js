@@ -51,8 +51,8 @@ youtube={
 	load: function ( container, node ){ return youtube.play(container,node.id); },
 	
 	play: function ( container, id ){
-		vcl.setChild(container, 'div', 'player'+id, 1, 1, 98, 98);
-		window[vcl.jsId('player'+id)] = 'video';
+		vc.setChild(container, 'div', 'player'+id, 1, 1, 98, 98);
+		window[vc.jsId('player'+id)] = 'video';
 		youtube.set.push(id);
 		if( youtube.state=='unloaded' ){
 			youtube.state = 'loading';
@@ -62,7 +62,7 @@ youtube={
 	},
 
 	loadSingleVideo: function ( id ){
-		window[vcl.jsId('player'+id)] = new YT.Player(vcl.jsId('player'+id), {
+		window[vc.jsId('player'+id)] = new YT.Player(vc.jsId('player'+id), {
 	  		videoId: id,
 	  		playerVars: {rel: 0, fs:0, modestbranding:1},
 	  		events: {

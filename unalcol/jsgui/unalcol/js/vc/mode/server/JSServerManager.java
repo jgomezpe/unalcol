@@ -41,7 +41,6 @@ public class JSServerManager extends JSFrontEnd {
 		Controller c = backend().controller(id);
 		if( c== null ) return null;
 		
-		System.out.println("[JSServerManager]"+id);
 		@SuppressWarnings("rawtypes")
 		Class[] types = new Class[args.length];
 		for( int k=0; k<types.length; k++ ) types[k] = args[k].getClass();

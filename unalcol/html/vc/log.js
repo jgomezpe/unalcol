@@ -51,6 +51,7 @@ log={
 		var text = "";
 		var i;
 		for (i = 0; i < r.length; i++) text += r[i] + "<br>";
+		container.style.fontSize = '1.3vw';
 	 	container.innerHTML =  '<span style="color:'+color+'">'+text+'</span>';
 	},
 	

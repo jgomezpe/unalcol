@@ -58,15 +58,16 @@ canvas={
 	
 	init: function ( container, canvasId ){
 		container.id = 'container-'+canvasId;
-		var c = vcl.addChild(container, 'canvas', canvasId, 0, 0, 100, 100);
-		c.style.border = "solid #DCDCDC";
+		var c = vc.addChild(container, 'canvas', canvasId, 0, 0, 100, 100);
+		c.style.border = "1px solid #DCDCDC";
 		
 		// Just for testing the canvas
-		//var json = JSON.parse('{"command":"compound", "commands":[{"command":"line","x":[0,150],"y":[0,150]},{"command":"fillStyle", "x":[0,150], "y":[0,150], "endcolor":{"red":0,"green":0,"blue":255}, "startcolor":{"red":255,"green":0,"blue":0}},{"command":"polygon","x":[0,50,50,100],"y":[0,0,50,50]}]}');
+		var json = JSON.parse('{"command":"compound", "commands":[{"command":"line","x":[0,150],"y":[0,150]},{"command":"fillStyle", "x":[0,150], "y":[0,150], "endcolor":{"red":0,"green":0,"blue":255}, "startcolor":{"red":255,"green":0,"blue":0}},{"command":"polygon","x":[0,50,50,100],"y":[0,0,50,50]}]}');
+		var obj = {parent:container, width:100, height:100, JSON:json, canvas:c};
 		
-		var obj = {parent:container, width:100, height:100, JSON:{}, canvas:c};
-		canvas.set[vcl.jsId(canvasId)] = obj;
-		window.addEventListener('resize', canvas.resize, false);
+//		var obj = {parent:container, width:100, height:100, JSON:{}, canvas:c};
+		canvas.set[vc.jsId(canvasId)] = obj;
+		resizer.add( canvas.resize );
 		canvas.resize();
 		return container;
 	},

@@ -46,7 +46,7 @@
 
 videochat={
 	load: function ( container, node ){ 
-		var ifrm = vcl.create('iframe', node.id+'player',0,0,100,100);
+		var ifrm = vc.create('iframe', node.id+'player',0,0,99.5,99.5);
 		container.appendChild(ifrm);
 		ifrm.src = 'https://appr.tc/';
 		return container; 
