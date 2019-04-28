@@ -43,13 +43,12 @@
 * (E-mail: <A HREF="mailto:jgomezpe@unal.edu.co">jgomezpe@unal.edu.co</A> )
 * @version 1.0
 */
+label = unalcol.plugins.set.label
 
-label = { 
-	show: function ( container, txt ){
-		container.innerHTML = txt;
-		container.style.fontSize = '1.3vw';
-		return container;
-	},
+label.show = function ( container, txt ){
+	container.innerHTML = txt
+	container.style.fontSize = '1.3vw'
+}
 
-	load: function ( container, node ){ return label.show( container, node.getAttribute('txt') ); }
-}	
+label.run = function ( node ){ return label.show( vc.load(node), node.getAttribute('txt') ) }
+

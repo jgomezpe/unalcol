@@ -1,4 +1,4 @@
-script.addJS( page.packPath()+'main.js', 's-main-js', null, null );
+unalcol.script.addJS( unalcol.page.packPath()+'main.js', 's-main-js', null, null );
 
 if( window['toolBar'] == null ) toolBar = {};
 toolBar.primitives = function (){ servlet.load('toolBar.primitives()', eval ); }

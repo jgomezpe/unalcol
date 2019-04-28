@@ -22,6 +22,7 @@ public class JSModel extends VCModel{
 	
 	protected void loader( String url ){
 		try {
+			System.out.println("[JSModel]"+url);
 			URL aURL = new URL( url );
 			String path = aURL.getProtocol()+"://"+aURL.getHost()+"/";
 			String[] query = aURL.getQuery().split("&"); 
@@ -31,7 +32,7 @@ public class JSModel extends VCModel{
 			if( model==null || model.length()==0 ) model = "model.jar";
 			@SuppressWarnings("resource")
 			URLClassLoader loader =  new URLClassLoader(new URL[]{new URL(path+"plugins/"+pack+model)}, JSModel.class.getClassLoader());
-			System.out.println("[JS--Model]"+path+"plugins/"+pack+model);
+			System.out.println("[JSModel]"+path+"plugins/"+pack+model);
 			Class<?> cl = loader.loadClass("js.ModelLoader");
 			modelLoader = (JSModelLoader)cl.newInstance();
 		} catch(Exception e) { e.printStackTrace(); };
@@ -45,7 +46,9 @@ public class JSModel extends VCModel{
 			URL aURL = new URL( url );
 			String[] query = aURL.getQuery().split("&"); 
 			String mode = Util.value(query, "mode");
+			if( mode==null || mode.length()==0 ) mode = "servlet";
 			KeyMap<String, Component> comps = modelLoader.frontend(url); 
+			System.out.println("[JSModel]"+mode);
 			if( mode.equals("fx") ) front = new FXManager(url); 
 			if( mode.equals("servlet") ) front = new JSServerManager(); 
 			if( front != null )	front.init(comps); 

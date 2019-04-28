@@ -44,25 +44,27 @@
 * @version 1.0
 */
 
-latex={
-	render: function ( container, latex_code ){
-		latex.init( container );
-		container.innerHTML = latex_code;
+if(window.MathJax==null || MathJax == null ){
+	unalcol.script.addAsync( "text/x-mathjax-config", 
+							 "MathJax.Hub.Config({tex2jax: {inlineMath: [['$','$'], ['\\\\(','\\\\)']],processClass: 'mathjax', ignoreClass: 'no-mathjax'}});",
+							 'x-mathjax-config' );
+	unalcol.script.addJS("https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS_CHTML", 'mathjax', null, null ); 
+}else{	MathJax.Hub.Queue(["Typeset",MathJax.Hub]); }
 
-		return container;
-	},
+var latex = unalcol.plugins.set.latex
 
-	init: function ( container ){
-		document.getElementsByTagName('body')[0].setAttribute('class','no-mathjax');
-		container.setAttribute('class','mathjax');
-		container.style.overflowX = 'scroll';
-		container.style.overflowY = 'scroll';
-		container.style.fontSize = '1.3vw';
-		if(window.MathJax==null || MathJax == null ){
-			script.addAsync( "text/x-mathjax-config", "MathJax.Hub.Config({tex2jax: {inlineMath: [['$','$'], ['\\\\(','\\\\)']],processClass: 'mathjax', ignoreClass: 'no-mathjax'}});", 'x-mathjax-config' );
-			script.addJS("https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS_CHTML", 'mathjax', null, null ); 
-		}else{	MathJax.Hub.Queue(["Typeset",MathJax.Hub]); }
-	},	
+latex.render = function ( container, latex_code ){
+	latex.init( container );
+	container.innerHTML = latex_code;
+},
 
-	load: function ( container, node ){ return latex.render( container, node.childNodes[0].nodeValue ); }
-}
+latex.init = function ( container ){
+	document.getElementsByTagName('body')[0].setAttribute('class','no-mathjax')
+	container.setAttribute('class','mathjax')
+	container.style.overflowX = 'scroll'
+	container.style.overflowY = 'scroll'
+	container.style.fontSize = '1.3vw'
+}	
+
+latex.run = function ( node ){ latex.render( vc.load(node), node.childNodes[0].nodeValue ); }
+

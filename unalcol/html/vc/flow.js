@@ -3,8 +3,8 @@
 //
 /**
 *
-* log.js
-* <P>A simple log panel for unalcol  
+* flow.js
+* <P>A flow component for unalcol  
 *
 * <P>
 *
@@ -44,23 +44,14 @@
 * @version 1.0
 */
 
-log = unalcol.plugins.set.log
-
-log.show = function ( id, txt, color ){
-	var container = vc.find(id)
-	var r = txt.split(/\n/)
-	var text = ""
-	for (var i = 0; i < r.length; i++) text += r[i] + "<br>"
-	container.style.fontSize = '1.3vw'
- 	container.innerHTML =  '<span style="color:'+color+'">'+text+'</span>'
-}
-
-log.out = function ( id, txt ){ log.show( id, txt, 'gray' ) }
-	
-log.error = function ( id, txt ){ log.show( id, txt, 'red' ) }
-	
-log.run = function ( node ){ 
-	vc.load(node)
-	var res = node.getAttribute('txt').replace(/::/g, "\n")
-	log.out( node.id, res )
+var flow = unalcol.plugins.set.flow
+flow.run = function ( node ){
+	var c = vc.load(node)
+	c.layout = 'flow'
+	var n = xml.childCount(node)
+	for( var i=0; i<n; i++ ){
+		child = xml.child( node, i )
+		c.appendChild( vc.cell( child.id ) )
+		unalcol.plugins.load( child )
+	}
 }

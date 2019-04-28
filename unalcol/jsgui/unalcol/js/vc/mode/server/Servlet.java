@@ -17,13 +17,20 @@ public interface Servlet {
 		  while( line != null ){
 			  sb.append(line);
 			  line = reader.readLine();
+			  if( line!=null ) sb.append('\n');
 		  };
 		  return sb.toString();		
 	}
 	
 	default String doPost( BufferedReader reader ) throws IOException {
-		Command command = new Command(command(reader));
-		String cmd;
+		return doPost( command(reader) );
+	}
+	
+	default String doPost( String cmd ) throws IOException {
+		Command command = new Command(cmd);
+		System.out.println("[Servlet]"+command.id());
+		System.out.println("[Servlet]"+command.method());
+		
 		if( command.id().equals("servlet") && command.method().equals("setParams") ){
 			JSModel model = new JSModel((String)command.args()[0]);
 			set( (JSServerManager)model.side(FrontEnd.FRONTEND) );

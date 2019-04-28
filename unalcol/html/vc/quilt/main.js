@@ -44,7 +44,7 @@ toolBar.machine = function (){
 	var edit = ace.edit(jsProgram); 
 	window['quilt_ace_editor_rules'] = rules(['0','1','2','3']); // @TODO: Get the remnants 
 	function callback(){ edit.getSession().setMode({path:"ace/mode/quilt", v:Date.now()}); }
-	script.addVC('ace/mode-quilt',callback);
+	unalcol.script.addVC('ace/mode-quilt',callback);
 }
 
 if( window['cmdBar'] == null ) cmdBar = {};

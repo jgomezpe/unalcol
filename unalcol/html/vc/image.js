@@ -44,13 +44,12 @@
 * @version 1.0
 */
 
-image = {
-	show: function ( container, id ){
-		container.style.backgroundImage = 'url('+id+')';
-		container.style.backgroundSize = 'contain';
-		container.style.backgroundRepeat='no-repeat';
-		return container;
-	},
+var image = unalcol.plugins.set.image
 
-	load: function ( container, node ){ return image.show(container, node.getAttribute('src') ); }
+image.run = function ( node ){ image.show( vc.load(node), node.getAttribute('src') ) }
+
+image.show = function ( container, url ){
+	container.style.backgroundImage = 'url('+url+')';
+	container.style.backgroundSize = 'contain';
+	container.style.backgroundRepeat='no-repeat';
 }

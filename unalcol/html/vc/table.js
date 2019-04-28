@@ -3,8 +3,8 @@
 //
 /**
 *
-* log.js
-* <P>A simple log panel for unalcol  
+* table.js
+* <P>A table component for unalcol  
 *
 * <P>
 *
@@ -44,23 +44,87 @@
 * @version 1.0
 */
 
-log = unalcol.plugins.set.log
+var table = unalcol.plugins.set.table
 
-log.show = function ( id, txt, color ){
-	var container = vc.find(id)
-	var r = txt.split(/\n/)
-	var text = ""
-	for (var i = 0; i < r.length; i++) text += r[i] + "<br>"
-	container.style.fontSize = '1.3vw'
- 	container.innerHTML =  '<span style="color:'+color+'">'+text+'</span>'
+table.positions = function ( n, s ){
+	var pos	= [0];
+	var m = Math.ceil(n/s);
+	var w = 100.0/m;
+	var prev;
+	var x = 0.0;
+	for( var i=0; i<m; i++ ){
+		x = x + w;
+		pos.push(Math.round(x));
+	}
+	return pos;
 }
 
-log.out = function ( id, txt ){ log.show( id, txt, 'gray' ) }
-	
-log.error = function ( id, txt ){ log.show( id, txt, 'red' ) }
-	
-log.run = function ( node ){ 
-	vc.load(node)
-	var res = node.getAttribute('txt').replace(/::/g, "\n")
-	log.out( node.id, res )
+table.sizes = function ( pos ){
+	var s = [];
+	var n = pos.length-1;
+	for( var i=0; i<n; i++ ) s.push(pos[i+1] - pos[i]);
+	return s;
+}
+
+
+table.layout = function ( node ){
+	var n = xml.childCount(node)
+	var c = vc.load(node)
+	c.layout = 'table'
+	var width = node.getAttribute('widths');
+	if( width != null ) width = width.split(' ');
+	var height = node.getAttribute('heights');
+	if( height != null ) height = height.split(' ');
+	if( width == null && height == null ) return c;
+
+	var left = [0];
+	var top = [0];
+	if( width != null ){
+		for( var i=0; i<width.length; i++ ){
+			width[i] = parseInt(width[i]);
+			left.push(left[i]+width[i]);
+		}
+	}else{
+		if( height != null ){
+			left = table.positions(n,height.length);
+			width = table.sizes( left );
+		}else width = [100];
+	}
+
+
+	if( height != null ){
+		for( var i=0; i<height.length; i++ ){
+			height[i] = parseInt(height[i]);
+			top.push(top[i]+height[i]);
+		}
+	}else{
+		top = table.positions( n, width.length );
+		height = table.sizes(top);
+	}
+
+	var i=0;
+	var j=0;
+	for( var k=0; k<n; k++){
+		var child = xml.child(node,k)
+		var cell = vc.cell( c.id+'-'+k )
+		vc.setStyle( cell, vc.size(left[j], top[i], width[j], height[i]) )
+		c.appendChild(cell)
+		cell.appendChild( vc.cell( child.id ) )
+		j++;
+		if( j>=width.length ){
+			j=0
+			i++
+		}
+	}
+	return c;
+}
+
+table.buildChildren = function( node, buildChild ){
+	var n = xml.childCount(node)
+	if( n>=1 ) for( var k=0; k<n; k++) buildChild(xml.child( node, k ))
+}
+
+table.run = function ( node ){
+	var c = table.layout( node )
+	table.buildChildren( node, unalcol.plugins.load.bind(unalcol.plugins) )
 }

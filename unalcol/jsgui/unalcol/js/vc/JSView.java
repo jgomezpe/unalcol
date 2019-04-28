@@ -18,5 +18,5 @@ public interface JSView extends View{
 	}
 	default void execute( String js_command ){ ((JSFrontEnd)front()).execute(js_command); }
 	
-	default String jsId(){ return "JS"+id(); }
+	default String jsId(){ return id(); }
 }

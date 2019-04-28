@@ -44,111 +44,94 @@
 * @version 1.0
 */
 
-splitBar={
-	show: function( container, id ){
-		var jsId = vc.jsId(id);
-		var x = container.style.width;
-		vertical = ( parseInt(x,10) < 96 );
-		if( vertical ) container.style.cursor = "col-resize";
-		else container.style.cursor = "row-resize";
-		dragging = false;
-		var parent = container.parentElement;
-		var rect = parent.getBoundingClientRect();
-		var sx = 0;
-		var sy = 0;
-		var idx = parent.children.length - 1;
-		
+var splitBar = new PlugIn('splitBar')
+splitBar.ready = true;
+unalcol.plugins.set.splitBar = splitBar
 
-		container.onmousedown = function(e){
-			dragging = true;
-			sx = e.pageX;
-			sy = e.pageY;
-		}
-		function dragmove(e){
-			var left = parent.children[idx-1];
-			var right = parent.children[idx+1];
-			var rectLeft = left.getBoundingClientRect();
-			var rectRight = right.getBoundingClientRect();
-			if( dragging ){
-				if( vertical ){
-					var px = e.pageX;
-					if( px < rectLeft.left ) px = rectLeft.left
-					else if( px > rectRight.right ) px = rectRight.right;
-					var l = rect.right-rect.left;
-					var p = 100*(px-rectLeft.left)/l;
-					trace(p); 
-					if( p>=99.9 ) p = 99;
-					left.style.width = p + '%';
-					left.style.maxWidth = p + '%';
-					container.style.left = left.style.width;
-					p++;
-					right.style.left = p + '%';
-					p = 100 - p;
-					right.style.width = p + '%';
-					right.style.maxWidth = p + '%';
-				}else{
-					var dy = sy - e.pageY;
-				}
-			}
-		}
-		function dragend(){
-			if( dragging ){
-				trace('released'); 
-				dragging = false;
-			}
-		}
-		window.addEventListener("mousemove", function(e) {dragmove(e);});
-		window.addEventListener("mouseup", dragend);
-		container.style.border = '1px solid #A4A4A4';
-		return container;
-	},
-
-	load: function( container, node ){
-		return splitBar.show( container, node.id ); 
+splitBar.show = function( container ){
+	var x = container.parentElement.style.width
+	vertical = ( parseInt(x,10) < 96 );
+	if( vertical ) container.style.cursor = "col-resize";
+	else container.style.cursor = "row-resize";
+	dragging = false;
+	container.onmousedown = function(e){
+		dragging = true;
+		sx = e.pageX;
+		sy = e.pageY;
 	}
+	container = container.parentElement
+	var parent = container.parentElement;
+	var rect = parent.getBoundingClientRect();
+	var sx = 0;
+	var sy = 0;
+	var idx = 0;
+	while( parent.children[idx] != container ) idx++;
+	var prev = parent.children[idx-1]
+	var next = parent.children[idx+1]
+	var rectPrev = prev.getBoundingClientRect()
+	var rectNext = next.getBoundingClientRect()
+
+	function sizes( p, start, end, prop, maxProp ){
+		if( p < rectPrev[start] ) p = rectPrev[start]
+		else if( p > rectNext[end] ) p = rectNext[end]
+		var l = rect[end]-rect[start]
+		var p = 100*(p-rectPrev[start])/l
+		if( p>=99.9 ) p = 99
+		value = p + '%'
+		prev.style[prop] = value
+		prev.style[maxProp] = value
+		container.style[start] = value
+		p++;
+		next.style[start] = p + '%'
+		p = 100 - p
+		value = p + '%'
+		next.style[prop] = value
+		next.style[maxProp] = value
+	}
+
+	function dragmove(e){
+		if( dragging ){
+			if( vertical ) sizes(e.pageX, 'left', 'right', 'width', 'maxWidth')
+			else sizes( e.pageY, 'top', 'bottom', 'height', 'maxHeight' )
+			unalcol.resizer.apply();
+		}
+	}
+	function dragend(){ if( dragging ) dragging = false; }
+	window.addEventListener("mousemove", function(e) {dragmove(e);});
+	window.addEventListener("mouseup", dragend);
 }
 
-splitPage={
-	show: function ( container, id ){
-		container.id = vc.jsId(id);
-		return container;
-	},
+splitBar.run = function( node ){ splitBar.show( vc.load(node) ) }
 
-	addChildren: function ( comp, node ){
-		var width = node.getAttribute('widths');
-		var s = '';
-		var x = '';
-		if( width != null ){
-			width = width.split(' ');
-			for( var i=width.length-1; i>0; i-- ){
-				width[i] = parseInt(width[i]);
-				x = '1 ' + (width[i]-1) + s + x;
-				s = ' ';
-				var newNode = xml.createNode('splitBar');
-				newNode.id = 'split-'+node.id+'-'+i;
-				node.insertBefore( newNode, node.children[i] );
-			}
-			x = width[0] + ' ' + x; 
-//			x = width;
-			node.setAttribute('widths',x);
-		}else{
-			var height = node.getAttribute('heights');
-			height = height.split(' ');
-			for( var i=height.length-1; i>0; i-- ){
-				height[i] = parseInt(height[i]);
-				x = '1 ' + (height[i]-1) + s + x;
-				s = ' ';
-				var newNode = xml.createNode('splitBar');
-				newNode.id = 'split-'+node.id+'-'+i;
-				node.insertBefore( newNode, node.children[i] );
-			}
-			x = height[0] + ' ' + x;
-			node.setAttribute('heights',x);			
+var splitPage = unalcol.plugins.set.splitPage
+
+splitPage.run = function ( node ){
+	function insertSplitBar( attribute ){
+		var tableNode = xml.createNode( 'table' )
+		tableNode.id = node.id
+		xml.copy( node, tableNode, 'style')
+		var a = node.getAttribute(attribute).split(' ')
+		var s = ''
+		var x = ''
+		var child = node.children[a.length-1]
+		tableNode.appendChild(child)
+		for( var i=a.length-1; i>0; i-- ){
+			a[i] = parseInt(a[i]);
+			x = '1 ' + (a[i]-1) + s + x;
+			s = ' ';
+			var bar = xml.createNode('splitBar');
+			bar.id = 'split-'+node.id+'-'+i;
+			style = node.getAttribute('bar');
+			if( style != null ) bar.setAttribute('style', style );
+			tableNode.insertBefore( bar, child )
+			child = node.children[i-1]
+			tableNode.insertBefore( child, bar )
 		}
-		return vc.addChildrenTable(comp, node);		
-	},
-
-	load: function ( container, node ){
-		return splitPage.show( container, node.id ); 
+		x = a[0] + ' ' + x; 
+		tableNode.setAttribute(attribute,x);
+		return tableNode
 	}
+	if( node.getAttribute('widths') != null ) node = insertSplitBar('widths')
+	else node = insertSplitBar('heights')
+	unalcol.plugins.load(node)
 }

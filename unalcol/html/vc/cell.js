@@ -43,16 +43,12 @@
 * (E-mail: <A HREF="mailto:jgomezpe@unal.edu.co">jgomezpe@unal.edu.co</A> )
 * @version 1.0
 */
-cell={
-	make: function ( container, style ){
-		if( style != null ){
-			container.style = style;
-			container.style.position = 'absolute';
-			trace('cell..'+container.style.width);
-		}
-		return container;
-	},
-	
-	load: function ( container, node ){ return cell.make( container, node.getAttribute('style') ); }
-}
 
+var cell = unalcol.plugins.set.cell
+
+cell.run = function ( node ){
+	var c = vc.load(node)
+	node = xml.child( node, 0 )
+	c.appendChild( vc.cell( node.id ) )
+	unalcol.plugins.load( node )
+}

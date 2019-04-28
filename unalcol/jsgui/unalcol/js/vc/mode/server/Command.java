@@ -17,6 +17,7 @@ public class Command {
 	}
 	
 	protected Object[] args( String arg ){
+		System.out.println("[Command]"+arg);
 		StringBuilder sb;
 		Vector<Object> parse = new Vector<Object>();
 		int i=0;

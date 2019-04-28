@@ -43,93 +43,14 @@
 * (E-mail: <A HREF="mailto:jgomezpe@unal.edu.co">jgomezpe@unal.edu.co</A> )
 * @version 1.0
 */
-button={
-		
-	set : [],
-	
-	size : 32,
+var buttonbar = unalcol.plugins.set.buttonbar
 
-	fa_style : 'opacity:0.6; color:RoyalBlue',
-	img_style : 'opacity:0.6; background-size:cover; background_repeat:no-repeat; padding:16px 16px; border:1px solid #A4A4A4',
-	
-	resize: function(){
-		for( var i=0; i<button.set.length; i++ ){
-			b = button.set[i];
-			parent = b.parentElement;
-			w = parent.clientWidth;
-			h = parent.clientHeight;
-			s = w;
-			if( s > h ) s = h;
-			if( button.size < s ) s = button.size;
-			if( b.tagName.toLowerCase()=='button'){
-				s = s/2;
-				b.style.padding = s+"px "+s+"px";
-			}else{
-				b.style.fontSize = s+"px";
-			}
-		}
-	},
+buttonbar.run = function ( node ){
+	var flowNode = xml.createNode( 'flow' )
+	flowNode.id = node.id
+	xml.copy(node, flowNode, 'style')
 
-	init_fontawesome: function (){
-		var fontAwesome = document.createElement('link');
-		fontAwesome.rel="stylesheet";
-		fontAwesome.href="https://use.fontawesome.com/releases/v5.7.0/css/all.css";
-		fontAwesome.crossorigin="anonymous";		
-		document.getElementsByTagName('head')[0].appendChild(fontAwesome);
-	},
-	
-	make: function ( container, id, image, style ){
-		var p = container.parentElement;
-		var pId = p.id.substring(vc.js_tag.length);
-		if( window[pId]==null ) window[pId] = { id:pId };
-
-		if( image.substring(0,3) == 'fa ' ){ //|| image.substring(0,3) == 'fas ' ){
-			var k = xml.childById(p, container.id);
-			container = document.createElement('i');
-			container.id = image;
-			container.setAttribute('class',image);
-			container.style=button.fa_style;
-
-		}else{
-			var k = xml.childById(p, container.id);
-			container = vc.createChildFlow('button',id);
-			container.style=button.img_style;
-			container.style.backgroundImage = 'url('+image+')';
-		}
-
-		if( style != null ){
-			var s = style.split(";");
-			for( var i=0; i<s.length; i++ ){
-				var x = s[i].split(":");
-				container.style[x[0].trim()] = x[1].trim();
-			}
-		}
-
-		var opacity = container.style.opacity;
-		container.onmouseover=function(){ container.style.opacity=1; }
-		container.onmouseout=function(){ container.style.opacity=opacity; }
-		p.replaceChild(container,p.children[k]);
-		button.set.push(container);
-		button.resize();
-		container.setAttribute('onclick', pId+'.'+id+'()');
-
-		p.style.display='table-cell';
-		p.style.verticalAlign='middle';
-
-		return container;
-	},
-	
-	load: function ( container, node ){ return button.make( container, node.id, node.getAttribute('image'), node.getAttribute('style') ); }
-}
-
-button.init_fontawesome();
-
-
-// buttonbar
-
-buttonbar={
-	load: function ( container, node ){
-		resizer.add(button.resize);
-		return container; 
-	}
+	var n = node.children.length
+	for( var i=0; i<n; i++ ){ flowNode.appendChild(node.children[0]) }
+	unalcol.plugins.load(flowNode)
 }

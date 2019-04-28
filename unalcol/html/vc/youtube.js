@@ -44,40 +44,37 @@
 * @version 1.0
 */
 
-youtube={
-	set:[],
-	state:'unloaded',
 
-	load: function ( container, node ){ return youtube.play(container,node.id); },
-	
-	play: function ( container, id ){
-		vc.setChild(container, 'div', 'player'+id, 1, 1, 98, 98);
-		window[vc.jsId('player'+id)] = 'video';
-		youtube.set.push(id);
-		if( youtube.state=='unloaded' ){
-			youtube.state = 'loading';
-			script.add(null,"https://www.youtube.com/iframe_api", null, true, null, null);
-		}else if( youtube.state=='loaded') unalcol.loadVector( youtube.set, youtube.loadSingleVideo );
-		return container;
-	},
+var youtube = unalcol.plugins.set.youtube
 
-	loadSingleVideo: function ( id ){
-		window[vc.jsId('player'+id)] = new YT.Player(vc.jsId('player'+id), {
-	  		videoId: id,
-	  		playerVars: {rel: 0, fs:0, modestbranding:1},
-	  		events: {
-	 	   		'onReady': youtube.onPlayerReady,
-	 	   		'onStateChange': youtube.onPlayerStateChange
-	 	 	}
-		});
-	},
+//  Using the youtube api
+unalcol.script.add(null,"https://www.youtube.com/iframe_api", null, true, null, null)
+function onYouTubeIframeAPIReady(){ 
+	youtube.state='loaded'
+	vector.apply( youtube.video, youtube.loadSingleVideo )
+}
+function onPlayerReady(event){}
+function onPlayerStateChange(event){ if (event.data == YT.PlayerState.PLAYING) {} }
 
-	onPlayerReady: function (event){},
+youtube.video = []
+youtube.state = 'unloaded'
 
-	onPlayerStateChange: function (event){ if (event.data == YT.PlayerState.PLAYING) {} }
+youtube.run = function ( node ){ youtube.play(vc.load(node),node.getAttribute('video')) }
+
+youtube.play = function ( container, id ){
+	container.appendChild( vc.cell( 'player'+id ) )
+	window[vc.jsId('player'+id)] = 'video'
+	youtube.video.push(id)
+	if( youtube.state=='loaded') vector.apply( youtube.video, youtube.loadSingleVideo )
 }
 
-function onYouTubeIframeAPIReady(){ 
-	youtube.state='loaded';
-	unalcol.loadVector( youtube.set, youtube.loadSingleVideo ); 
+youtube.loadSingleVideo = function ( id ){
+	window[vc.jsId('player'+id)] = new YT.Player(vc.jsId('player'+id), {
+		videoId: id,
+		playerVars: {rel: 0, fs:0, modestbranding:1},
+			events: {
+	   		'onReady': onPlayerReady,
+	   		'onStateChange': onPlayerStateChange
+	 	}
+	});
 }

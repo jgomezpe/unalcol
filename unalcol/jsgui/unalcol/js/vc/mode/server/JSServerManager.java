@@ -7,7 +7,9 @@ import unalcol.js.vc.JSFrontEnd;
 import unalcol.vc.Controller;
 
 public class JSServerManager extends JSFrontEnd {
-	public static final String pull="servlet.pull";
+	public static final String timer="unalcol.timer";
+	public static final String pull="unalcol.pull()";
+
 	protected PullServerController serverc = null; 
 	protected Vector<String> commands_queue = new Vector<String>();
 	
@@ -49,7 +51,7 @@ public class JSServerManager extends JSFrontEnd {
 			Method m ;
 			m = c.getClass().getMethod(method, types);
 			obj = m.invoke(c, args);
-			if( obj == null ) return "servlet.pull()";
+			if( obj == null ) return pull;
 			return obj.toString();	
 		}catch(NoSuchMethodException | SecurityException | IllegalAccessException | IllegalArgumentException | InvocationTargetException e){
 			e.printStackTrace();
@@ -60,7 +62,7 @@ public class JSServerManager extends JSFrontEnd {
 	public String timer( Controller e, String type, int delay ){
 		StringBuilder sb = new StringBuilder();
 		sb.append(type);
-		sb.append("Timer('");
+		sb.append("('");
 		sb.append(e.id().replace(',', 'X'));
 		sb.append("',");
 		sb.append(delay);
@@ -69,11 +71,11 @@ public class JSServerManager extends JSFrontEnd {
 	} 
 	
 	@Override
-	public String addTimer( Controller c, int delay ){ return timer(c, "servlet.add", delay); }
+	public String addTimer( Controller c, int delay ){ return timer(c, timer+".add", delay); }
 	
 	@Override
 	public String delTimer( Controller c, int delay ){ 
-		String cmd = timer(c, "servlet.del", delay);
+		String cmd = timer(c, timer+".del", delay);
 		execute(cmd);
 		return cmd;
 	}		

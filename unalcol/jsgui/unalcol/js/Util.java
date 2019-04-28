@@ -19,11 +19,10 @@ public class Util {
 	
 	public static String value(String[] args, String tag){
 		String v = null;
-		String shTag = tag.substring(0,1); 
 		int i=0;
 		while(i<args.length && v==null){
 			String[] p = args[i].split("=");
-			if( p[0].equals(shTag) || p[0].equals(tag) ) v = p[1];
+			if( p[0].equals(tag) ) v = p[1];
 			i++;
 		}
 		return v;

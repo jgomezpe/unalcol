@@ -32,7 +32,10 @@ public class UnalcolAppEngine extends HttpServlet implements Servlet {
 			throws ServletException, IOException {
         response.setContentType("text/plain");
 		try{
-			String cmd = doPost(request.getReader());
+			String cmd = command(request.getReader()); 
+			System.out.println("[UnalcolAppEngine]"+cmd);
+			cmd = doPost(cmd);
+			System.out.println("[UnalcolAppEngine]..."+cmd);
 			response.getOutputStream().print((cmd!=null)?cmd:"");
 		}catch(Exception e){
 			response.getOutputStream().print(e.getMessage());

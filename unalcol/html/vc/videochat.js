@@ -44,11 +44,12 @@
 * @version 1.0
 */
 
-videochat={
-	load: function ( container, node ){ 
-		var ifrm = vc.create('iframe', node.id+'player',0,0,99.5,99.5);
-		container.appendChild(ifrm);
-		ifrm.src = 'https://appr.tc/';
-		return container; 
-	}
+var videochat = unalcol.plugins.set.videochat
+
+videochat.run = function( node ){ 
+	var c = vc.load(node)
+	var ifrm = vc.component('iframe', node.id+'player');
+	c.appendChild(ifrm);
+	ifrm.src = 'https://appr.tc/';
 }
+
